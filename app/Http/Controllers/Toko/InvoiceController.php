@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Http\Controllers\Toko;
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Toko\InvoiceResource;
+use App\Models\Toko\Invoice;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class InvoiceController extends Controller
+{
+    public function store(Request $request)
+    {
+        $total = (int) $request->total;
+        $cart_ids = $request->collect('carts')->pluck('id');
+        $order_id = 'order-' . round(microtime(true) * 1000) . $request->user()->id . $cart_ids->implode('');
+        // $order_id = 'order-' . now()->format('Y') . $request->user()->id . $cart_ids->implode('');
+        $invoiceExists = Invoice::where('order_id', $order_id)->firstOr(fn () => false);
+        if ($invoiceExists) {
+            return to_route('tokoinvoice.show',$invoiceExists );
+        } else {
+            $invoice = auth()->user()->invoices()->updateOrCreate(compact('order_id'), [
+                'order_id' => $order_id,
+                'gross_amount' => $total,
+                'cart_ids' => $cart_ids,
+                'payment_type' => $request->payment_type,
+            ]);
+            $data = [
+                'payment_type' => $request->payment_type,
+                'transaction_details' => [
+                    'gross_amount' => $total,
+                    'order_id' => $order_id,
+                ],
+                // 'gopay' => [
+                //     'enable_callback' => true,
+                //     'callback_url' => 'someapps://callback',
+                // ],
+                'customer_details' => [
+                    'email' => $request->user()->email,
+                    'first_name' => $request->user()->name,
+                ],
+                'item_details' => $request->collect('carts')->map(fn($item)=>[
+                    'id' => $item['id'],
+                    'price' => (int) round((11/100) * $item['price'],0) + $item['price'],
+                    'quantity' => 1,
+                    'name' => $item['product']['name'],
+                ]),
+            ];
+            if ($request->payment_type == 'bank_transfer') {
+                $data = [...$data,'bank_transfer' =>[
+                    'bank' => $request->bank,
+                ]];
+            }
+            $response = Http::withBasicAuth(config('services.midtrans.server_key') . ':', '')
+                ->post('https://api.sandbox.midtrans.com/v2/charge', $data);
+            $body = $response->json();
+            $invoice->update([
+                'payment_info' => [
+                    'qr_code' => $request->payment_type == 'gopay' ? $body['actions'][0]['url'] : null,
+                    'bank' => $request->payment_type != 'gopay' ? [
+                        'name' => $body['va_numbers'][0]['bank'],
+                        'va_number' => $body['va_numbers'][0]['va_number'],
+                    ] : null,
+                ]
+            ]);
+            
+            $response->json();
+        }
+
+        return to_route('tokoinvoice.show',$invoice);
+    }
+    public function show(Invoice $invoice)
+    {
+        // dd($invoice);
+        return inertia('Toko/Invoice/Show', [
+            'invoice' => new InvoiceResource($invoice),
+        ]);
+    }
+}
