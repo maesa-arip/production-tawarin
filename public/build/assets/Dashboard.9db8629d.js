@@ -1,1 +1,0 @@
-import{j as s,F as o,a,H as t}from"./app.18faa3d5.js";import{C as e,A as i}from"./App.46048341.js";import"./clsx.m.ff2a78c3.js";function n(r){return s(o,{children:[a(t,{title:"Dashboard"}),a(e,{children:"Dashboard"})]})}n.layout=r=>a(i,{children:r});export{n as default};
