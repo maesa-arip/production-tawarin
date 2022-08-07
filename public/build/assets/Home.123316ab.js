@@ -1,1 +1,0 @@
-import{j as r,a as e,H as a}from"./app.385fb24a.js";import{C as t,A as i}from"./App.dee715f5.js";import"./clsx.m.106c533c.js";function s(){return r("div",{children:[e(a,{title:"Home"}),e(t,{children:"Home"})]})}s.layout=o=>e(i,{children:o});export{s as default};
