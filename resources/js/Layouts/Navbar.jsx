@@ -9,7 +9,7 @@ export default function Navbar() {
     const { auth, categories_global, carts_global_count } = usePage().props;
     return (
         <>
-            <nav className="bg-white border-b py-2 hidden md:block">
+            <nav className="hidden py-2 bg-white border-b md:block">
                 <Container>
                     <div className="flex items-center justify-between">
                         <ApplicationLogo />
@@ -27,6 +27,12 @@ export default function Navbar() {
                                 ))}
                             </DropdownMenu>
                             <DropdownMenu label={"Plan"}>
+                            <DropdownMenu.Link href="/plans">
+                                    Index
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/public/plans/list">
+                                    List
+                                </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/plans/create">
                                     Form
                                 </DropdownMenu.Link>
@@ -85,7 +91,91 @@ export default function Navbar() {
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            className="h-5 w-5"
+                                            className="w-5 h-5"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth={2}
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                                            />
+                                        </svg>
+                                        {carts_global_count > 0
+                                            ? carts_global_count
+                                            : null}
+                                    </NavLink>
+                                </>
+                            ) : (
+                                <>
+                                    <NavLink href="/login">Login</NavLink>
+                                    <NavLink href="/register">Register</NavLink>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </Container>
+            </nav>
+            <nav className="py-2 bg-white border-b md:hidden">
+                <Container>
+                    <div className="flex items-center justify-between">
+                        <ApplicationLogo />
+                        <NavLink href="/toko/products">Products</NavLink>
+                        <DropdownMenu label={"Plan"}>
+                            <DropdownMenu.Link href="/plans">
+                                    Index
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/public/plans/list">
+                                    List
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/plans/create">
+                                    Form
+                                </DropdownMenu.Link>
+                            </DropdownMenu>
+                        <div className="flex items-center gap-x-6">
+                            {auth.user ? (
+                                <>
+                                    <DropdownMenu label={auth.user.name}>
+                                        <DropdownMenu.Link href="/dashboard">
+                                            Dashboard
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/profile">
+                                            Profile
+                                        </DropdownMenu.Link>
+
+                                        <DropdownMenu.Link href="/toko/carts">
+                                            Your Cart
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/toko/products/me">
+                                            Your Products
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/toko/history">
+                                            Your History
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/users">
+                                            Users
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/toko/products/table">
+                                            Table Products
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link
+                                            href="/logout"
+                                            method="post"
+                                            as="button"
+                                        >
+                                            Logout
+                                        </DropdownMenu.Link>
+                                    </DropdownMenu>
+
+                                    <NavLink
+                                        className="flex items-center gap-x-2"
+                                        href="/toko/carts"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-5 h-5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -114,7 +204,7 @@ export default function Navbar() {
             </nav>
             <section
                 id="bottom-navigation"
-                className="block fixed inset-x-0 bottom-0 z-10 bg-white shadow"
+                className="fixed inset-x-0 bottom-0 z-10 block bg-white shadow md:hidden"
             >
                 <div id="tabs" className="flex justify-between">
                     <NavLink
@@ -172,11 +262,11 @@ export default function Navbar() {
                             </g>
                         </svg>
 
-                        <span className="tab tab-home block text-xs">Home</span>
+                        <span className="block text-xs tab tab-home">Home</span>
                     </NavLink>
                     <a
                         href="#"
-                        className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                     >
                         <svg
                             width={25}
@@ -226,13 +316,13 @@ export default function Navbar() {
                                 </g>
                             </g>
                         </svg>
-                        <span className="tab tab-kategori block text-xs">
+                        <span className="block text-xs tab tab-kategori">
                             Category
                         </span>
                     </a>
                     <a
                         href="#"
-                        className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                     >
                         <svg
                             width={25}
@@ -265,13 +355,13 @@ export default function Navbar() {
                                 />
                             </g>
                         </svg>
-                        <span className="tab tab-explore block text-xs">
+                        <span className="block text-xs tab tab-explore">
                             Explore
                         </span>
                     </a>
                     <a
                         href="#"
-                        className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                     >
                         <svg
                             width={25}
@@ -321,13 +411,13 @@ export default function Navbar() {
                                 </g>
                             </g>
                         </svg>
-                        <span className="tab tab-whishlist block text-xs">
+                        <span className="block text-xs tab tab-whishlist">
                             Whishlist
                         </span>
                     </a>
                     <a
                         href="#"
-                        className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                     >
                         <svg
                             width={25}
@@ -377,7 +467,7 @@ export default function Navbar() {
                                 </g>
                             </g>
                         </svg>
-                        <span className="tab tab-account block text-xs">
+                        <span className="block text-xs tab tab-account">
                             Account
                         </span>
                     </a>

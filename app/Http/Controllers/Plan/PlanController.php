@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Plan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Plan\PlanRequest;
+use App\Http\Resources\Plan\PlanResource;
+use App\Http\Resources\Plan\PlanSingleResource;
+use App\Models\Plan\Plan;
+use App\Models\Plan\PlanCategory;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
@@ -12,9 +17,17 @@ class PlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $plans = Plan::query()
+            ->with('plan_category')
+            ->when($request->plan_category,fn($q,$v)=>$q->whereBelongsTo(PlanCategory::where('slug',$v)->first()))
+            ->select('id','anggaran_proyek','slug','name','plan_category_id')
+            ->fastPaginate(12)
+            ->withQueryString();
+        return inertia('Plans/Basic/Index',[
+            'plans' => PlanResource::collection($plans),
+        ]);
     }
 
     /**
@@ -33,9 +46,16 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PlanRequest $request)
     {
-        //
+        $atrributes = $request->toArray();
+        dd($atrributes);
+        Plan::create($atrributes);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Users was created',
+        ]);
     }
 
     /**
@@ -44,9 +64,11 @@ class PlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Plan $plan)
     {
-        //
+        return Inertia('Plans/Basic/Show',[
+            'plan' =>PlanSingleResource::make($plan->load('plan_category'))
+        ]);
     }
 
     /**
@@ -81,5 +103,17 @@ class PlanController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function list(Request $request)
+    {
+        $plans = Plan::query()
+            ->with('plan_category')
+            ->when($request->plan_category,fn($q,$v)=>$q->whereBelongsTo(PlanCategory::where('slug',$v)->first()))
+            ->select('id','anggaran_proyek','slug','name','plan_category_id')
+            ->fastPaginate(12)
+            ->withQueryString();
+        return inertia('Plans/Public/List',[
+            'plans' => PlanResource::collection($plans),
+        ]);
     }
 }

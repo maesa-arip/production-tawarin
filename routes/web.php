@@ -23,18 +23,22 @@ Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone']
 // End Example
 
 // Plans
-Route::Resource('plans', PlanController::class);
+Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
 // End Plans
+
 
 Route::get('toko/products/table', [ProductController::class, 'table'])->name('toko.products.table');
 Route::get('/', HomeController::class)->name('home');
-Route::get('toko/products/me', [ProductController::class,'mine'])->middleware('auth')->name('products.mine');
+Route::get('toko/products/me', [ProductController::class, 'mine'])->middleware('auth')->name('products.mine');
 Route::resource('toko/products', ProductController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::get('toko/history',HistoryController::class)->name('tokohistory');
+    Route::get('toko/history', HistoryController::class)->name('tokohistory');
     Route::apiResource('users', UserController::class);
+    // Plans
+    Route::Resource('plans', PlanController::class);
+    // End Plans
 });
 
 Route::controller(InvoiceController::class)->middleware('auth')->group(function () {
@@ -48,6 +52,6 @@ Route::controller(CartController::class)->middleware('auth')->group(function () 
     Route::post('toko/carts/add-to-cart/{product:slug}',  'store')->name('tokocart.store');
 });
 
-Route::post('api/notification/handling', [PaymentNotificationController::class,'hit']);
+Route::post('api/notification/handling', [PaymentNotificationController::class, 'hit']);
 
 require __DIR__ . '/auth.php';
