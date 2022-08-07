@@ -10,6 +10,7 @@ export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        username: '',
         password: '',
         password_confirmation: '',
     });
@@ -44,8 +45,34 @@ export default function Register() {
                         type="text"
                         name="name"
                         value={data.name}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="name"
+                        isFocused={true}
+                        onChange={onChange}
+                        required
+                    />
+                </div>
+                <div className="mt-4">
+                    <Label forInput="username" value="Username" />
+                    <Input
+                        type="text"
+                        name="username"
+                        value={data.username}
+                        className="block w-full mt-1"
+                        autoComplete="username"
+                        isFocused={true}
+                        onChange={onChange}
+                        required
+                    />
+                </div>
+                <div className="mt-4">
+                    <Label forInput="address" value="Address" />
+                    <Input
+                        type="text"
+                        name="address"
+                        value={data.address}
+                        className="block w-full mt-1"
+                        autoComplete="address"
                         isFocused={true}
                         onChange={onChange}
                         required
@@ -59,7 +86,7 @@ export default function Register() {
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="username"
                         onChange={onChange}
                         required
@@ -73,7 +100,7 @@ export default function Register() {
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="new-password"
                         onChange={onChange}
                         required
@@ -87,14 +114,14 @@ export default function Register() {
                         type="password"
                         name="password_confirmation"
                         value={data.password_confirmation}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         onChange={onChange}
                         required
                     />
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
+                    <Link href={route('login')} className="text-sm text-gray-600 underline hover:text-gray-900">
                         Already registered?
                     </Link>
 
