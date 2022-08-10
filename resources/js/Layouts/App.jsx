@@ -16,7 +16,7 @@ export default function App({ auth, header, children }) {
             position="top-center"
             reverseOrder={false}
             />
-            <main className="py-12 sm:pb-20">{children}</main>
+            <main className="pb-20 md:py-12">{children}</main>
         </div>
     );
 }

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Plan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Plan\PlanRequest;
+use App\Http\Resources\Plan\PlanMasterResource;
 use App\Http\Resources\Plan\PlanResource;
 use App\Http\Resources\Plan\PlanSingleResource;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanCategory;
+use App\Models\Plan\PlanMaster;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
@@ -37,7 +39,9 @@ class PlanController extends Controller
      */
     public function create()
     {
-        return inertia('Plans/Basic/Create');
+        $plan_masters = PlanMaster::get();
+        return inertia('Plans/Basic/Create',[
+            'plan_masters' => PlanMasterResource::collection($plan_masters),]);
     }
 
     /**
