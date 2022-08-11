@@ -177,7 +177,8 @@ export default class DatePicker extends Component {
         }
     };
 
-    updateDateFromInput = () => {
+    updateDateFromInput = (e) => {
+        e.preventDefault();
         let dateValue = inputRef.current.value;
         let dateData = this.getDateFromDateString(dateValue);
         if (dateData !== null) {

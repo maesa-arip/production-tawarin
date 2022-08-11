@@ -36,6 +36,7 @@
 }
 
 .mdp-container {
+    z-index: 11;
     float: left;
     position: absolute;
     left:0;

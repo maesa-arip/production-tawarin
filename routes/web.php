@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('filepond', [UploadController::class, 'filepond'])->name('filepond.index');
 Route::get('dropzone', [UploadController::class, 'dropzone'])->name('dropzone.index');
 Route::get('example/form', [ExampleController::class, 'form'])->name('example.form');
+Route::get('example/funding', [ExampleController::class, 'funding'])->name('example.funding');
 Route::get('example/descriptionlist', [ExampleController::class, 'descriptionlist'])->name('example.descriptionlist');
 Route::post('/upload/filepond/store', [UploadController::class, 'store'])->name('filepond.store');
 Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone'])->name('dropzone.store');

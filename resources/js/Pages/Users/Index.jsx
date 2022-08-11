@@ -76,7 +76,7 @@ export default function Index(props) {
             <Container>Users <button
                 type="button"
                 onClick={openAddDialog}
-                className="rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                className="px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
                 Add User
             </button>
 
@@ -91,16 +91,16 @@ export default function Index(props) {
                 <Button color={'pink'} onClick={destroyUser}>
                     Delete
                 </Button>
-                {/* <button onClick={destroyUser} className="w-full inline-flex justify-center rounded-md border border-transparent bg-pink-100 px-4 py-2 text-sm font-medium text-pink-900 hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+                {/* <button onClick={destroyUser} className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                         Delete
                 </button> */}
             </DestroyModal>
 
             <div className="py-12">
-                <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
-                            <div className="flex items-center gap-x-2 mb-6 justify-end">
+                            <div className="flex items-center justify-end mb-6 gap-x-2">
 
 
                             <select
@@ -108,15 +108,15 @@ export default function Index(props) {
                                 id="load"
                                 onChange={onChange}
                                 value={params.load}
-                                className="rounded-lg border-gray-300 focus:ring-blue-200 focus:ring transition duration-150 ease-in-out form-select"
+                                className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
                             >
                                 {pageNumber.map((page, index)=> <option key={index}>{page}</option>)}
                             </select>
-                            <div className="flex items-center gap-x-2 rounded-lg bg-white px-2 border-gray-300 border focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring transition duration-150 ease-in-out">
-                                    <svg className="w-5 h-5 inline text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
+                                    <svg className="inline w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                     </svg>
-                                    <input type="text" name="q" id="q" onChange={onChange} value={params.q} className="border-0 focus:ring-0 form-text w-full" />
+                                    <input type="text" name="q" id="q" onChange={onChange} value={params.q} className="w-full border-0 focus:ring-0 form-text" />
                             </div>
 
                             </div>
@@ -125,24 +125,24 @@ export default function Index(props) {
 
                     <div className="flex flex-col">
                         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead className="bg-gray-50">
                                             <tr>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                    <div className="cursor-pointer flex items-center gap-x-2">
+                                                    <div className="flex items-center cursor-pointer gap-x-2">
                                                         #
                                                     </div>
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                    <div className="cursor-pointer flex items-center gap-x-2" onClick={()=>sort('username')}>
+                                                    <div className="flex items-center cursor-pointer gap-x-2" onClick={()=>sort('username')}>
                                                         Username
                                                         { params.field == "username" && params.direction == "asc" && <UpIcon/> }
                                                         { params.field == "username" && params.direction == "desc" && <DownIcon/> }
@@ -150,9 +150,9 @@ export default function Index(props) {
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                     <div className="cursor-pointer flex items-center gap-x-2" onClick={()=>sort('name')}>
+                                                     <div className="flex items-center cursor-pointer gap-x-2" onClick={()=>sort('name')}>
                                                         Name
                                                         { params.field == "name" && params.direction == "asc" && <UpIcon/> }
                                                         { params.field == "name" && params.direction == "desc" && <DownIcon/> }
@@ -161,9 +161,9 @@ export default function Index(props) {
 
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                    <div className="cursor-pointer flex items-center gap-x-2" onClick={()=>sort('address')}>
+                                                    <div className="flex items-center cursor-pointer gap-x-2" onClick={()=>sort('address')}>
                                                         Address
                                                         { params.field == "address" && params.direction == "asc" && <UpIcon/> }
                                                         { params.field == "address" && params.direction == "desc" && <DownIcon/> }
@@ -171,9 +171,9 @@ export default function Index(props) {
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                    <div className="cursor-pointer flex items-center gap-x-2" onClick={()=>sort('email')}>
+                                                    <div className="flex items-center cursor-pointer gap-x-2" onClick={()=>sort('email')}>
                                                         Email
                                                         { params.field == "email" && params.direction == "asc" && <UpIcon/> }
                                                         { params.field == "email" && params.direction == "desc" && <DownIcon/> }
@@ -181,9 +181,9 @@ export default function Index(props) {
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                    <div className="cursor-pointer flex items-center gap-x-2" onClick={()=>sort('created_at')}>
+                                                    <div className="flex items-center cursor-pointer gap-x-2" onClick={()=>sort('created_at')}>
                                                         Joined
                                                         { params.field == "created_at" && params.direction == "asc" && <UpIcon/> }
                                                         { params.field == "created_at" && params.direction == "desc" && <DownIcon/> }
@@ -235,7 +235,7 @@ export default function Index(props) {
                         </div>
                     </div>
 
-                    <ul className="flex items-center gap-x-1 mt-10">
+                    <ul className="flex items-center mt-10 gap-x-1">
                         {meta.links.map((item, index) => (
                             // <Link
                             //     disabled={item.url == null ? true : false}

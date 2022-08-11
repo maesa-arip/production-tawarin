@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import NavLink from "@/Components/NavLink";
 import DropdownMenu from "@/Components/DropdownMenu";
+import MenuModal from "@/Components/Modal/MenuModal";
+import { PhotographIcon } from "@heroicons/react/solid";
 
 export default function Navbar() {
     const { auth, categories_global, carts_global_count } = usePage().props;
+    const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
+    const openMenuModal = () => {
+        setIsOpenMenuModal(true);
+    };
     return (
         <>
             <nav className="hidden py-2 bg-white border-b md:block">
@@ -27,7 +33,7 @@ export default function Navbar() {
                                 ))}
                             </DropdownMenu>
                             <DropdownMenu label={"Plan"}>
-                            <DropdownMenu.Link href="/plans">
+                                <DropdownMenu.Link href="/plans">
                                     Index
                                 </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/public/plans/list">
@@ -40,6 +46,9 @@ export default function Navbar() {
                             <DropdownMenu label={"Example"}>
                                 <DropdownMenu.Link href="/example/form">
                                     Form
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/example/funding">
+                                    Funding
                                 </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/example/descriptionlist">
                                     Decription List
@@ -125,15 +134,15 @@ export default function Navbar() {
                         <NavLink href="/toko/products">Products</NavLink>
                         <DropdownMenu label={"Plan"}>
                             <DropdownMenu.Link href="/plans">
-                                    Index
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/public/plans/list">
-                                    List
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/plans/create">
-                                    Form
-                                </DropdownMenu.Link>
-                            </DropdownMenu>
+                                Index
+                            </DropdownMenu.Link>
+                            <DropdownMenu.Link href="/public/plans/list">
+                                List
+                            </DropdownMenu.Link>
+                            <DropdownMenu.Link href="/plans/create">
+                                Form
+                            </DropdownMenu.Link>
+                        </DropdownMenu>
                         <div className="flex items-center gap-x-6">
                             {auth.user ? (
                                 <>
@@ -204,8 +213,39 @@ export default function Navbar() {
             </nav>
             <section
                 id="bottom-navigation"
-                className="fixed inset-x-0 bottom-0 z-10 block bg-white shadow md:hidden"
+                className="fixed inset-x-0 bottom-0 z-10 block bg-white shadow"
             >
+                <MenuModal
+                    isOpenMenuModal={isOpenMenuModal}
+                    setIsOpenMenuModal={setIsOpenMenuModal}
+                >
+                    <div className="grid items-center justify-between grid-cols-4 gap-8">
+                        <div>
+                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Tes
+                            </p>
+                        </div>
+                        <div>
+                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Tes
+                            </p>
+                        </div>
+                        <div>
+                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Tes
+                            </p>
+                        </div>
+                        <div>
+                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Tes
+                            </p>
+                        </div>
+                    </div>
+                </MenuModal>
                 <div id="tabs" className="flex justify-between">
                     <NavLink
                         href="/"
@@ -321,7 +361,7 @@ export default function Navbar() {
                         </span>
                     </a>
                     <a
-                        href="#"
+                        onClick={openMenuModal}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                     >
                         <svg
@@ -355,7 +395,7 @@ export default function Navbar() {
                                 />
                             </g>
                         </svg>
-                        <span className="block text-xs tab tab-explore">
+                        <span onClick={openMenuModal} className="block text-xs">
                             Explore
                         </span>
                     </a>

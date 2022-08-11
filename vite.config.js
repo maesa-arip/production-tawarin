@@ -10,7 +10,11 @@ export default defineConfig({
         }),
         react(),
     ],
-    // server: {
-    //     host: true
-    //   },
+    server: {
+        // origin : 'http://127.0.0.1:8080',
+        // host: true
+        // watch: {
+        //     usePolling: true,
+        // },
+      },
 });

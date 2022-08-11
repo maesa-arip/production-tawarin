@@ -2,11 +2,13 @@ import React from "react";
 import App from "@/Layouts/App";
 import { Head } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
+import RadioCard from "@/Components/RadioCard";
 
 export default function Home() {
     return (
         <div>
             <Head title="Home" />
+            <RadioCard/>
 
             <Container>
                 Home
@@ -346,7 +348,7 @@ export default function Home() {
                                             <div className="flex-grow-0 flex-shrink-0 block">
                                                 <img
                                                     className="w-8 h-8 border border-yellow-300 shadow rounded-xl"
-                                                    src="https://media-exp1.licdn.com/dms/image/C5603AQGEQ6ydraNeww/profile-displayphoto-shrink_200_200/0/1623517758261?e=1629331200&v=beta&t=mhUiw4p21E9okkvInvM0ry8lmLsT6s5ppWMKo6kFs2M"
+                                                    src="https://source.unsplash.com/200x320?person"
                                                 />
                                             </div>
                                         </div>
