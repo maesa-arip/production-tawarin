@@ -1,1 +1,0 @@
-import{a as e,j as s}from"./app.32bd57e7.js";import{C as t}from"./App.df1c87b9.js";function l({title:a,description:r}){return e("div",{className:"py-16 bg-white border-b shadow-sm -mt-12 mb-12",children:s(t,{children:[e("h1",{className:"font-semibold text-2xl mb-4",children:a}),e("div",{className:"text-lg leading-relaxed text-gray-500",children:r})]})})}export{l as H};

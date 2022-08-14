@@ -264,19 +264,7 @@ export default function Create({ plan_masters }) {
                                                         {errors.anggaran_proyek}
                                                     </span>
                                                 )}
-                                                {anggaran && (
-                                                    <div className="flex">
-                                                        <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                            <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
-                                                                {"(" +
-                                                                    Terbilang(
-                                                                        anggaran
-                                                                    ) +
-                                                                    " Rupiah)"}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">{anggaran && formatRupiahAnggaran} <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">{anggaran && '('+Terbilang(anggaran)+' Rupiah)'}</span></div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label
@@ -303,19 +291,7 @@ export default function Create({ plan_masters }) {
                                                         {errors.dari_anggaran}
                                                     </span>
                                                 )}
-                                                {dariAnggaran && (
-                                                    <div className="flex">
-                                                        <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                            <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
-                                                                {"(" +
-                                                                    Terbilang(
-                                                                        dariAnggaran
-                                                                    ) +
-                                                                    " Rupiah)"}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">{dariAnggaran && formatRupiahDariAnggaran} <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">{dariAnggaran && '('+Terbilang(dariAnggaran)+' Rupiah)'}</span></div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label
@@ -343,19 +319,7 @@ export default function Create({ plan_masters }) {
                                                         {errors.sampai_anggaran}
                                                     </span>
                                                 )}
-                                                {sampaiAnggaran && (
-                                                    <div className="flex">
-                                                        <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                            <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
-                                                                {"(" +
-                                                                    Terbilang(
-                                                                        sampaiAnggaran
-                                                                    ) +
-                                                                    " Rupiah)"}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">{sampaiAnggaran && formatRupiahSampaiAnggaran} <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">{sampaiAnggaran && '('+Terbilang(sampaiAnggaran)+' Rupiah)'}</span></div>
                                             </div>
                                         </div>
                                     </div>

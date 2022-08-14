@@ -3,9 +3,9 @@ import Container from "./Container";
 
 export default function Header({ title, description }) {
     return (
-        <div className="py-16 bg-white border-b shadow-sm -mt-12 mb-12">
+        <div className="py-16 mb-12 -mt-12 bg-white border-b rounded shadow-sm">
             <Container>
-                <h1 className="font-semibold text-2xl mb-4">{title}</h1>
+                <h1 className="mb-4 text-2xl font-semibold">{title}</h1>
                 <div className="text-lg leading-relaxed text-gray-500">
                     {description}
                 </div>

@@ -65,6 +65,11 @@ class UserController extends Controller
         ]);
     }
 
+    public function profile()
+    {
+        return inertia('Users/Basic/Profile');
+    }
+
     public function destroy(User $user)
     {
         $user->delete();

@@ -36,6 +36,7 @@ Route::resource('toko/products', ProductController::class);
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
+    Route::get('/profile', [UserController::class,'profile'])->name('users.profile');
     Route::apiResource('users', UserController::class);
     // Plans
     Route::Resource('plans', PlanController::class);
