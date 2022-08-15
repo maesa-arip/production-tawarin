@@ -8,7 +8,7 @@ import { Terbilang } from "@/Libs/helper";
 import Button from "@/Components/Button";
 import Filepond from "@/Pages/Uploads/Filepond";
 
-export default function Create({ plan_masters }) {
+export default function Create({ plan_master_checkboxs,plan_master_texts }) {
     const [enabled, setEnabled] = useState(false);
     const [anggaran, setAnggaran] = useState("");
     const [dariAnggaran, setDariAnggaran] = useState("");
@@ -264,7 +264,18 @@ export default function Create({ plan_masters }) {
                                                         {errors.anggaran_proyek}
                                                     </span>
                                                 )}
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">{anggaran && formatRupiahAnggaran} <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">{anggaran && '('+Terbilang(anggaran)+' Rupiah)'}</span></div>
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {anggaran &&
+                                                        formatRupiahAnggaran}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {anggaran &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    anggaran
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label
@@ -291,7 +302,18 @@ export default function Create({ plan_masters }) {
                                                         {errors.dari_anggaran}
                                                     </span>
                                                 )}
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">{dariAnggaran && formatRupiahDariAnggaran} <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">{dariAnggaran && '('+Terbilang(dariAnggaran)+' Rupiah)'}</span></div>
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {dariAnggaran &&
+                                                        formatRupiahDariAnggaran}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {dariAnggaran &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    dariAnggaran
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label
@@ -319,7 +341,18 @@ export default function Create({ plan_masters }) {
                                                         {errors.sampai_anggaran}
                                                     </span>
                                                 )}
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">{sampaiAnggaran && formatRupiahSampaiAnggaran} <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">{sampaiAnggaran && '('+Terbilang(sampaiAnggaran)+' Rupiah)'}</span></div>
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {sampaiAnggaran &&
+                                                        formatRupiahSampaiAnggaran}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {sampaiAnggaran &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    sampaiAnggaran
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -347,40 +380,48 @@ export default function Create({ plan_masters }) {
                                     </p>
                                 </div>
                             </div>
+
                             <div className="mt-5 md:mt-0 md:col-span-2">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
-                                        
-                                        {plan_masters.map((plan_master, i) => (
-                                            <Switch.Group key={plan_master.id}>
-                                                <div className="flex items-center justify-between px-3 py-4 rounded-md shadow">
-                                                    <Switch.Label className="mr-4">
-                                                        {plan_master.name}
-                                                    </Switch.Label>
-                                                    <Switch
-                                                        key={plan_master.id}
-                                                        checked={enabled}
-                                                        onChange={setEnabled}
-                                                        className={`${
-                                                            enabled
-                                                                ? "bg-blue-600"
-                                                                : "bg-gray-200"
-                                                        } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
-                                                    >
-                                                        <span
-                                                            className={`${
-                                                                enabled
-                                                                    ? "translate-x-6"
-                                                                    : "translate-x-1"
-                                                            } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
-                                                        />
-                                                    </Switch>
-                                                </div>
-                                            </Switch.Group>
+                                        {plan_master_checkboxs.map((plan_master_checkbox, i) => (
+                                            <div key={plan_master_checkbox.id} className="flex items-center justify-between px-3 py-4 rounded-md shadow">
+                                                {plan_master_checkbox.name}
+                                            <label htmlFor={plan_master_checkbox.name} className="relative inline-flex items-center cursor-pointer">
+                                              <input key={plan_master_checkbox.id} onChange={onChange} type="checkbox" id={plan_master_checkbox.name} className="sr-only peer" />
+                                              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-blue-600  dark:peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-slate-500 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-400 peer-checked:bg-indigo-500 peer-after:ring-indigo-500" />
+                                            </label>
+                                          </div>
+                                        ))}
+                                        {plan_master_texts.map((plan_master_text, i) => (
+                                            <div key={plan_master_text.id}>
+                                            <label 
+                                                htmlFor={plan_master_text.name}
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                {plan_master_text.name}
+                                            </label>
+                                            <div className="mt-1">
+                                                <textarea
+                                                key={plan_master_text.id}
+                                                    id={plan_master_text.name}
+                                                    name={plan_master_text.name}
+                                                    rows={3}
+                                                    onChange={onChange}
+                                                    className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    placeholder=""
+                                                    defaultValue={""}
+                                                />
+                                            </div>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Masukan Keterangan {plan_master_text.name} Bila diperlukan.
+                                            </p>
+                                        </div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
+                           
                         </div>
                     </div>
                     <div className="hidden sm:block" aria-hidden="true">

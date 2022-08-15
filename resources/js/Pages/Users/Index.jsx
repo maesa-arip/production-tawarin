@@ -29,6 +29,7 @@ export default function Index(props) {
         }, 150),
         []
     );
+    
     useEffect(() => reload(params), [params]);
     useEffect(() => {
         let numbers = [];
@@ -236,7 +237,12 @@ export default function Index(props) {
                         </div>
                     </div>
 
-                    <Pagination meta={meta} />
+                    {/* <Pagination meta={meta} /> */}
+                    <ul className="flex items-center mt-10 gap-x-1">
+                        {meta.links.map((item, index) => (
+                            <button key={index} disabled={item.url == null ? true : false} className={`${item.url == null? "text-gray-500" : "text-gray-800"} w-12 h-9 rounded-lg flex items-center justify-center border bg-white`} onClick={()=>setParams({...params, page: new URL(item.url).searchParams.get('page')})}>{item.label}</button>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </>

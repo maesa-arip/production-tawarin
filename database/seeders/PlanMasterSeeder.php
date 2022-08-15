@@ -15,14 +15,14 @@ class PlanMasterSeeder extends Seeder
      */
     public function run()
     {
-        PlanMaster::create(['name' => $name =  'Gambar Arsitektur','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'Gambar 3D Interior','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'Gambar 3D Exterior','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'Animasi 3D','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'Gambar Struktur','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'Gambar MEP','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'RAB dan Spesifikasi Teknis','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'Time Schedule dan Bobot Pembayaran','slug' => str($name)->slug()]);
-        PlanMaster::create(['name' => $name =  'Lainnya','slug' => str($name)->slug()]);
+        PlanMaster::create(['name' => $name =  'Gambar Arsitektur','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar 3D Interior','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar 3D Exterior','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Animasi 3D','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar Struktur','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar MEP','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'RAB dan Spesifikasi Teknis','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Time Schedule dan Bobot Pembayaran','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Lainnya','slug' => str($name)->slug(),'type'=>'text']);
     }
 }

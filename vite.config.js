@@ -12,7 +12,7 @@ export default defineConfig({
     ],
     server: {
         // origin : 'http://127.0.0.1:8080',
-        // host: true
+        // host: '0.0.0.0'
         // watch: {
         //     usePolling: true,
         // },

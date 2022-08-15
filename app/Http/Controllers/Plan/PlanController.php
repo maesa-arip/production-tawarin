@@ -39,9 +39,12 @@ class PlanController extends Controller
      */
     public function create()
     {
-        $plan_masters = PlanMaster::get();
+        $plan_master_checkboxs = PlanMaster::where('type','checkbox')->get();
+        $plan_master_texts = PlanMaster::where('type','text')->get();
         return inertia('Plans/Basic/Create',[
-            'plan_masters' => PlanMasterResource::collection($plan_masters),]);
+            'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
+            'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
+        ]);
     }
 
     /**
