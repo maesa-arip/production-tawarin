@@ -7,8 +7,13 @@ import DatePicker from "@/Components/DatePicker/DatePicker";
 import { Terbilang } from "@/Libs/helper";
 import Button from "@/Components/Button";
 import Filepond from "@/Pages/Uploads/Filepond";
+import ListBoxPage from "@/Components/ListBoxPage";
 
-export default function Create({ plan_master_checkboxs,plan_master_texts }) {
+export default function Create({
+    plan_master_checkboxs,
+    plan_master_texts,
+    plan_categories,
+}) {
     const [enabled, setEnabled] = useState(false);
     const [anggaran, setAnggaran] = useState("");
     const [dariAnggaran, setDariAnggaran] = useState("");
@@ -44,6 +49,16 @@ export default function Create({ plan_master_checkboxs,plan_master_texts }) {
     const { data, setData, post, reset, errors } = useForm({});
 
     const onChange = (e) => setData({ ...data, [e.target.id]: e.target.value });
+
+    const defaultValue = [{ name: "Pilih" }];
+    const [selected, setSelected] = useState(defaultValue[0]);
+
+    const onChangeSelected = (e) => {
+        setSelected(e),
+            // console.log(selected)
+            setData({ ...data, [e.id]: e.value });
+    };
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
         post(route("plans.store"), {
@@ -66,6 +81,9 @@ export default function Create({ plan_master_checkboxs,plan_master_texts }) {
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                                         Data Perencanaan
                                     </h3>
+                                    {/* <ListBoxPage ShouldMap={ plan_categories} value={
+                                                                data.plan_category_id ?? ""
+                                                            } selected={selected} onChange={onChangeSelected} ListID={'plan_category_id'} ListName={'plan_category_id'}/> */}
                                     <p className="mt-1 text-sm text-gray-600">
                                         Use a permanent address where you can
                                         receive mail.
@@ -109,6 +127,49 @@ export default function Create({ plan_master_checkboxs,plan_master_texts }) {
                                                 )}
                                             </div>
 
+                                            {/* <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                                <label
+                                                    htmlFor="plan_category_id"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Pilih Kategori
+                                                </label>
+                                                <ListBoxPage ShouldMap={ plan_categories} value={selected} onChange={onChangeSelected} ListID={'plan_category_id'} ListName={'plan_category_id'}/>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.plan_categories}
+                                                    </span>
+                                                )}
+                                            </div> */}
+
+                                            <div className="col-span-6 sm:col-span-6">
+                                                <label
+                                                    htmlFor="country"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Kategori
+                                                </label>
+                                                <select
+                                                    id="plan_category_id"
+                                                    name="plan_category_id"
+                                                    value={
+                                                        data.plan_category_id ?? ""
+                                                    }
+                                                    onChange={onChange}
+                                                    className="block w-full px-3 py-2 mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                >
+                                                    {plan_categories.map((item) => ( 
+                                                        <option key={item.id} value={item.id}>{item.name}</option>
+
+                                                    ))}
+                                                    
+                                                </select>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.plan_category_id}
+                                                    </span>
+                                                )}
+                                            </div>
                                             <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="jangka_waktu_penawaran"
@@ -384,44 +445,78 @@ export default function Create({ plan_master_checkboxs,plan_master_texts }) {
                             <div className="mt-5 md:mt-0 md:col-span-2">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
-                                        {plan_master_checkboxs.map((plan_master_checkbox, i) => (
-                                            <div key={plan_master_checkbox.id} className="flex items-center justify-between px-3 py-4 rounded-md shadow">
-                                                {plan_master_checkbox.name}
-                                            <label htmlFor={plan_master_checkbox.name} className="relative inline-flex items-center cursor-pointer">
-                                              <input key={plan_master_checkbox.id} onChange={onChange} type="checkbox" id={plan_master_checkbox.name} className="sr-only peer" />
-                                              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-blue-600  dark:peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-slate-500 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-400 peer-checked:bg-indigo-500 peer-after:ring-indigo-500" />
-                                            </label>
-                                          </div>
-                                        ))}
-                                        {plan_master_texts.map((plan_master_text, i) => (
-                                            <div key={plan_master_text.id}>
-                                            <label 
-                                                htmlFor={plan_master_text.name}
-                                                className="block text-sm font-medium text-gray-700"
-                                            >
-                                                {plan_master_text.name}
-                                            </label>
-                                            <div className="mt-1">
-                                                <textarea
-                                                key={plan_master_text.id}
-                                                    id={plan_master_text.name}
-                                                    name={plan_master_text.name}
-                                                    rows={3}
-                                                    onChange={onChange}
-                                                    className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    placeholder=""
-                                                    defaultValue={""}
-                                                />
-                                            </div>
-                                            <p className="mt-2 text-sm text-gray-500">
-                                                Masukan Keterangan {plan_master_text.name} Bila diperlukan.
-                                            </p>
-                                        </div>
-                                        ))}
+                                        {plan_master_checkboxs.map(
+                                            (plan_master_checkbox, i) => (
+                                                <div
+                                                    key={
+                                                        plan_master_checkbox.id
+                                                    }
+                                                    className="flex items-center justify-between px-3 py-4 rounded-md shadow"
+                                                >
+                                                    {plan_master_checkbox.name}
+                                                    <label
+                                                        htmlFor={
+                                                            plan_master_checkbox.slug
+                                                        }
+                                                        className="relative inline-flex items-center cursor-pointer"
+                                                    >
+                                                        <input
+                                                            key={
+                                                                plan_master_checkbox.id
+                                                            }
+                                                            onChange={onChange}
+                                                            type="checkbox"
+                                                            id={
+                                                                plan_master_checkbox.slug
+                                                            }
+                                                            name={plan_master_checkbox.slug}
+                                                            className="sr-only peer"
+                                                        />
+                                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-blue-600  dark:peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-slate-500 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-400 peer-checked:bg-indigo-500 peer-after:ring-indigo-500" />
+                                                    </label>
+                                                </div>
+                                            )
+                                        )}
+                                        {plan_master_texts.map(
+                                            (plan_master_text, i) => (
+                                                <div key={plan_master_text.id}>
+                                                    <label
+                                                        htmlFor={
+                                                            plan_master_text.slug
+                                                        }
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        {plan_master_text.name}
+                                                    </label>
+                                                    <div className="mt-1">
+                                                        <textarea
+                                                            key={
+                                                                plan_master_text.id
+                                                            }
+                                                            id={
+                                                                plan_master_text.slug
+                                                            }
+                                                            name={
+                                                                plan_master_text.slug
+                                                            }
+                                                            rows={3}
+                                                            onChange={onChange}
+                                                            className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            placeholder=""
+                                                            defaultValue={""}
+                                                        />
+                                                    </div>
+                                                    <p className="mt-2 text-sm text-gray-500">
+                                                        Masukan Keterangan{" "}
+                                                        {plan_master_text.name}{" "}
+                                                        Bila diperlukan.
+                                                    </p>
+                                                </div>
+                                            )
+                                        )}
                                     </div>
                                 </div>
                             </div>
-                           
                         </div>
                     </div>
                     <div className="hidden sm:block" aria-hidden="true">
@@ -465,7 +560,11 @@ export default function Create({ plan_master_checkboxs,plan_master_texts }) {
                                                             strokeLinejoin="round"
                                                         />
                                                     </svg>
-                                                    <Filepond />
+                                                    <Filepond
+                                                        inputname={"files"}
+                                                        allowMultiple={false}
+                                                        maxFiles={"1"}
+                                                    />
                                                     <div className="flex justify-center text-sm text-gray-600">
                                                         <label
                                                             htmlFor="file-upload"

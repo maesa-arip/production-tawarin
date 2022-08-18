@@ -14,9 +14,27 @@ class UploadController extends Controller
     {
         return inertia('Uploads/Dropzone');
     }
-    public function store()
+    public function store(Request $request)
     {
-        return "works";
+        if ($request->hasFile('files')) {
+            $file = $request->file('files');
+            // $folder = uniqid() . '-' . now()->timestamp;
+            $folder =  auth()->user()->id;
+            // foreach ($file as $file) {
+                $filename = $file->getClientOriginalName();
+
+                $file->storeAs('public/files/tmp/' . $folder, $filename);
+
+                // TemporaryFile::create([
+                //     'folder' => $folder,
+                //     'filename' => $filename
+                // ]);
+
+                return $folder;
+                //return $filename;
+            }
+        // }
+        return '';
     }
     public function storedropzone()
     {

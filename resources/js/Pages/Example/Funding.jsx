@@ -9,7 +9,7 @@ import ListBoxPage from "@/Components/ListBoxPage";
 import Comboboxpage from "@/Components/Comboboxpage";
 import MenuModal from "@/Components/Modal/MenuModal";
 
-export default function Funding({ plan_categories }) {
+export default function Funding({ plan_categories,ShouldMap }) {
     const [enabled, setEnabled] = useState(false);
     const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
     let [isOpen, setIsOpen] = useState(true);
@@ -125,7 +125,7 @@ export default function Funding({ plan_categories }) {
                                                 >
                                                     Pilih
                                                 </label>
-                                                <ListBoxPage />
+                                                {/* <ListBoxPage ShouldMap={ plan_categories}/> */}
                                             </div>
 
                                             <div className="col-span-6 sm:col-span-4">

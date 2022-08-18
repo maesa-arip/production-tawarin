@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlanDetail extends Model
 {
     use HasFactory;
+    protected $fillable = ['plan_id','plan_master_id','description'];
     public function plan()
     {
         return $this->belongsTo(Plan::class);

@@ -9,6 +9,7 @@ use App\Http\Resources\Plan\PlanResource;
 use App\Http\Resources\Plan\PlanSingleResource;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanCategory;
+use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
 use Illuminate\Http\Request;
 
@@ -23,11 +24,11 @@ class PlanController extends Controller
     {
         $plans = Plan::query()
             ->with('plan_category')
-            ->when($request->plan_category,fn($q,$v)=>$q->whereBelongsTo(PlanCategory::where('slug',$v)->first()))
-            ->select('id','anggaran_proyek','slug','name','plan_category_id')
+            ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
+            ->select('id', 'anggaran_proyek', 'slug', 'name', 'plan_category_id')
             ->fastPaginate(12)
             ->withQueryString();
-        return inertia('Plans/Basic/Index',[
+        return inertia('Plans/Basic/Index', [
             'plans' => PlanResource::collection($plans),
         ]);
     }
@@ -39,11 +40,13 @@ class PlanController extends Controller
      */
     public function create()
     {
-        $plan_master_checkboxs = PlanMaster::where('type','checkbox')->get();
-        $plan_master_texts = PlanMaster::where('type','text')->get();
-        return inertia('Plans/Basic/Create',[
+        $plan_categories = PlanCategory::get();
+        $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
+        $plan_master_texts = PlanMaster::where('type', 'text')->get();
+        return inertia('Plans/Basic/Create', [
             'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
             'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
+            'plan_categories' => PlanMasterResource::collection($plan_categories),
         ]);
     }
 
@@ -55,13 +58,52 @@ class PlanController extends Controller
      */
     public function store(PlanRequest $request)
     {
-        $atrributes = $request->toArray();
-        dd($atrributes);
-        Plan::create($atrributes);
+        // $plan_masters = PlanMaster::pluck('id');
+        // $collection = collect($plan_masters);
+
+        // $modified = $collection->map(function ($item, $key) {
+        //     return strtoupper($item);
+        // });
+
+        // dd($modified);
+
+        $atrribute_plans = ([
+            'user_id' => auth()->user()->id,
+            'name' => $name = $request->name,
+            'slug' => str($name)->slug(),
+            'jangka_waktu_penawaran' => $request->jangka_waktu_penawaran,
+            'jangka_waktu_pelaksanaan' => $request->jangka_waktu_pelaksanaan,
+            'jumlah_revisi' => $request->jumlah_revisi,
+            'luas_bangunan' => $request->luas_bangunan,
+            'acuan_anggaran' => $request->acuan_anggaran,
+            'anggaran_proyek' => $request->anggaran_proyek,
+            'dari_anggaran' => $request->dari_anggaran,
+            'sampai_anggaran' => $request->sampai_anggaran,
+            'plan_category_id' => $request->plan_category_id,
+        ]);
+
+        // foreach ($request->input('pengalaman', []) as $file) {
+        //     // $pengalamanproject->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('pengalaman');
+        // }
+        foreach($request->all() as $key => $value) {
+  
+            dd($key, $value);
+        
+        }
+
+        // $atrribute_plan_details = ([
+        //     'plan_id' => $request->plan_id,
+        //     'plan_master_id' => $request->plan_master_id,
+        //     'description' => $request->description,
+        // ]);
+        $plan = Plan::create($atrribute_plans);
+        // $pland_details = PlanDetail::create($atrribute_plan_details);
+        // $plan->addMededia(storage_path('app/public/files/tmp'.$request))
+
 
         return back()->with([
             'type' => 'success',
-            'message' => 'Users was created',
+            'message' => 'Plans was created',
         ]);
     }
 
@@ -73,8 +115,8 @@ class PlanController extends Controller
      */
     public function show(Plan $plan)
     {
-        return Inertia('Plans/Basic/Show',[
-            'plan' =>PlanSingleResource::make($plan->load('plan_category'))
+        return Inertia('Plans/Basic/Show', [
+            'plan' => PlanSingleResource::make($plan->load('plan_category'))
         ]);
     }
 
@@ -115,11 +157,11 @@ class PlanController extends Controller
     {
         $plans = Plan::query()
             ->with('plan_category')
-            ->when($request->plan_category,fn($q,$v)=>$q->whereBelongsTo(PlanCategory::where('slug',$v)->first()))
-            ->select('id','anggaran_proyek','slug','name','plan_category_id')
+            ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
+            ->select('id', 'anggaran_proyek', 'slug', 'name', 'plan_category_id')
             ->fastPaginate(12)
             ->withQueryString();
-        return inertia('Plans/Public/List',[
+        return inertia('Plans/Public/List', [
             'plans' => PlanResource::collection($plans),
         ]);
     }

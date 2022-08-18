@@ -27,7 +27,7 @@ return new class extends Migration
             $table->bigInteger('acuan_anggaran');
             $table->integer('dari_anggaran');
             $table->integer('sampai_anggaran');
-            $table->tinyInteger('is_approved');
+            $table->tinyInteger('is_approved')->default(0);
             $table->timestamps();
         });
     }
