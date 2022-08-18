@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Plan\Plan;
 use App\Models\Toko\Invoice;
 use App\Models\Toko\Product;
 use App\Traits\HasManyCarts;

@@ -265,7 +265,7 @@ export default function Dashboard(props) {
                         </div>
                     </div>
                 </div>
-                <div className="grid w-full grid-cols-2 gap-6 mt-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="grid w-full grid-cols-2 gap-1 mt-10 md:gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <div className="relative w-full mx-auto">
                         <a
                             href="#"

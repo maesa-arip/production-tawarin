@@ -18,7 +18,7 @@ export default function App({ auth, header, children }) {
             reverseOrder={false}
             />
             <main className="pb-20 md:pb-0">{children}</main>
-            <HideScrollBar/>
+            {/* <HideScrollBar/> */}
         </div>
     );
 }

@@ -9,6 +9,7 @@ use App\Http\Resources\Plan\PlanResource;
 use App\Http\Resources\Plan\PlanSingleResource;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanCategory;
+use App\Models\User;
 use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
 use Illuminate\Http\Request;
@@ -20,17 +21,50 @@ class PlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $loadDefault = 10;
     public function index(Request $request)
     {
         $plans = Plan::query()
             ->with('plan_category')
+            ->with('owner')
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
-            ->select('id', 'anggaran_proyek', 'slug', 'name', 'plan_category_id')
-            ->fastPaginate(12)
-            ->withQueryString();
-        return inertia('Plans/Basic/Index', [
-            'plans' => PlanResource::collection($plans),
-        ]);
+            ->where('user_id',auth()->user()->id)
+            ->select('id', 'anggaran_proyek','dari_anggaran','sampai_anggaran','user_id', 'slug','jumlah_revisi', 'name', 'plan_category_id','created_at');
+            // ->fastPaginate(12)
+            // ->withQueryString();
+        
+            if ($request->q) {
+                $plans->where('name','like','%'.$request->q.'%')
+                ->orWhere('slug','like','%'.$request->q.'%')
+                ->orWhere('jumlah_revisi','like','%'.$request->q.'%')
+                ->orWhere('anggaran_proyek','like','%'.$request->q.'%')
+                ;
+            }
+    
+            if ($request->has(['field','direction'])) {
+                $plans->orderBy($request->field,$request->direction);
+            }
+            $plans = (
+                PlanResource::collection($plans->latest()->fastPaginate($request->load)->withQueryString())
+            )->additional([
+                'attributes' => [
+                    'total' => Plan::count(),
+                    'per_page' =>10,
+                ],
+                'filtered' => [
+                    'load' => $request->load ?? $this->loadDefault,
+                    'q' => $request->q ?? '',
+                    'page' => $request->page ?? 1,
+                    'field' => $request->field ?? '',
+                    'direction' => $request->direction ?? '',
+    
+                ]
+            ]);
+
+            return inertia('Plans/Basic/Index',['plans'=>$plans]);
+        // return inertia('Plans/Basic/Index', [
+        //     'plans' => PlanResource::collection($plans),
+        // ]);
     }
 
     /**
@@ -58,15 +92,6 @@ class PlanController extends Controller
      */
     public function store(PlanRequest $request)
     {
-        // $plan_masters = PlanMaster::pluck('id');
-        // $collection = collect($plan_masters);
-
-        // $modified = $collection->map(function ($item, $key) {
-        //     return strtoupper($item);
-        // });
-
-        // dd($modified);
-
         $atrribute_plans = ([
             'user_id' => auth()->user()->id,
             'name' => $name = $request->name,
@@ -81,25 +106,65 @@ class PlanController extends Controller
             'sampai_anggaran' => $request->sampai_anggaran,
             'plan_category_id' => $request->plan_category_id,
         ]);
-
-        // foreach ($request->input('pengalaman', []) as $file) {
-        //     // $pengalamanproject->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('pengalaman');
-        // }
-        foreach($request->all() as $key => $value) {
-  
-            dd($key, $value);
-        
-        }
-
-        // $atrribute_plan_details = ([
-        //     'plan_id' => $request->plan_id,
-        //     'plan_master_id' => $request->plan_master_id,
-        //     'description' => $request->description,
-        // ]);
         $plan = Plan::create($atrribute_plans);
-        // $pland_details = PlanDetail::create($atrribute_plan_details);
-        // $plan->addMededia(storage_path('app/public/files/tmp'.$request))
 
+        //Plan Details
+            if($request->has('gambar_arsitektur')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 1,
+                ]);
+            }
+            if($request->has('gambar_3d_interior')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 2,
+                ]);
+            }
+            if($request->has('gambar_3d_exterior')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 3,
+                ]);
+            }
+            if($request->has('animasi_3d')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 4,
+                ]);
+            }
+            if($request->has('gambar_struktur')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 5,
+                ]);
+            }
+            if($request->has('gambar_mep')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 6,
+                ]);
+            }
+            if($request->has('rab_dan_spesifikasi_teknis')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 7,
+                ]);
+            }
+            if($request->has('time_schedule_dan_bobot_pembayaran')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 8,
+                ]);
+            }
+            if($request->has('lainnya')) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'plan_master_id' => 9,
+                    'description' => $request->lainnya,
+                ]);
+            }
+        //End Plan Details
 
         return back()->with([
             'type' => 'success',

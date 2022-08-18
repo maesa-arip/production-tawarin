@@ -18,6 +18,9 @@ class PlanResource extends JsonResource
         return [
             'id' => $this->id,
             'anggaran_proyek' => $this->anggaran_proyek,
+            'jumlah_revisi' => $this->jumlah_revisi,
+            'dari_anggaran' => $this->dari_anggaran,
+            'sampai_anggaran' => $this->sampai_anggaran,
             'slug' => $this->slug,
             'name' => $this->name,
             'plan_category' => [
@@ -25,6 +28,11 @@ class PlanResource extends JsonResource
                 'name' => $this->plan_category->name,
                 'slug' => $this->plan_category->slug,
             ],
+            'owner' => [
+                'id' => $this->owner->id,
+                'name' => $this->owner->name,
+            ],
+            'created_at' => $this->created_at->diffForHumans(),
         ];
     }
 }

@@ -35,8 +35,8 @@ class PlanRequest extends FormRequest
             'anggaran_proyek' => ['required'],
             'acuan_anggaran' => ['required'],
             // 'files' => ['string'],
-            // 'dari_anggaran' => ['required'],
-            // 'sampai_anggaran' => ['required'],
+            'dari_anggaran' => ['required'],
+            'sampai_anggaran' => ['required'],
         ];
     }
 }
