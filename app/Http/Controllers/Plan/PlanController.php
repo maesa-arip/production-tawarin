@@ -106,6 +106,7 @@ class PlanController extends Controller
             'sampai_anggaran' => $request->sampai_anggaran,
             'plan_category_id' => $request->plan_category_id,
         ]);
+        // dd($atrribute_plans);
         $plan = Plan::create($atrribute_plans);
 
         //Plan Details
@@ -165,8 +166,7 @@ class PlanController extends Controller
                 ]);
             }
         //End Plan Details
-
-        return back()->with([
+        return redirect('plans')->with([
             'type' => 'success',
             'message' => 'Plans was created',
         ]);

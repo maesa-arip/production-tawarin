@@ -37,6 +37,7 @@ class PlanRequest extends FormRequest
             // 'files' => ['string'],
             'dari_anggaran' => ['required'],
             'sampai_anggaran' => ['required'],
+            'plan_category_id' => ['required'],
         ];
     }
 }

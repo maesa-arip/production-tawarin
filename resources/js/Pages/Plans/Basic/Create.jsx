@@ -14,7 +14,7 @@ export default function Create({
     plan_master_texts,
     plan_categories,
 }) {
-    const [enabled, setEnabled] = useState(false);
+    // const [enabled, setEnabled] = useState(false);
     const [anggaran, setAnggaran] = useState("");
     const [dariAnggaran, setDariAnggaran] = useState("");
     const [sampaiAnggaran, setSampaiAnggaran] = useState("");
@@ -48,15 +48,13 @@ export default function Create({
 
     const { data, setData, post, reset, errors } = useForm({});
 
-    const onChange = (e) => setData({ ...data, [e.target.id]: e.target.value });
+    const onChange = (e) => {setData({ ...data, [e.target.id]: e.target.value })};
 
     const defaultValue = [{ name: "Pilih" }];
     const [selected, setSelected] = useState(defaultValue[0]);
 
-    const onChangeSelected = (e) => {
-        setSelected(e),
-            // console.log(selected)
-            setData({ ...data, [e.id]: e.value });
+    const onChangePlanCategoryId = (e) => {
+        setData({ ...data, ['plan_category_id']: e.id});
     };
 
     const onSubmitHandler = (e) => {
@@ -81,9 +79,7 @@ export default function Create({
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                                         Data Perencanaan
                                     </h3>
-                                    {/* <ListBoxPage ShouldMap={ plan_categories} value={
-                                                                data.plan_category_id ?? ""
-                                                            } selected={selected} onChange={onChangeSelected} ListID={'plan_category_id'} ListName={'plan_category_id'}/> */}
+                                    
                                     <p className="mt-1 text-sm text-gray-600">
                                         Use a permanent address where you can
                                         receive mail.
@@ -127,49 +123,24 @@ export default function Create({
                                                 )}
                                             </div>
 
-                                            {/* <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-5">
                                                 <label
                                                     htmlFor="plan_category_id"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
                                                     Pilih Kategori
                                                 </label>
-                                                <ListBoxPage ShouldMap={ plan_categories} value={selected} onChange={onChangeSelected} ListID={'plan_category_id'} ListName={'plan_category_id'}/>
-                                                {errors && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.plan_categories}
-                                                    </span>
-                                                )}
-                                            </div> */}
-
-                                            <div className="col-span-6 sm:col-span-6">
-                                                <label
-                                                    htmlFor="country"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Kategori
-                                                </label>
-                                                <select
-                                                    id="plan_category_id"
-                                                    name="plan_category_id"
-                                                    value={
-                                                        data.plan_category_id ?? ""
-                                                    }
-                                                    onChange={onChange}
-                                                    className="block w-full px-3 py-2 mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                >
-                                                    {plan_categories.map((item) => ( 
-                                                        <option key={item.id} value={item.id}>{item.name}</option>
-
-                                                    ))}
-                                                    
-                                                </select>
+                                                <ListBoxPage ShouldMap={ plan_categories} selected={selected} onChange={(e) => {
+                                                                onChangePlanCategoryId(e);
+                                                                setSelected(e);
+                                                              }}/>
                                                 {errors && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
                                                         {errors.plan_category_id}
                                                     </span>
                                                 )}
                                             </div>
+
                                             <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="jangka_waktu_penawaran"

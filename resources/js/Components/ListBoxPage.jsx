@@ -2,22 +2,12 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
-// const defaultValue = [
-//   { name: 'Pilih' },
-// ]
-
-
-
-export default function ListBoxPage({ShouldMap,ListId,ListName, selected, onChange}) {
-
-// const [selected, setSelected] = useState(defaultValue[0])
+export default function ListBoxPage({ShouldMap, selected, onChange}) {
 
   return (
     
-      <Listbox as={'div'} id={ListId}
-      name={ListName} className='relative z-10 w-full' value={selected} onChange={onChange}>
-          <Listbox.Button id={ListId}
-                  name={ListName} className="flex justify-between w-full px-3 py-2 mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <Listbox as={'div'} className='relative z-10 w-full' value={selected} onChange={onChange}>
+          <Listbox.Button className="flex justify-between w-full px-3 py-2 mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <span className="block truncate">{selected.name}</span>
             <span className="inset-y-0 right-0 flex items-center justify-between pointer-events-none">
               <SelectorIcon
@@ -36,8 +26,6 @@ export default function ListBoxPage({ShouldMap,ListId,ListName, selected, onChan
               {ShouldMap.map((item) => (
                 <Listbox.Option
                   key={item.id}
-                  id={ListId}
-                  name={ListName}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'

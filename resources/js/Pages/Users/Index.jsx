@@ -50,6 +50,7 @@ export default function Index(props) {
         debounce((query) => {
             Inertia.get(
                 route("users.index"),
+                // {...pickBy({ search: query, page: query.page })},
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
