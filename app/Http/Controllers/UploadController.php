@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 
 class UploadController extends Controller
@@ -16,8 +17,8 @@ class UploadController extends Controller
     }
     public function store(Request $request)
     {
-        if ($request->hasFile('files')) {
-            $file = $request->file('files');
+        if ($request->hasFile('cover')) {
+            $file = $request->file('cover');
             // $folder = uniqid() . '-' . now()->timestamp;
             $folder =  auth()->user()->id;
             // foreach ($file as $file) {
@@ -25,10 +26,10 @@ class UploadController extends Controller
 
                 $file->storeAs('public/files/tmp/' . $folder, $filename);
 
-                // TemporaryFile::create([
-                //     'folder' => $folder,
-                //     'filename' => $filename
-                // ]);
+                TemporaryFile::create([
+                    'folder' => $folder,
+                    'filename' => $filename
+                ]);
 
                 return $folder;
                 //return $filename;

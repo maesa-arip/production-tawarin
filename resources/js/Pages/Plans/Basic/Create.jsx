@@ -532,9 +532,9 @@ export default function Create({
                                                         />
                                                     </svg>
                                                     <Filepond
-                                                        inputname={"files"}
-                                                        allowMultiple={false}
-                                                        maxFiles={"1"}
+                                                        inputname={"cover"}
+                                                        allowMultiple={true}
+                                                        maxFiles={"3"}
                                                     />
                                                     <div className="flex justify-center text-sm text-gray-600">
                                                         <label

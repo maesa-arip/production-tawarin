@@ -12,6 +12,7 @@ use App\Models\Plan\PlanCategory;
 use App\Models\User;
 use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
+use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
@@ -30,9 +31,6 @@ class PlanController extends Controller
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->where('user_id',auth()->user()->id)
             ->select('id', 'anggaran_proyek','dari_anggaran','sampai_anggaran','user_id', 'slug','jumlah_revisi', 'name', 'plan_category_id','created_at');
-            // ->fastPaginate(12)
-            // ->withQueryString();
-        
             if ($request->q) {
                 $plans->where('name','like','%'.$request->q.'%')
                 ->orWhere('slug','like','%'.$request->q.'%')
@@ -40,7 +38,6 @@ class PlanController extends Controller
                 ->orWhere('anggaran_proyek','like','%'.$request->q.'%')
                 ;
             }
-    
             if ($request->has(['field','direction'])) {
                 $plans->orderBy($request->field,$request->direction);
             }
@@ -57,14 +54,9 @@ class PlanController extends Controller
                     'page' => $request->page ?? 1,
                     'field' => $request->field ?? '',
                     'direction' => $request->direction ?? '',
-    
                 ]
             ]);
-
             return inertia('Plans/Basic/Index',['plans'=>$plans]);
-        // return inertia('Plans/Basic/Index', [
-        //     'plans' => PlanResource::collection($plans),
-        // ]);
     }
 
     /**
@@ -108,6 +100,14 @@ class PlanController extends Controller
         ]);
         // dd($atrribute_plans);
         $plan = Plan::create($atrribute_plans);
+
+        $temporaryFile = TemporaryFile::where('folder',auth()->user()->id)->first();
+        if($temporaryFile) {
+        $plan->addMedia(storage_path('app/public/files/tmp/'. auth()->user()->id .'/'.$temporaryFile->filename))
+        ->toMediaCollection('planCover');
+        rmdir(storage_path('app/public/files/tmp/'. auth()->user()->id));
+        $temporaryFile->delete();
+        }
 
         //Plan Details
             if($request->has('gambar_arsitektur')) {
@@ -180,8 +180,10 @@ class PlanController extends Controller
      */
     public function show(Plan $plan)
     {
+        $media = $plan->getMedia('planCover');
         return Inertia('Plans/Basic/Show', [
-            'plan' => PlanSingleResource::make($plan->load('plan_category'))
+            'plan' => PlanSingleResource::make($plan->load('plan_category')),
+            'media' => ($media),
         ]);
     }
 
@@ -222,12 +224,36 @@ class PlanController extends Controller
     {
         $plans = Plan::query()
             ->with('plan_category')
+            ->with('owner')
+            ->where('is_approved',1)
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
-            ->select('id', 'anggaran_proyek', 'slug', 'name', 'plan_category_id')
-            ->fastPaginate(12)
-            ->withQueryString();
-        return inertia('Plans/Public/List', [
-            'plans' => PlanResource::collection($plans),
-        ]);
+            ->select('id', 'anggaran_proyek','dari_anggaran','sampai_anggaran','user_id', 'slug','jumlah_revisi', 'name', 'is_approved','plan_category_id','created_at');
+            if ($request->q) {
+                $plans->where('name','like','%'.$request->q.'%')
+                ->orWhere('slug','like','%'.$request->q.'%')
+                ->orWhere('jumlah_revisi','like','%'.$request->q.'%')
+                ->orWhere('anggaran_proyek','like','%'.$request->q.'%')
+                ;
+            }
+            if ($request->has(['field','direction'])) {
+                $plans->orderBy($request->field,$request->direction);
+            }
+            $plans = (
+                PlanResource::collection($plans->latest()->fastPaginate($request->load)->withQueryString())
+            )->additional([
+                'attributes' => [
+                    // 'total' => Plan::count(),
+                    'per_page' =>10,
+                ],
+                'filtered' => [
+                    'load' => $request->load ?? $this->loadDefault,
+                    'q' => $request->q ?? '',
+                    'page' => $request->page ?? 1,
+                    'field' => $request->field ?? '',
+                    'direction' => $request->direction ?? '',
+    
+                ]
+            ]);
+            return inertia('Plans/Public/List',['plans'=>$plans]);
     }
 }

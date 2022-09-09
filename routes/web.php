@@ -13,6 +13,11 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('assets/{path}', function ($path) {
+    return response()->file(public_path("assets/$path"));
+});
+
 //Example
 Route::get('filepond', [UploadController::class, 'filepond'])->name('filepond.index');
 Route::get('dropzone', [UploadController::class, 'dropzone'])->name('dropzone.index');

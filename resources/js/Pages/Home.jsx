@@ -10,24 +10,24 @@ import CTA from "@/Components/CTA";
 import Feature2 from "@/Components/Feature2";
 import SocialShare from "@/Components/SocialShare";
 import Footer from "@/Components/Footer";
+import Marquee from "@/Components/Marquee";
 
 export default function Home() {
     return (
-        <div>
+        <>
             <Head title="Home" />
-            
+
             {/* <RadioCard/> */}
             <Container>
-            <Hero />
-            <CTA />
-            <Feature />
-            <Feature2 />
-            <Footer/>
+                <Hero />
+                <CTA />
+                <Feature />
+                <Feature2 />
+                <Footer />
                 <HideScrollBar />
-
             </Container>
-            
-        </div>
+            {/* <Marquee/> */}
+        </>
     );
 }
 
