@@ -19,21 +19,22 @@ class UploadController extends Controller
     {
         if ($request->hasFile('cover')) {
             $file = $request->file('cover');
+
+            // foreach ($file as $file) {
+            $filename = $file->getClientOriginalName();
             // $folder = uniqid() . '-' . now()->timestamp;
             $folder =  auth()->user()->id;
-            // foreach ($file as $file) {
-                $filename = $file->getClientOriginalName();
 
-                $file->storeAs('public/files/tmp/' . $folder, $filename);
+            $file->storeAs('public/files/tmp/' . $folder, $filename);
 
-                TemporaryFile::create([
-                    'folder' => $folder,
-                    'filename' => $filename
-                ]);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename
+            ]);
 
-                return $folder;
-                //return $filename;
-            }
+            return $folder;
+            //return $filename;
+        }
         // }
         return '';
     }

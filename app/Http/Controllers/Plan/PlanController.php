@@ -14,6 +14,7 @@ use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
 use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PlanController extends Controller
 {
@@ -99,13 +100,17 @@ class PlanController extends Controller
             'plan_category_id' => $request->plan_category_id,
         ]);
         // dd($atrribute_plans);
+        // dd($request->cover);
         $plan = Plan::create($atrribute_plans);
 
-        $temporaryFile = TemporaryFile::where('folder',auth()->user()->id)->first();
+        $temporaryFile = TemporaryFile::where('folder',auth()->user()->id)->orderBy('id','desc')->first();
+        // dd($temporaryFile);
+        
         if($temporaryFile) {
         $plan->addMedia(storage_path('app/public/files/tmp/'. auth()->user()->id .'/'.$temporaryFile->filename))
         ->toMediaCollection('planCover');
-        rmdir(storage_path('app/public/files/tmp/'. auth()->user()->id));
+        // rmdir(storage_path('app/public/files/tmp/'. auth()->user()->id));
+        File::deletedirectory(storage_path('app/public/files/tmp/'. auth()->user()->id));
         $temporaryFile->delete();
         }
 
