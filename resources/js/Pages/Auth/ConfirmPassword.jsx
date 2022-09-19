@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from '@/Components/Button';
-import Guest from '@/Layouts/Guest';
+import GuestDefault from '@/Layouts/GuestDefault';
 import Input from '@/Components/Input';
 import Label from '@/Components/Label';
 import ValidationErrors from '@/Components/ValidationErrors';
@@ -45,7 +45,7 @@ export default function ConfirmPassword() {
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         isFocused={true}
                         onChange={onChange}
                     />
@@ -60,4 +60,4 @@ export default function ConfirmPassword() {
         </>
     );
 }
-ConfirmPassword.layout = page => <Guest children={page}/>
+ConfirmPassword.layout = page => <GuestDefault children={page}/>

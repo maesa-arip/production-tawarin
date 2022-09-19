@@ -17,7 +17,7 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
     const [files, setFiles] = useState([]);
-    console.log(files);
+    // console.log(files);
     // var tokenElement = document.head.querySelector('meta[name="csrf-token"]');
     //       var token;
     //       token = tokenElement.content;

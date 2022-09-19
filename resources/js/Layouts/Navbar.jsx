@@ -353,7 +353,7 @@ export default function Navbar() {
                                     )}
                                     
                                 </div>
-                                <div>
+                                {/* <div>
                                     <a
                                         href="#"
                                         className="flex items-center justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700"
@@ -369,7 +369,7 @@ export default function Navbar() {
                                             Sign in
                                         </a>
                                     </p>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </Popover.Panel>

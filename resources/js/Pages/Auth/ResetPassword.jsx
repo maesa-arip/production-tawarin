@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from '@/Components/Button';
-import Guest from '@/Layouts/Guest';
+import GuestDefault from '@/Layouts/GuestDefault';
 import Input from '@/Components/Input';
 import Label from '@/Components/Label';
 import ValidationErrors from '@/Components/ValidationErrors';
@@ -44,7 +44,7 @@ export default function ResetPassword({ token, email }) {
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="username"
                         onChange={onChange}
                     />
@@ -57,7 +57,7 @@ export default function ResetPassword({ token, email }) {
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="new-password"
                         isFocused={true}
                         onChange={onChange}
@@ -71,7 +71,7 @@ export default function ResetPassword({ token, email }) {
                         type="password"
                         name="password_confirmation"
                         value={data.password_confirmation}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="new-password"
                         onChange={onChange}
                     />
@@ -86,4 +86,4 @@ export default function ResetPassword({ token, email }) {
         </>
     );
 }
-ResetPassword.layout = page => <Guest children={page}/>
+ResetPassword.layout = page => <GuestDefault children={page}/>

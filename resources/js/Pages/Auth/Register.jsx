@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from '@/Components/Button';
-import Guest from '@/Layouts/Guest';
+import GuestDefault from '@/Layouts/GuestDefault';
 import Input from '@/Components/Input';
 import Label from '@/Components/Label';
 import ValidationErrors from '@/Components/ValidationErrors';
@@ -133,4 +133,4 @@ export default function Register() {
         </>
     );
 }
-Register.layout = page => <Guest children={page}/>
+Register.layout = page => <GuestDefault children={page}/>
