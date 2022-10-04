@@ -13,6 +13,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+                inter: ['Inter', 'sans-serif'],
             },
             gridTemplateRows: {
                 '[auto,auto,1fr]': 'auto auto 1fr',

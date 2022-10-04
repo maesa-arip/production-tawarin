@@ -21,6 +21,7 @@ Route::get('assets/{path}', function ($path) {
 //Example
 Route::get('filepond', [UploadController::class, 'filepond'])->name('filepond.index');
 Route::get('dropzone', [UploadController::class, 'dropzone'])->name('dropzone.index');
+Route::get('example/homefunding', [ExampleController::class, 'homefunding'])->name('example.homefunding');
 Route::get('example/form', [ExampleController::class, 'form'])->name('example.form');
 Route::get('example/funding', [ExampleController::class, 'funding'])->name('example.funding');
 Route::get('example/descriptionlist', [ExampleController::class, 'descriptionlist'])->name('example.descriptionlist');

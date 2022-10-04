@@ -1,15 +1,305 @@
-import React from "react";
+import React, { useState } from "react";
 import App from "@/Layouts/App";
 import { Head } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import FeatureCard from "@/Components/FeatureCard";
+import { Tab } from "@headlessui/react";
+import Typewriter from "typewriter-effect";
 
 export default function Dashboard(props) {
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(" ");
+    }
+    let [categories] = useState({
+        Recent: [
+            {
+                id: 1,
+                title: "Does drinking coffee make you smarter?",
+                date: "5h ago",
+                commentCount: 5,
+                shareCount: 2,
+            },
+            {
+                id: 2,
+                title: "So you've bought coffee... now what?",
+                date: "2h ago",
+                commentCount: 3,
+                shareCount: 2,
+            },
+        ],
+        Popular: [
+            {
+                id: 1,
+                title: "Is tech making coffee better or worse?",
+                date: "Jan 7",
+                commentCount: 29,
+                shareCount: 16,
+            },
+            {
+                id: 2,
+                title: "The most innovative things happening in coffee",
+                date: "Mar 19",
+                commentCount: 24,
+                shareCount: 12,
+            },
+        ],
+        Trending: [
+            {
+                id: 1,
+                title: "Ask Me Anything: 10 answers to your questions about coffee",
+                date: "2d ago",
+                commentCount: 9,
+                shareCount: 5,
+            },
+            {
+                id: 2,
+                title: "The worst advice we've ever heard about coffee",
+                date: "4d ago",
+                commentCount: 1,
+                shareCount: 2,
+            },
+        ],
+    });
     return (
         <>
             <Head title="Dashboard" />
             <Container>
                 <FeatureCard />
+                <Typewriter
+                    options={{
+                        strings: ["Hello", "World"],
+                        autoStart: true,
+                        loop: true,
+                    }}
+                />
+                <div className="w-full px-2 py-16 sm:px-0">
+                    <Tab.Group>
+                        <Tab.List className="flex p-1 space-x-1 bg-blue-300 rounded-xl">
+                            {Object.keys(categories).map((category) => (
+                                <Tab
+                                    key={category}
+                                    className={({ selected }) =>
+                                        classNames(
+                                            "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                                            "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 transition-all duration-300",
+                                            selected
+                                                ? "bg-white shadow"
+                                                : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                                        )
+                                    }
+                                >
+                                    {category}
+                                </Tab>
+                            ))}
+                        </Tab.List>
+                        <Tab.Panels className="mt-2">
+                            {Object.values(categories).map((posts, idx) => (
+                                <Tab.Panel
+                                    key={idx}
+                                    className={classNames(
+                                        "rounded-xl bg-white p-3",
+                                        "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                                    )}
+                                >
+                                    <ul>
+                                        {posts.map((post) => (
+                                            <li
+                                                key={post.id}
+                                                className="relative p-3 rounded-md hover:bg-gray-100"
+                                            >
+                                                <h3 className="text-sm font-medium leading-5">
+                                                    {post.title}
+                                                </h3>
+
+                                                <ul className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-gray-500">
+                                                    <li>{post.date}</li>
+                                                    <li>&middot;</li>
+                                                    <li>
+                                                        {post.commentCount}{" "}
+                                                        comments
+                                                    </li>
+                                                    <li>&middot;</li>
+                                                    <li>
+                                                        {post.shareCount} shares
+                                                    </li>
+                                                </ul>
+
+                                                <a
+                                                    href="#"
+                                                    className={classNames(
+                                                        "absolute inset-0 rounded-md",
+                                                        "ring-blue-400 focus:z-10 focus:outline-none focus:ring-2"
+                                                    )}
+                                                />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </Tab.Panel>
+                            ))}
+                        </Tab.Panels>
+                    </Tab.Group>
+                </div>
+                <div className="flex items-center justify-center w-full m-0 space-x-4 overflow-y-scroll ">
+                    <div
+                        className="relative flex flex-col justify-between object-cover object-center w-full h-64 my-2 overflow-hidden text-gray-800 bg-white bg-cover rounded-lg shadow-md cursor-pointer rounded-3xl"
+                        style={{
+                            backgroundImage:
+                                'url("https://images.unsplash.com/reserve/8T8J12VQxyqCiQFGa2ct_bahamas-atlantis.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80")',
+                        }}
+                    >
+                        <div className="absolute inset-0 z-0 opacity-50 bg-gradient-to-t from-green-400 to-blue-400" />
+                        <div className="relative flex flex-row items-end w-full h-72 ">
+                            <div className="absolute top-0 right-0 m-2">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="p-2 text-gray-200 transition duration-200 ease-in rounded-full h-9 w-9 hover:text-blue-400 hover:bg-white "
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                                    />
+                                </svg>
+                            </div>
+                            <div className="z-10 flex flex-col w-full p-6 rounded-lg ">
+                                <h4 className="mt-1 text-xl font-semibold leading-tight text-white truncate">
+                                    Loremipsum..
+                                </h4>
+                                <div className="flex items-center justify-between ">
+                                    <div className="flex flex-col">
+                                        <h2 className="flex items-center text-sm font-normal text-gray-300">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-4 h-4 mr-1"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                ></path>
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                            </svg>
+                                            Dubai
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div className="flex pt-4 text-sm text-gray-300">
+                                    <div className="flex items-center mr-auto">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-5 h-5 mr-1 text-yellow-500"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                        >
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <p className="font-normal">4.5</p>
+                                    </div>
+                                    <div className="flex items-center font-medium text-white ">
+                                        $1800
+                                        <span className="text-sm font-normal text-gray-300">
+                                            {" "}
+                                            /wk
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        className="relative flex flex-col justify-between object-cover object-center w-full h-64 my-2 overflow-hidden text-gray-800 bg-white bg-cover rounded-lg shadow-md cursor-pointer rounded-3xl"
+                        style={{
+                            backgroundImage:
+                                'url("https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80")',
+                        }}
+                    >
+                        <div className="absolute inset-0 z-0 opacity-50 bg-gradient-to-t from-blue-500 to-yellow-400" />
+                        <div className="relative flex flex-row items-end w-full h-72 ">
+                            <div className="absolute top-0 right-0 m-2">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="p-2 text-gray-200 transition duration-200 ease-in rounded-full h-9 w-9 hover:text-blue-400 hover:bg-white "
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                                    />
+                                </svg>
+                            </div>
+                            <div className="z-10 flex flex-col w-full p-5 rounded-lg ">
+                                <h4 className="mt-1 text-xl font-semibold leading-tight text-white truncate">
+                                    Loremipsum..
+                                </h4>
+                                <div className="flex items-center justify-between ">
+                                    <div className="flex flex-col">
+                                        <h2 className="flex items-center text-sm font-normal text-gray-300">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-4 h-4 mr-1"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                ></path>
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                            </svg>
+                                            India
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div className="flex pt-4 text-sm text-gray-300">
+                                    <div className="flex items-center mr-auto">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-5 h-5 mr-1 text-yellow-500"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                        >
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <p className="font-normal">4.5</p>
+                                    </div>
+                                    <div className="flex items-center font-medium text-white ">
+                                        $1800
+                                        <span className="text-sm font-normal text-gray-300">
+                                            {" "}
+                                            /wk
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="mt-10 min-h-[15rem] flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                     <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                         <svg

@@ -1,11 +1,13 @@
 import React from "react";
+import Typewriter from "typewriter-effect";
+import heroimg from "../Svg/macbook.svg"
 
 export default function Hero() {
     return (
         <div className="relative overflow-hidden bg-white">
             <div className="mx-auto max-w-7xl">
                 <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-                    <svg
+                    {/* <svg
                         className="absolute inset-y-0 right-0 hidden w-48 h-full text-white transform translate-x-1/2 lg:block"
                         fill="currentColor"
                         viewBox="0 0 100 100"
@@ -13,7 +15,7 @@ export default function Hero() {
                         aria-hidden="true"
                     >
                         <polygon points="50,0 100,0 50,100 0,100" />
-                    </svg>
+                    </svg> */}
 
                     {/* <main className="px-4 mx-auto mt-10 max-w-7xl sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                         <div className="sm:text-center lg:text-left">
@@ -57,8 +59,15 @@ export default function Hero() {
                                 <span className="block xl:inline">
                                     Ekosistem Konstruksi
                                 </span>{" "}
+                                
                                 <span className="block text-indigo-600 xl:inline">
-                                    Tawarin
+                                <Typewriter
+                    options={{
+                        strings: ["TAWARIN", "DIGITAL PERTAMA"],
+                        autoStart: true,
+                        loop: true,
+                    }}
+                />
                                 </span>
                             </h1>
                             <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
@@ -120,12 +129,16 @@ export default function Hero() {
                     </main>
                 </div>
             </div>
+            {/* <div class="w-full xl:w-3/5 p-12 overflow-hidden">
+          <img class="mx-auto w-full md:w-4/5 transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6" src={heroimg} />
+        </div> */}
             <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-                <img
+                {/* <img
                     className="object-cover w-full h-56 sm:h-72 md:h-96 lg:w-full lg:h-full"
                     src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80"
                     alt=""
-                />
+                /> */}
+                 <img className="w-full mx-auto mt-10 transition duration-700 ease-in-out transform scale-75 md:w-4/5 -rotate-6 hover:scale-80 md:scale-100 md:hover:scale-105 hover:rotate-6" src={heroimg} />
             </div>
         </div>
     );

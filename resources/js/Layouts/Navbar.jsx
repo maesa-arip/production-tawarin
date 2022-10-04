@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Link, usePage } from "@inertiajs/inertia-react";
-import Container from "@/Components/Container";
-import ApplicationLogo from "@/Components/ApplicationLogo";
+import { usePage } from "@inertiajs/inertia-react";
 import NavLink from "@/Components/NavLink";
 import DropdownMenu from "@/Components/DropdownMenu";
 import MenuModal from "@/Components/Modal/MenuModal";
@@ -9,25 +7,9 @@ import { PhotographIcon } from "@heroicons/react/solid";
 
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import {
-    BookmarkAltIcon,
-    CalendarIcon,
-    ChartBarIcon,
-    CursorClickIcon,
-    MenuIcon,
-    PhoneIcon,
-    PlayIcon,
-    RefreshIcon,
-    ShieldCheckIcon,
-    SupportIcon,
-    ViewGridIcon,
-    XIcon,
-} from "@heroicons/react/outline";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import {MenuIcon,XIcon} from "@heroicons/react/outline";
+import Logo from '../../img/Tawarin.png';
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
 
 export default function Navbar() {
     const { auth, categories_global, carts_global_count } = usePage().props;
@@ -40,14 +22,11 @@ export default function Navbar() {
             <Popover className="relative bg-white">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6">
                     <div className="flex items-center justify-between py-6 border-b-2 border-gray-100 md:justify-start md:space-x-10">
-                        <div className="flex justify-start lg:w-0 lg:flex-1">
+                        <div className="flex justify-start">
                             <a href="#">
                                 <span className="sr-only">Workflow</span>
-                                <img
-                                    className="w-auto h-8 sm:h-10"
-                                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                                    alt=""
-                                />
+                                <img className="w-auto h-8 sm:h-10" src={Logo}/>
+                                
                             </a>
                         </div>
                         <div className="-my-2 -mr-2 md:hidden">
@@ -93,6 +72,9 @@ export default function Navbar() {
                                 </DropdownMenu.Link>
                             </DropdownMenu>
                             <DropdownMenu label={"Example"}>
+                            <DropdownMenu.Link href="/example/homefunding">
+                                    Landing Page Funding
+                                </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/example/form">
                                     Form
                                 </DropdownMenu.Link>
@@ -144,7 +126,7 @@ export default function Navbar() {
                                     </DropdownMenu>
 
                                     <NavLink
-                                        className="flex items-center gap-x-2"
+                                        className="flex items-center justify-items-end gap-x-2"
                                         href="/toko/carts"
                                     >
                                         <svg
@@ -173,20 +155,6 @@ export default function Navbar() {
                                 </>
                             )}
                         </Popover.Group>
-                        {/* <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
-                            <a
-                                href="#"
-                                className="text-base font-medium text-gray-500 whitespace-nowrap hover:text-gray-900"
-                            >
-                                Sign in
-                            </a>
-                            <a
-                                href="#"
-                                className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
-                            >
-                                Sign up
-                            </a>
-                        </div> */}
                     </div>
                 </div>
 
@@ -340,6 +308,7 @@ export default function Navbar() {
                                                     ? carts_global_count
                                                     : null}
                                             </NavLink>
+                                            
                                         </>
                                     ) : (
                                         <>
@@ -353,28 +322,13 @@ export default function Navbar() {
                                     )}
                                     
                                 </div>
-                                {/* <div>
-                                    <a
-                                        href="#"
-                                        className="flex items-center justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700"
-                                    >
-                                        Sign up
-                                    </a>
-                                    <p className="mt-6 text-base font-medium text-center text-gray-500">
-                                        Existing customer?{" "}
-                                        <a
-                                            href="#"
-                                            className="text-indigo-600 hover:text-indigo-500"
-                                        >
-                                            Sign in
-                                        </a>
-                                    </p>
-                                </div> */}
+                                
                             </div>
                         </div>
                     </Popover.Panel>
                 </Transition>
             </Popover>
+            
             <section
                 id="bottom-navigation"
                 className="fixed inset-x-0 bottom-0 z-10 block bg-white shadow md:hidden"
@@ -632,6 +586,7 @@ export default function Navbar() {
                     </a>
                 </div>
             </section>
+            
         </>
     );
 }

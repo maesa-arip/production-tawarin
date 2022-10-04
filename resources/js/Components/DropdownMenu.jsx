@@ -32,7 +32,7 @@ function DropdownMenu({ buttonClassName = "", label, children }) {
                         open
                             ? "text-gray-900"
                             : "text-gray-500",
-                        "group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        "group rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     )}
                         // className={clsx(
                         //     buttonClassName,

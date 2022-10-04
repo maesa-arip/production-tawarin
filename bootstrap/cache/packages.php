@@ -10,6 +10,13 @@
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
     ),
   ),
+  'bavix/laravel-wallet' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Bavix\\Wallet\\WalletServiceProvider',
+    ),
+  ),
   'hammerstone/fast-paginate' => 
   array (
     'providers' => 

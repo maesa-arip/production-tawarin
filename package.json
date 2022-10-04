@@ -28,12 +28,16 @@
     },
     "dependencies": {
         "@heroicons/react": "^1.0.6",
+        "@react-pdf/renderer": "^3.0.0",
+        "@tabler/icons": "^1.101.0",
         "clsx": "^1.2.1",
         "filepond": "^4.30.4",
         "filepond-plugin-image-exif-orientation": "^1.0.11",
         "filepond-plugin-image-preview": "^4.6.11",
         "react-dropzone": "^14.2.2",
         "react-filepond": "^7.1.2",
-        "react-hot-toast": "^2.2.0"
+        "react-hot-toast": "^2.2.0",
+        "react-typewriter-effect": "^1.1.0",
+        "typewriter-effect": "^2.19.0"
     }
 }

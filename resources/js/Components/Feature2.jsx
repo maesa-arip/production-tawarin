@@ -2,8 +2,10 @@ import React from 'react'
 
 export default function Feature2() {
   return (
-    <div className="p-2 mx-auto bg-white">
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+    <div className="grid grid-cols-12 mx-auto bg-white font-inter max-w-screen-2xl">
+                    <section className="col-span-10 col-start-2">
+                        <div className="relative flex flex-col justify-between h-full">
+                        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                 <div className="p-4 overflow-hidden lg:p-12 rounded-2xl bg-blue-50">
                     <div className="flex items-center text-blue-500">
                         <p className="text-sm font-bold uppercase">
@@ -619,6 +621,9 @@ export default function Feature2() {
                     </div>
                 </div>
             </div>
-        </div>
+                        </div>
+                    </section>
+                </div>
+
   )
 }
