@@ -4,8 +4,32 @@ import Logo from '../../img/Tawarin.png';
 
 function Footer() {
   return (
-    <footer>
+    <footer className='relative'>
+      <div className="absolute inset-x-0 top-0 h-32 text-slate-900/10 [mask-image:linear-gradient(white,transparent)]">
+                <svg
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full"
+                >
+                    <defs>
+                        <pattern
+                            id=":Rf6:"
+                            width={64}
+                            height={64}
+                            patternUnits="userSpaceOnUse"
+                            x="50%"
+                        >
+                            <path
+                                d="M0 128V.5H128"
+                                fill="none"
+                                stroke="currentColor"
+                            />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#:Rf6:)" />
+                </svg>
+            </div>
       <div className="max-w-6xl px-4 mx-auto sm:px-6">
+        
 
         {/* Top area: Blocks */}
         <div className="grid gap-8 py-8 border-t border-gray-200 sm:grid-cols-12 md:py-12">

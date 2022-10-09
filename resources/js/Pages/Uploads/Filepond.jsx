@@ -18,6 +18,7 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
     const [files, setFiles] = useState([]);
     // console.log(files);
+    // console.log(files);
     // var tokenElement = document.head.querySelector('meta[name="csrf-token"]');
     //       var token;
     //       token = tokenElement.content;
@@ -32,6 +33,9 @@ export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
                         allowMultiple={allowMultiple}
                         maxFiles={maxFiles}
                         name={inputname}
+                        credits={'false'}
+                        required={true}
+                        allowReorder={'true'}
                         server={{
                             // url: '/uploader',
                             process: {
@@ -46,6 +50,11 @@ export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
                                 type: "local"
                               }
                         }}
+                        // onupdatefiles={(fileItems) => {
+                        //     setFiles({
+                        //         files: fileItems.map((fileItem) => fileItem.file),
+                        //     });
+                        // }}
                         
                         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
                     />

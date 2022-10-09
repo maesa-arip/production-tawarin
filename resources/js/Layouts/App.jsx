@@ -11,7 +11,7 @@ export default function App({ auth, header, children }) {
         flash.type && toast[flash.type](flash.message)
     })
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen">
            <Navbar/>
            <Toaster
             position="top-center"

@@ -18,11 +18,6 @@ use Illuminate\Support\Facades\File;
 
 class PlanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public $loadDefault = 10;
     public function index(Request $request)
     {
@@ -60,11 +55,6 @@ class PlanController extends Controller
             return inertia('Plans/Basic/Index',['plans'=>$plans]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $plan_categories = PlanCategory::get();
@@ -77,17 +67,11 @@ class PlanController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(PlanRequest $request)
     {
         $atrribute_plans = ([
             'user_id' => auth()->user()->id,
-            'name' => $name = $request->name,
+            'name' => $name = 'Perencanaan ' . $request->name,
             'slug' => str($name)->slug(),
             'jangka_waktu_penawaran' => $request->jangka_waktu_penawaran,
             'jangka_waktu_pelaksanaan' => $request->jangka_waktu_pelaksanaan,
@@ -177,12 +161,6 @@ class PlanController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Plan $plan)
     {
         $media = $plan->getMedia('planCover');
@@ -192,35 +170,16 @@ class PlanController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

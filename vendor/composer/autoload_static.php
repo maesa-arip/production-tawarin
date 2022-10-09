@@ -657,6 +657,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'App\\Http\\Resources\\Toko\\UserProductResource' => __DIR__ . '/../..' . '/app/Http/Resources/Toko/UserProductResource.php',
         'App\\Http\\Resources\\UserCollection' => __DIR__ . '/../..' . '/app/Http/Resources/UserCollection.php',
         'App\\Http\\Resources\\UserResource' => __DIR__ . '/../..' . '/app/Http/Resources/UserResource.php',
+        'App\\Models\\Funding\\Funding' => __DIR__ . '/../..' . '/app/Models/Funding/Funding.php',
         'App\\Models\\Plan\\Plan' => __DIR__ . '/../..' . '/app/Models/Plan/Plan.php',
         'App\\Models\\Plan\\PlanBid' => __DIR__ . '/../..' . '/app/Models/Plan/PlanBid.php',
         'App\\Models\\Plan\\PlanCategory' => __DIR__ . '/../..' . '/app/Models/Plan/PlanCategory.php',

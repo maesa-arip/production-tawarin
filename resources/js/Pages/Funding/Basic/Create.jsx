@@ -77,7 +77,7 @@ export default function Create({
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Data Perencanaan
+                                        Data Pendanaan
                                     </h3>
                                     
                                     <p className="mt-1 text-sm text-gray-600">
@@ -95,12 +95,12 @@ export default function Create({
                                                     htmlFor="name"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Nama Perencanaan
+                                                    Nama Pendanaan
                                                 </label>
                                                 <div className="flex mt-1 rounded-md">
                                                     <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
                                                         <div className="inline-flex items-center text-sm text-gray-500 rounded-l-md">
-                                                            Perencanaan
+                                                            Pendanaan
                                                         </div>
                                                         <input
                                                             type="text"
@@ -314,7 +314,7 @@ export default function Create({
                                                     htmlFor="dari_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Anggaran Perencanaan (dari)
+                                                    Anggaran Pendanaan (dari)
                                                 </label>
                                                 <input
                                                     type="number"
@@ -352,7 +352,7 @@ export default function Create({
                                                     htmlFor="sampai_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Anggaran Perencanaan
+                                                    Anggaran Pendanaan
                                                     (sampai)
                                                 </label>
                                                 <input
@@ -404,7 +404,7 @@ export default function Create({
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Kebutuhan Perencanaan
+                                        Kebutuhan Pendanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
                                         Decide which communications you'd like
@@ -500,7 +500,7 @@ export default function Create({
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Gambar Perencanaan
+                                        Gambar Pendanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
                                         This information will be displayed

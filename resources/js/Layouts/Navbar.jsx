@@ -23,7 +23,7 @@ export default function Navbar() {
                 <div className="px-4 mx-auto max-w-7xl sm:px-6">
                     <div className="flex items-center justify-between py-6 border-b-2 border-gray-100 md:justify-start md:space-x-10">
                         <div className="flex justify-start">
-                            <a href="#">
+                            <a href="/">
                                 <span className="sr-only">Workflow</span>
                                 <img className="w-auto h-8 sm:h-10" src={Logo}/>
                                 
@@ -58,6 +58,18 @@ export default function Navbar() {
                                         </div>
                                     </DropdownMenu.Link>
                                 ))}
+                            </DropdownMenu>
+
+                            <DropdownMenu label={"Funding"}>
+                                <DropdownMenu.Link href="/fundings">
+                                    Index
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/public/fundings/list">
+                                    List
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/fundings/create">
+                                    Form
+                                </DropdownMenu.Link>
                             </DropdownMenu>
 
                             <DropdownMenu label={"Plan"}>

@@ -57,6 +57,7 @@ return array(
     'App\\Http\\Resources\\Toko\\UserProductResource' => $baseDir . '/app/Http/Resources/Toko/UserProductResource.php',
     'App\\Http\\Resources\\UserCollection' => $baseDir . '/app/Http/Resources/UserCollection.php',
     'App\\Http\\Resources\\UserResource' => $baseDir . '/app/Http/Resources/UserResource.php',
+    'App\\Models\\Funding\\Funding' => $baseDir . '/app/Models/Funding/Funding.php',
     'App\\Models\\Plan\\Plan' => $baseDir . '/app/Models/Plan/Plan.php',
     'App\\Models\\Plan\\PlanBid' => $baseDir . '/app/Models/Plan/PlanBid.php',
     'App\\Models\\Plan\\PlanCategory' => $baseDir . '/app/Models/Plan/PlanCategory.php',

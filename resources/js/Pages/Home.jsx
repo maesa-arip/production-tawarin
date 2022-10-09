@@ -20,89 +20,15 @@ import DiscussionImage from "../../img/LandingPageFunding/discussion.png";
 import TestimonialImage from "../../img/LandingPageFunding/testimonials.png";
 import DefaultUserImage from "../../img/LandingPageFunding/defaultuser.jpg";
 import Typewriter from "typewriter-effect";
+import Logo from '../../img/Tawarin.png';
 
 export default function Home() {
     return (
         <>
             <Head title="Home" />
-
-            {/* <RadioCard/> */}
             <Container>
-                {/* <Hero /> */}
-
-                {/* <div className="grid grid-cols-12 mx-auto bg-white font-inter max-w-screen-2xl">
-                    <section className="col-span-10 col-start-2">
-                        <div className="relative flex flex-col justify-between h-full">
-                            <div className="flex-1">
-                                <h1 className="max-w-4xl md:mt-10 text-xl font-bold tracking-tighter text-invert sm:text-3xl md:text-5xl leading-1 lg:leading-[1]">
-                                    <Typewriter
-                                        options={{
-                                            strings: [
-                                                "Mari bergabung bersama",
-                                                "Ekosistem Konstruksi Digital Pertama",
-                                            ],
-                                            autoStart: true,
-                                            loop: true,
-                                        }}
-                                    />
-
-                                    <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-5xl bg-gradient-to-r from-blue-600 dark:via-sky-300 via-sky-500 dark:to-cyan-400 to-cyan-500 bg-clip-text lg:mt-4">
-                                        <span>Super Ekosistem Tawarin.</span>
-                                    </span>
-                                </h1>
-                                <p className="max-w-2xl mt-2 text-base leading-relaxed text-muted lg:text-xl md:mt-3">
-                                    Mari berkembang bersama kami melalui
-                                    ekosistem Tawarin yang luas, amankan
-                                    projekmu, amankan uangmu melalui aplikasi
-                                    kami.
-                                </p>
-                            </div>
-                            <div className="flex mt-4 gap-x-2 md:mt-16">
-                                <a className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-blue-600 hover:bg-blue-500">
-                                    Mulai
-                                    <svg
-                                        className="mt-0.5 ml-2 -mr-1 stroke-current stroke-[1.5]"
-                                        fill="none"
-                                        width={10}
-                                        height={10}
-                                        viewBox="0 0 10 10"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            className="transition opacity-0 group-hover:opacity-100"
-                                            d="M0 5h7"
-                                        />
-                                        <path
-                                            className="transition group-hover:translate-x-[3px]"
-                                            d="M1 1l4 4-4 4"
-                                        />
-                                    </svg>
-                                </a>
-                                <a className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition dark:bg-shark-700 dark:hover:bg-shark-600 dark:text-white text-shark-900 bg-shark-300 hover:bg-shark-200">
-                                    Pelajari Lebih Lengkap
-                                    <svg
-                                        className="mt-0.5 ml-2 -mr-1 stroke-current stroke-[1.5]"
-                                        fill="none"
-                                        width={10}
-                                        height={10}
-                                        viewBox="0 0 10 10"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            className="transition opacity-0 group-hover:opacity-100"
-                                            d="M0 5h7"
-                                        />
-                                        <path
-                                            className="transition group-hover:translate-x-[3px]"
-                                            d="M1 1l4 4-4 4"
-                                        />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </section>
-                </div> */}
                 <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36">
+                    
                     <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
                             <div className="relative z-10 max-w-2xl mx-auto lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
@@ -118,7 +44,7 @@ export default function Home() {
                                         }}
                                     />
 
-                                    <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-4xl bg-gradient-to-r from-blue-600 dark:via-sky-300 via-sky-500 dark:to-cyan-400 to-cyan-500 bg-clip-text lg:mt-4">
+                                    <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-4xl bg-gradient-to-r from-yellow-300 dark:via-amber-200 via-amber-500 dark:to-yellow-400 to-yellow-500 bg-clip-text lg:mt-4">
                                         <span>Super Ekosistem Tawarin.</span>
                                     </span>
                                 </h1>
@@ -147,7 +73,7 @@ export default function Home() {
                                     </a>
                                     <a
                                         className="inline-flex justify-center rounded-lg border py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-sm outline-2 outline-offset-2 transition-colors border-gray-300 text-gray-700 hover:border-gray-400 active:bg-gray-100 active:text-gray-700/80"
-                                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                                        target="_blank" href="https://www.youtube.com/watch?v=mustJBJfYDw"
                                     >
                                         <svg
                                             viewBox="0 0 24 24"
@@ -264,21 +190,10 @@ export default function Home() {
                                                             strokeLinejoin="round"
                                                         />
                                                     </svg>
-                                                    <svg
-                                                        viewBox="0 0 79 24"
-                                                        fill="none"
-                                                        aria-hidden="true"
-                                                        className="flex-none h-6"
-                                                    >
-                                                        <path
-                                                            d="M12 24C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12ZM2.4 12a9.004 9.004 0 0 0 6.055 8.507c1.565.542 2.945-.85 2.945-2.507V6c0-1.657-1.38-3.049-2.945-2.507A9.004 9.004 0 0 0 2.4 12Z"
-                                                            fill="#06B6D4"
-                                                        />
-                                                        <path
-                                                            d="M33.004 17V6.818h3.818c.783 0 1.439.146 1.97.438.533.291.935.692 1.207 1.203.275.507.413 1.084.413 1.73 0 .653-.138 1.233-.413 1.74a2.948 2.948 0 0 1-1.218 1.198c-.537.288-1.198.433-1.983.433h-2.531v-1.517h2.282c.457 0 .832-.08 1.124-.238.291-.16.507-.378.646-.657.142-.278.214-.598.214-.96 0-.36-.072-.679-.214-.954a1.452 1.452 0 0 0-.651-.641c-.292-.156-.668-.234-1.129-.234h-1.69V17h-1.845Zm12.152.15c-.746 0-1.392-.165-1.939-.493a3.343 3.343 0 0 1-1.273-1.377c-.298-.59-.447-1.28-.447-2.068 0-.79.15-1.48.447-2.073a3.335 3.335 0 0 1 1.273-1.383c.547-.328 1.193-.492 1.94-.492.745 0 1.391.164 1.938.492.547.329.97.79 1.268 1.383.301.593.452 1.284.452 2.073 0 .789-.15 1.478-.452 2.068a3.309 3.309 0 0 1-1.268 1.377c-.547.328-1.193.492-1.939.492Zm.01-1.443c.404 0 .742-.11 1.014-.333.272-.225.474-.527.607-.905.136-.377.204-.798.204-1.262 0-.468-.068-.89-.204-1.268a2.007 2.007 0 0 0-.607-.91c-.272-.225-.61-.338-1.014-.338-.414 0-.759.113-1.034.338a2.041 2.041 0 0 0-.612.91 3.81 3.81 0 0 0-.198 1.268c0 .464.066.885.198 1.262.136.378.34.68.612.905.275.222.62.333 1.034.333Zm8.508 1.442c-.763 0-1.417-.167-1.964-.502a3.352 3.352 0 0 1-1.258-1.387c-.292-.593-.437-1.276-.437-2.048 0-.776.149-1.46.447-2.054a3.34 3.34 0 0 1 1.263-1.392c.547-.334 1.193-.502 1.939-.502.62 0 1.168.115 1.645.343.48.226.864.546 1.149.96.285.41.447.891.487 1.441h-1.72a1.644 1.644 0 0 0-.497-.92c-.259-.248-.605-.372-1.04-.372-.367 0-.69.1-.969.298-.278.196-.495.478-.651.845-.153.368-.229.81-.229 1.323 0 .52.076.968.229 1.342.152.371.366.658.641.86.279.2.605.298.98.298.265 0 .502-.05.71-.149.213-.102.39-.25.532-.442.143-.192.24-.426.294-.701h1.72a2.999 2.999 0 0 1-.477 1.437c-.275.414-.65.739-1.124.974-.474.232-1.03.348-1.67.348Zm6.39-2.545-.006-2.173h.289l2.744-3.067h2.103l-3.376 3.758h-.372l-1.383 1.482ZM58.422 17V6.818h1.8V17h-1.8Zm4.792 0-2.485-3.475 1.213-1.268L65.368 17h-2.153Zm6.245.15c-.766 0-1.427-.16-1.984-.478a3.233 3.233 0 0 1-1.278-1.362c-.298-.59-.447-1.285-.447-2.083 0-.786.149-1.475.447-2.069a3.384 3.384 0 0 1 1.263-1.392c.54-.334 1.175-.502 1.904-.502.47 0 .915.076 1.333.229.42.149.792.381 1.113.696.325.315.58.716.766 1.203.186.484.278 1.06.278 1.73v.552h-6.259v-1.213h4.534a1.935 1.935 0 0 0-.224-.92 1.625 1.625 0 0 0-.611-.641 1.719 1.719 0 0 0-.905-.234c-.368 0-.691.09-.97.269a1.848 1.848 0 0 0-.65.696c-.153.285-.231.598-.234.94v1.058c0 .444.08.825.243 1.144.163.315.39.556.681.726.292.165.634.248 1.025.248.261 0 .498-.036.71-.11.213-.075.397-.187.552-.332.156-.146.274-.327.353-.542l1.68.189a2.62 2.62 0 0 1-.606 1.163 2.958 2.958 0 0 1-1.133.766c-.461.179-.988.268-1.581.268Zm8.731-7.786v1.392h-4.39V9.364h4.39Zm-3.306-1.83h1.8v7.17c0 .241.036.427.109.556a.59.59 0 0 0 .298.258c.123.047.259.07.408.07.113 0 .215-.008.308-.025.096-.016.17-.031.219-.045l.303 1.407c-.096.034-.233.07-.412.11-.176.04-.392.063-.647.07a2.934 2.934 0 0 1-1.218-.204 1.895 1.895 0 0 1-.86-.706c-.209-.319-.311-.716-.308-1.194V7.534Z"
-                                                            fill="#fff"
-                                                        />
-                                                    </svg>
+
+                                                   
+                                                        <img className="w-auto h-5 sm:h-6" src={Logo}/>
+                                                    
                                                     <svg
                                                         viewBox="0 0 24 24"
                                                         fill="none"
@@ -298,11 +213,7 @@ export default function Home() {
                                                     <div className="p-4">
                                                         <div className="flex gap-2">
                                                             <div className="text-xs leading-6 text-gray-500">
-                                                                Tailwind Labs,
-                                                                Inc.
-                                                            </div>
-                                                            <div className="text-sm text-gray-900">
-                                                                $CSS
+                                                                PT Tawarin Dimana Saja.
                                                             </div>
                                                             <svg
                                                                 viewBox="0 0 24 24"
@@ -323,10 +234,10 @@ export default function Home() {
                                                         <div className="pt-5 mt-3 border-t border-gray-200">
                                                             <div className="flex items-baseline gap-2">
                                                                 <div className="text-2xl tracking-tight text-gray-900 tabular-nums">
-                                                                    752.56
+                                                                    750.000
                                                                 </div>
                                                                 <div className="text-sm text-gray-900">
-                                                                    USD
+                                                                    Rupiah
                                                                 </div>
                                                                 <div className="ml-auto text-sm tracking-tight tabular-nums text-cyan-500">
                                                                     +12.21%
@@ -500,15 +411,6 @@ export default function Home() {
                                                 fill="#D4D4D4"
                                             />
                                         </svg>
-                                        <img
-                                            alt=""
-                                            width={366}
-                                            height={729}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="absolute inset-0 w-full h-full border-none pointer-events-none"
-                                            style={{ color: "transparent" }}
-                                        />
                                     </div>
                                 </div>
                             </div>
@@ -908,8 +810,7 @@ export default function Home() {
                     </div>
                 </section>
                 <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
-                    <section className="col-span-10 col-start-2">
-
+                    <section className="col-span-12 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div className="mb-6">
                             <h4 className="text-xl font-semibold capitalize">
                                 Perencanaan
@@ -1328,7 +1229,7 @@ export default function Home() {
                         <div className="flex justify-center md:justify-end">
                             <a
                                 color="black"
-                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-blue-600 hover:bg-blue-500"
+                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 dark:to-yellow-500 to-yellow-600 mb-2"
                                 href="/series?page=2"
                             >
                                 Lihat lebih banyak
@@ -1354,8 +1255,7 @@ export default function Home() {
                     </section>
                 </div>
                 <div className="grid grid-cols-12 mx-auto max-w-screen-2xl md:mt-10">
-                    <section className="col-span-10 col-start-2">
-
+                    <section className="col-span-12 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div className="mb-6">
                             <h4 className="text-xl font-semibold capitalize">
                                 Proyek
@@ -1774,7 +1674,7 @@ export default function Home() {
                         <div className="flex justify-center md:justify-end">
                             <a
                                 color="black"
-                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-blue-600 hover:bg-blue-500"
+                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 dark:to-yellow-500 to-yellow-600 mb-2"
                                 href="/series?page=2"
                             >
                                 Lihat lebih banyak
@@ -1799,13 +1699,40 @@ export default function Home() {
                         </div>
                     </section>
                 </div>
-                
 
                 <section
                     id="testimonials"
                     aria-label="What our customers are saying"
-                    className="py-20 bg-slate-50 sm:py-32"
+                    className="relative py-20 sm:py-32"
                 >
+                    <div class="absolute inset-x-0 bottom-0 top-1/2 text-slate-900/10 [mask-image:linear-gradient(transparent,white)]">
+                        <svg
+                            aria-hidden="true"
+                            class="absolute inset-0 h-full w-full"
+                        >
+                            <defs>
+                                <pattern
+                                    id=":Rem:"
+                                    width="64"
+                                    height="64"
+                                    patternUnits="userSpaceOnUse"
+                                    x="50%"
+                                    y="100%"
+                                >
+                                    <path
+                                        d="M0 128V.5H128"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    ></path>
+                                </pattern>
+                            </defs>
+                            <rect
+                                width="100%"
+                                height="100%"
+                                fill="url(#:Rem:)"
+                            ></rect>
+                        </svg>
+                    </div>
                     <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div className="max-w-2xl mx-auto md:text-center">
                             <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
@@ -2148,6 +2075,7 @@ export default function Home() {
                         </ul>
                     </div>
                 </section>
+                
 
                 <Footer />
                 <HideScrollBar />

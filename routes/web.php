@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExampleController;
+use App\Http\Controllers\Funding\FundingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Toko\CartController;
@@ -29,9 +30,16 @@ Route::post('/upload/filepond/store', [UploadController::class, 'store'])->name(
 Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone'])->name('dropzone.store');
 // End Example
 
-// Plans
-Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
-// End Plans
+
+//Public List
+    // Plans
+    Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
+    // End Plans
+
+    // Fundings
+    Route::get('public/fundings/list', [FundingController::class,'list'])->name('funding.list');
+    // End Fundings
+//End Public List
 
 
 Route::get('toko/products/table', [ProductController::class, 'table'])->name('toko.products.table');
@@ -44,9 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
     Route::get('/profile', [UserController::class,'profile'])->name('users.profile');
     Route::apiResource('users', UserController::class);
+
     // Plans
     Route::Resource('plans', PlanController::class);
     // End Plans
+    // Fundings
+    Route::Resource('fundings', FundingController::class);
+    // End Fundings
 });
 
 Route::controller(InvoiceController::class)->middleware('auth')->group(function () {
