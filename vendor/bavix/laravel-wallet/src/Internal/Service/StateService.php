@@ -9,40 +9,108 @@ use Illuminate\Contracts\Cache\Repository as CacheRepository;
 
 final class StateService implements StateServiceInterface
 {
-    private const PREFIX_FORKS = 'wallet_forks::';
+    private const RANDOM_BYTES = 4;
 
-    private const PREFIX_FORK_CALL = 'wallet_fork_call::';
+    /**
+     * Keeps the state of balance
+     */
+    private const PREFIX_STATE = 'wallet_s::';
 
-    private CacheRepository $forks;
+    /**
+     * Stores a callback reference
+     */
+    private const PREFIX_FORK_REF = 'wallet_f::';
 
-    private CacheRepository $forkCallables;
+    /**
+     * Stores a pair of uuid with forkId
+     */
+    private const PREFIX_FORK_ID = 'wallet_fc::';
+
+    /**
+     * Stores all uuids for a particular forkId
+     */
+    private const PREFIX_HASHMAP = 'wallet_hm::';
+
+    private CacheRepository $store;
 
     public function __construct(CacheFactory $cacheFactory)
     {
-        $this->forks = $cacheFactory->store('array');
-        $this->forkCallables = $cacheFactory->store('array');
+        $this->store = $cacheFactory->store('array');
     }
 
-    public function fork(string $uuid, callable $value): void
+    /**
+     * @param string[] $uuids
+     * @param callable(): array<string, string> $value
+     */
+    public function multiFork(array $uuids, callable $value): void
     {
-        if (! $this->forks->has(self::PREFIX_FORKS . $uuid)) {
-            $this->forkCallables->put(self::PREFIX_FORK_CALL . $uuid, $value);
+        $forkId = $this->getForkId();
+
+        $values = [
+            self::PREFIX_FORK_REF . $forkId => $value,
+            self::PREFIX_HASHMAP . $forkId => $uuids,
+        ];
+
+        foreach ($uuids as $uuid) {
+            $values[self::PREFIX_FORK_ID . $uuid] = $forkId;
         }
+
+        $this->store->setMultiple($values);
     }
 
     public function get(string $uuid): ?string
     {
-        $callable = $this->forkCallables->pull(self::PREFIX_FORK_CALL . $uuid);
-        if ($callable !== null) {
-            return $this->forks->rememberForever(self::PREFIX_FORKS . $uuid, $callable);
+        $value = $this->store->get(self::PREFIX_STATE . $uuid);
+        if ($value !== null) {
+            return $value;
         }
 
-        return $this->forks->get(self::PREFIX_FORKS . $uuid);
+        $forkId = $this->store->pull(self::PREFIX_FORK_ID . $uuid);
+        if ($forkId === null) {
+            return null;
+        }
+
+        /** @var null|callable(): array<string, string> $callable */
+        $callable = $this->store->pull(self::PREFIX_FORK_REF . $forkId);
+        if ($callable === null) {
+            return null;
+        }
+
+        $results = $callable();
+        $insertValues = [];
+        foreach ($results as $id => $value) {
+            $insertValues[self::PREFIX_STATE . $id] = $value;
+        }
+
+        /** @var array<string> $uuids */
+        $uuids = $this->store->pull(self::PREFIX_HASHMAP . $forkId, []);
+        $deleteKeys = array_map(static fn (string $uuid) => self::PREFIX_FORK_ID . $uuid, $uuids);
+
+        $this->store->setMultiple($insertValues);
+        $this->store->deleteMultiple($deleteKeys);
+
+        return $results[$uuid] ?? null;
     }
 
     public function drop(string $uuid): void
     {
-        $this->forkCallables->forget(self::PREFIX_FORK_CALL . $uuid);
-        $this->forks->forget(self::PREFIX_FORKS . $uuid);
+        $deleteKeys = [self::PREFIX_STATE . $uuid];
+
+        $forkId = $this->store->pull(self::PREFIX_FORK_ID . $uuid);
+        if ($forkId !== null) {
+            $deleteKeys[] = self::PREFIX_FORK_REF . $forkId;
+            $deleteKeys[] = self::PREFIX_HASHMAP . $forkId;
+        }
+
+        $this->store->deleteMultiple($deleteKeys);
+    }
+
+    private function getForkId(): string
+    {
+        do {
+            $forkId = bin2hex(random_bytes(self::RANDOM_BYTES));
+        } while ($this->store->has(self::PREFIX_FORK_REF . $forkId));
+
+        return $forkId;
     }
 }

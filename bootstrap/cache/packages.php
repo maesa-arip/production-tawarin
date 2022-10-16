@@ -10,6 +10,13 @@
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
     ),
   ),
+  'barryvdh/laravel-ide-helper' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+    ),
+  ),
   'bavix/laravel-wallet' => 
   array (
     'providers' => 
@@ -61,6 +68,17 @@
     'providers' => 
     array (
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    ),
+  ),
+  'laravolt/indonesia' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravolt\\Indonesia\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Indonesia' => 'Laravolt\\Indonesia\\Facade',
     ),
   ),
   'nesbot/carbon' => 

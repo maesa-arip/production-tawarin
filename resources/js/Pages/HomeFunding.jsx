@@ -13,11 +13,13 @@ import GradeBookImage from "../../img/LandingPageFunding/gradebook.png";
 import DiscussionImage from "../../img/LandingPageFunding/discussion.png";
 import TestimonialImage from "../../img/LandingPageFunding/testimonials.png";
 import Parsinta from "@/LandingPageFunding/Parsinta";
+import { Head } from "@inertiajs/inertia-react";
 
 function Home() {
     return (
         <div className="flex flex-col min-h-screen overflow-hidden">
             {/*  Site header */}
+            <Head title="Home" />
             <Header />
 
             {/*  Page content */}

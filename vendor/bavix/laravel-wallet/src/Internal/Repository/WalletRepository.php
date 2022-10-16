@@ -24,6 +24,26 @@ final class WalletRepository implements WalletRepositoryInterface
         return $instance;
     }
 
+    /**
+     * @param non-empty-array<int, string|float|int> $data
+     */
+    public function updateBalances(array $data): int
+    {
+        $cases = [];
+        foreach ($data as $walletId => $balance) {
+            $cases[] = 'WHEN id = ' . $walletId . ' THEN ' . $balance;
+        }
+
+        $buildQuery = $this->wallet->getConnection()
+            ->raw('CASE ' . implode(' ', $cases) . ' END');
+
+        return $this->wallet->newQuery()
+            ->whereIn('id', array_keys($data))
+            ->update([
+                'balance' => $buildQuery,
+            ]);
+    }
+
     public function findById(int $id): ?Wallet
     {
         try {
@@ -104,6 +124,8 @@ final class WalletRepository implements WalletRepositoryInterface
      */
     private function getBy(array $attributes): Wallet
     {
+        assert($attributes !== []);
+
         try {
             $wallet = $this->wallet->newQuery()
                 ->where($attributes)

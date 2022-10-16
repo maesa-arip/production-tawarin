@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Bavix\Wallet;
 
 use Bavix\Wallet\Commands\TransferFixCommand;
+use Bavix\Wallet\External\Api\TransactionQueryHandler;
+use Bavix\Wallet\External\Api\TransactionQueryHandlerInterface;
+use Bavix\Wallet\External\Api\TransferQueryHandler;
+use Bavix\Wallet\External\Api\TransferQueryHandlerInterface;
 use Bavix\Wallet\Internal\Assembler\AvailabilityDtoAssembler;
 use Bavix\Wallet\Internal\Assembler\AvailabilityDtoAssemblerInterface;
 use Bavix\Wallet\Internal\Assembler\BalanceUpdatedEventAssembler;
@@ -204,6 +208,9 @@ final class WalletServiceProvider extends ServiceProvider
     private function internal(array $configure): void
     {
         $this->app->alias($configure['storage'] ?? StorageService::class, 'wallet.internal.storage');
+        $this->app->when($configure['storage'] ?? StorageService::class)
+            ->needs('$ttl')
+            ->giveConfig('wallet.cache.ttl');
 
         $this->app->singleton(ClockServiceInterface::class, $configure['clock'] ?? ClockService::class);
         $this->app->singleton(DatabaseServiceInterface::class, $configure['database'] ?? DatabaseService::class);
@@ -389,5 +396,9 @@ final class WalletServiceProvider extends ServiceProvider
         $this->app->bind(Transaction::class, $configure['transaction']['model'] ?? null);
         $this->app->bind(Transfer::class, $configure['transfer']['model'] ?? null);
         $this->app->bind(Wallet::class, $configure['wallet']['model'] ?? null);
+
+        // api
+        $this->app->bind(TransactionQueryHandlerInterface::class, TransactionQueryHandler::class);
+        $this->app->bind(TransferQueryHandlerInterface::class, TransferQueryHandler::class);
     }
 }

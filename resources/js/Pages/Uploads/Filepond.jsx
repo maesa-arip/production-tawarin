@@ -34,7 +34,7 @@ export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
                         maxFiles={maxFiles}
                         name={inputname}
                         credits={'false'}
-                        required={true}
+                        required={false}
                         allowReorder={'true'}
                         server={{
                             // url: '/uploader',

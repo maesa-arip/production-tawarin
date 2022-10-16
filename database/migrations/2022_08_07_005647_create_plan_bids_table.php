@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('bid_price');
             $table->bigInteger('bid_price_user');
             $table->text('description');
-            $table->tinyInteger('is_select');
+            $table->tinyInteger('is_approved');
             $table->timestamps();
         });
     }

@@ -9,15 +9,11 @@ import Button from "@/Components/Button";
 import Filepond from "@/Pages/Uploads/Filepond";
 import ListBoxPage from "@/Components/ListBoxPage";
 
-export default function Create({
-    plan_master_checkboxs,
-    plan_master_texts,
-    plan_categories,
-}) {
+export default function Create({ fundingCategories }) {
     // const [enabled, setEnabled] = useState(false);
     const [anggaran, setAnggaran] = useState("");
-    const [dariAnggaran, setDariAnggaran] = useState("");
-    const [sampaiAnggaran, setSampaiAnggaran] = useState("");
+    const [totalLembar, setTotalLembar] = useState("");
+    const [hargaPerLembar, setHargaPerLembar] = useState("");
 
     const onChangeAnggaranHandler = (e) => {
         setAnggaran(e.target.value);
@@ -28,38 +24,39 @@ export default function Create({
         currency: "IDR",
     }).format(anggaran);
 
-    const onChangeDariAnggaranHandler = (e) => {
-        setDariAnggaran(e.target.value);
+    const onChangeTotalLembarHandler = (e) => {
+        setTotalLembar(e.target.value);
         setData({ ...data, [e.target.id]: e.target.value });
     };
-    const formatRupiahDariAnggaran = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-    }).format(dariAnggaran);
+    const formatAngkaTotalLembar = new Intl.NumberFormat("id-ID", {}).format(
+        totalLembar
+    );
 
-    const onChangeSampaiAnggaranHandler = (e) => {
-        setSampaiAnggaran(e.target.value);
+    const onChangeHargaPerLembarHandler = (e) => {
+        setHargaPerLembar(e.target.value);
         setData({ ...data, [e.target.id]: e.target.value });
     };
-    const formatRupiahSampaiAnggaran = new Intl.NumberFormat("id-ID", {
+    const formatRupiahHargaPerLembar = new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
-    }).format(sampaiAnggaran);
+    }).format(hargaPerLembar);
 
     const { data, setData, post, processing, reset, errors } = useForm({});
 
-    const onChange = (e) => {setData({ ...data, [e.target.id]: e.target.value })};
+    const onChange = (e) => {
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
 
     const defaultValue = [{ name: "Pilih" }];
     const [selected, setSelected] = useState(defaultValue[0]);
 
-    const onChangePlanCategoryId = (e) => {
-        setData({ ...data, ['plan_category_id']: e.id});
+    const onChangeFundingCategoryId = (e) => {
+        setData({ ...data, ["funding_category_id"]: e.id });
     };
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        post(route("plans.store"), {
+        post(route("fundings.store"), {
             data,
             onSuccess: () => {
                 reset();
@@ -69,7 +66,7 @@ export default function Create({
 
     return (
         <div>
-            <Head title="Plan Create" />
+            <Head title="Funding Create" />
             <Container>
                 <form onSubmit={onSubmitHandler}>
                     <div className="mt-10 sm:mt-0">
@@ -79,7 +76,7 @@ export default function Create({
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                                         Data Pendanaan
                                     </h3>
-                                    
+
                                     <p className="mt-1 text-sm text-gray-600">
                                         Use a permanent address where you can
                                         receive mail.
@@ -125,18 +122,28 @@ export default function Create({
 
                                             <div className="col-span-6 sm:col-span-6 lg:col-span-5">
                                                 <label
-                                                    htmlFor="plan_category_id"
+                                                    htmlFor="funding_category_id"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
                                                     Pilih Kategori
                                                 </label>
-                                                <ListBoxPage ShouldMap={ plan_categories} selected={selected} onChange={(e) => {
-                                                                onChangePlanCategoryId(e);
-                                                                setSelected(e);
-                                                              }}/>
+                                                <ListBoxPage
+                                                    ShouldMap={
+                                                        fundingCategories
+                                                    }
+                                                    selected={selected}
+                                                    onChange={(e) => {
+                                                        onChangeFundingCategoryId(
+                                                            e
+                                                        );
+                                                        setSelected(e);
+                                                    }}
+                                                />
                                                 {errors && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.plan_category_id}
+                                                        {
+                                                            errors.funding_category_id
+                                                        }
                                                     </span>
                                                 )}
                                             </div>
@@ -171,117 +178,100 @@ export default function Create({
 
                                             <div className="col-span-6 sm:col-span-3 lg:col-span-3">
                                                 <label
-                                                    htmlFor="jangka_waktu_pelaksanaan"
+                                                    htmlFor="harga_perlembar"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Jangka Waktu Pelaksanaan
+                                                    Harga Per Lembar
                                                 </label>
                                                 <input
                                                     type="number"
-                                                    name="jangka_waktu_pelaksanaan"
-                                                    id="jangka_waktu_pelaksanaan"
+                                                    name="harga_perlembar"
+                                                    id="harga_perlembar"
                                                     value={
-                                                        data.jangka_waktu_pelaksanaan ??
+                                                        data.harga_perlembar ??
                                                         ""
                                                     }
-                                                    onChange={onChange}
+                                                    onChange={
+                                                        onChangeHargaPerLembarHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
-                                                {errors && (
+                                                {errors.harga_perlembar && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {
-                                                            errors.jangka_waktu_pelaksanaan
-                                                        }
+                                                        {errors.harga_perlembar}
                                                     </span>
                                                 )}
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {hargaPerLembar &&
+                                                        formatRupiahHargaPerLembar}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {hargaPerLembar &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    hargaPerLembar
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                             </div>
 
                                             <div className="col-span-6 sm:col-span-3 lg:col-span-3">
                                                 <label
-                                                    htmlFor="jumlah_revisi"
+                                                    htmlFor="total_lembar"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Jumlah Revisi
+                                                    Total Lembar
                                                 </label>
                                                 <input
                                                     type="number"
-                                                    name="jumlah_revisi"
-                                                    id="jumlah_revisi"
+                                                    name="total_lembar"
+                                                    id="total_lembar"
                                                     value={
-                                                        data.jumlah_revisi ?? ""
+                                                        data.total_lembar ?? ""
                                                     }
-                                                    onChange={onChange}
+                                                    onChange={
+                                                        onChangeTotalLembarHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
-                                                {errors && (
+                                                {errors.total_lembar && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.jumlah_revisi}
+                                                        {errors.total_lembar}
                                                     </span>
                                                 )}
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {totalLembar &&
+                                                        formatAngkaTotalLembar}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {totalLembar &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    totalLembar
+                                                                ) +
+                                                                ")"}
+                                                    </span>
+                                                </div>
                                             </div>
 
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label
-                                                    htmlFor="luas_bangunan"
+                                                    htmlFor="anggaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Luas Bangunan
+                                                    Anggaran
                                                 </label>
                                                 <input
                                                     type="number"
-                                                    name="luas_bangunan"
-                                                    id="luas_bangunan"
-                                                    value={
-                                                        data.luas_bangunan ?? ""
-                                                    }
-                                                    onChange={onChange}
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.luas_bangunan && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.luas_bangunan}
-                                                    </span>
-                                                )}
-                                            </div>
-                                            <div className="col-span-6 sm:col-span-3">
-                                                <label
-                                                    htmlFor="acuan_anggaran"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Acuan Anggaran Proyek
-                                                </label>
-                                                <input
-                                                    type="number"
-                                                    name="acuan_anggaran"
-                                                    id="acuan_anggaran"
-                                                    value={
-                                                        data.acuan_anggaran ??
-                                                        ""
-                                                    }
-                                                    onChange={onChange}
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.acuan_anggaran && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.acuan_anggaran}
-                                                    </span>
-                                                )}
-                                            </div>
-                                            <div className="col-span-6 sm:col-span-3">
-                                                <label
-                                                    htmlFor="anggaran_proyek"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Anggaran Proyek
-                                                </label>
-                                                <input
-                                                    type="number"
-                                                    name="anggaran_proyek"
-                                                    id="anggaran_proyek"
+                                                    name="anggaran"
+                                                    id="anggaran"
                                                     onChange={
                                                         onChangeAnggaranHandler
                                                     }
@@ -291,9 +281,9 @@ export default function Create({
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
-                                                {errors.anggaran_proyek && (
+                                                {errors.anggaran && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.anggaran_proyek}
+                                                        {errors.anggaran}
                                                     </span>
                                                 )}
                                                 <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
@@ -304,83 +294,6 @@ export default function Create({
                                                             "(" +
                                                                 Terbilang(
                                                                     anggaran
-                                                                ) +
-                                                                " Rupiah)"}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="col-span-6 sm:col-span-3">
-                                                <label
-                                                    htmlFor="dari_anggaran"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Anggaran Pendanaan (dari)
-                                                </label>
-                                                <input
-                                                    type="number"
-                                                    name="dari_anggaran"
-                                                    id="dari_anggaran"
-                                                    onChange={
-                                                        onChangeDariAnggaranHandler
-                                                    }
-                                                    onWheel={(e) =>
-                                                        e.target.blur()
-                                                    }
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.dari_anggaran && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.dari_anggaran}
-                                                    </span>
-                                                )}
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                    {dariAnggaran &&
-                                                        formatRupiahDariAnggaran}{" "}
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
-                                                        {dariAnggaran &&
-                                                            "(" +
-                                                                Terbilang(
-                                                                    dariAnggaran
-                                                                ) +
-                                                                " Rupiah)"}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="col-span-6 sm:col-span-3">
-                                                <label
-                                                    htmlFor="sampai_anggaran"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Anggaran Pendanaan
-                                                    (sampai)
-                                                </label>
-                                                <input
-                                                    type="number"
-                                                    name="sampai_anggaran"
-                                                    id="sampai_anggaran"
-                                                    onChange={
-                                                        onChangeSampaiAnggaranHandler
-                                                    }
-                                                    onWheel={(e) =>
-                                                        e.target.blur()
-                                                    }
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.sampai_anggaran && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.sampai_anggaran}
-                                                    </span>
-                                                )}
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                    {sampaiAnggaran &&
-                                                        formatRupiahSampaiAnggaran}{" "}
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
-                                                        {sampaiAnggaran &&
-                                                            "(" +
-                                                                Terbilang(
-                                                                    sampaiAnggaran
                                                                 ) +
                                                                 " Rupiah)"}
                                                     </span>
@@ -404,7 +317,7 @@ export default function Create({
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Kebutuhan Pendanaan
+                                        Alamat Pendanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
                                         Decide which communications you'd like
@@ -416,75 +329,294 @@ export default function Create({
                             <div className="mt-5 md:mt-0 md:col-span-2">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
-                                        {plan_master_checkboxs.map(
-                                            (plan_master_checkbox, i) => (
-                                                <div
-                                                    key={
-                                                        plan_master_checkbox.id
-                                                    }
-                                                    className="flex items-center justify-between px-3 py-4 rounded-md shadow"
+                                        <div className="grid grid-cols-6 gap-6">
+                                            <div className="col-span-6 sm:col-span-5">
+                                                <label
+                                                    htmlFor="alamat"
+                                                    className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    {plan_master_checkbox.name}
-                                                    <label
-                                                        htmlFor={
-                                                            plan_master_checkbox.slug
-                                                        }
-                                                        className="relative inline-flex items-center cursor-pointer"
-                                                    >
+                                                    Alamat Pendanaan
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
                                                         <input
-                                                            key={
-                                                                plan_master_checkbox.id
+                                                            type="text"
+                                                            name="alamat"
+                                                            value={
+                                                                data.alamat ??
+                                                                ""
                                                             }
                                                             onChange={onChange}
-                                                            type="checkbox"
-                                                            id={
-                                                                plan_master_checkbox.slug
-                                                            }
-                                                            name={plan_master_checkbox.slug}
-                                                            className="sr-only peer"
-                                                        />
-                                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-blue-600  dark:peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-slate-500 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-400 peer-checked:bg-indigo-500 peer-after:ring-indigo-500" />
-                                                    </label>
-                                                </div>
-                                            )
-                                        )}
-                                        {plan_master_texts.map(
-                                            (plan_master_text, i) => (
-                                                <div key={plan_master_text.id}>
-                                                    <label
-                                                        htmlFor={
-                                                            plan_master_text.slug
-                                                        }
-                                                        className="block text-sm font-medium text-gray-700"
-                                                    >
-                                                        {plan_master_text.name}
-                                                    </label>
-                                                    <div className="mt-1">
-                                                        <textarea
-                                                            key={
-                                                                plan_master_text.id
-                                                            }
-                                                            id={
-                                                                plan_master_text.slug
-                                                            }
-                                                            name={
-                                                                plan_master_text.slug
-                                                            }
-                                                            rows={3}
-                                                            onChange={onChange}
-                                                            className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            id="alamat"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
                                                             placeholder=""
-                                                            defaultValue={""}
                                                         />
                                                     </div>
-                                                    <p className="mt-2 text-sm text-gray-500">
-                                                        Masukan Keterangan{" "}
-                                                        {plan_master_text.name}{" "}
-                                                        Bila diperlukan.
-                                                    </p>
                                                 </div>
-                                            )
-                                        )}
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.alamat}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-5">
+                                                <label
+                                                    htmlFor="provinsi"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Provinsi
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="text"
+                                                            name="provinsi"
+                                                            value={
+                                                                data.provinsi ??
+                                                                ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="provinsi"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.provinsi}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-5">
+                                                <label
+                                                    htmlFor="kota"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Kabupaten/Kota
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="text"
+                                                            name="kota"
+                                                            value={
+                                                                data.kota ?? ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="kota"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.kota}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-5">
+                                                <label
+                                                    htmlFor="kecamatan"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Kecamatan
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="text"
+                                                            name="kecamatan"
+                                                            value={
+                                                                data.kecamatan ??
+                                                                ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="kecamatan"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.kecamatan}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-5">
+                                                <label
+                                                    htmlFor="desa"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Desa
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="text"
+                                                            name="desa"
+                                                            value={
+                                                                data.desa ?? ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="desa"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.desa}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-5">
+                                                <label
+                                                    htmlFor="maps"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Maps
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="text"
+                                                            name="maps"
+                                                            value={
+                                                                data.maps ?? ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="maps"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.maps}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            {/* <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                                <label
+                                                    htmlFor="funding_category_id"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Pilih Provinsi
+                                                </label>
+                                                <ListBoxPage
+                                                    ShouldMap={
+                                                        fundingCategories
+                                                    }
+                                                    selected={selected}
+                                                    onChange={(e) => {
+                                                        onChangeFundingCategoryId(
+                                                            e
+                                                        );
+                                                        setSelected(e);
+                                                    }}
+                                                />
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {
+                                                            errors.funding_category_id
+                                                        }
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                                <label
+                                                    htmlFor="funding_category_id"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Pilih Kabupaten
+                                                </label>
+                                                <ListBoxPage
+                                                    ShouldMap={
+                                                        fundingCategories
+                                                    }
+                                                    selected={selected}
+                                                    onChange={(e) => {
+                                                        onChangeFundingCategoryId(
+                                                            e
+                                                        );
+                                                        setSelected(e);
+                                                    }}
+                                                />
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {
+                                                            errors.funding_category_id
+                                                        }
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                                <label
+                                                    htmlFor="funding_category_id"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Pilih Kecamatan
+                                                </label>
+                                                <ListBoxPage
+                                                    ShouldMap={
+                                                        fundingCategories
+                                                    }
+                                                    selected={selected}
+                                                    onChange={(e) => {
+                                                        onChangeFundingCategoryId(
+                                                            e
+                                                        );
+                                                        setSelected(e);
+                                                    }}
+                                                />
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {
+                                                            errors.funding_category_id
+                                                        }
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                                <label
+                                                    htmlFor="funding_category_id"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Pilih Desa
+                                                </label>
+                                                <ListBoxPage
+                                                    ShouldMap={
+                                                        fundingCategories
+                                                    }
+                                                    selected={selected}
+                                                    onChange={(e) => {
+                                                        onChangeFundingCategoryId(
+                                                            e
+                                                        );
+                                                        setSelected(e);
+                                                    }}
+                                                />
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {
+                                                            errors.funding_category_id
+                                                        }
+                                                    </span>
+                                                )}
+                                            </div> */}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -500,7 +632,7 @@ export default function Create({
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Gambar Pendanaan
+                                        Tentang Bisnis
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
                                         This information will be displayed
@@ -513,7 +645,7 @@ export default function Create({
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">
-                                                Cover photo
+                                                Cover Depan (Gambar Ini Akan Muncul Dibagian Depan Pendanaan)
                                             </label>
                                             <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
                                                 <div className="w-full text-center">
@@ -532,7 +664,157 @@ export default function Create({
                                                         />
                                                     </svg>
                                                     <Filepond
-                                                        inputname={"cover"}
+                                                        inputname={"coverfunding"}
+                                                        allowMultiple={true}
+                                                        maxFiles={"3"}
+                                                    />
+                                                    <div className="flex justify-center text-sm text-gray-600">
+                                                        <label
+                                                            htmlFor="file-upload"
+                                                            className="relative font-medium text-indigo-600 bg-white rounded-md hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                                        >
+                                                            <span>
+                                                                Upload a file
+                                                            </span>
+                                                        </label>
+                                                        <p className="pl-1">
+                                                            or drag and drop
+                                                        </p>
+                                                    </div>
+                                                    <p className="text-xs text-gray-500">
+                                                        PNG, JPG, GIF up to 10MB
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-6 gap-6">
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                                <label
+                                                    htmlFor="jangka_waktu_penawaran"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    ROI
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="roi"
+                                                    id="roi"
+                                                    value={
+                                                        data.roi ??
+                                                        ""
+                                                    }
+                                                    onChange={onChange}
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {
+                                                            errors.roi
+                                                        }
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                                <label
+                                                    htmlFor="jadwal_deviden"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Jadwal Deviden
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="jadwal_deviden"
+                                                    id="jadwal_deviden"
+                                                    value={
+                                                        data.jadwal_deviden ??
+                                                        ""
+                                                    }
+                                                    onChange={
+                                                        onChange
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.jadwal_deviden && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.jadwal_deviden}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label
+                                                htmlFor="tentang_bisnis"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                Tentang Bisnis
+                                            </label>
+                                            <div className="mt-1">
+                                                <textarea
+                                                    id="tentang_bisnis"
+                                                    name="tentang_bisnis"
+                                                    rows={3}
+                                                    onChange={onChange}
+                                                    className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    placeholder=""
+                                                    defaultValue={""}
+                                                />
+                                            </div>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Masukan Penjelasan Tentang
+                                                Bisnis Anda
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <label
+                                                htmlFor="prospektus"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                Prospektus Bisnis
+                                            </label>
+                                            <div className="mt-1">
+                                                <textarea
+                                                    id="prospektus"
+                                                    name="prospektus"
+                                                    rows={3}
+                                                    onChange={onChange}
+                                                    className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    placeholder=""
+                                                    defaultValue={""}
+                                                />
+                                            </div>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Masukan penjelasan prospektus
+                                                bisnis Anda bila diperlukan
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">
+                                                File Prospektus
+                                            </label>
+                                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
+                                                <div className="w-full text-center">
+                                                    <svg
+                                                        className="w-12 h-12 mx-auto text-gray-400"
+                                                        stroke="currentColor"
+                                                        fill="none"
+                                                        viewBox="0 0 48 48"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <path
+                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                    </svg>
+                                                    <Filepond
+                                                        inputname={"fileprospektus"}
                                                         allowMultiple={true}
                                                         maxFiles={"3"}
                                                     />
@@ -557,8 +839,9 @@ export default function Create({
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                        
-                                        <Button processing={processing}>Save</Button>
+                                        <Button processing={processing}>
+                                            Save
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

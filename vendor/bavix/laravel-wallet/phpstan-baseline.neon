@@ -37,18 +37,8 @@ parameters:
 
 		-
 			message: "#^Method Bavix\\\\Wallet\\\\Internal\\\\Service\\\\StateService\\:\\:get\\(\\) should return string\\|null but returns mixed\\.$#"
-			count: 2
-			path: src/Internal/Service/StateService.php
-
-		-
-			message: "#^Parameter \\#2 \\$callback of method Illuminate\\\\Contracts\\\\Cache\\\\Repository\\:\\:rememberForever\\(\\) expects Closure, mixed given\\.$#"
 			count: 1
 			path: src/Internal/Service/StateService.php
-
-		-
-			message: "#^Parameter \\#1 \\$number of method Bavix\\\\Wallet\\\\Internal\\\\Service\\\\MathServiceInterface\\:\\:round\\(\\) expects float\\|int\\|string, mixed given\\.$#"
-			count: 1
-			path: src/Internal/Service/StorageService.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\:\\:where\\(\\)\\.$#"
@@ -87,7 +77,7 @@ parameters:
 
 		-
 			message: "#^Cannot call method needs\\(\\) on mixed\\.$#"
-			count: 3
+			count: 4
 			path: src/WalletServiceProvider.php
 
 		-

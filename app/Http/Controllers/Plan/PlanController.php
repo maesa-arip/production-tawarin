@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Plan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Plan\PlanRequest;
+use App\Http\Resources\Plan\PlanCategoryResource;
 use App\Http\Resources\Plan\PlanMasterResource;
 use App\Http\Resources\Plan\PlanResource;
 use App\Http\Resources\Plan\PlanSingleResource;
@@ -63,7 +64,7 @@ class PlanController extends Controller
         return inertia('Plans/Basic/Create', [
             'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
             'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
-            'plan_categories' => PlanMasterResource::collection($plan_categories),
+            'plan_categories' => PlanCategoryResource::collection($plan_categories),
         ]);
     }
 

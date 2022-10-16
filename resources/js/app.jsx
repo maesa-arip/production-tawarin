@@ -8,7 +8,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { Inertia } from '@inertiajs/inertia';
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Tawarin';
 
 Inertia.on('navigate',()=>window.scrollTo(0,0))
 createInertiaApp({
@@ -23,4 +23,4 @@ InertiaProgress.init({
     delay : 0,
     showSpinner:true,
     includeCSS:true,
-    color: '#4B5563' });
+    color: '#0ea5e9' });

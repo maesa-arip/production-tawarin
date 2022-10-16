@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DependantDropdownController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\Funding\FundingController;
 use App\Http\Controllers\HomeController;
@@ -40,6 +41,13 @@ Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone']
     Route::get('public/fundings/list', [FundingController::class,'list'])->name('funding.list');
     // End Fundings
 //End Public List
+
+//Alamat
+Route::get('provinces', [DependantDropdownController::class, 'provinces'])->name('provinces');
+Route::get('cities', [DependantDropdownController::class, 'cities'])->name('cities');
+Route::get('districts', [DependantDropdownController::class, 'districts'])->name('districts');
+Route::get('villages', [DependantDropdownController::class, 'villages'])->name('villages');
+//End Alamat
 
 
 Route::get('toko/products/table', [ProductController::class, 'table'])->name('toko.products.table');

@@ -6,6 +6,7 @@ namespace Bavix\Wallet\Services;
 
 use Bavix\Wallet\Internal\Assembler\BalanceUpdatedEventAssemblerInterface;
 use Bavix\Wallet\Internal\Exceptions\RecordNotFoundException;
+use Bavix\Wallet\Internal\Repository\WalletRepositoryInterface;
 use Bavix\Wallet\Internal\Service\DispatcherServiceInterface;
 use Bavix\Wallet\Internal\Service\MathServiceInterface;
 use Bavix\Wallet\Internal\Service\StorageServiceInterface;
@@ -17,7 +18,7 @@ use Bavix\Wallet\Models\Wallet;
 final class RegulatorService implements RegulatorServiceInterface
 {
     /**
-     * @var Wallet[]
+     * @var array<string, Wallet>
      */
     private array $wallets = [];
 
@@ -26,7 +27,8 @@ final class RegulatorService implements RegulatorServiceInterface
         private BookkeeperServiceInterface $bookkeeperService,
         private DispatcherServiceInterface $dispatcherService,
         private StorageServiceInterface $storageService,
-        private MathServiceInterface $mathService
+        private MathServiceInterface $mathService,
+        private WalletRepositoryInterface $walletRepository
     ) {
     }
 
@@ -87,19 +89,28 @@ final class RegulatorService implements RegulatorServiceInterface
     public function approve(): void
     {
         try {
+            $balances = [];
+            $incrementValues = [];
             foreach ($this->wallets as $wallet) {
                 $diffValue = $this->diff($wallet);
                 if ($this->mathService->compare($diffValue, 0) === 0) {
                     continue;
                 }
 
-                $balance = $this->bookkeeperService->increase($wallet, $diffValue);
-                $wallet->newQuery()
-                    ->whereKey($wallet->getKey())
-                    ->update([
-                        'balance' => $balance,
-                    ]) // ?qN
-                ;
+                $incrementValues[$wallet->uuid] = $diffValue;
+                $balances[$wallet->getKey()] = $this->amount($wallet);
+            }
+
+            if ($balances === [] || $incrementValues === [] || $this->wallets === []) {
+                return;
+            }
+
+            $this->walletRepository->updateBalances($balances);
+            $multiIncrease = $this->bookkeeperService->multiIncrease($this->wallets, $incrementValues);
+
+            foreach ($multiIncrease as $uuid => $balance) {
+                $wallet = $this->wallets[$uuid];
+
                 $wallet->fill([
                     'balance' => $balance,
                 ])->syncOriginalAttribute('balance');
@@ -107,8 +118,8 @@ final class RegulatorService implements RegulatorServiceInterface
                 $event = $this->balanceUpdatedEventAssembler->create($wallet);
                 $this->dispatcherService->dispatch($event);
             }
-            $this->dispatcherService->flush();
         } finally {
+            $this->dispatcherService->flush();
             $this->purge();
         }
     }
