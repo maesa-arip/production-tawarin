@@ -5,7 +5,7 @@ import { Head } from "@inertiajs/inertia-react";
 export default function Profile() {
     return (
         <div>
-            <Head title="" />
+            <Head title="Profil" />
             {/* component */}
             <div className="bg-gray-100 app">
                 <main className="container grid grid-cols-1 gap-6 px-2 mx-auto my-12 lg:grid-cols-2 w-2xl">
@@ -17,7 +17,7 @@ export default function Profile() {
                                     src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
                                     alt=""
                                 />
-                                <p className="font-semibold">John Doe</p>
+                                <p className="font-semibold"></p>
                                 <div className="flex items-center justify-center text-sm leading-normal text-gray-400">
                                     <svg
                                         viewBox="0 0 24 24"
@@ -33,31 +33,31 @@ export default function Profile() {
                                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                                         <circle cx={12} cy={10} r={3} />
                                     </svg>
-                                    Los Angeles, California
+                                    Denpasar, Bali
                                 </div>
                             </div>
                             <div className="flex items-center justify-center gap-2 my-3">
                                 <div className="mx-4 font-semibold text-center">
-                                    <p className="text-black">102</p>
-                                    <span className="text-gray-400">Posts</span>
+                                    <p className="text-black">0</p>
+                                    <span className="text-gray-400">Perencanaan</span>
                                 </div>
                                 <div className="mx-4 font-semibold text-center">
-                                    <p className="text-black">102</p>
+                                    <p className="text-black">0</p>
                                     <span className="text-gray-400">
-                                        Followers
+                                        Proyek
                                     </span>
                                 </div>
                                 <div className="mx-4 font-semibold text-center">
-                                    <p className="text-black">102</p>
+                                    <p className="text-black">0</p>
                                     <span className="text-gray-400">
-                                        Folowing
+                                        Pendanaan
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div className="p-6 mt-6 bg-white rounded-lg shadow">
                             <h3 className="mb-4 text-sm font-semibold text-gray-600">
-                                Following
+                                Referal
                             </h3>
                             <ul className="flex items-center justify-center space-x-2">
                                 {/* Story #1 */}

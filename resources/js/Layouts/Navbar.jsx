@@ -7,9 +7,9 @@ import { PhotographIcon } from "@heroicons/react/solid";
 
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import {MenuIcon,XIcon} from "@heroicons/react/outline";
-import Logo from '../../img/Tawarin.png';
-
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import Logo from "../../img/Tawarin.png";
+import { IconCash, IconHomeEdit, IconShoppingCart, IconWallet } from "@tabler/icons";
 
 export default function Navbar() {
     const { auth, categories_global, carts_global_count } = usePage().props;
@@ -23,13 +23,15 @@ export default function Navbar() {
                 <div className="px-4 mx-auto max-w-7xl sm:px-6">
                     <div className="flex items-center justify-between py-6 border-b-2 border-gray-100 md:justify-start md:space-x-10">
                         <div className="flex justify-start">
-                            <a href="/">
-                                <span className="sr-only">Workflow</span>
-                                <img className="w-auto h-8 sm:h-10" src={Logo}/>
-                                
-                            </a>
+                            <NavLink href="/">
+                                <span className="sr-only"></span>
+                                <img
+                                    className="w-auto h-8 sm:h-10"
+                                    src={Logo}
+                                />
+                            </NavLink>
                         </div>
-                        <div className="-my-2 -mr-2 md:hidden">
+                        <div className="hidden -my-2 -mr-2 md:hidden lg:hidden">
                             <Popover.Button className="inline-flex items-center justify-center p-2 text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                 <span className="sr-only">Open menu</span>
                                 <MenuIcon
@@ -43,9 +45,25 @@ export default function Navbar() {
                             as="nav"
                             className="hidden space-x-10 md:flex"
                         >
-                            <NavLink href="/">Home</NavLink>
-                            <NavLink href="/toko/products">Products</NavLink>
-                            <DropdownMenu label={"Categories"}>
+                            {/* <NavLink href="/">Home</NavLink> */}
+                            <NavLink href="/wallets">Saldo</NavLink>
+                            <DropdownMenu label={"Perencanaan"}>
+                                <DropdownMenu.Link href="/plans">
+                                    Perencanaan Saya
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/public/plans/list">
+                                    Cari Perencanaan
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/plans/create">
+                                    Buat Perencanaan
+                                </DropdownMenu.Link>
+                            </DropdownMenu>
+                            <NavLink href="/projects/choose">Proyek</NavLink>
+                            <NavLink href="/">Keahlian</NavLink>
+                            <NavLink href="/toko/products">Toko</NavLink>
+                            <NavLink href="/toko/products">Alat</NavLink>
+                            
+                            {/* <DropdownMenu label={"Categories"}>
                                 {categories_global.map((category) => (
                                     <DropdownMenu.Link
                                         key={category.slug}
@@ -58,33 +76,23 @@ export default function Navbar() {
                                         </div>
                                     </DropdownMenu.Link>
                                 ))}
-                            </DropdownMenu>
+                            </DropdownMenu> */}
 
-                            <DropdownMenu label={"Funding"}>
+                            <DropdownMenu label={"Pendanaan"}>
                                 <DropdownMenu.Link href="/fundings">
-                                    Index
+                                    Pendanaan Saya
                                 </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/public/fundings/list">
-                                    List
+                                    Cari Pendanaan
                                 </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/fundings/create">
-                                    Form
+                                    Buat Pendanaan
                                 </DropdownMenu.Link>
                             </DropdownMenu>
 
-                            <DropdownMenu label={"Plan"}>
-                                <DropdownMenu.Link href="/plans">
-                                    Index
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/public/plans/list">
-                                    List
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/plans/create">
-                                    Form
-                                </DropdownMenu.Link>
-                            </DropdownMenu>
-                            <DropdownMenu label={"Example"}>
-                            <DropdownMenu.Link href="/example/homefunding">
+                            
+                            {/* <DropdownMenu label={"Example"}>
+                                <DropdownMenu.Link href="/example/homefunding">
                                     Landing Page Funding
                                 </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/example/form">
@@ -102,7 +110,7 @@ export default function Navbar() {
                                 <DropdownMenu.Link href="/dropzone">
                                     Dropzone
                                 </DropdownMenu.Link>
-                            </DropdownMenu>
+                            </DropdownMenu> */}
                             {auth.user ? (
                                 <>
                                     <DropdownMenu label={auth.user.name}>
@@ -112,8 +120,26 @@ export default function Navbar() {
                                         <DropdownMenu.Link href="/profile">
                                             Profile
                                         </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/profile">
+                                            Perencanaan Saya
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/profile">
+                                            Proyek Saya
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/profile">
+                                            Pendanaan Saya
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/profile">
+                                            Keahlian Saya
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/profile">
+                                            Toko Saya
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/profile">
+                                            Alat Saya
+                                        </DropdownMenu.Link>
 
-                                        <DropdownMenu.Link href="/toko/carts">
+                                        {/* <DropdownMenu.Link href="/toko/carts">
                                             Your Cart
                                         </DropdownMenu.Link>
                                         <DropdownMenu.Link href="/toko/products/me">
@@ -127,7 +153,7 @@ export default function Navbar() {
                                         </DropdownMenu.Link>
                                         <DropdownMenu.Link href="/toko/products/table">
                                             Table Products
-                                        </DropdownMenu.Link>
+                                        </DropdownMenu.Link> */}
                                         <DropdownMenu.Link
                                             href="/logout"
                                             method="post"
@@ -186,13 +212,13 @@ export default function Navbar() {
                         <div className="bg-white divide-y-2 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 divide-gray-50">
                             <div className="px-5 pt-5 pb-6">
                                 <div className="flex items-center justify-between">
-                                    <div>
+                                    <NavLink href="/">
                                         <img
-                                            className="w-auto h-8"
-                                            src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                                            className="w-auto h-8 sm:h-10"
+                                            src={Logo}
                                             alt="Workflow"
                                         />
-                                    </div>
+                                    </NavLink>
                                     <div className="-mr-2">
                                         <Popover.Button className="inline-flex items-center justify-center p-2 text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                             <span className="sr-only">
@@ -227,7 +253,17 @@ export default function Navbar() {
                             </div>
                             <div className="px-5 py-6 space-y-6">
                                 <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                                    
+                                    <DropdownMenu label={"Funding"}>
+                                        <DropdownMenu.Link href="/fundings">
+                                            Index
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/public/fundings/list">
+                                            List
+                                        </DropdownMenu.Link>
+                                        <DropdownMenu.Link href="/fundings/create">
+                                            Form
+                                        </DropdownMenu.Link>
+                                    </DropdownMenu>
 
                                     <DropdownMenu label={"Plan"}>
                                         <DropdownMenu.Link href="/plans">
@@ -240,10 +276,14 @@ export default function Navbar() {
                                             Form
                                         </DropdownMenu.Link>
                                     </DropdownMenu>
+
                                     <NavLink href="/toko/products">
                                         Products
                                     </NavLink>
                                     <DropdownMenu label={"Example"}>
+                                        <DropdownMenu.Link href="/example/homefunding">
+                                            Landing Page Funding
+                                        </DropdownMenu.Link>
                                         <DropdownMenu.Link href="/example/form">
                                             Form
                                         </DropdownMenu.Link>
@@ -260,8 +300,7 @@ export default function Navbar() {
                                             Dropzone
                                         </DropdownMenu.Link>
                                     </DropdownMenu>
-                                    
-                                    
+
                                     {auth.user ? (
                                         <>
                                             <DropdownMenu
@@ -320,7 +359,6 @@ export default function Navbar() {
                                                     ? carts_global_count
                                                     : null}
                                             </NavLink>
-                                            
                                         </>
                                     ) : (
                                         <>
@@ -332,15 +370,13 @@ export default function Navbar() {
                                             </NavLink>
                                         </>
                                     )}
-                                    
                                 </div>
-                                
                             </div>
                         </div>
                     </Popover.Panel>
                 </Transition>
             </Popover>
-            
+
             <section
                 id="bottom-navigation"
                 className="fixed inset-x-0 bottom-0 z-10 block bg-white shadow md:hidden"
@@ -350,30 +386,53 @@ export default function Navbar() {
                     setIsOpenMenuModal={setIsOpenMenuModal}
                 >
                     <div className="grid items-center justify-between grid-cols-4 gap-8">
-                        <div>
-                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                        <NavLink
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/toko/products"
+                        >
+                            <IconShoppingCart className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            
                             <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Tes
+                                Product
                             </p>
-                        </div>
-                        <div>
-                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                        </NavLink>
+                        <NavLink
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/projects/choose"
+                        >
+                            <IconShoppingCart className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            
                             <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Tes
+                                Proyek
                             </p>
-                        </div>
-                        <div>
-                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                        </NavLink>
+                        <NavLink
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/public/fundings/list"
+                        >
+                            <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Tes
+                                Funding
                             </p>
-                        </div>
-                        <div>
-                            <PhotographIcon className="px-5 py-5 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                        </NavLink>
+                        <NavLink
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/public/plans/list"
+                        >
+                            <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Tes
+                                Plan
                             </p>
-                        </div>
+                        </NavLink>
+                        <NavLink
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/wallets"
+                        >
+                            <IconWallet className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Wallet
+                            </p>
+                        </NavLink>
                     </div>
                 </MenuModal>
                 <div id="tabs" className="flex justify-between">
@@ -506,62 +565,31 @@ export default function Navbar() {
                             Explore
                         </span>
                     </a>
-                    <a
-                        href="#"
+                    <NavLink
+                        href="/wallets"
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                     >
                         <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="inline-block mb-1 icon icon-tabler icon-tabler-wallet"
                             width={25}
                             height={25}
-                            viewBox="0 0 42 42"
-                            className="inline-block mb-1"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         >
-                            <g
-                                stroke="none"
-                                strokeWidth={1}
-                                fill="none"
-                                fillRule="evenodd"
-                            >
-                                <path
-                                    d="M14.7118754,20.0876892 L8.03575361,20.0876892 C5.82661462,20.0876892 4.03575361,18.2968282 4.03575361,16.0876892 L4.03575361,12.031922 C4.03575361,8.1480343 6.79157254,4.90780265 10.4544842,4.15995321 C8.87553278,8.5612583 8.1226025,14.3600511 10.9452499,15.5413938 C13.710306,16.6986332 14.5947501,18.3118357 14.7118754,20.0876892 Z M14.2420017,23.8186831 C13.515543,27.1052019 12.7414284,30.2811559 18.0438552,31.7330419 L18.0438552,33.4450645 C18.0438552,35.6542035 16.2529942,37.4450645 14.0438552,37.4450645 L9.90612103,37.4450645 C6.14196811,37.4450645 3.09051926,34.3936157 3.09051926,30.6294627 L3.09051926,27.813861 C3.09051926,25.604722 4.88138026,23.813861 7.09051926,23.813861 L14.0438552,23.813861 C14.1102948,23.813861 14.1763561,23.8154808 14.2420017,23.8186831 Z M20.7553776,32.160536 C23.9336213,32.1190063 23.9061943,29.4103976 33.8698747,31.1666916 C34.7935223,31.3295026 35.9925894,31.0627305 37.3154077,30.4407183 C37.09778,34.8980343 33.4149547,38.4450645 28.9036761,38.4450645 C24.9909035,38.4450645 21.701346,35.7767637 20.7553776,32.160536 Z"
-                                    fill="currentColor"
-                                    opacity="0.1"
-                                />
-                                <g transform="translate(2.000000, 3.000000)">
-                                    <path
-                                        d="M8.5,1 C4.35786438,1 1,4.35786438 1,8.5 L1,13 C1,14.6568542 2.34314575,16 4,16 L13,16 C14.6568542,16 16,14.6568542 16,13 L16,4 C16,2.34314575 14.6568542,1 13,1 L8.5,1 Z"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    />
-                                    <path
-                                        d="M4,20 C2.34314575,20 1,21.3431458 1,23 L1,27.5 C1,31.6421356 4.35786438,35 8.5,35 L13,35 C14.6568542,35 16,33.6568542 16,32 L16,23 C16,21.3431458 14.6568542,20 13,20 L4,20 Z"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    />
-                                    <path
-                                        d="M23,1 C21.3431458,1 20,2.34314575 20,4 L20,13 C20,14.6568542 21.3431458,16 23,16 L32,16 C33.6568542,16 35,14.6568542 35,13 L35,8.5 C35,4.35786438 31.6421356,1 27.5,1 L23,1 Z"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    />
-                                    <path
-                                        d="M34.5825451,33.4769886 L38.3146092,33.4322291 C38.8602707,33.4256848 39.3079219,33.8627257 39.3144662,34.4083873 C39.3145136,34.4123369 39.3145372,34.4162868 39.3145372,34.4202367 L39.3145372,34.432158 C39.3145372,34.9797651 38.8740974,35.425519 38.3265296,35.4320861 L34.5944655,35.4768456 C34.048804,35.4833899 33.6011528,35.046349 33.5946085,34.5006874 C33.5945611,34.4967378 33.5945375,34.4927879 33.5945375,34.488838 L33.5945375,34.4769167 C33.5945375,33.9293096 34.0349773,33.4835557 34.5825451,33.4769886 Z"
-                                        fill="currentColor"
-                                        transform="translate(36.454537, 34.454537) rotate(-315.000000) translate(-36.454537, -34.454537) "
-                                    />
-                                    <circle
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                        cx="27.5"
-                                        cy="27.5"
-                                        r="7.5"
-                                    />
-                                </g>
-                            </g>
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
+                            <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
                         </svg>
-                        <span className="block text-xs tab tab-whishlist">
-                            Whishlist
+                        
+                        <span className="block text-xs tab tab-wallet">
+                            Wallet
                         </span>
-                    </a>
+                    </NavLink>
                     <a
                         href="#"
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
@@ -598,7 +626,6 @@ export default function Navbar() {
                     </a>
                 </div>
             </section>
-            
         </>
     );
 }

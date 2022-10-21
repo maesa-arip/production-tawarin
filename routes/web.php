@@ -6,6 +6,7 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\Funding\FundingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Plan\PlanController;
+use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
 use App\Http\Controllers\Toko\InvoiceController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Toko\PaymentNotificationController;
 use App\Http\Controllers\Toko\ProductController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Wallet\WalletController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -64,9 +66,16 @@ Route::middleware('auth')->group(function () {
     // Plans
     Route::Resource('plans', PlanController::class);
     // End Plans
+    // Plans
+    Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
+    Route::Resource('projects', ProjectController::class);
+    // End Plans
     // Fundings
     Route::Resource('fundings', FundingController::class);
     // End Fundings
+    // Wallets
+    Route::Resource('wallets', WalletController::class);
+    // End Wallets
 });
 
 Route::controller(InvoiceController::class)->middleware('auth')->group(function () {

@@ -7,6 +7,7 @@ import Pagination from "@/Components/Pagination";
 import FundingItem from "@/Components/FundingItem";
 import { numberFormat } from "@/Libs/helper";
 import EmptyCard from "@/Components/EmptyCard";
+import { IconMapPin } from "@tabler/icons";
 
 export default function List(props) {
     const { data: fundings, meta, links } = props.fundings;
@@ -50,13 +51,7 @@ export default function List(props) {
                                             <div className="absolute bottom-0 flex justify-center mb-3">
                                                 <div className="flex px-2 py-1 space-x-1 overflow-hidden bg-white rounded-lg shadow md:px-5 md:space-x-5">
                                                     <p className="flex items-center font-medium text-gray-800">
-                                                        <svg
-                                                            className="w-5 h-5 mr-2 fill-current"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            viewBox="0 0 512 512"
-                                                        >
-                                                            <path d="M480,226.15V80a48,48,0,0,0-48-48H80A48,48,0,0,0,32,80V226.15C13.74,231,0,246.89,0,266.67V472a8,8,0,0,0,8,8H24a8,8,0,0,0,8-8V416H480v56a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V266.67C512,246.89,498.26,231,480,226.15ZM64,192a32,32,0,0,1,32-32H208a32,32,0,0,1,32,32v32H64Zm384,32H272V192a32,32,0,0,1,32-32H416a32,32,0,0,1,32,32ZM80,64H432a16,16,0,0,1,16,16v56.9a63.27,63.27,0,0,0-32-8.9H304a63.9,63.9,0,0,0-48,21.71A63.9,63.9,0,0,0,208,128H96a63.27,63.27,0,0,0-32,8.9V80A16,16,0,0,1,80,64ZM32,384V266.67A10.69,10.69,0,0,1,42.67,256H469.33A10.69,10.69,0,0,1,480,266.67V384Z" />
-                                                        </svg>
+                                                        <IconMapPin className="h-4 w-4 bg-transparent text-sky-500"/>
                                                         Denpasar, Bali
                                                     </p>
                                                 </div>

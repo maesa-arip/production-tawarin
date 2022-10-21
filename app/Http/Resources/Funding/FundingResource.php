@@ -24,8 +24,10 @@ class FundingResource extends JsonResource
             'harga_perlembar' => $this->harga_perlembar,
             'anggaran' => $this->anggaran,
             'provinsi' => $this->provinsi,
+            'alamat' => $this->alamat,
             'roi' => $this->roi,
             'jadwal_deviden' => $this->jadwal_deviden,
+            'tentang_bisnis' => $this->tentang_bisnis,
             'created_at' => $this->created_at->diffForHumans(),
             'until' =>  ($this->created_at->addDays($this->jangka_waktu_penawaran))->diffInDays(Carbon::now()),
             'funding_category' => [

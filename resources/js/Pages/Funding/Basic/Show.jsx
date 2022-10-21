@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import App from "@/Layouts/App";
 import { Head, Link } from "@inertiajs/inertia-react";
-import { numberFormat } from "@/Libs/helper";
+import { numberFormat, Terbilang } from "@/Libs/helper";
 import Container from "@/Components/Container";
 import FundingItem from "@/Components/FundingItem";
 import { Tab } from "@headlessui/react";
@@ -12,18 +12,34 @@ export default function Show({ funding, media, balance }) {
     function classNames(...classes) {
         return classes.filter(Boolean).join(" ");
     }
-    const onChangeHandler = console.log('tes');
+
+    const [simulasiLembar, setSimulasiLembar] = useState("");
+
+    const onChangeHandler = (e) => {
+        setSimulasiLembar(e.target.value);
+    };
+    const formatAngkaSimulasiLembar = new Intl.NumberFormat("id-ID", {}).format(
+        simulasiLembar
+    );
+    const formatRupiah = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(simulasiLembar * funding.harga_perlembar);
+    const formatRupiahROI = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(simulasiLembar * funding.harga_perlembar * funding.roi / 100 );
     return (
         <div>
             <Head title={FundingItem.name} />
             <Container>
-                <div className="w-full px-2 py-16 sm:px-0">
+                <div className="px-2 py-16 sm:px-0">
                     <Tab.Group>
-                        <Tab.List className="flex p-1 space-x-4 sm:space-x-4 md:space-x-4 lg:space-x-8 overflow-x-auto bg-white whitespace-nowrap rounded-xl">
+                        <Tab.List className="p-1 space-x-4 overflow-x-auto bg-white md:flex whitespace-nowrap rounded-xl">
                             <Tab
                                 className={({ selected }) =>
                                     classNames(
-                                        "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
+                                        "w-32 md:w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
                                         "ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2 transition-all duration-300",
                                         selected
                                             ? "bg-blue-300 text-white ring-2 ring-blue-300 ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2"
@@ -36,7 +52,7 @@ export default function Show({ funding, media, balance }) {
                             <Tab
                                 className={({ selected }) =>
                                     classNames(
-                                        "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
+                                        "w-32 md:w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
                                         "ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2 transition-all duration-300",
                                         selected
                                             ? "bg-blue-300 text-white ring-2 ring-blue-300 ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2"
@@ -49,7 +65,7 @@ export default function Show({ funding, media, balance }) {
                             <Tab
                                 className={({ selected }) =>
                                     classNames(
-                                        "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
+                                        "w-32 md:w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
                                         "ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2 transition-all duration-300",
                                         selected
                                             ? "bg-blue-300 text-white ring-2 ring-blue-300 ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2"
@@ -62,7 +78,7 @@ export default function Show({ funding, media, balance }) {
                             <Tab
                                 className={({ selected }) =>
                                     classNames(
-                                        "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
+                                        "w-32 md:w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
                                         "ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2 transition-all duration-300",
                                         selected
                                             ? "bg-blue-300 text-white ring-2 ring-blue-300 ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2"
@@ -75,7 +91,7 @@ export default function Show({ funding, media, balance }) {
                             <Tab
                                 className={({ selected }) =>
                                     classNames(
-                                        "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
+                                        "w-32 md:w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-gray-700",
                                         "ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2 transition-all duration-300",
                                         selected
                                             ? "bg-blue-300 text-white ring-2 ring-blue-300 ring-opacity-60 ring-offset-2 ring-offset-white focus:outline-none focus:ring-2"
@@ -93,15 +109,15 @@ export default function Show({ funding, media, balance }) {
                                     "ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-400 focus:outline-none focus:ring-2"
                                 )}
                             >
-                                <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div className="overflow-hidden bg-white shadow sm:rounded-lg">
                                     <div className="px-4 py-5 sm:px-6">
-                                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                        <h3 className="text-lg font-medium leading-6 text-gray-900">
                                             Informasi Finansial
                                         </h3>
                                     </div>
                                     <div className="border-t border-gray-200">
                                         <dl>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Total saham yang dibagikan
                                                 </dt>
@@ -109,42 +125,42 @@ export default function Show({ funding, media, balance }) {
                                                     70%
                                                 </dd>
                                             </div>
-                                            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Return On Investment
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    5%
+                                                    {funding.roi}%
                                                 </dd>
                                             </div>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Periode dividen
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    3 Bulan
+                                                    {funding.jadwal_deviden} Bulan
                                                 </dd>
                                             </div>
-                                            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Attachments
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                                     <ul
                                                         role="list"
-                                                        className="border border-gray-200 rounded-md divide-y divide-gray-200"
+                                                        className="border border-gray-200 divide-y divide-gray-200 rounded-md"
                                                     >
-                                                        <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                                                            <div className="w-0 flex-1 flex items-center">
+                                                        <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
+                                                            <div className="flex items-center flex-1 w-0">
                                                                 <PaperClipIcon
-                                                                    className="flex-shrink-0 h-5 w-5 text-gray-400"
+                                                                    className="flex-shrink-0 w-5 h-5 text-gray-400"
                                                                     aria-hidden="true"
                                                                 />
-                                                                <span className="ml-2 flex-1 w-0 truncate">
+                                                                <span className="flex-1 w-0 ml-2 truncate">
                                                                     prospektus.pdf
                                                                 </span>
                                                             </div>
-                                                            <div className="ml-4 flex-shrink-0">
+                                                            <div className="flex-shrink-0 ml-4">
                                                                 <a
                                                                     href="#"
                                                                     className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -172,40 +188,28 @@ export default function Show({ funding, media, balance }) {
                                             <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                                                 {funding.name}
                                             </h2>
-
+                                            
                                             <Link
                                                 className="inline-flex px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded"
                                                 href={`/public/fundings/list?funding_category=${funding.funding_category.slug}`}
                                             >
                                                 {funding.funding_category.name}
                                             </Link>
+                                            <div className="inline-flex px-2 py-1 ml-4 text-xs font-semibold text-white rounded bg-sky-500">{funding.until} Hari Lagi</div>
                                             <p className="mt-4 text-gray-500">
                                                 {funding.description}
                                             </p>
 
-                                            <dl className="grid grid-cols-1 mt-16 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
-                                                <div className="pt-4 border-t border-gray-200">
-                                                    <dt className="font-medium text-gray-900">
-                                                        {funding.name}
+                                            <div className="pt-4 border-t border-gray-200">
+                                                <div className="flex justify-between">
+                                                <dt className="font-medium text-gray-900">
+                                                        Persentase Terkumpul
                                                     </dt>
-                                                    <dd className="mt-2 text-sm text-gray-500">
-                                                        {numberFormat(
-                                                            funding.anggaran
-                                                        )}
-                                                    </dd>
+                                                    <dt className="font-medium text-gray-900">
+                                                        {Math.floor(balance / funding.anggaran * 100)} %
+                                                    </dt>
                                                 </div>
-                                                <div className="pt-4 border-t border-gray-200">
-                                                    <dt className="font-medium text-gray-900">
-                                                        Total Terkumpul
-                                                    </dt>
-                                                    <dd className="mt-2 text-sm text-gray-500">
-                                                        {balance}
-                                                    </dd>
-                                                </div>
-                                                <div className="pt-4 border-t border-gray-200">
-                                                    <dt className="font-medium text-gray-900">
-                                                        Persentase
-                                                    </dt>
+                                                    
                                                     <div className="w-full h-2 mt-2 bg-gray-200 rounded-full">
                                                         <div
                                                             className="h-full text-xs text-center text-white bg-blue-500 rounded-full"
@@ -219,57 +223,63 @@ export default function Show({ funding, media, balance }) {
                                                         ></div>
                                                     </div>
                                                 </div>
+                                            <dl className="grid grid-cols-1 mt-16 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
                                                 <div className="pt-4 border-t border-gray-200">
                                                     <dt className="font-medium text-gray-900">
-                                                        {funding.name}
+                                                        Nilai Bisnis
                                                     </dt>
                                                     <dd className="mt-2 text-sm text-gray-500">
-                                                        {numberFormat(
+                                                        Rp {numberFormat(
                                                             funding.anggaran
                                                         )}
                                                     </dd>
                                                 </div>
                                                 <div className="pt-4 border-t border-gray-200">
                                                     <dt className="font-medium text-gray-900">
-                                                        {funding.name}
+                                                        Total Terkumpul
                                                     </dt>
                                                     <dd className="mt-2 text-sm text-gray-500">
-                                                        {numberFormat(
-                                                            funding.anggaran
+                                                    Rp {numberFormat(
+                                                            balance
                                                         )}
                                                     </dd>
                                                 </div>
+                                                
                                                 <div className="pt-4 border-t border-gray-200">
                                                     <dt className="font-medium text-gray-900">
-                                                        {funding.name}
+                                                        Jumlah Lembar
                                                     </dt>
                                                     <dd className="mt-2 text-sm text-gray-500">
                                                         {numberFormat(
-                                                            funding.anggaran
+                                                            funding.total_lembar
                                                         )}
                                                     </dd>
                                                 </div>
-                                                <div className="pt-4 border-t border-gray-200">
+                                                <div className="pt-4 pb-4 border-t border-gray-200">
                                                     <dt className="font-medium text-gray-900">
-                                                        {funding.name}
+                                                        Harga Perlembar
                                                     </dt>
-                                                    <dd className="mt-2 text-sm text-gray-500">
-                                                        {numberFormat(
-                                                            funding.anggaran
+                                                    <dd className="mt-2 mb-2 text-sm text-gray-500">
+                                                        Rp {numberFormat(
+                                                            funding.harga_perlembar
                                                         )}
                                                     </dd>
                                                 </div>
-                                                <div className="pt-4 border-t border-gray-200">
-                                                    <dt className="font-medium text-gray-900">
-                                                        {funding.name}
-                                                    </dt>
-                                                    <dd className="mt-2 text-sm text-gray-500">
-                                                        {numberFormat(
-                                                            funding.anggaran
-                                                        )}
-                                                    </dd>
-                                                </div>
+                                                
+                                               
                                             </dl>
+                                            <div className="pt-4 mt-4 border-t border-gray-200">
+                                                <div className="flex justify-between">
+                                                <dt className="font-medium text-gray-900">
+                                                        Tentang Bisnis
+                                                    </dt>
+                                                    
+                                                </div>
+                                                    
+                                                <p className="mt-4 text-gray-500">
+                                                {funding.tentang_bisnis}
+                                            </p>
+                                                </div>
                                         </div>
                                         <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
                                             <img
@@ -310,23 +320,28 @@ export default function Show({ funding, media, balance }) {
                                     "ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-400 focus:outline-none focus:ring-2"
                                 )}
                             >
-                                <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div className="overflow-hidden bg-white shadow sm:rounded-lg">
                                     <div className="px-4 py-5 sm:px-6">
-                                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                        <h3 className="text-lg font-medium leading-6 text-gray-900">
                                             Informasi Kategori
                                         </h3>
                                     </div>
                                     <div className="border-t border-gray-200">
                                         <dl>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Kategori Bisnis
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    Jasa
+                                                <Link
+                                                className="inline-flex px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded"
+                                                href={`/public/fundings/list?funding_category=${funding.funding_category.slug}`}
+                                            >
+                                                {funding.funding_category.name}
+                                            </Link>
                                                 </dd>
                                             </div>
-                                            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Penerbit
                                                 </dt>
@@ -334,7 +349,7 @@ export default function Show({ funding, media, balance }) {
                                                     PT Tawarin Dimana Saja
                                                 </dd>
                                             </div>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Sistem Pengelolaan
                                                 </dt>
@@ -342,21 +357,25 @@ export default function Show({ funding, media, balance }) {
                                                     Auto Pilot
                                                 </dd>
                                             </div>
-                                            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Target Investasi
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    Rp 1.000.000.000
+                                                Rp {numberFormat(
+                                                            funding.anggaran
+                                                        )}
                                                 </dd>
                                             </div>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Minimum Investasi / Lembar
                                                     Saham
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    Rp 50.000
+                                                Rp {numberFormat(
+                                                            funding.harga_perlembar
+                                                        )}
                                                 </dd>
                                             </div>
                                         </dl>
@@ -370,7 +389,7 @@ export default function Show({ funding, media, balance }) {
                                 )}
                             >
                                 <div className="mapouter">
-                                    <div className="gmap_canvas">
+                                    <div className="mb-4 gmap_canvas">
                                         <iframe
                                             className="w-full h-96 rounded-xl"
                                             id="gmap_canvas"
@@ -380,8 +399,9 @@ export default function Show({ funding, media, balance }) {
                                             marginHeight={0}
                                             marginWidth={0}
                                         />
-                                        Alamat lengkap
+                                        
                                     </div>
+                                    {funding.alamat}
                                 </div>
                             </Tab.Panel>
                             <Tab.Panel
@@ -390,53 +410,83 @@ export default function Show({ funding, media, balance }) {
                                     "ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-400 focus:outline-none focus:ring-2"
                                 )}
                             >
-                                <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div className="overflow-hidden bg-white shadow sm:rounded-lg">
                                     <div className="px-4 py-5 sm:px-6">
-                                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                        <h3 className="text-lg font-medium leading-6 text-gray-900">
                                             Kalkulator Simulasi
                                         </h3>
                                     </div>
                                     <div className="border-t border-gray-200">
                                         <dl>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Jumlah Lembar Saham
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    <Input type="number" onChange={onChangeHandler}/>
+                                                    <Input type="number" min="0" onChange={onChangeHandler}/>
+                                                    <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {simulasiLembar &&
+                                                        formatAngkaSimulasiLembar + " Lembar Saham "}
+                                                </div>
                                                 </dd>
                                             </div>
-                                            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Nilai Investasi
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    PT Tawarin Dimana Saja
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-gray-900">
+                                                    {simulasiLembar &&
+                                                        formatRupiah}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-gray-900">
+                                                        {simulasiLembar &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    simulasiLembar * funding.harga_perlembar
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                                 </dd>
                                             </div>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Total Keuntungan
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    Auto Pilot
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-gray-900">
+                                                    {simulasiLembar &&
+                                                        formatRupiahROI}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-gray-900">
+                                                        {simulasiLembar &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    simulasiLembar * funding.harga_perlembar * funding.roi / 100
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                                 </dd>
                                             </div>
-                                            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Target Investasi
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    Rp 1.000.000.000
+                                                Rp {numberFormat(
+                                                            funding.anggaran
+                                                        )}
                                                 </dd>
                                             </div>
-                                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <div className="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     Minimum Investasi / Lembar
                                                     Saham
                                                 </dt>
                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    Rp 50.000
+                                                Rp {numberFormat(
+                                                            funding.harga_perlembar
+                                                        )}
                                                 </dd>
                                             </div>
                                         </dl>

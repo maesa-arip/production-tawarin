@@ -6,15 +6,17 @@ use App\Models\Plan\Plan;
 use App\Models\Toko\Invoice;
 use App\Models\Toko\Product;
 use App\Traits\HasManyCarts;
+use Bavix\Wallet\Interfaces\Wallet;
+use Bavix\Wallet\Traits\HasWallet;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Wallet
 {
-    use HasApiTokens, HasFactory, Notifiable, HasManyCarts;
+    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet;
 
     /**
      * The attributes that are mass assignable.
