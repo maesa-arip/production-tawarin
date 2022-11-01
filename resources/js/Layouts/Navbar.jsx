@@ -89,6 +89,21 @@ export default function Navbar() {
                                     Buat Pendanaan
                                 </DropdownMenu.Link>
                             </DropdownMenu>
+                            <DropdownMenu label={"Role & Permission"}>
+                                <DropdownMenu.Link href="/role-and-permission/roles">
+                                    Roles
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/role-and-permission/permissions">
+                                    Permissions
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/role-and-permission/assignable">
+                                    Assign Permissions to Roles
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/role-and-permission/assign/user">
+                                    Assign Roles to User
+                                </DropdownMenu.Link>
+                                
+                            </DropdownMenu>
 
                             
                             {/* <DropdownMenu label={"Example"}>
@@ -139,7 +154,7 @@ export default function Navbar() {
                                             Alat Saya
                                         </DropdownMenu.Link>
 
-                                        {/* <DropdownMenu.Link href="/toko/carts">
+                                        <DropdownMenu.Link href="/toko/carts">
                                             Your Cart
                                         </DropdownMenu.Link>
                                         <DropdownMenu.Link href="/toko/products/me">
@@ -153,7 +168,7 @@ export default function Navbar() {
                                         </DropdownMenu.Link>
                                         <DropdownMenu.Link href="/toko/products/table">
                                             Table Products
-                                        </DropdownMenu.Link> */}
+                                        </DropdownMenu.Link>
                                         <DropdownMenu.Link
                                             href="/logout"
                                             method="post"

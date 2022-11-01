@@ -23,7 +23,7 @@ export default function Index(balance) {
                                 Referal
                             </div>
                             <div className="mx-4 border-l h-100" /> */}
-                            <ul className="flex items-center justify-center space-x-2">
+                            <ul className="flex items-center justify-center space-x-2 overflow-x-auto">
                                 {/* Story #1 */}
                                 <li className="flex flex-col items-center space-y-2">
                                     {/* Ring */}
@@ -290,6 +290,26 @@ export default function Index(balance) {
                                     </div>
                                 </div>
                             </div> */}
+                            <div className="grid w-full h-full grid-cols-3 mt-12 text-white gap-x-1 md:w-96">
+                    <button
+                                type="button"
+                                className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                            >
+                                Deposit
+                            </button>
+                            <button
+                                type="button"
+                                className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 h-9 rounded-xl hover:text-white"
+                            >
+                                Tarik
+                            </button>
+                            <button
+                                type="button"
+                                className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 h-9 rounded-xl hover:text-white"
+                            >
+                                Transfer
+                            </button>
+                    </div>
                         </div>
                         <div className="mt-12 md:mt-0">
                             <h2 className="mb-4 text-2xl font-bold">
@@ -386,6 +406,7 @@ export default function Index(balance) {
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </>

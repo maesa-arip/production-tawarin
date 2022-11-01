@@ -5,6 +5,10 @@ use App\Http\Controllers\DependantDropdownController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\Funding\FundingController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Permissions\AssignController;
+use App\Http\Controllers\Permissions\PermissionController;
+use App\Http\Controllers\Permissions\RoleController;
+use App\Http\Controllers\Permissions\UserPermissionController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
@@ -18,9 +22,9 @@ use App\Http\Controllers\Wallet\WalletController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('assets/{path}', function ($path) {
-    return response()->file(public_path("assets/$path"));
-});
+// Route::get('assets/{path}', function ($path) {
+//     return response()->file(public_path("assets/$path"));
+// });
 
 //Example
 Route::get('filepond', [UploadController::class, 'filepond'])->name('filepond.index');
@@ -33,10 +37,40 @@ Route::post('/upload/filepond/store', [UploadController::class, 'store'])->name(
 Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone'])->name('dropzone.store');
 // End Example
 
+// Permissions
+Route::prefix('role-and-permission')->namespace('Permissions')->group(function () {
+    Route::get('assignable', [AssignController::class, 'create'])->name('assign.create');
+    Route::post('assignable', [AssignController::class, 'store']);
+    Route::get('assignable/{role}/edit', [AssignController::class, 'edit'])->name('assign.edit');
+    Route::put('assignable/{role}/edit', [AssignController::class, 'update']);
+    //User
+    Route::get('assign/user', [UserPermissionController::class, 'create'])->name('assign.user.create');
+    Route::post('assign/user', [UserPermissionController::class, 'store']);
+    Route::get('assign/{user}/user', [UserPermissionController::class, 'edit'])->name('assign.user.edit');
+    Route::put('assign/{user}/user', [UserPermissionController::class, 'update']);
+
+    Route::prefix('roles')->group(function () {
+        Route::get('', [RoleController::class, 'index'])->name('roles.index');
+        Route::post('store', [RoleController::class, 'store'])->name('roles.store');
+        Route::get('{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::put('{role}/edit', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+    });
+
+    Route::prefix('permissions')->group(function () {
+        Route::get('', [PermissionController::class, 'index'])->name('permissions.index');
+        Route::post('store', [PermissionController::class, 'store'])->name('permissions.store');
+        Route::get('{permission}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+        Route::put('{permission}/edit', [PermissionController::class, 'update'])->name('permissions.update');
+        Route::delete('{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+    });
+});
+
 
 //Public List
     // Plans
     Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
+    Route::Resource('public/plans', PlanController::class)->only('show');
     // End Plans
 
     // Fundings
@@ -62,16 +96,15 @@ Route::middleware('auth')->group(function () {
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
     Route::get('/profile', [UserController::class,'profile'])->name('users.profile');
     Route::apiResource('users', UserController::class);
-
     // Plans
-    Route::Resource('plans', PlanController::class);
+    Route::Resource('plans', PlanController::class)->except('show');
     // End Plans
     // Plans
     Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
-    Route::Resource('projects', ProjectController::class);
+    Route::Resource('projects', ProjectController::class)->except('show');
     // End Plans
     // Fundings
-    Route::Resource('fundings', FundingController::class);
+    Route::Resource('fundings', FundingController::class)->except('show');
     // End Fundings
     // Wallets
     Route::Resource('wallets', WalletController::class);

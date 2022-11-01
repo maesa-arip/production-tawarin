@@ -22,7 +22,7 @@ class PlanBidFactory extends Factory
             'bid_price_user' => $bid = rand(100000000, 10000000000),
             'bid_price' => round($bid * 105/100),
             'description' => str($this->faker->sentence(4))->title(),
-            'is_select' => rand(0, 1),
+            'is_approved' => rand(0, 1),
             'created_at' =>now(),  
         ];
     }

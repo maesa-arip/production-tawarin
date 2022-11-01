@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 class UploadController extends Controller
 {
@@ -20,10 +22,10 @@ class UploadController extends Controller
         if ($request->hasFile('cover')) {
             $file = $request->file('cover');
 
-            // foreach ($file as $file) {
-            $filename = $file->getClientOriginalName();
-            // $folder = uniqid() . '-' . now()->timestamp;
-            $folder =  auth()->user()->id;
+            $filename = hexdec(uniqid()) . '.' . $file->extension();
+        $folder = uniqid() . '-' . now()->timestamp;
+        Session::put('folder', $folder); //save session  folder
+        Session::put('filename', $filename); //save session filename
 
             $file->storeAs('public/files/tmp/' . $folder, $filename);
 
@@ -32,11 +34,13 @@ class UploadController extends Controller
                 'filename' => $filename
             ]);
 
-            return $folder;
+            return 'Success';
             //return $filename;
         }
         // }
         return '';
+        
+    
     }
     public function storedropzone()
     {

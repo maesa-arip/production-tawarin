@@ -17,7 +17,7 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
     const [files, setFiles] = useState([]);
-    // console.log(files);
+    // console.log(files[0].file.name);
     // console.log(files);
     // var tokenElement = document.head.querySelector('meta[name="csrf-token"]');
     //       var token;
@@ -55,7 +55,11 @@ export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
                         //         files: fileItems.map((fileItem) => fileItem.file),
                         //     });
                         // }}
-                        
+                        // onupdatefiles={fileItems => {
+                        //     setFiles({
+                        //         files: fileItems.map(fileItem => fileItem.file.name)
+                        //     })
+                        // }}
                         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
                     />
             </Container>

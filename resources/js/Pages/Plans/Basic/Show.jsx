@@ -11,10 +11,10 @@ import { toast } from "react-hot-toast";
 export default function Show({ plan,media }) {
     return (
         <div>
-            <Head title={PlanItem.name} />
+            <Head title='Plans' />
             <Container>
             <div className="bg-white">
-                <div className="grid items-center max-w-2xl grid-cols-1 px-4 py-24 mx-auto gap-y-16 gap-x-8 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+                <div className="grid items-start max-w-2xl grid-cols-1 px-4 py-12 mx-auto gap-y-16 gap-x-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
                     <div>
                         <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                             {plan.name}
@@ -32,74 +32,53 @@ export default function Show({ plan,media }) {
                         <dl className="grid grid-cols-1 mt-16 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
                             <div className="pt-4 border-t border-gray-200">
                                 <dt className="font-medium text-gray-900">
-                                    {plan.name}
+                                    Jangka Waktu Penawaran
                                     {/* {media.name} */}
                                     {/* {plan.getFirstMediaUrl()} */}
                                 </dt>
                                 <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
+                                    {numberFormat(plan.jangka_waktu_penawaran)} Hari
                                 </dd>
                             </div>
                             <div className="pt-4 border-t border-gray-200">
                                 <dt className="font-medium text-gray-900">
-                                    {plan.name}
+                                    Jangka Waktu Pelaksanaan
                                 </dt>
                                 <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
+                                    {numberFormat(plan.jangka_waktu_pelaksanaan)} Hari
                                 </dd>
                             </div>
                             <div className="pt-4 border-t border-gray-200">
                                 <dt className="font-medium text-gray-900">
-                                    {plan.name}
+                                    Jumlah Revisi
                                 </dt>
                                 <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
+                                    {numberFormat(plan.jumlah_revisi)} Kali
                                 </dd>
                             </div>
                             <div className="pt-4 border-t border-gray-200">
                                 <dt className="font-medium text-gray-900">
-                                    {plan.name}
+                                    Luas Bangunan
                                 </dt>
                                 <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
+                                    {numberFormat(plan.luas_bangunan)} M<sup>2</sup>
                                 </dd>
                             </div>
                             <div className="pt-4 border-t border-gray-200">
                                 <dt className="font-medium text-gray-900">
-                                    {plan.name}
+                                    Anggaran Proyek
                                 </dt>
                                 <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
-                                </dd>
-                            </div>
-                            <div className="pt-4 border-t border-gray-200">
-                                <dt className="font-medium text-gray-900">
-                                    {plan.name}
-                                </dt>
-                                <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
-                                </dd>
-                            </div>
-                            <div className="pt-4 border-t border-gray-200">
-                                <dt className="font-medium text-gray-900">
-                                    {plan.name}
-                                </dt>
-                                <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
-                                </dd>
-                            </div>
-                            <div className="pt-4 border-t border-gray-200">
-                                <dt className="font-medium text-gray-900">
-                                    {plan.name}
-                                </dt>
-                                <dd className="mt-2 text-sm text-gray-500">
-                                    {numberFormat(plan.anggaran_proyek)}
+                                    Rp {numberFormat(plan.anggaran_proyek)}
                                 </dd>
                             </div>
                         </dl>
                     </div>
-                    <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
-                        <img
+                    <div className="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8">
+                    <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                            Contoh Desain
+                        </h2>
+                        {/* <img
                             src="https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg"
                             alt="Walnut card tray with white powder coated steel divider and 3 punchout holes."
                             className="bg-gray-100 rounded-lg"
@@ -118,7 +97,7 @@ export default function Show({ plan,media }) {
                             src="https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg"
                             alt="Walnut card tray filled with cards and card angled in dedicated groove."
                             className="bg-gray-100 rounded-lg"
-                        />
+                        /> */}
                         {media.map((plan) => (
                             <img key={plan.id}
                             src={`/storage/${plan.id}/${plan.file_name}`}

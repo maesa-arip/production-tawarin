@@ -16,6 +16,10 @@ class PlanSingleResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'jangka_waktu_penawaran' => $this->jangka_waktu_penawaran,
+            'jangka_waktu_pelaksanaan' => $this->jangka_waktu_pelaksanaan,
+            'jumlah_revisi' => $this->jumlah_revisi,
+            'luas_bangunan' => $this->luas_bangunan,
             'anggaran_proyek' => $this->anggaran_proyek,
             'slug' => $this->slug,
             'name' => $this->name,

@@ -16,6 +16,8 @@ use App\Models\Plan\PlanMaster;
 use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class PlanController extends Controller
 {
@@ -88,17 +90,46 @@ class PlanController extends Controller
         // dd($request->cover);
         $plan = Plan::create($atrribute_plans);
 
-        $temporaryFile = TemporaryFile::where('folder',auth()->user()->id)->orderBy('id','desc')->first();
-        // dd($temporaryFile);
+        // foreach ($request->input('planCover', []) as $file) {
+        //     $plan->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('gambardesain');
+        // }
+
+        // $temporaryFile = TemporaryFile::where('folder',auth()->user()->id)->orderBy('id','desc')->first();
+        // // dd($temporaryFile);
         
-        if($temporaryFile) {
-        $plan->addMedia(storage_path('app/public/files/tmp/'. auth()->user()->id .'/'.$temporaryFile->filename))
-        ->toMediaCollection('planCover');
-        // rmdir(storage_path('app/public/files/tmp/'. auth()->user()->id));
-        File::deletedirectory(storage_path('app/public/files/tmp/'. auth()->user()->id));
-        $temporaryFile->delete();
+        // if($temporaryFile) {
+        // $plan->addMedia(storage_path('app/public/files/tmp/'. auth()->user()->id .'/'.$temporaryFile->filename))
+        // ->toMediaCollection('planCover');
+        // // rmdir(storage_path('app/public/files/tmp/'. auth()->user()->id));
+        // File::deletedirectory(storage_path('app/public/files/tmp/'. auth()->user()->id));
+        // $temporaryFile->delete();
+        // }
+
+        $temporaryFolder = Session::get('folder');
+        $namefile = Session::get('filename');
+
+        $temporary = TemporaryFile::where('folder', $temporaryFolder)->where('filename', $namefile)->first();
+
+        if ($temporary) { //if exist
+
+            $plan->addMedia(storage_path('app/public/files/tmp/'. $temporaryFolder .'/'.$temporary->filename))
+            ->toMediaCollection('planCover');
+                //hapus file and folder temporary
+                $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                if (File::exists($path)) {
+                    Storage::move('files/tmp/'.$temporary->folder.'/'.$temporary->filename, 'files/'.$temporary->folder.'/'.$temporary->filename);
+                    File::delete($path);
+                    rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+
+                    //delete record in temporary table
+                    $temporary->delete();
+
+                    
+                }
+
         }
 
+        // return response()->json(['status' => false, 'message' => 'Data Gagal']);
         //Plan Details
             if($request->has('gambar_arsitektur')) {
                 PlanDetail::create([
@@ -190,7 +221,7 @@ class PlanController extends Controller
         $plans = Plan::query()
             ->with('plan_category')
             ->with('owner')
-            ->where('is_approved',1)
+            // ->where('is_approved',1) 
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->select('id', 'anggaran_proyek','dari_anggaran','sampai_anggaran','user_id', 'slug','jumlah_revisi', 'name', 'is_approved','plan_category_id','created_at');
             if ($request->q) {
