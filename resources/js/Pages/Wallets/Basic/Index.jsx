@@ -1,5 +1,6 @@
 import Container from "@/Components/Container";
 import Header from "@/Components/Header";
+import NavLink from "@/Components/NavLink";
 import App from "@/Layouts/App";
 import { numberFormat } from "@/Libs/helper";
 import { Head } from "@inertiajs/inertia-react";
@@ -197,10 +198,7 @@ export default function Index(balance) {
                                             Saldo
                                         </div>
                                         <div className="text-2xl font-semibold">
-                                        Rp {numberFormat(
-                                                            balance.balance
-                                                        )}
-                                                        
+                                            Rp {numberFormat(balance.balance)}
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +238,8 @@ export default function Index(balance) {
                                                     Tawarin Gotong Royong
                                                 </h2>
                                                 <p className="text-xs font-light text-gray-500">
-                                                    Kamu mendapat saldo tambahan Rp 50.000
+                                                    Kamu mendapat saldo tambahan
+                                                    Rp 50.000
                                                 </p>
                                             </div>
                                             <div className="text-xs text-gray-400">
@@ -290,26 +289,42 @@ export default function Index(balance) {
                                     </div>
                                 </div>
                             </div> */}
-                            <div className="grid w-full h-full grid-cols-3 mt-12 text-white gap-x-1 md:w-96">
-                    <button
-                                type="button"
-                                className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
-                            >
-                                Deposit
-                            </button>
-                            <button
-                                type="button"
-                                className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 h-9 rounded-xl hover:text-white"
-                            >
-                                Tarik
-                            </button>
-                            <button
-                                type="button"
-                                className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 h-9 rounded-xl hover:text-white"
-                            >
-                                Transfer
-                            </button>
-                    </div>
+                            <div className="grid w-full h-full grid-cols-4 mt-12 text-white gap-x-1 md:w-96">
+                                <NavLink
+                                    type="button"
+                                    className={
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                    }
+                                    href={"/deposits/create"}
+                                >
+                                    TopUp
+                                </NavLink>
+                                <NavLink
+                                    type="button"
+                                    className={
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                    }
+                                    href={"/wallet/transfers"}
+                                >
+                                    Transfer
+                                </NavLink>
+                                <NavLink
+                                    type="button"
+                                    className={
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                    }
+                                    href={"/withdraws/create"}
+                                >
+                                    Tarik
+                                </NavLink>
+                                
+                                <button
+                                    type="button"
+                                    className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 h-9 rounded-xl hover:text-white"
+                                >
+                                    History
+                                </button>
+                            </div>
                         </div>
                         <div className="mt-12 md:mt-0">
                             <h2 className="mb-4 text-2xl font-bold">
@@ -406,7 +421,6 @@ export default function Index(balance) {
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </>

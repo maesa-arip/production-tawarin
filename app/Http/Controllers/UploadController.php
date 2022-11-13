@@ -19,8 +19,8 @@ class UploadController extends Controller
     }
     public function store(Request $request)
     {
-        if ($request->hasFile('cover')) {
-            $file = $request->file('cover');
+        if ($request->hasFile('document')) {
+            $file = $request->file('document');
 
             $filename = hexdec(uniqid()) . '.' . $file->extension();
         $folder = uniqid() . '-' . now()->timestamp;

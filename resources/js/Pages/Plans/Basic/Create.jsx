@@ -532,7 +532,7 @@ export default function Create({
                                                         />
                                                     </svg>
                                                     <Filepond
-                                                        inputname={"cover"}
+                                                        inputname={"document"}
                                                         allowMultiple={true}
                                                         maxFiles={"3"}
                                                     />

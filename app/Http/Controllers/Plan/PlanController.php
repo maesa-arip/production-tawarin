@@ -10,7 +10,6 @@ use App\Http\Resources\Plan\PlanResource;
 use App\Http\Resources\Plan\PlanSingleResource;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanCategory;
-use App\Models\User;
 use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
 use App\Models\TemporaryFile;

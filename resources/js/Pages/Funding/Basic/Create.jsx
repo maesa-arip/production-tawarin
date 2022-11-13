@@ -664,7 +664,7 @@ export default function Create({ fundingCategories }) {
                                                         />
                                                     </svg>
                                                     <Filepond
-                                                        inputname={"coverfunding"}
+                                                        inputname={"document"}
                                                         allowMultiple={true}
                                                         maxFiles={"3"}
                                                     />

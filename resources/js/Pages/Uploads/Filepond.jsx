@@ -25,7 +25,7 @@ export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
     // console.log();
     return (
         <div>
-            <Head title="Filepond" />
+            <Head title="" />
             <Container>
                     <FilePond
                         files={files}

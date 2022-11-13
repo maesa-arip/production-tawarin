@@ -18,7 +18,12 @@ use App\Http\Controllers\Toko\PaymentNotificationController;
 use App\Http\Controllers\Toko\ProductController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Wallet\Admin\DepositAdminController;
+use App\Http\Controllers\Wallet\DepositController;
+use App\Http\Controllers\Wallet\TransferController;
 use App\Http\Controllers\Wallet\WalletController;
+use App\Http\Controllers\Wallet\Admin\WithdrawAdminController;
+use App\Http\Controllers\Wallet\WithdrawController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,7 +44,7 @@ Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone']
 
 // Permissions
 Route::prefix('role-and-permission')->namespace('Permissions')->group(function () {
-    Route::get('assignable', [AssignController::class, 'create'])->name('assign.create');
+    Route::get('assignable', [AssignController::class, 'index'])->name('assign.index');
     Route::post('assignable', [AssignController::class, 'store']);
     Route::get('assignable/{role}/edit', [AssignController::class, 'edit'])->name('assign.edit');
     Route::put('assignable/{role}/edit', [AssignController::class, 'update']);
@@ -71,9 +76,11 @@ Route::prefix('role-and-permission')->namespace('Permissions')->group(function (
     // Plans
     Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
     Route::Resource('public/plans', PlanController::class)->only('show');
+    // Route::Resource('plans', PlanController::class)->only('show');
     // End Plans
 
     // Fundings
+    // Route::Resource('fundings', FundingController::class)->only('show');
     Route::get('public/fundings/list', [FundingController::class,'list'])->name('funding.list');
     // End Fundings
 //End Public List
@@ -97,17 +104,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class,'profile'])->name('users.profile');
     Route::apiResource('users', UserController::class);
     // Plans
-    Route::Resource('plans', PlanController::class)->except('show');
+    Route::Resource('plans', PlanController::class);
     // End Plans
     // Plans
     Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
-    Route::Resource('projects', ProjectController::class)->except('show');
+    Route::Resource('projects', ProjectController::class);
     // End Plans
     // Fundings
-    Route::Resource('fundings', FundingController::class)->except('show');
+    Route::Resource('fundings', FundingController::class);
     // End Fundings
     // Wallets
+    // Route::get('wallets/admin/deposit', [WalletAdminController::class,'deposit'])->name('admin.deposit');
+    // Route::put('wallets/admin/update', [WalletAdminController::class,'update'])->name('admin.deposit.update');
+    Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class,'confirmed'])->name('admindeposit.confirmed');
+    Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class,'confirmed'])->name('adminwithdraw.confirmed');
+
+    Route::Resource('admindeposits', DepositAdminController::class);
+    Route::Resource('adminwithdraws', WithdrawAdminController::class);
     Route::Resource('wallets', WalletController::class);
+    Route::Resource('deposits', DepositController::class);
+    Route::Resource('withdraws', WithdrawController::class);
+    Route::get('wallet/transfers', [TransferController::class,'transfer'])->name('wallet.transfer');
+    Route::post('wallet/transfers', [TransferController::class,'transferstore'])->name('wallet.transferstore');
     // End Wallets
 });
 

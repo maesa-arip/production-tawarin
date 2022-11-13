@@ -47,6 +47,14 @@ export default function Navbar() {
                         >
                             {/* <NavLink href="/">Home</NavLink> */}
                             <NavLink href="/wallets">Saldo</NavLink>
+                            <DropdownMenu label={"Admin"}>
+                                <DropdownMenu.Link href="/admindeposits">
+                                    Deposit
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/adminwithdraws">
+                                    Withdraw
+                                </DropdownMenu.Link>
+                            </DropdownMenu>
                             <DropdownMenu label={"Perencanaan"}>
                                 <DropdownMenu.Link href="/plans">
                                     Perencanaan Saya
