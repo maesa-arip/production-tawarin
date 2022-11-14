@@ -47,14 +47,7 @@ export default function Navbar() {
                         >
                             {/* <NavLink href="/">Home</NavLink> */}
                             <NavLink href="/wallets">Saldo</NavLink>
-                            <DropdownMenu label={"Admin"}>
-                                <DropdownMenu.Link href="/admindeposits">
-                                    Deposit
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/adminwithdraws">
-                                    Withdraw
-                                </DropdownMenu.Link>
-                            </DropdownMenu>
+                           
                             <DropdownMenu label={"Perencanaan"}>
                                 <DropdownMenu.Link href="/plans">
                                     Perencanaan Saya
@@ -97,7 +90,15 @@ export default function Navbar() {
                                     Buat Pendanaan
                                 </DropdownMenu.Link>
                             </DropdownMenu>
-                            <DropdownMenu label={"Role & Permission"}>
+                            <DropdownMenu label={"Admin"}>
+                                <DropdownMenu.Link href="/admindeposits">
+                                    Deposit
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/adminwithdraws">
+                                    Withdraw
+                                </DropdownMenu.Link>
+                            </DropdownMenu>
+                            <DropdownMenu label={"Hak Akses"}>
                                 <DropdownMenu.Link href="/role-and-permission/roles">
                                     Roles
                                 </DropdownMenu.Link>

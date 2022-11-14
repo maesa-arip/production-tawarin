@@ -18,7 +18,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements Wallet, Confirmable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, CanConfirm;
+    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, CanConfirm, Notifiable;
 
     /**
      * The attributes that are mass assignable.

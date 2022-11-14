@@ -318,12 +318,15 @@ export default function Index(balance) {
                                     Tarik
                                 </NavLink>
                                 
-                                <button
+                                <NavLink
                                     type="button"
-                                    className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 h-9 rounded-xl hover:text-white"
+                                    className={
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                    }
+                                    href={"/histories"}
                                 >
                                     History
-                                </button>
+                                </NavLink>
                             </div>
                         </div>
                         <div className="mt-12 md:mt-0">

@@ -23,6 +23,7 @@ use App\Http\Controllers\Wallet\DepositController;
 use App\Http\Controllers\Wallet\TransferController;
 use App\Http\Controllers\Wallet\WalletController;
 use App\Http\Controllers\Wallet\Admin\WithdrawAdminController;
+use App\Http\Controllers\Wallet\HistoryController as WalletHistoryController;
 use App\Http\Controllers\Wallet\WithdrawController;
 use Illuminate\Support\Facades\Route;
 
@@ -124,6 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::Resource('wallets', WalletController::class);
     Route::Resource('deposits', DepositController::class);
     Route::Resource('withdraws', WithdrawController::class);
+    Route::Resource('histories', WalletHistoryController::class);
     Route::get('wallet/transfers', [TransferController::class,'transfer'])->name('wallet.transfer');
     Route::post('wallet/transfers', [TransferController::class,'transferstore'])->name('wallet.transferstore');
     // End Wallets
