@@ -170,7 +170,7 @@ export default function Index({ balance, bonus }) {
                                             Saldo
                                         </div>
                                         <div className="text-2xl font-semibold">
-                                            Rp {numberFormat(balance.balance)}
+                                            Rp {numberFormat(balance)}
                                         </div>
                                     </div>
                                 </div>
@@ -290,7 +290,7 @@ export default function Index({ balance, bonus }) {
                                             Saldo
                                         </div>
                                         <div className="text-2xl font-semibold">
-                                            Rp {numberFormat(bonus.balance)}
+                                            Rp {numberFormat(bonus)}
                                         </div>
                                     </div>
                                 </div>
