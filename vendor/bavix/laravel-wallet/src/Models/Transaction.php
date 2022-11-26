@@ -33,17 +33,19 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @method int getKey()
  */
-
 class Transaction extends Model implements HasMedia
+
 {
     use InteractsWithMedia;
     public const TYPE_DEPOSIT = 'deposit';
 
     public const TYPE_WITHDRAW = 'withdraw';
+    
 
     /**
      * @var string[]
      */
+    
     protected $fillable = [
         'payable_type',
         'payable_id',

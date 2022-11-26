@@ -25,5 +25,5 @@ class TransferController extends Controller
             ['type'=>'success',
             'message'=>'Transfer Berhasil']
         );
-    }
+    }    
 }

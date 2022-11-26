@@ -1,14 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
+use Inertia\Inertia;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DependantDropdownController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\Funding\FundingController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Permissions\AssignController;
 use App\Http\Controllers\Permissions\PermissionController;
 use App\Http\Controllers\Permissions\RoleController;
+use App\Http\Controllers\Permissions\RolePermissionController;
 use App\Http\Controllers\Permissions\UserPermissionController;
+use App\Http\Controllers\Permissions\UserRoleController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
@@ -27,10 +33,35 @@ use App\Http\Controllers\Wallet\HistoryController as WalletHistoryController;
 use App\Http\Controllers\Wallet\WithdrawController;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
-// Route::get('assets/{path}', function ($path) {
-//     return response()->file(public_path("assets/$path"));
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
 // });
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 //Example
 Route::get('filepond', [UploadController::class, 'filepond'])->name('filepond.index');
@@ -45,15 +76,15 @@ Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone']
 
 // Permissions
 Route::prefix('role-and-permission')->namespace('Permissions')->group(function () {
-    Route::get('assignable', [AssignController::class, 'index'])->name('assign.index');
-    Route::post('assignable', [AssignController::class, 'store']);
-    Route::get('assignable/{role}/edit', [AssignController::class, 'edit'])->name('assign.edit');
-    Route::put('assignable/{role}/edit', [AssignController::class, 'update']);
+    Route::get('permission-to-role', [RolePermissionController::class, 'index'])->name('assign.role.index');
+    Route::post('permission-to-role', [RolePermissionController::class, 'store']);
+    Route::get('permission-to-role/{role}/edit', [RolePermissionController::class, 'edit'])->name('assign.role.edit');
+    Route::put('permission-to-role/{role}/edit', [RolePermissionController::class, 'update']);
     //User
-    Route::get('assign/user', [UserPermissionController::class, 'create'])->name('assign.user.create');
-    Route::post('assign/user', [UserPermissionController::class, 'store']);
-    Route::get('assign/{user}/user', [UserPermissionController::class, 'edit'])->name('assign.user.edit');
-    Route::put('assign/{user}/user', [UserPermissionController::class, 'update']);
+    Route::get('role-to-user', [UserRoleController::class, 'index'])->name('assign.user.index');
+    Route::post('role-to-user', [UserRoleController::class, 'store']);
+    Route::get('role-to-user/{user}/edit', [UserRoleController::class, 'edit'])->name('assign.user.edit');
+    Route::put('role-to-user/{user}/edit', [UserRoleController::class, 'update']);
 
     Route::prefix('roles')->group(function () {
         Route::get('', [RoleController::class, 'index'])->name('roles.index');
@@ -102,24 +133,24 @@ Route::resource('toko/products', ProductController::class);
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
-    Route::get('/profile', [UserController::class,'profile'])->name('users.profile');
+    // Route::get('/profile', [UserController::class,'profile'])->name('users.profile');
     Route::apiResource('users', UserController::class);
     // Plans
     Route::Resource('plans', PlanController::class);
     // End Plans
+
     // Plans
     Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
     Route::Resource('projects', ProjectController::class);
     // End Plans
+
     // Fundings
     Route::Resource('fundings', FundingController::class);
     // End Fundings
+
     // Wallets
-    // Route::get('wallets/admin/deposit', [WalletAdminController::class,'deposit'])->name('admin.deposit');
-    // Route::put('wallets/admin/update', [WalletAdminController::class,'update'])->name('admin.deposit.update');
     Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class,'confirmed'])->name('admindeposit.confirmed');
     Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class,'confirmed'])->name('adminwithdraw.confirmed');
-
     Route::Resource('admindeposits', DepositAdminController::class);
     Route::Resource('adminwithdraws', WithdrawAdminController::class);
     Route::Resource('wallets', WalletController::class);
@@ -129,6 +160,10 @@ Route::middleware('auth')->group(function () {
     Route::get('wallet/transfers', [TransferController::class,'transfer'])->name('wallet.transfer');
     Route::post('wallet/transfers', [TransferController::class,'transferstore'])->name('wallet.transferstore');
     // End Wallets
+
+    //Notifications
+    Route::resource('notifications', NotificationController::class);
+    //End Notifications
 });
 
 Route::controller(InvoiceController::class)->middleware('auth')->group(function () {
@@ -144,4 +179,5 @@ Route::controller(CartController::class)->middleware('auth')->group(function () 
 
 Route::post('api/notification/handling', [PaymentNotificationController::class, 'hit']);
 
-require __DIR__ . '/auth.php';
+
+require __DIR__.'/auth.php';

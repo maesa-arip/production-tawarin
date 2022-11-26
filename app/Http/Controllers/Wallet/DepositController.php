@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Wallet;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Wallet\DepositRequest;
 use App\Models\TemporaryFile;
+use App\Models\User;
+use App\Notifications\Wallet\UserDepositNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -41,11 +44,10 @@ class DepositController extends Controller
     public function store(DepositRequest $request)
     {
         $user = auth()->user();
+        $admin = User::find(1);
         $deposit = $user->deposit($request->amount, null, false);
-
         $temporaryFolder = Session::get('folder');
         $namefile = Session::get('filename');
-
         $temporary = TemporaryFile::where('folder', $temporaryFolder)->where('filename', $namefile)->first();
         if ($temporary) { //if exist
             $deposit->addMedia(storage_path('app/public/files/tmp/'. $temporaryFolder .'/'.$temporary->filename))
@@ -60,6 +62,9 @@ class DepositController extends Controller
                     $temporary->delete();
                 }
         }
+        
+        $admin->notify(new UserDepositNotification($deposit));
+        Cache::forget('notifications_count');
         return redirect('wallets')->with([
             'type' => 'success',
             'message' => 'Top Up berhasil, menunggu konfirmasi admin',

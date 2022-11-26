@@ -43,7 +43,7 @@ export default function Home() {
                                         }}
                                     />
 
-                                    <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-4xl bg-gradient-to-r from-yellow-300 dark:via-amber-200 via-amber-500 dark:to-yellow-400 to-yellow-500 bg-clip-text lg:mt-4">
+                                    <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-4xl bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-500 bg-clip-text lg:mt-4">
                                         <span>Super Ekosistem Tawarin.</span>
                                     </span>
                                 </h1>
@@ -973,7 +973,7 @@ export default function Home() {
                                 Ini adalah daftar perencanaan di tawarin
                             </p>
                         </div>
-                        <div className="mt-10 flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                        <div className="mt-10 flex flex-col bg-white border shadow-sm rounded-xl">
                     <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                         <svg
                             className="max-w-[5rem]"
@@ -983,14 +983,14 @@ export default function Home() {
                         >
                             <path
                                 d="M254.509 253.872L226.509 226.872"
-                                className="stroke-gray-400 dark:stroke-white"
+                                className="stroke-gray-400"
                                 stroke="currentColor"
                                 strokeWidth={7}
                                 strokeLinecap="round"
                             />
                             <path
                                 d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
-                                className="stroke-gray-400 dark:stroke-white"
+                                className="stroke-gray-400"
                                 stroke="currentColor"
                                 strokeWidth={7}
                                 strokeLinecap="round"
@@ -1002,7 +1002,7 @@ export default function Home() {
                                 height="73.2425"
                                 rx="36.6212"
                                 transform="rotate(40.8596 270.524 221.872)"
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <ellipse
@@ -1010,12 +1010,12 @@ export default function Home() {
                                 cy="404.372"
                                 rx="121.5"
                                 ry="23.5"
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <path
                                 d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
-                                className="stroke-gray-400 dark:stroke-white"
+                                className="stroke-gray-400"
                                 stroke="currentColor"
                                 strokeWidth={7}
                                 strokeLinecap="round"
@@ -1025,7 +1025,7 @@ export default function Home() {
                                 cy="116.872"
                                 rx={9}
                                 ry={12}
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <ellipse
@@ -1033,16 +1033,16 @@ export default function Home() {
                                 cy="117.872"
                                 rx={9}
                                 ry={12}
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <path
                                 d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                         </svg>
-                        <p className="mt-5 text-sm text-gray-500 dark:text-gray-500">
+                        <p className="mt-5 text-sm text-gray-500">
                             No data to show
                         </p>
                     </div>
@@ -1066,13 +1066,13 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/queues"
                                             >
                                                 Queues
@@ -1114,13 +1114,13 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/amazon-s3"
                                             >
                                                 Amazon S3
@@ -1162,7 +1162,7 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/tailwind-css"
                                             >
                                                 Tailwind CSS
@@ -1204,25 +1204,25 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/inertia"
                                             >
                                                 Inertia
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/reactjs"
                                             >
                                                 React.js
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/tailwind-css"
                                             >
                                                 Tailwind CSS
@@ -1265,25 +1265,25 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel-9"
                                             >
                                                 Laravel 9
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/inertia"
                                             >
                                                 Inertia
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/reactjs"
                                             >
                                                 React.js
@@ -1326,19 +1326,19 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/reactjs"
                                             >
                                                 React.js
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/js"
                                             >
                                                 Javascript
@@ -1380,13 +1380,13 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel-9"
                                             >
                                                 Laravel 9
@@ -1428,7 +1428,7 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/js"
                                             >
                                                 Javascript
@@ -1457,7 +1457,7 @@ export default function Home() {
                         <div className="flex justify-center md:justify-end">
                             <a
                                 color="black"
-                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 dark:to-yellow-500 to-yellow-600 mb-2"
+                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 to-yellow-600 mb-2"
                                 href="/series?page=2"
                             >
                                 Lihat lebih banyak
@@ -1493,7 +1493,7 @@ export default function Home() {
                                 Ini adalah daftar Proyek di tawarin
                             </p>
                         </div>
-                        <div className="mt-10 flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                        <div className="mt-10 flex flex-col bg-white border shadow-sm rounded-xl">
                     <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                         <svg
                             className="max-w-[5rem]"
@@ -1503,14 +1503,14 @@ export default function Home() {
                         >
                             <path
                                 d="M254.509 253.872L226.509 226.872"
-                                className="stroke-gray-400 dark:stroke-white"
+                                className="stroke-gray-400"
                                 stroke="currentColor"
                                 strokeWidth={7}
                                 strokeLinecap="round"
                             />
                             <path
                                 d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
-                                className="stroke-gray-400 dark:stroke-white"
+                                className="stroke-gray-400"
                                 stroke="currentColor"
                                 strokeWidth={7}
                                 strokeLinecap="round"
@@ -1522,7 +1522,7 @@ export default function Home() {
                                 height="73.2425"
                                 rx="36.6212"
                                 transform="rotate(40.8596 270.524 221.872)"
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <ellipse
@@ -1530,12 +1530,12 @@ export default function Home() {
                                 cy="404.372"
                                 rx="121.5"
                                 ry="23.5"
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <path
                                 d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
-                                className="stroke-gray-400 dark:stroke-white"
+                                className="stroke-gray-400"
                                 stroke="currentColor"
                                 strokeWidth={7}
                                 strokeLinecap="round"
@@ -1545,7 +1545,7 @@ export default function Home() {
                                 cy="116.872"
                                 rx={9}
                                 ry={12}
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <ellipse
@@ -1553,16 +1553,16 @@ export default function Home() {
                                 cy="117.872"
                                 rx={9}
                                 ry={12}
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                             <path
                                 d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
-                                className="fill-gray-400 dark:fill-white"
+                                className="fill-gray-400"
                                 fill="currentColor"
                             />
                         </svg>
-                        <p className="mt-5 text-sm text-gray-500 dark:text-gray-500">
+                        <p className="mt-5 text-sm text-gray-500">
                             No data to show
                         </p>
                     </div>
@@ -1586,13 +1586,13 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/queues"
                                             >
                                                 Queues
@@ -1634,13 +1634,13 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/amazon-s3"
                                             >
                                                 Amazon S3
@@ -1682,7 +1682,7 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/tailwind-css"
                                             >
                                                 Tailwind CSS
@@ -1724,25 +1724,25 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/inertia"
                                             >
                                                 Inertia
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/reactjs"
                                             >
                                                 React.js
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/tailwind-css"
                                             >
                                                 Tailwind CSS
@@ -1785,25 +1785,25 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel-9"
                                             >
                                                 Laravel 9
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/inertia"
                                             >
                                                 Inertia
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/reactjs"
                                             >
                                                 React.js
@@ -1846,19 +1846,19 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/reactjs"
                                             >
                                                 React.js
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/js"
                                             >
                                                 Javascript
@@ -1900,13 +1900,13 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel-9"
                                             >
                                                 Laravel 9
@@ -1948,7 +1948,7 @@ export default function Home() {
                                     <span className="flex items-center justify-between">
                                         <span className="space-x-2 font-medium">
                                             <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/js"
                                             >
                                                 Javascript
@@ -1977,7 +1977,7 @@ export default function Home() {
                         <div className="flex justify-center md:justify-end">
                             <a
                                 color="black"
-                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 dark:to-yellow-500 to-yellow-600 mb-2"
+                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 to-yellow-600 mb-2"
                                 href="/series?page=2"
                             >
                                 Lihat lebih banyak

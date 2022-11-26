@@ -19,9 +19,7 @@ class RolePermissionResource extends JsonResource
             'name' => $this->name,
             'guard_name' => $this->guard_name,
             'created_at' => $this->created_at->diffForHumans(),
-            'permissions' => [
-                'permission_name' => $this->permissions->name,
-            ]
+            'permissions' => RolePermissionResource::collection($this->whenLoaded('permissions')),
         ];
     }
 }

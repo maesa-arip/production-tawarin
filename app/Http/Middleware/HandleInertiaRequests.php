@@ -33,13 +33,12 @@ class HandleInertiaRequests extends Middleware
      * Define the props that are shared by default.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return mixed[]
      */
     public function share(Request $request)
     {
-        // Cache::forget('categories_navbar');
-        // Cache::flush();
         $cart_global_count = $request->user() ? Cache::rememberForever('carts_global_count',fn()=> Cart::whereBelongsTo($request->user())->whereNull('paid_at')->count()) : null;
+        $notification_count = $request->user() ? Cache::rememberForever('notifications_count',fn()=> auth()->user()->unreadNotifications->count()) : null;
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -58,6 +57,7 @@ class HandleInertiaRequests extends Middleware
                 'slug'=>$q->slug,
             ])),
             'carts_global_count' => $cart_global_count,
+            'notifications_count' => $notification_count,
         ]);
     }
 }

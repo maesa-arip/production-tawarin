@@ -3,7 +3,7 @@ import React from 'react'
 export default function Parsinta() {
   return (
     <div className="min-h-screen bg-white text-shark-900">
-                <nav className="relative w-full px-4 py-2 dark:border-shark-800 dark:bg-shark-900 lg:hidden">
+                <nav className="relative w-full px-4 py-2 lg:hidden">
                     <div className="flex items-center justify-between">
                         <a className="flex items-center flex-none" href="/">
                             <svg
@@ -33,7 +33,7 @@ export default function Parsinta() {
                                 />
                             </svg>
                             <svg
-                                className="w-20 fill-black dark:fill-white"
+                                className="w-20 fill-black"
                                 width={117}
                                 height={23}
                                 viewBox="0 0 123 28"
@@ -75,7 +75,7 @@ export default function Parsinta() {
                             </svg>
                         </a>
                         <div className="flex items-center justify-end w-full gap-x-1">
-                            <button className="flex items-center justify-center border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 dark:border-shark-700 dark:bg-shark-800 dark:text-white dark:shadow dark:hover:enabled:border-shark-600 dark:hover:enabled:bg-shark-700 h-10 rounded-lg px-3.5">
+                            <button className="flex items-center justify-center border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 h-10 rounded-lg px-3.5">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="w-5 h-5"
@@ -99,7 +99,7 @@ export default function Parsinta() {
                             </button>
                             <button
                                 type="button"
-                                className="border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 dark:border-shark-700 dark:bg-shark-800 dark:text-white dark:shadow dark:hover:enabled:border-shark-600 dark:hover:enabled:bg-shark-700 py-[9px] inline-block focus:outline-none px-3 border rounded-lg font-medium transition"
+                                className="border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 py-[9px] inline-block focus:outline-none px-3 border rounded-lg font-medium transition"
                             >
                                 <span>
                                     <svg
@@ -127,7 +127,7 @@ export default function Parsinta() {
                             </button>
                             <div className="relative" data-headlessui-state>
                                 <button
-                                    className="inline-flex px-4 py-2 font-medium text-black transition duration-300 bg-white border rounded-lg border-shark-300 disabled:opacity-50 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 dark:border-shark-700 dark:bg-shark-800 dark:text-white dark:shadow dark:hover:enabled:border-shark-600 dark:hover:enabled:bg-shark-700 gap-x-2"
+                                    className="inline-flex px-4 py-2 font-medium text-black transition duration-300 bg-white border rounded-lg border-shark-300 disabled:opacity-50 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 gap-x-2"
                                     id="headlessui-menu-button-:r0:"
                                     type="button"
                                     aria-haspopup="true"
@@ -160,7 +160,7 @@ export default function Parsinta() {
                         </div>
                     </div>
                 </nav>
-                <nav className="z-20 hidden bg-white dark:shadow-none relative dark:bg-shark-900 px-4 py-0.5 print:hidden lg:block">
+                <nav className="z-20 hidden bg-white relative px-4 py-0.5 print:hidden lg:block">
                     <div className="flex flex-row items-center justify-between mx-auto lg:max-w-screen-2xl">
                         <a
                             className="flex items-center mr-3 shrink-0 focus:outline-none"
@@ -248,7 +248,7 @@ export default function Parsinta() {
                                     className="relative flex items-center gap-x-2 py-4 px-0.5 font-medium tracking-tight transition-colors duration-200 focus:outline-none"
                                     href="/series"
                                 >
-                                    <span className="text-shark-600 dark:text-shark-300 hover:text-primary-500 inline-block py-1.5 px-4">
+                                    <span className="text-shark-600 hover:text-primary-500 inline-block py-1.5 px-4">
                                         Seri
                                     </span>
                                 </a>
@@ -256,7 +256,7 @@ export default function Parsinta() {
                                     className="relative flex items-center gap-x-2 py-4 px-0.5 font-medium tracking-tight transition-colors duration-200 focus:outline-none"
                                     href="https://parsinta.com/topics/laravel"
                                 >
-                                    <span className="text-shark-600 dark:text-shark-300 hover:text-primary-500 inline-block py-1.5 px-4">
+                                    <span className="text-shark-600 hover:text-primary-500 inline-block py-1.5 px-4">
                                         Topik
                                     </span>
                                 </a>
@@ -264,7 +264,7 @@ export default function Parsinta() {
                                     className="relative flex items-center gap-x-2 py-4 px-0.5 font-medium tracking-tight transition-colors duration-200 focus:outline-none"
                                     href="https://parsinta.com/articles"
                                 >
-                                    <span className="text-shark-600 dark:text-shark-300 hover:text-primary-500 inline-block py-1.5 px-4">
+                                    <span className="text-shark-600 hover:text-primary-500 inline-block py-1.5 px-4">
                                         Artikel
                                     </span>
                                 </a>
@@ -272,7 +272,7 @@ export default function Parsinta() {
                                     className="relative flex items-center gap-x-2 py-4 px-0.5 font-medium tracking-tight transition-colors duration-200 focus:outline-none"
                                     href="/ebooks"
                                 >
-                                    <span className="text-shark-600 dark:text-shark-300 hover:text-primary-500 inline-block py-1.5 px-4">
+                                    <span className="text-shark-600 hover:text-primary-500 inline-block py-1.5 px-4">
                                         Ebook
                                     </span>
                                 </a>
@@ -280,13 +280,13 @@ export default function Parsinta() {
                                     className="relative flex items-center gap-x-2 py-4 px-0.5 font-medium tracking-tight transition-colors duration-200 focus:outline-none"
                                     href="/premium"
                                 >
-                                    <span className="text-shark-600 dark:text-shark-300 hover:text-primary-500 inline-block py-1.5 px-4">
+                                    <span className="text-shark-600 hover:text-primary-500 inline-block py-1.5 px-4">
                                         Premium
                                     </span>
                                 </a>
                             </div>
                             <div className="flex items-center gap-x-1">
-                                <button className="border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 dark:border-shark-700 dark:bg-shark-800 dark:text-white dark:shadow dark:hover:enabled:border-shark-600 dark:hover:enabled:bg-shark-700 group flex items-center gap-x-2 rounded-lg fade px-3.5 py-2 focus:outline-none xl:px-3">
+                                <button className="border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 group flex items-center gap-x-2 rounded-lg fade px-3.5 py-2 focus:outline-none xl:px-3">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="w-4 h-4"
@@ -316,7 +316,7 @@ export default function Parsinta() {
                                 </button>
                                 <button
                                     type="button"
-                                    className="border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 dark:border-shark-700 dark:bg-shark-800 dark:text-white dark:shadow dark:hover:enabled:border-shark-600 dark:hover:enabled:bg-shark-700 py-[9px] inline-block focus:outline-none px-3 border rounded-lg font-medium transition"
+                                    className="border border-shark-300 bg-white text-black disabled:opacity-50 transition duration-300 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 py-[9px] inline-block focus:outline-none px-3 border rounded-lg font-medium transition"
                                 >
                                     <span>
                                         <svg
@@ -365,13 +365,13 @@ export default function Parsinta() {
                                     </span>
                                 </button>
                                 <a
-                                    className="inline-block px-4 py-2 font-medium text-black transition duration-300 bg-white border rounded-lg border-shark-300 disabled:opacity-50 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 dark:border-shark-700 dark:bg-shark-800 dark:text-white dark:shadow dark:hover:enabled:border-shark-600 dark:hover:enabled:bg-shark-700 fade"
+                                    className="inline-block px-4 py-2 font-medium text-black transition duration-300 bg-white border rounded-lg border-shark-300 disabled:opacity-50 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 fade"
                                     href="/login"
                                 >
                                     Masuk
                                 </a>
                                 <a
-                                    className="inline-block px-4 py-2 font-medium text-black transition duration-300 bg-white border rounded-lg border-shark-300 disabled:opacity-50 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 dark:border-shark-700 dark:bg-shark-800 dark:text-white dark:shadow dark:hover:enabled:border-shark-600 dark:hover:enabled:bg-shark-700 fade"
+                                    className="inline-block px-4 py-2 font-medium text-black transition duration-300 bg-white border rounded-lg border-shark-300 disabled:opacity-50 hover:enabled:border-shark-300 hover:enabled:bg-shark-200 fade"
                                     href="/register"
                                 >
                                     Daftar
@@ -389,9 +389,9 @@ export default function Parsinta() {
                     }}
                 />
                 <main>
-                    <div className="relative py-8 mb-8 bg-white border-t dark:bg-grid-primary-900/50 bg-grid-primary-100 dark:bg-shark-900 dark:border-shark-800/50 lg:py-40 lg:mb-16">
-                        <div className="absolute inset-0 bg-gradient-to-r dark:from-primary-900/10 dark:via-shark-900 dark:to-shark-900 from-primary-400/10 via-white to-shark-200" />
-                        <div className="absolute inset-0 bg-gradient-to-b dark:from-shark-900 dark:via-transparent dark:to-shark-900 from-white via-transparent to-white" />
+                    <div className="relative py-8 mb-8 bg-white border-t bg-grid-primary-100 lg:py-40 lg:mb-16">
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary-400/10 via-white to-shark-200" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
                         <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
                             <section className="col-span-10 col-start-2">
                                 <div className="relative flex flex-col justify-between h-full">
@@ -400,7 +400,7 @@ export default function Parsinta() {
                                             Tingkatkan keterampilan Anda{"{"}" "
                                             {"}"}
                                             <br className="hidden sm:block" />
-                                            <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-5xl bg-gradient-to-r from-primary-600 dark:via-sky-300 via-sky-500 dark:to-cyan-400 to-cyan-500 bg-clip-text lg:mt-4">
+                                            <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-5xl bg-gradient-to-r from-primary-600 via-sky-500 to-cyan-500 bg-clip-text lg:mt-4">
                                                 <span>
                                                     ketingkat yang berikutnya.
                                                 </span>
@@ -419,35 +419,35 @@ export default function Parsinta() {
                                             berikutnya, melalui seri-seri di
                                             sini seperti{"{"}" "{"}"}
                                             <a
-                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/laravel"
                                             >
                                                 Laravel
                                             </a>
                                             ,{"{"}" "{"}"}
                                             <a
-                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/vue"
                                             >
                                                 Vue
                                             </a>
                                             ,{"{"}" "{"}"}
                                             <a
-                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/reactjs"
                                             >
                                                 React
                                             </a>
                                             ,{"{"}" "{"}"}
                                             <a
-                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/topics/tailwind-css"
                                             >
                                                 Tailwind CSS
                                             </a>
                                             dan{"{"}" "{"}"}
                                             <a
-                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                className="decoration-3 underline-offset-[-2px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                 href="/series"
                                             >
                                                 banyak lagi
@@ -480,7 +480,7 @@ export default function Parsinta() {
                                             </svg>
                                         </a>
                                         <a
-                                            className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition dark:bg-shark-700 dark:hover:bg-shark-600 dark:text-white text-shark-900 bg-shark-300 hover:bg-shark-200"
+                                            className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-shark-900 bg-shark-300 hover:bg-shark-200"
                                             href="/articles"
                                         >
                                             Baca artikel
@@ -536,13 +536,13 @@ export default function Parsinta() {
                                             <span className="flex items-center justify-between">
                                                 <span className="space-x-2 font-medium">
                                                     <a
-                                                        className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                        className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                         href="/topics/laravel"
                                                     >
                                                         Laravel
                                                     </a>
                                                     <a
-                                                        className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                        className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                         href="/topics/queues"
                                                     >
                                                         Queues
@@ -584,19 +584,19 @@ export default function Parsinta() {
                                             <span className="flex items-center justify-between">
                                                 <span className="space-x-2 font-medium">
                                                     <a
-                                                        className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                        className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                         href="/topics/css"
                                                     >
                                                         CSS
                                                     </a>
                                                     <a
-                                                        className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                        className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                         href="/topics/bootstrap"
                                                     >
                                                         Bootstrap
                                                     </a>
                                                     <a
-                                                        className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                        className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                         href="/topics/sass"
                                                     >
                                                         SASS
@@ -651,13 +651,13 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel"
                                                 >
                                                     Laravel
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/queues"
                                                 >
                                                     Queues
@@ -699,13 +699,13 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel"
                                                 >
                                                     Laravel
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/amazon-s3"
                                                 >
                                                     Amazon S3
@@ -747,7 +747,7 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/tailwind-css"
                                                 >
                                                     Tailwind CSS
@@ -789,25 +789,25 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel"
                                                 >
                                                     Laravel
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/inertia"
                                                 >
                                                     Inertia
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/reactjs"
                                                 >
                                                     React.js
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/tailwind-css"
                                                 >
                                                     Tailwind CSS
@@ -850,25 +850,25 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel"
                                                 >
                                                     Laravel
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel-9"
                                                 >
                                                     Laravel 9
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/inertia"
                                                 >
                                                     Inertia
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/reactjs"
                                                 >
                                                     React.js
@@ -911,19 +911,19 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel"
                                                 >
                                                     Laravel
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/reactjs"
                                                 >
                                                     React.js
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/js"
                                                 >
                                                     Javascript
@@ -965,13 +965,13 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel"
                                                 >
                                                     Laravel
                                                 </a>
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/laravel-9"
                                                 >
                                                     Laravel 9
@@ -1013,7 +1013,7 @@ export default function Parsinta() {
                                         <span className="flex items-center justify-between">
                                             <span className="space-x-2 font-medium">
                                                 <a
-                                                    className="mr-1 text-[12px] font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                    className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                     href="/topics/js"
                                                 >
                                                     Javascript
@@ -2471,10 +2471,10 @@ export default function Parsinta() {
                         </div>
                     </section>
                     <section
-                        className="relative pt-6 border-b bg-shark-50 bg-grid-shark-500/5 dark:border-shark-800 dark:bg-shark-900 md:pt-16"
+                        className="relative pt-6 border-b bg-shark-50 bg-grid-shark-500/5 md:pt-16"
                         id="pricing"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-shark-50 to-shark-50 dark:via-shark-900 dark:to-shark-900 dark:from-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-shark-50 to-shark-50" />
                         <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
                             <section className="col-span-10 col-start-2">
                                 <div className="relative flex justify-center text-center">
@@ -2497,7 +2497,7 @@ export default function Parsinta() {
                             <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
                                 <section className="col-span-10 col-start-2">
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-2 lg:gap-10 xl:grid-cols-3">
-                                        <div className="relative rounded-xl border-t bg-white border-transparent dark:border-shark-600 dark:bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#1E293B_48.73%)] p-4 text-shark-200 shadow sm:p-6 lg:p-14">
+                                        <div className="relative rounded-xl border-t bg-white border-transparent p-4 text-shark-200 shadow sm:p-6 lg:p-14">
                                             <div className="flex items-start justify-between mb-2 lg:mb-5">
                                                 <span className="rounded-md nah px-2 py-0.5 text-xs font-medium capitalize tracking-tight shadow-sm">
                                                     silver
@@ -2686,13 +2686,13 @@ export default function Parsinta() {
                                                     </ul>
                                                 </div>
                                                 <div className="flex justify-center mt-10">
-                                                    <button className="w-full h-10 font-semibold rounded-xl dark:bg-shark-600 dark:text-white fade text-shark-900 bg-shark-200 hover:bg-shark-300 dark:hover:bg-shark-500 dark:hover:text-white lg:h-12 lg:w-64">
+                                                    <button className="w-full h-10 font-semibold rounded-xl fade text-shark-900 bg-shark-200 hover:bg-shark-300 lg:h-12 lg:w-64">
                                                         Beli sekarang
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="relative rounded-xl border-t bg-white border-transparent dark:border-shark-600 dark:bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#1E293B_48.73%)] p-4 text-shark-200 shadow sm:p-6 lg:p-14">
+                                        <div className="relative rounded-xl border-t bg-white border-transparent p-4 text-shark-200 shadow sm:p-6 lg:p-14">
                                             <div className="flex items-start justify-between mb-2 lg:mb-5">
                                                 <span className="rounded-md nah px-2 py-0.5 text-xs font-medium capitalize tracking-tight shadow-sm">
                                                     gold
@@ -2881,13 +2881,13 @@ export default function Parsinta() {
                                                     </ul>
                                                 </div>
                                                 <div className="flex justify-center mt-10">
-                                                    <button className="w-full h-10 font-semibold rounded-xl dark:bg-shark-600 dark:text-white fade text-shark-900 bg-shark-200 hover:bg-shark-300 dark:hover:bg-shark-500 dark:hover:text-white lg:h-12 lg:w-64">
+                                                    <button className="w-full h-10 font-semibold rounded-xl fade text-shark-900 bg-shark-200 hover:bg-shark-300 lg:h-12 lg:w-64">
                                                         Beli sekarang
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="relative rounded-xl border-t bg-white border-transparent dark:border-shark-600 dark:bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#1E293B_48.73%)] p-4 text-shark-200 shadow sm:p-6 lg:p-14">
+                                        <div className="relative rounded-xl border-t bg-white border-transparent p-4 text-shark-200 shadow sm:p-6 lg:p-14">
                                             <div className="flex items-start justify-between mb-2 lg:mb-5">
                                                 <span className="rounded-md nah px-2 py-0.5 text-xs font-medium capitalize tracking-tight shadow-sm">
                                                     platinum
@@ -3076,13 +3076,13 @@ export default function Parsinta() {
                                                     </ul>
                                                 </div>
                                                 <div className="flex justify-center mt-10">
-                                                    <button className="w-full h-10 font-semibold rounded-xl dark:bg-shark-600 dark:text-white fade text-shark-900 bg-shark-200 hover:bg-shark-300 dark:hover:bg-shark-500 dark:hover:text-white lg:h-12 lg:w-64">
+                                                    <button className="w-full h-10 font-semibold rounded-xl fade text-shark-900 bg-shark-200 hover:bg-shark-300 lg:h-12 lg:w-64">
                                                         Beli sekarang
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="relative rounded-xl border-t bg-white border-transparent dark:border-shark-600 dark:bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#1E293B_48.73%)] p-4 text-shark-200 shadow sm:p-6 lg:p-14">
+                                        <div className="relative rounded-xl border-t bg-white border-transparent p-4 text-shark-200 shadow sm:p-6 lg:p-14">
                                             <div className="flex items-start justify-between mb-2 lg:mb-5">
                                                 <span className="rounded-md nah px-2 py-0.5 text-xs font-medium capitalize tracking-tight shadow-sm">
                                                     conqueror
@@ -3271,13 +3271,13 @@ export default function Parsinta() {
                                                     </ul>
                                                 </div>
                                                 <div className="flex justify-center mt-10">
-                                                    <button className="w-full h-10 font-semibold rounded-xl dark:bg-shark-600 dark:text-white fade text-shark-900 bg-shark-200 hover:bg-shark-300 dark:hover:bg-shark-500 dark:hover:text-white lg:h-12 lg:w-64">
+                                                    <button className="w-full h-10 font-semibold rounded-xl fade text-shark-900 bg-shark-200 hover:bg-shark-300 lg:h-12 lg:w-64">
                                                         Beli sekarang
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="relative rounded-xl border-t bg-white border-transparent dark:border-shark-600 dark:bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#1E293B_48.73%)] p-4 text-shark-200 shadow sm:p-6 lg:p-14">
+                                        <div className="relative rounded-xl border-t bg-white border-transparent p-4 text-shark-200 shadow sm:p-6 lg:p-14">
                                             <div className="flex items-start justify-between mb-2 lg:mb-5">
                                                 <span className="rounded-md nah px-2 py-0.5 text-xs font-medium capitalize tracking-tight shadow-sm">
                                                     lifetime
@@ -3466,13 +3466,13 @@ export default function Parsinta() {
                                                     </ul>
                                                 </div>
                                                 <div className="flex justify-center mt-10">
-                                                    <button className="w-full h-10 font-semibold rounded-xl dark:bg-shark-600 dark:text-white fade text-shark-900 bg-shark-200 hover:bg-shark-300 dark:hover:bg-shark-500 dark:hover:text-white lg:h-12 lg:w-64">
+                                                    <button className="w-full h-10 font-semibold rounded-xl fade text-shark-900 bg-shark-200 hover:bg-shark-300 lg:h-12 lg:w-64">
                                                         Beli sekarang
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="relative rounded-xl border-t border-transparent dark:border-shark-600 bg-white dark:bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#1E293B_48.73%)] p-4 text-shark-200 shadow sm:p-6 lg:p-14">
+                                        <div className="relative rounded-xl border-t border-transparent bg-white p-4 text-shark-200 shadow sm:p-6 lg:p-14">
                                             <div className="flex items-start justify-between mb-2 lg:mb-5">
                                                 <span className="rounded-md nah px-2 py-0.5 text-xs font-medium capitalize tracking-tight shadow-sm">
                                                     Ebook
@@ -3657,7 +3657,7 @@ export default function Parsinta() {
                                                 </div>
                                                 <div className="flex justify-center mt-10">
                                                     <a
-                                                        className="inline-flex items-center justify-center w-full h-10 font-semibold rounded-xl dark:bg-shark-600 dark:text-white fade dark:hover:bg-shark-500 text-shark-900 bg-shark-200 hover:bg-shark-300 dark:hover:text-white lg:h-12 lg:w-64"
+                                                        className="inline-flex items-center justify-center w-full h-10 font-semibold rounded-xl fade text-shark-900 bg-shark-200 hover:bg-shark-300 lg:h-12 lg:w-64"
                                                         href="/ebooks/belajar-laravel-lebih-dari-sekedar-fundamental"
                                                     >
                                                         Beli sekarang
@@ -3668,7 +3668,7 @@ export default function Parsinta() {
                                     </div>
                                 </section>
                             </div>
-                            <div className="relative grid py-8 mx-auto mt-10 -mb-8 border-t bg-white/50 dark:bg-shark-800/50 backdrop-blur dark:border-shark-700/50 lg:-mb-16 lg:py-20 place-items-center selection:bg-lime-100 selection:text-lime-700 md:mt-16">
+                            <div className="relative grid py-8 mx-auto mt-10 -mb-8 border-t bg-white/50 backdrop-blur lg:-mb-16 lg:py-20 place-items-center selection:bg-lime-100 selection:text-lime-700 md:mt-16">
                                 <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
                                     <section className="col-span-10 col-start-2">
                                         <div className="max-w-5xl mx-auto text-center">
@@ -3895,7 +3895,7 @@ export default function Parsinta() {
                                                 </div>
                                                 <div className="mt-12 text-center">
                                                     <a
-                                                        className="font-medium text-primary-500 dark:text-primary-400 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
+                                                        className="font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
                                                         href="/faq"
                                                     >
                                                         Tampilkan lebih banyak
@@ -3908,14 +3908,14 @@ export default function Parsinta() {
                             </div>
                         </div>
                     </section>
-                    <div className="relative py-8 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-shark-900 dark:to-shark-900 sm:py-16 md:py-20">
+                    <div className="relative py-8 bg-gradient-to-br from-primary-600 to-primary-700 sm:py-16 md:py-20">
                         <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
                             <section className="col-span-10 col-start-2">
                                 <div className="mb-10 text-center">
                                     <h1 className="text-xl font-semibold text-white lg:text-3xl">
                                         Ikuti sosial media kami
                                     </h1>
-                                    <div className="leading-relaxed text-primary-300 dark:text-shark-400 md:text-lg">
+                                    <div className="leading-relaxed text-primary-300 md:text-lg">
                                         Dapatkan informasi dengan sangat cepat
                                         dari beberapa social media.
                                     </div>
@@ -3929,7 +3929,7 @@ export default function Parsinta() {
                                             className="flex gap-x-4"
                                         >
                                             <div className="shrink-0">
-                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400 dark:border-shark-600 dark:bg-shark-800 dark:ring-1 dark:ring-shark-900">
+                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-brand-facebook"
@@ -3955,7 +3955,7 @@ export default function Parsinta() {
                                                 <h4 className="font-semibold text-white">
                                                     Facebook
                                                 </h4>
-                                                <div className="text-sm text-primary-300 dark:text-shark-400">
+                                                <div className="text-sm text-primary-300">
                                                     Sukai facebook Parsinta
                                                     untuk mendapatkan update
                                                     terbaru
@@ -3971,7 +3971,7 @@ export default function Parsinta() {
                                             className="flex gap-x-4"
                                         >
                                             <div className="shrink-0">
-                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400 dark:border-shark-600 dark:bg-shark-800 dark:ring-1 dark:ring-shark-900">
+                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-brand-discord"
@@ -4010,7 +4010,7 @@ export default function Parsinta() {
                                                 <h4 className="font-semibold text-white">
                                                     Discord
                                                 </h4>
-                                                <div className="text-sm text-primary-300 dark:text-shark-400">
+                                                <div className="text-sm text-primary-300">
                                                     Ingin diskusi, silahkan
                                                     gabung ke discord parsinta
                                                 </div>
@@ -4025,7 +4025,7 @@ export default function Parsinta() {
                                             className="flex gap-x-4"
                                         >
                                             <div className="shrink-0">
-                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400 dark:border-shark-600 dark:bg-shark-800 dark:ring-1 dark:ring-shark-900">
+                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-brand-twitter"
@@ -4051,7 +4051,7 @@ export default function Parsinta() {
                                                 <h4 className="font-semibold text-white">
                                                     Twitter
                                                 </h4>
-                                                <div className="text-sm text-primary-300 dark:text-shark-400">
+                                                <div className="text-sm text-primary-300">
                                                     Ikuti twitter Parsinta untuk
                                                     mendapatkan update terbaru
                                                 </div>
@@ -4066,7 +4066,7 @@ export default function Parsinta() {
                                             className="flex gap-x-4"
                                         >
                                             <div className="shrink-0">
-                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400 dark:border-shark-600 dark:bg-shark-800 dark:ring-1 dark:ring-shark-900">
+                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-brand-youtube"
@@ -4099,7 +4099,7 @@ export default function Parsinta() {
                                                 <h4 className="font-semibold text-white">
                                                     You Tube
                                                 </h4>
-                                                <div className="text-sm text-primary-300 dark:text-shark-400">
+                                                <div className="text-sm text-primary-300">
                                                     Subscribe dan nikmati semua
                                                     pelajaran setiap hari di
                                                     youtube
@@ -4115,7 +4115,7 @@ export default function Parsinta() {
                                             className="flex gap-x-4"
                                         >
                                             <div className="shrink-0">
-                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400 dark:border-shark-600 dark:bg-shark-800 dark:ring-1 dark:ring-shark-900">
+                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-brand-instagram"
@@ -4158,7 +4158,7 @@ export default function Parsinta() {
                                                 <h4 className="font-semibold text-white">
                                                     Instagram
                                                 </h4>
-                                                <div className="text-sm text-primary-300 dark:text-shark-400">
+                                                <div className="text-sm text-primary-300">
                                                     Ketahui seri baru lewat
                                                     story dari kami di instagram
                                                 </div>
@@ -4173,7 +4173,7 @@ export default function Parsinta() {
                                             className="flex gap-x-4"
                                         >
                                             <div className="shrink-0">
-                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400 dark:border-shark-600 dark:bg-shark-800 dark:ring-1 dark:ring-shark-900">
+                                                <div className="flex items-center justify-center h-12 text-white border-t rounded-lg shadow w-14 bg-primary-500 border-primary-400">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-brand-telegram"
@@ -4199,7 +4199,7 @@ export default function Parsinta() {
                                                 <h4 className="font-semibold text-white">
                                                     Telegram
                                                 </h4>
-                                                <div className="text-sm text-primary-300 dark:text-shark-400">
+                                                <div className="text-sm text-primary-300">
                                                     Gabung telegram Parsinta
                                                     untuk mendapatkan update
                                                     pada setiap seri terbaru
@@ -4212,60 +4212,60 @@ export default function Parsinta() {
                         </div>
                     </div>
                 </main>
-                <div className="py-6 text-sm bg-white border-t dark:border-shark-800 dark:bg-shark-900 print:hidden md:py-8 lg:py-16">
+                <div className="py-6 text-sm bg-white border-t print:hidden md:py-8 lg:py-16">
                     <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
                         <section className="col-span-10 col-start-2">
                             <div className="grid gap-x-0 gap-y-10 sm:grid-cols-12 lg:gap-x-10">
                                 <div className="col-span-full sm:col-span-6 lg:col-span-3">
-                                    <h1 className="mb-4 font-semibold uppercase text-shark-900 dark:text-white">
+                                    <h1 className="mb-4 font-semibold uppercase text-shark-900">
                                         Ready to binge
                                     </h1>
                                     <div className="space-y-2 md:space-y-4">
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series/belajar-laravel-8-dari-awal-ign7z"
                                         >
                                             Laravel 8 Dari Awal
                                         </a>
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series/belajar-tailwind-css-3-xw2pe"
                                         >
                                             Belajar Tailwind CSS 3
                                         </a>
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series/test-driven-laravel-ysggm"
                                         >
                                             Test Driven Laravel - TDD
                                         </a>
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series/belajar-queue-di-laravel-klqu1"
                                         >
                                             Belajar Laravel Queues Dari Awal
                                         </a>
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series/mari-kita-belajar-basic-react-js-1598047011"
                                         >
                                             Mari Kita Belajar Basic React JS
                                         </a>
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series/datatable-dengan-laravel-inertia-1ta3l"
                                         >
                                             Datatable Dengan Laravel Inertia
                                         </a>
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series/realtime-dengan-laravel-echo-pusher-mrbr7"
                                         >
                                             Realtime Dengan Laravel Echo &amp;
                                             Pusher
                                         </a>
                                         <a
-                                            className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                            className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                             href="https://parsinta.com/series"
                                         >
                                             Banyak lagi
@@ -4274,60 +4274,60 @@ export default function Parsinta() {
                                 </div>
                                 <div className="grid grid-cols-3 col-span-6 gap-x-1">
                                     <div>
-                                        <h1 className="mb-4 font-semibold uppercase text-shark-900 dark:text-white">
+                                        <h1 className="mb-4 font-semibold uppercase text-shark-900">
                                             Eksplorasi
                                         </h1>
                                         <div className="space-y-2 md:space-y-4">
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/paths"
                                             >
                                                 Jalur
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/series"
                                             >
                                                 Seri
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/topics/laravel"
                                             >
                                                 Topik
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/ebooks"
                                             >
                                                 Ebook
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/premium"
                                             >
                                                 Premium
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/series/is/pro"
                                             >
                                                 Seri berbayar
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/series/is/popular"
                                             >
                                                 populer
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/series/is/trending"
                                             >
                                                 Trending
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/leaderboard"
                                             >
                                                 Leaderboard
@@ -4335,48 +4335,48 @@ export default function Parsinta() {
                                         </div>
                                     </div>
                                     <div>
-                                        <h1 className="mb-4 font-semibold uppercase text-shark-900 dark:text-white">
+                                        <h1 className="mb-4 font-semibold uppercase text-shark-900">
                                             Sosial
                                         </h1>
                                         <div className="space-y-2 md:space-y-4">
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/github"
                                             >
                                                 github
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/twitter"
                                             >
                                                 twitter
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/discord"
                                             >
                                                 discord
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/youtube"
                                             >
                                                 youtube
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/telegram"
                                             >
                                                 telegram
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/facebook"
                                             >
                                                 facebook
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/instagram"
                                             >
                                                 instagram
@@ -4384,42 +4384,42 @@ export default function Parsinta() {
                                         </div>
                                     </div>
                                     <div>
-                                        <h1 className="mb-4 font-semibold uppercase text-shark-900 dark:text-white">
+                                        <h1 className="mb-4 font-semibold uppercase text-shark-900">
                                             Tambahan
                                         </h1>
                                         <div className="space-y-2 md:space-y-4">
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/faq"
                                             >
                                                 FAQ
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/articles"
                                             >
                                                 Blog
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/#package"
                                             >
                                                 Harga
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="/#testimonials"
                                             >
                                                 Testimonials
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/privacy"
                                             >
                                                 Kebijakan privasi
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/ads"
                                             >
                                                 Iklan
@@ -4427,13 +4427,13 @@ export default function Parsinta() {
                                             <a
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="http://saweria.co/irsyadadl"
                                             >
                                                 Saweria (Donate)
                                             </a>
                                             <a
-                                                className="block capitalize text-shark-800 hover:text-primary-500 dark:text-shark-300 fade focus:text-black dark:focus:text-white"
+                                                className="block capitalize text-shark-800 hover:text-primary-500 fade focus:text-black"
                                                 href="https://parsinta.com/terms"
                                             >
                                                 Syarat &amp; ketentuan
@@ -4444,7 +4444,7 @@ export default function Parsinta() {
                                 <div className="col-span-full sm:col-span-8 lg:col-span-3">
                                     <div className="text-sm leading-relaxed text-invert">
                                         <svg
-                                            className="w-24 fill-black dark:fill-white"
+                                            className="w-24 fill-black"
                                             width={117}
                                             height={23}
                                             viewBox="0 0 123 28"
@@ -4502,7 +4502,7 @@ export default function Parsinta() {
                             </div>
                         </section>
                     </div>
-                    <div className="flex items-center justify-center pt-6 mt-16 border-t dark:border-shark-800 md:-mb-8">
+                    <div className="flex items-center justify-center pt-6 mt-16 border-t md:-mb-8">
                         <div className="relative max-w-2xl px-4">
                             <div className="w-full text-center text-invert">
                                 <p className="mb-2">

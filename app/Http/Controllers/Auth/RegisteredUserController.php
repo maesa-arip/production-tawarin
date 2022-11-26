@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:'.User::class,
             'username' => 'required|string|max:255|unique:users',
             'address' => 'required|string|max:255',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -49,6 +49,18 @@ class RegisteredUserController extends Controller
             'address' => $request->address,
             'password' => Hash::make($request->password),
         ]);
+        $user->createWallet(
+            [
+            'name' => 'Bonus Wallet',
+            'slug' => 'bonus',
+            ]
+        );
+        $user->createWallet(
+            [
+            'name' => 'Default Wallet',
+            'slug' => 'default',
+            ]
+        );
 
         event(new Registered($user));
 

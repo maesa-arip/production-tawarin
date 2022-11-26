@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Wallet\DepositAdminResource;
 use App\Http\Resources\Wallet\TransactionSingleResource;
 use App\Models\User;
+use App\Notifications\DepositConfirmNotification;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class DepositAdminController extends Controller
 {
@@ -64,6 +66,16 @@ class DepositAdminController extends Controller
         $transaction = Transaction::find($id);
         $user = User::find($transaction->payable_id);
         $user->confirm($transaction);
+
+        // $pesan = [
+        //     'type' => 'Info',
+        //     'title' => 'Top Up mu sudah diverifikasi',
+        //     'message' => 'Top Up mu sudah diterima, silakan lihat di menu saldo',
+        //     'url' => '',
+        // ];
+
+        $user->notify(new DepositConfirmNotification($transaction));
+        Cache::forget('notifications_count');
 
         return redirect('/admindeposits')->with([
             'type' => 'success',

@@ -5,7 +5,7 @@ import { numberFormat } from "@/Libs/helper";
 export default function FundingItem({ funding }) {
     return (
         <div>
-            <div className="w-full p-4 bg-white shadow-lg rounded-2xl dark:bg-gray-700">
+            <div className="w-full p-4 bg-white shadow-lg rounded-2xl">
                 <div className="flex items-center justify-between mb-6 overflow-hidden">
                     <div className="flex items-center">
                         <span className="relative p-2 bg-blue-100 rounded-xl">
@@ -36,13 +36,13 @@ export default function FundingItem({ funding }) {
                         </span>
                         <div className="flex flex-col">
                             <Link
-                                className="ml-2 text-xs font-semibold text-black truncate dark:text-white"
+                                className="ml-2 text-xs font-semibold text-black truncate"
                                 href={`/fundings/${funding.slug}`}
                             >
                                 {funding.name}
                             </Link>
                             <Link
-                                className="ml-2 text-xs text-gray-500 dark:text-white"
+                                className="ml-2 text-xs text-gray-500"
                                 href={`/public/fundings/list?funding_category=${funding.funding_category.slug}`}
                             >
                                 {funding.funding_category.name}
@@ -60,9 +60,9 @@ export default function FundingItem({ funding }) {
                 </div> */}
                 <div className="block m-auto">
                     <div>
-                        <span className="inline-block text-sm text-gray-500 dark:text-gray-100">
+                        <span className="inline-block text-sm text-gray-500">
                             
-                            <span className="font-bold text-gray-700 dark:text-white">
+                            <span className="font-bold text-gray-700">
                             Rp  {numberFormat(funding.anggaran)}
                             </span>
                         </span>

@@ -12,8 +12,10 @@ class WalletController extends Controller
     public function index()
     {
         $balance = auth()->user()->balance;
+        $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;
         return inertia('Wallets/Basic/Index',[
             'balance' => $balance,
+            'bonus' => $bonus,
         ]);
     }
     public function deposit(User $user)

@@ -10,6 +10,7 @@ use Bavix\Wallet\Interfaces\Confirmable;
 use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Traits\CanConfirm;
 use Bavix\Wallet\Traits\HasWallet;
+use Bavix\Wallet\Traits\HasWallets;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements Wallet, Confirmable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, CanConfirm, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, HasWallets, CanConfirm;
 
     /**
      * The attributes that are mass assignable.

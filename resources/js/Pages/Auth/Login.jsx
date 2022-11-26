@@ -7,6 +7,9 @@ import Label from "@/Components/Label";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
+import TextInput from "@/Components/TextInput";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -57,7 +60,7 @@ export default function Login({ status, canResetPassword }) {
                                 </div>
                             )}
 
-                            <ValidationErrors errors={errors} />
+                            {/* <ValidationErrors errors={errors} /> */}
                             <div className="flex flex-col items-center pt-6 pb-6 bg-white sm:justify-center sm:pt-0">
                                 <Link href="/">
                                     <ApplicationLogo className="w-20 h-20 text-center text-gray-500 fill-current" />
@@ -133,32 +136,45 @@ export default function Login({ status, canResetPassword }) {
                                 </div>
 
                                 <div>
-                                    <Label forInput="email" value="Email" />
+                                    <InputLabel
+                                        forInput="email"
+                                        value="Email"
+                                    />
 
-                                    <Input
+                                    <TextInput
                                         type="text"
                                         name="email"
                                         value={data.email}
                                         className="block w-full mt-1"
                                         autoComplete="username"
                                         isFocused={true}
-                                        onChange={onChange}
+                                        handleChange={onChange}
+                                    />
+
+                                    <InputError
+                                        message={errors.email}
+                                        className="mt-2"
                                     />
                                 </div>
 
                                 <div className="mt-4">
-                                    <Label
+                                    <InputLabel
                                         forInput="password"
                                         value="Password"
                                     />
 
-                                    <Input
+                                    <TextInput
                                         type="password"
                                         name="password"
                                         value={data.password}
                                         className="block w-full mt-1"
                                         autoComplete="current-password"
-                                        onChange={onChange}
+                                        handleChange={onChange}
+                                    />
+
+                                    <InputError
+                                        message={errors.password}
+                                        className="mt-2"
                                     />
                                 </div>
                                 <div className="flex items-center justify-between mt-6 mb-6">

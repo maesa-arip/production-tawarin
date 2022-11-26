@@ -9,10 +9,17 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Logo from "../../img/Tawarin.png";
-import { IconCash, IconHomeEdit, IconShoppingCart, IconWallet } from "@tabler/icons";
+import {
+    IconCash,
+    IconHomeEdit,
+    IconShoppingCart,
+    IconWallet,
+} from "@tabler/icons";
+import Dropdown from "@/Components/Dropdown";
 
 export default function Navbar() {
-    const { auth, categories_global, carts_global_count } = usePage().props;
+    const { auth, categories_global, carts_global_count, notifications_count } =
+        usePage().props;
     const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
     const openMenuModal = () => {
         setIsOpenMenuModal(true);
@@ -31,6 +38,43 @@ export default function Navbar() {
                                 />
                             </NavLink>
                         </div>
+                        {auth.user ? (
+                            <>
+                                <NavLink
+                                    className="flex items-center md:hidden justify-items-end gap-x-2"
+                                    href="/notifications"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="w-5 h-5 icon icon-tabler icon-tabler-bell-ringing"
+                                        width={24}
+                                        height={24}
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2}
+                                        stroke="currentColor"
+                                        fill="none"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path
+                                            stroke="none"
+                                            d="M0 0h24v24H0z"
+                                            fill="none"
+                                        />
+                                        <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                                        <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                                        <path d="M21 6.727a11.05 11.05 0 0 0 -2.794 -3.727" />
+                                        <path d="M3 6.727a11.05 11.05 0 0 1 2.792 -3.727" />
+                                    </svg>
+
+                                    {notifications_count > 0
+                                        ? notifications_count
+                                        : null}
+                                </NavLink>
+                            </>
+                        ) : (
+                            <></>
+                        )}
                         <div className="hidden -my-2 -mr-2 md:hidden lg:hidden">
                             <Popover.Button className="inline-flex items-center justify-center p-2 text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                 <span className="sr-only">Open menu</span>
@@ -47,8 +91,8 @@ export default function Navbar() {
                         >
                             {/* <NavLink href="/">Home</NavLink> */}
                             <NavLink href="/wallets">Saldo</NavLink>
-                           
-                            <DropdownMenu label={"Perencanaan"}>
+
+                            {/* <DropdownMenu label={"Perencanaan"}>
                                 <DropdownMenu.Link href="/plans">
                                     Perencanaan Saya
                                 </DropdownMenu.Link>
@@ -58,12 +102,69 @@ export default function Navbar() {
                                 <DropdownMenu.Link href="/plans/create">
                                     Buat Perencanaan
                                 </DropdownMenu.Link>
-                            </DropdownMenu>
-                            <NavLink href="/projects/choose">Proyek</NavLink>
+                            </DropdownMenu> */}
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                        >
+                                            Perencanaan
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    <Dropdown.Link
+                                        href={"/plans"}
+                                    >
+                                        Perencanaan Saya
+                                    </Dropdown.Link>
+                                    <Dropdown.Link
+                                        href={
+                                            "/public/plans/list"
+                                        }
+                                    >
+                                        Cari Perencanaan
+                                    </Dropdown.Link>
+                                    <Dropdown.Link
+                                        href={
+                                            "/plans/create"
+                                        }
+                                    >
+                                        Buat Perencanaan
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+                            {/* <NavLink href="/projects/choose">Proyek</NavLink>
                             <NavLink href="/">Keahlian</NavLink>
                             <NavLink href="/toko/products">Toko</NavLink>
                             <NavLink href="/toko/products">Alat</NavLink>
-                            
+                            <DropdownMenu label={"Pendanaan"}>
+                                <DropdownMenu.Link href="/fundings">
+                                    Pendanaan Saya
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/public/fundings/list">
+                                    Cari Pendanaan
+                                </DropdownMenu.Link>
+                                <DropdownMenu.Link href="/fundings/create">
+                                    Buat Pendanaan
+                                </DropdownMenu.Link>
+                            </DropdownMenu> */}
+
                             {/* <DropdownMenu label={"Categories"}>
                                 {categories_global.map((category) => (
                                     <DropdownMenu.Link
@@ -79,26 +180,54 @@ export default function Navbar() {
                                 ))}
                             </DropdownMenu> */}
 
-                            <DropdownMenu label={"Pendanaan"}>
-                                <DropdownMenu.Link href="/fundings">
-                                    Pendanaan Saya
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/public/fundings/list">
-                                    Cari Pendanaan
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/fundings/create">
-                                    Buat Pendanaan
-                                </DropdownMenu.Link>
-                            </DropdownMenu>
-                            <DropdownMenu label={"Admin"}>
+                            {/* <DropdownMenu label={"Admin"}>
                                 <DropdownMenu.Link href="/admindeposits">
                                     Deposit
                                 </DropdownMenu.Link>
                                 <DropdownMenu.Link href="/adminwithdraws">
                                     Withdraw
                                 </DropdownMenu.Link>
-                            </DropdownMenu>
-                            <DropdownMenu label={"Hak Akses"}>
+                            </DropdownMenu> */}
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                        >
+                                            Admin
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    <Dropdown.Link
+                                        href={"/admindeposits"}
+                                    >
+                                        Deposit
+                                    </Dropdown.Link>
+                                    <Dropdown.Link
+                                        href={
+                                            "/adminwithdraws"
+                                        }
+                                    >
+                                        Withdraw
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+                            {/* <DropdownMenu label={"Hak Akses"}>
                                 <DropdownMenu.Link href="/role-and-permission/roles">
                                     Roles
                                 </DropdownMenu.Link>
@@ -111,10 +240,60 @@ export default function Navbar() {
                                 <DropdownMenu.Link href="/role-and-permission/assign/user">
                                     Assign Roles to User
                                 </DropdownMenu.Link>
-                                
-                            </DropdownMenu>
+                            </DropdownMenu> */}
 
-                            
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                        >
+                                            Hak Akses
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    <Dropdown.Link
+                                        href={"/role-and-permission/roles"}
+                                    >
+                                        Roles
+                                    </Dropdown.Link>
+                                    <Dropdown.Link
+                                        href={
+                                            "/role-and-permission/permissions"
+                                        }
+                                    >
+                                        Permissions
+                                    </Dropdown.Link>
+                                    <Dropdown.Link
+                                        href={"/role-and-permission/permission-to-role"}
+                                    >
+                                        Assign Permissions to Roles
+                                    </Dropdown.Link>
+                                    <Dropdown.Link
+                                        href={
+                                            "/role-and-permission/role-to-user"
+                                        }
+                                    >
+                                        Assign Roles to User
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+
                             {/* <DropdownMenu label={"Example"}>
                                 <DropdownMenu.Link href="/example/homefunding">
                                     Landing Page Funding
@@ -137,7 +316,7 @@ export default function Navbar() {
                             </DropdownMenu> */}
                             {auth.user ? (
                                 <>
-                                    <DropdownMenu label={auth.user.name}>
+                                    {/* <DropdownMenu label={auth.user.name}>
                                         <DropdownMenu.Link href="/dashboard">
                                             Dashboard
                                         </DropdownMenu.Link>
@@ -185,8 +364,47 @@ export default function Navbar() {
                                         >
                                             Logout
                                         </DropdownMenu.Link>
-                                    </DropdownMenu>
+                                    </DropdownMenu> */}
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <span className="inline-flex rounded-md">
+                                                <button
+                                                    type="button"
+                                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                                >
+                                                    {auth.user.name}
 
+                                                    <svg
+                                                        className="ml-2 -mr-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clipRule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </Dropdown.Trigger>
+
+                                        <Dropdown.Content>
+                                            <Dropdown.Link
+                                                href={route("profile.edit")}
+                                            >
+                                                Profile
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route("logout")}
+                                                method="post"
+                                                as="button"
+                                            >
+                                                Log Out
+                                            </Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
                                     <NavLink
                                         className="flex items-center justify-items-end gap-x-2"
                                         href="/toko/carts"
@@ -207,6 +425,37 @@ export default function Navbar() {
                                         </svg>
                                         {carts_global_count > 0
                                             ? carts_global_count
+                                            : null}
+                                    </NavLink>
+                                    <NavLink
+                                        className="flex items-center justify-items-end gap-x-2"
+                                        href="/notifications"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-5 h-5 icon icon-tabler icon-tabler-bell-ringing"
+                                            width={24}
+                                            height={24}
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={2}
+                                            stroke="currentColor"
+                                            fill="none"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path
+                                                stroke="none"
+                                                d="M0 0h24v24H0z"
+                                                fill="none"
+                                            />
+                                            <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                                            <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                                            <path d="M21 6.727a11.05 11.05 0 0 0 -2.794 -3.727" />
+                                            <path d="M3 6.727a11.05 11.05 0 0 1 2.792 -3.727" />
+                                        </svg>
+
+                                        {notifications_count > 0
+                                            ? notifications_count
                                             : null}
                                     </NavLink>
                                 </>
@@ -255,7 +504,7 @@ export default function Navbar() {
                                         </Popover.Button>
                                     </div>
                                 </div>
-                                <div className="mt-6">
+                                {/* <div className="mt-6">
                                     <DropdownMenu
                                         className="grid gap-y-8"
                                         label={"Categories"}
@@ -273,7 +522,7 @@ export default function Navbar() {
                                             </DropdownMenu.Link>
                                         ))}
                                     </DropdownMenu>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="px-5 py-6 space-y-6">
                                 <div className="grid grid-cols-2 gap-y-4 gap-x-8">
@@ -415,7 +664,7 @@ export default function Navbar() {
                             href="/toko/products"
                         >
                             <IconShoppingCart className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            
+
                             <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Product
                             </p>
@@ -425,7 +674,7 @@ export default function Navbar() {
                             href="/projects/choose"
                         >
                             <IconShoppingCart className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            
+
                             <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Proyek
                             </p>
@@ -609,7 +858,7 @@ export default function Navbar() {
                             <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
                             <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
                         </svg>
-                        
+
                         <span className="block text-xs tab tab-wallet">
                             Wallet
                         </span>

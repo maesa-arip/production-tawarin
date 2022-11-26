@@ -2,7 +2,7 @@ import React from "react";
 
 export default function EmptyCard() {
     return (
-        <div className="mt-10 min-h-[15rem] flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+        <div className="mt-10 min-h-[15rem] flex flex-col bg-white border shadow-sm rounded-xl">
             <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                 <svg
                     className="max-w-[5rem]"
@@ -12,14 +12,14 @@ export default function EmptyCard() {
                 >
                     <path
                         d="M254.509 253.872L226.509 226.872"
-                        className="stroke-gray-400 dark:stroke-white"
+                        className="stroke-gray-400"
                         stroke="currentColor"
                         strokeWidth={7}
                         strokeLinecap="round"
                     />
                     <path
                         d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
-                        className="stroke-gray-400 dark:stroke-white"
+                        className="stroke-gray-400"
                         stroke="currentColor"
                         strokeWidth={7}
                         strokeLinecap="round"
@@ -31,7 +31,7 @@ export default function EmptyCard() {
                         height="73.2425"
                         rx="36.6212"
                         transform="rotate(40.8596 270.524 221.872)"
-                        className="fill-gray-400 dark:fill-white"
+                        className="fill-gray-400"
                         fill="currentColor"
                     />
                     <ellipse
@@ -39,12 +39,12 @@ export default function EmptyCard() {
                         cy="404.372"
                         rx="121.5"
                         ry="23.5"
-                        className="fill-gray-400 dark:fill-white"
+                        className="fill-gray-400"
                         fill="currentColor"
                     />
                     <path
                         d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
-                        className="stroke-gray-400 dark:stroke-white"
+                        className="stroke-gray-400"
                         stroke="currentColor"
                         strokeWidth={7}
                         strokeLinecap="round"
@@ -54,7 +54,7 @@ export default function EmptyCard() {
                         cy="116.872"
                         rx={9}
                         ry={12}
-                        className="fill-gray-400 dark:fill-white"
+                        className="fill-gray-400"
                         fill="currentColor"
                     />
                     <ellipse
@@ -62,16 +62,16 @@ export default function EmptyCard() {
                         cy="117.872"
                         rx={9}
                         ry={12}
-                        className="fill-gray-400 dark:fill-white"
+                        className="fill-gray-400"
                         fill="currentColor"
                     />
                     <path
                         d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
-                        className="fill-gray-400 dark:fill-white"
+                        className="fill-gray-400"
                         fill="currentColor"
                     />
                 </svg>
-                <p className="mt-5 text-sm text-gray-500 dark:text-gray-500">
+                <p className="mt-5 text-sm text-gray-500">
                     No data to show
                 </p>
             </div>
