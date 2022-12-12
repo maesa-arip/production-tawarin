@@ -17,7 +17,7 @@ class PlanBidFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, 10),
+            'user_id' => rand(5, 6),
             'plan_id' => rand(1, 10),
             'bid_price_user' => $bid = rand(100000000, 10000000000),
             'bid_price' => round($bid * 105/100),

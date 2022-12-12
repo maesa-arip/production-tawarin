@@ -13,6 +13,5 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/api/notification/handling',
-        '/upload/filepond/store',
     ];
 }

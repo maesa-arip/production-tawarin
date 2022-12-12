@@ -23,6 +23,7 @@ class PlanResource extends JsonResource
             'sampai_anggaran' => $this->sampai_anggaran,
             'slug' => $this->slug,
             'name' => $this->name,
+            'is_approved' => $this->is_approved,
             'plan_category' => [
                 'id' => $this->plan_category->id,
                 'name' => $this->plan_category->name,
@@ -33,6 +34,7 @@ class PlanResource extends JsonResource
                 'name' => $this->owner->name,
             ],
             'created_at' => $this->created_at->diffForHumans(),
+            // 'planReject' => PlanResource::collection($this->whenLoaded('planReject')),
         ];
     }
 }

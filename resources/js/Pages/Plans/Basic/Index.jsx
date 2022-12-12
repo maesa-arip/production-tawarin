@@ -8,6 +8,7 @@ import DestroyModal from "@/Components/Modal/DestroyModal";
 import Button from "@/Components/Button";
 import { numberFormat } from "@/Libs/helper";
 import NavLink from "@/Components/NavLink";
+import Dropdown from "@/Components/Dropdown";
 
 const UpIcon = () => (
     <svg
@@ -40,6 +41,7 @@ const DownIcon = () => (
 
 export default function Index(props) {
     const { data: plans, meta, filtered, attributes } = props.plans;
+    const planRejectCount = props.planRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
 
@@ -70,7 +72,6 @@ export default function Index(props) {
         setPageNumber(numbers);
     }, []);
 
-    
     const onChange = (event) =>
         setParams({ ...params, [event.target.name]: event.target.value });
     const sort = (item) => {
@@ -88,7 +89,7 @@ export default function Index(props) {
         setIsOpenDestroyDialog(true);
     };
 
-    const destroyUser = () => {
+    const destroyPlan = () => {
         Inertia.delete(route("plans.destroy", state.id), {
             onSuccess: () => setIsOpenDestroyDialog(false),
         });
@@ -104,10 +105,10 @@ export default function Index(props) {
                 isOpenDestroyDialog={isOpenDestroyDialog}
                 setIsOpenDestroyDialog={setIsOpenDestroyDialog}
                 size="2xl"
-                title={"Delete User"}
+                title={"Hapus Perencanaan"}
             >
-                <Button color={"pink"} onClick={destroyUser}>
-                    Delete
+                <Button color={"pink"} onClick={destroyPlan}>
+                    Hapus
                 </Button>
             </DestroyModal>
 
@@ -124,6 +125,15 @@ export default function Index(props) {
                                     href={"plans/create"}
                                 >
                                     Tambah Perencanaan
+                                </NavLink>
+                                <NavLink
+                                    type="button"
+                                    className={
+                                        "justify-start px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
+                                    }
+                                    href={"plans/create"}
+                                >
+                                    Perencanaan ditolak ( {planRejectCount} )
                                 </NavLink>
                             </div>
                         </div>
@@ -190,35 +200,10 @@ export default function Index(props) {
                                                     <div
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
-                                                            sort("slug")
-                                                        }
-                                                    >
-                                                        Slug
-                                                        {params.field ==
-                                                            "slug" &&
-                                                            params.direction ==
-                                                                "asc" && (
-                                                                <UpIcon />
-                                                            )}
-                                                        {params.field ==
-                                                            "slug" &&
-                                                            params.direction ==
-                                                                "desc" && (
-                                                                <DownIcon />
-                                                            )}
-                                                    </div>
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
-                                                >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        onClick={() =>
                                                             sort("name")
                                                         }
                                                     >
-                                                        Name
+                                                        Nama Perencanaan
                                                         {params.field ==
                                                             "name" &&
                                                             params.direction ==
@@ -295,10 +280,35 @@ export default function Index(props) {
                                                     <div
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
+                                                            sort("is_approved")
+                                                        }
+                                                    >
+                                                        Status
+                                                        {params.field ==
+                                                            "is_approved" &&
+                                                            params.direction ==
+                                                                "asc" && (
+                                                                <UpIcon />
+                                                            )}
+                                                        {params.field ==
+                                                            "is_approved" &&
+                                                            params.direction ==
+                                                                "desc" && (
+                                                                <DownIcon />
+                                                            )}
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                >
+                                                    <div
+                                                        className="flex items-center cursor-pointer gap-x-2"
+                                                        onClick={() =>
                                                             sort("created_at")
                                                         }
                                                     >
-                                                        Joined
+                                                        Dibuat
                                                         {params.field ==
                                                             "created_at" &&
                                                             params.direction ==
@@ -330,9 +340,6 @@ export default function Index(props) {
                                                         {meta.from + index}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
-                                                        {plan.slug}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
                                                         {plan.name}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
@@ -344,29 +351,85 @@ export default function Index(props) {
                                                         )}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
+                                                        {plan.is_approved ==
+                                                        1 ? (
+                                                            <Button>
+                                                                Diterima
+                                                            </Button>
+                                                        ) : (
+                                                            <Button color="yellow">
+                                                                Menunggu
+                                                                Konfirmasi
+                                                            </Button>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
                                                         {plan.created_at}
                                                     </td>
                                                     <td>
-                                                        <button
-                                                            className="flex items-center gap-x-2"
-                                                            onClick={() =>
-                                                                openEditDialog(
-                                                                    plan
-                                                                )
-                                                            }
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        <button
-                                                            className="flex items-center gap-x-2"
-                                                            onClick={() =>
-                                                                openDestroyDialog(
-                                                                    plan
-                                                                )
-                                                            }
-                                                        >
-                                                            Delete
-                                                        </button>
+                                                        <Dropdown>
+                                                            <Dropdown.Trigger>
+                                                                <button>
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-4 h-4 text-gray-400"
+                                                                        viewBox="0 0 20 20"
+                                                                        fill="currentColor"
+                                                                    >
+                                                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                                    </svg>
+                                                                </button>
+                                                            </Dropdown.Trigger>
+                                                            <Dropdown.Content>
+                                                                {plan.is_approved ==
+                                                                1 ? (
+                                                                    ""
+                                                                ) : (
+                                                                    <>
+                                                                        <Dropdown.Link href={route("plans.edit",`${plan.slug}`)}>
+                                                                            Edit
+                                                                        </Dropdown.Link>
+                                                                        <button
+                                                                            className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                            onClick={() =>
+                                                                                openDestroyDialog(
+                                                                                    plan
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Hapus
+                                                                        </button>
+                                                                    </>
+                                                                )}
+
+                                                                <Dropdown.Link
+                                                                    href={route(
+                                                                        "plans.show",
+                                                                        `${plan.slug}`
+                                                                    )}
+                                                                >
+                                                                    Lihat Detail
+                                                                </Dropdown.Link>
+                                                                <Dropdown.Link
+                                                                    href={route(
+                                                                        "plans.show",
+                                                                        `${plan.slug}`
+                                                                    )}
+                                                                >
+                                                                    Lihat
+                                                                    Penawaran
+                                                                </Dropdown.Link>
+                                                                <Dropdown.Link
+                                                                    href={route(
+                                                                        "plans.show",
+                                                                        `${plan.slug}`
+                                                                    )}
+                                                                >
+                                                                    Tahapan
+                                                                    Perencanaan
+                                                                </Dropdown.Link>
+                                                            </Dropdown.Content>
+                                                        </Dropdown>
                                                     </td>
                                                 </tr>
                                             ))}

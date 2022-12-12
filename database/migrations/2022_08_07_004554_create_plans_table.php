@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('sampai_anggaran');
             $table->tinyInteger('is_approved')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

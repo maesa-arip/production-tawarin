@@ -3,6 +3,7 @@
 namespace Database\Factories\Plan;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Plan>
@@ -17,9 +18,9 @@ class PlanFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, 10),
-            'plan_category_id' => rand(1, 10),
-            'name' => $name =  str($this->faker->sentence(4))->title(),
+            'user_id' => rand(3, 4),
+            'plan_category_id' => rand(1, 9),
+            'name' => $name =  str($this->faker->sentence(4))->title().'-'. Str::lower(Str::random(6)),
             'slug' => str($name)->slug(),
             'jangka_waktu_penawaran' => rand(10, 100),
             'jangka_waktu_pelaksanaan' => rand(30, 180),

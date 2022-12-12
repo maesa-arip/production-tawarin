@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import NavLink from "@/Components/NavLink";
+import NavLinkMobile from "@/Components/NavLinkMobile";
 import DropdownMenu from "@/Components/DropdownMenu";
 import MenuModal from "@/Components/Modal/MenuModal";
 import { PhotographIcon } from "@heroicons/react/solid";
@@ -10,9 +11,13 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Logo from "../../img/Tawarin.png";
 import {
+    IconBuildingSkyscraper,
+    IconBuildingStore,
     IconCash,
     IconHomeEdit,
     IconShoppingCart,
+    IconTools,
+    IconUserSearch,
     IconWallet,
 } from "@tabler/icons";
 import Dropdown from "@/Components/Dropdown";
@@ -128,23 +133,16 @@ export default function Navbar() {
                                 </Dropdown.Trigger>
 
                                 <Dropdown.Content>
-                                    <Dropdown.Link
-                                        href={"/plans"}
-                                    >
+                                <Dropdown.Link href={"/planbids"}>
+                                        Penawaran Saya
+                                    </Dropdown.Link>
+                                    <Dropdown.Link href={"/plans"}>
                                         Perencanaan Saya
                                     </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href={
-                                            "/public/plans/list"
-                                        }
-                                    >
+                                    <Dropdown.Link href={route("plan.list")}>
                                         Cari Perencanaan
                                     </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href={
-                                            "/plans/create"
-                                        }
-                                    >
+                                    <Dropdown.Link href={"/plans/create"}>
                                         Buat Perencanaan
                                     </Dropdown.Link>
                                 </Dropdown.Content>
@@ -152,8 +150,8 @@ export default function Navbar() {
                             {/* <NavLink href="/projects/choose">Proyek</NavLink>
                             <NavLink href="/">Keahlian</NavLink>
                             <NavLink href="/toko/products">Toko</NavLink>
-                            <NavLink href="/toko/products">Alat</NavLink>
-                            <DropdownMenu label={"Pendanaan"}>
+                            <NavLink href="/toko/products">Alat</NavLink> */}
+                            {/* <DropdownMenu label={"Pendanaan"}>
                                 <DropdownMenu.Link href="/fundings">
                                     Pendanaan Saya
                                 </DropdownMenu.Link>
@@ -213,17 +211,41 @@ export default function Navbar() {
                                 </Dropdown.Trigger>
 
                                 <Dropdown.Content>
-                                    <Dropdown.Link
-                                        href={"/admindeposits"}
-                                    >
+                                    <Dropdown.Link href={"/admindeposits"}>
                                         Deposit
                                     </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href={
-                                            "/adminwithdraws"
-                                        }
-                                    >
+                                    <Dropdown.Link href={"/adminwithdraws"}>
                                         Withdraw
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                        >
+                                            Admin Perencanaan
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    <Dropdown.Link href={"/adminplans"}>
+                                        Atur Perencanaan
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
@@ -280,7 +302,9 @@ export default function Navbar() {
                                         Permissions
                                     </Dropdown.Link>
                                     <Dropdown.Link
-                                        href={"/role-and-permission/permission-to-role"}
+                                        href={
+                                            "/role-and-permission/permission-to-role"
+                                        }
                                     >
                                         Assign Permissions to Roles
                                     </Dropdown.Link>
@@ -392,9 +416,19 @@ export default function Navbar() {
 
                                         <Dropdown.Content>
                                             <Dropdown.Link
+                                                href={route("dashboard")}
+                                            >
+                                                Dashboard
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
                                                 href={route("profile.edit")}
                                             >
                                                 Profile
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route("users.profiles")}
+                                            >
+                                                Profiles
                                             </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route("logout")}
@@ -461,7 +495,7 @@ export default function Navbar() {
                                 </>
                             ) : (
                                 <>
-                                    <NavLink href="/login">Login</NavLink>
+                                    <NavLink href="/login">Masuk</NavLink>
                                     <NavLink href="/register">Register</NavLink>
                                 </>
                             )}
@@ -659,150 +693,134 @@ export default function Navbar() {
                     setIsOpenMenuModal={setIsOpenMenuModal}
                 >
                     <div className="grid items-center justify-between grid-cols-4 gap-8">
-                        <NavLink
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href="/toko/products"
-                        >
-                            <IconShoppingCart className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-
-                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Product
-                            </p>
-                        </NavLink>
-                        <NavLink
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href="/projects/choose"
-                        >
-                            <IconShoppingCart className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-
-                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Proyek
-                            </p>
-                        </NavLink>
-                        <NavLink
+                    <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href="/public/fundings/list"
                         >
                             <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Funding
-                            </p>
-                        </NavLink>
-                        <NavLink
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Pendanaan
+                            </div>
+                        </NavLinkMobile>
+                        <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href="/public/plans/list"
                         >
                             <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Plan
-                            </p>
-                        </NavLink>
-                        <NavLink
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Perencanaan
+                            </div>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/projects/choose"
+                        >
+                            <IconBuildingSkyscraper className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Proyek
+                            </div>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/projects/choose"
+                        >
+                            <IconUserSearch className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Keahlian
+                            </div>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/toko/products"
+                        >
+                            <IconBuildingStore className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Toko
+                            </div>
+                        </NavLinkMobile>          
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href="/projects/choose"
+                        >
+                            <IconTools className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Alat
+                            </div>
+                        </NavLinkMobile>
+                        
+                        
+                        {/* <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href="/wallets"
                         >
                             <IconWallet className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <p className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Wallet
+                                Saldo
                             </p>
-                        </NavLink>
+                        </NavLinkMobile> */}
                     </div>
                 </MenuModal>
                 <div id="tabs" className="flex justify-between">
-                    <NavLink
+                    <NavLinkMobile
                         href="/"
                         className={
                             "w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                         }
                     >
                         <svg
-                            width={25}
-                            height={25}
-                            viewBox="0 0 42 42"
-                            className="inline-block mb-1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="inline-block mb-1 icon icon-tabler icon-tabler-home-move"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         >
-                            <g
-                                stroke="none"
-                                strokeWidth={1}
-                                fill="none"
-                                fillRule="evenodd"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                    />
-                                </svg>
-                            </g>
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" />
+                            <path d="M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5" />
+                            <path d="M16 19h6" />
+                            <path d="M19 16l3 3l-3 3" />
                         </svg>
 
                         <span className="block text-xs tab tab-home">Home</span>
-                    </NavLink>
-                    <a
-                        href="#"
+                    </NavLinkMobile>
+                    <NavLinkMobile
+                        href="/wallets"
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                     >
                         <svg
-                            width={25}
-                            height={25}
-                            viewBox="0 0 42 42"
-                            className="inline-block mb-1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="inline-block mb-1 icon icon-tabler icon-tabler-category"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         >
-                            <g
-                                stroke="none"
-                                strokeWidth={1}
-                                fill="none"
-                                fillRule="evenodd"
-                            >
-                                <path
-                                    d="M14.7118754,20.0876892 L8.03575361,20.0876892 C5.82661462,20.0876892 4.03575361,18.2968282 4.03575361,16.0876892 L4.03575361,12.031922 C4.03575361,8.1480343 6.79157254,4.90780265 10.4544842,4.15995321 C8.87553278,8.5612583 8.1226025,14.3600511 10.9452499,15.5413938 C13.710306,16.6986332 14.5947501,18.3118357 14.7118754,20.0876892 Z M14.2420017,23.8186831 C13.515543,27.1052019 12.7414284,30.2811559 18.0438552,31.7330419 L18.0438552,33.4450645 C18.0438552,35.6542035 16.2529942,37.4450645 14.0438552,37.4450645 L9.90612103,37.4450645 C6.14196811,37.4450645 3.09051926,34.3936157 3.09051926,30.6294627 L3.09051926,27.813861 C3.09051926,25.604722 4.88138026,23.813861 7.09051926,23.813861 L14.0438552,23.813861 C14.1102948,23.813861 14.1763561,23.8154808 14.2420017,23.8186831 Z M20.7553776,32.160536 C23.9336213,32.1190063 23.9061943,29.4103976 33.8698747,31.1666916 C34.7935223,31.3295026 35.9925894,31.0627305 37.3154077,30.4407183 C37.09778,34.8980343 33.4149547,38.4450645 28.9036761,38.4450645 C24.9909035,38.4450645 21.701346,35.7767637 20.7553776,32.160536 Z"
-                                    fill="currentColor"
-                                    opacity="0.1"
-                                />
-                                <g transform="translate(2.000000, 3.000000)">
-                                    <path
-                                        d="M8.5,1 C4.35786438,1 1,4.35786438 1,8.5 L1,13 C1,14.6568542 2.34314575,16 4,16 L13,16 C14.6568542,16 16,14.6568542 16,13 L16,4 C16,2.34314575 14.6568542,1 13,1 L8.5,1 Z"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    />
-                                    <path
-                                        d="M4,20 C2.34314575,20 1,21.3431458 1,23 L1,27.5 C1,31.6421356 4.35786438,35 8.5,35 L13,35 C14.6568542,35 16,33.6568542 16,32 L16,23 C16,21.3431458 14.6568542,20 13,20 L4,20 Z"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    />
-                                    <path
-                                        d="M23,1 C21.3431458,1 20,2.34314575 20,4 L20,13 C20,14.6568542 21.3431458,16 23,16 L32,16 C33.6568542,16 35,14.6568542 35,13 L35,8.5 C35,4.35786438 31.6421356,1 27.5,1 L23,1 Z"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    />
-                                    <path
-                                        d="M34.5825451,33.4769886 L38.3146092,33.4322291 C38.8602707,33.4256848 39.3079219,33.8627257 39.3144662,34.4083873 C39.3145136,34.4123369 39.3145372,34.4162868 39.3145372,34.4202367 L39.3145372,34.432158 C39.3145372,34.9797651 38.8740974,35.425519 38.3265296,35.4320861 L34.5944655,35.4768456 C34.048804,35.4833899 33.6011528,35.046349 33.5946085,34.5006874 C33.5945611,34.4967378 33.5945375,34.4927879 33.5945375,34.488838 L33.5945375,34.4769167 C33.5945375,33.9293096 34.0349773,33.4835557 34.5825451,33.4769886 Z"
-                                        fill="currentColor"
-                                        transform="translate(36.454537, 34.454537) rotate(-315.000000) translate(-36.454537, -34.454537) "
-                                    />
-                                    <circle
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                        cx="27.5"
-                                        cy="27.5"
-                                        r="7.5"
-                                    />
-                                </g>
-                            </g>
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 4h6v6h-6z" />
+                            <path d="M14 4h6v6h-6z" />
+                            <path d="M4 14h6v6h-6z" />
+                            <circle cx={17} cy={17} r={3} />
                         </svg>
+
                         <span className="block text-xs tab tab-kategori">
                             Category
                         </span>
-                    </a>
-                    <a
+                    </NavLinkMobile>
+
+                    <NavLinkMobile
                         onClick={openMenuModal}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center cursor-pointer focus:text-teal-500 hover:text-teal-500"
                     >
@@ -837,66 +855,133 @@ export default function Navbar() {
                         <span onClick={openMenuModal} className="block text-xs">
                             Explore
                         </span>
-                    </a>
-                    <NavLink
-                        href="/wallets"
-                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="inline-block mb-1 icon icon-tabler icon-tabler-wallet"
-                            width={25}
-                            height={25}
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
-                            <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
-                        </svg>
+                    </NavLinkMobile>
 
-                        <span className="block text-xs tab tab-wallet">
-                            Wallet
-                        </span>
-                    </NavLink>
-                    <a
-                        href="#"
-                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
-                    >
-                        <svg
-                            width={25}
-                            height={25}
-                            viewBox="0 0 42 42"
-                            className="inline-block mb-1"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-6 h-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
+                    {auth.user ? (
+                        <>
+                            <NavLinkMobile
+                                href="/wallets"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
                             >
-                                <path
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="inline-block mb-1 icon icon-tabler icon-tabler-wallet"
+                                    width={25}
+                                    height={25}
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    fill="none"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                                />
-                                <path
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    />
+                                    <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
+                                    <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
+                                </svg>
+
+                                <span className="block text-xs tab tab-wallet">
+                                    Wallet
+                                </span>
+                            </NavLinkMobile>
+                            <NavLinkMobile
+                                href="/profile"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="inline-block mb-1 icon icon-tabler icon-tabler-user-circle"
+                                    width={24}
+                                    height={24}
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    fill="none"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                />
-                            </svg>
-                        </svg>
-                        <span className="block text-xs tab tab-account">
-                            Account
-                        </span>
-                    </a>
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    />
+                                    <circle cx={12} cy={12} r={9} />
+                                    <circle cx={12} cy={10} r={3} />
+                                    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                                </svg>
+
+                                <span className="block text-xs tab tab-profile">
+                                    Profile
+                                </span>
+                            </NavLinkMobile>
+                        </>
+                    ) : (
+                        <>
+                            <NavLinkMobile
+                                href="/login"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="inline-block mb-1 icon icon-tabler icon-tabler-login"
+                                    width={24}
+                                    height={24}
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    />
+                                    <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                                    <path d="M20 12h-13l3 -3m0 6l-3 -3" />
+                                </svg>
+
+                                <span className="block text-xs tab tab-login">
+                                    Masuk
+                                </span>
+                            </NavLinkMobile>
+                            <NavLinkMobile
+                                href="/register"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="inline-block mb-1 icon icon-tabler icon-tabler-user-plus"
+                                    width={24}
+                                    height={24}
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    />
+                                    <circle cx={9} cy={7} r={4} />
+                                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                    <path d="M16 11h6m-3 -3v6" />
+                                </svg>
+
+                                <span className="block text-xs tab tab-register">
+                                    Daftar
+                                </span>
+                            </NavLinkMobile>
+                        </>
+                    )}
                 </div>
             </section>
         </>

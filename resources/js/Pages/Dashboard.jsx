@@ -5,6 +5,7 @@ import Container from "@/Components/Container";
 import FeatureCard from "@/Components/FeatureCard";
 import { Tab } from "@headlessui/react";
 import Typewriter from "typewriter-effect";
+import MyCombobox from "@/Components/ComboboxMultiple";
 
 export default function Dashboard(props) {
     function classNames(...classes) {
@@ -63,6 +64,7 @@ export default function Dashboard(props) {
     return (
         <>
             <Head title="Dashboard" />
+            {/* <MyCombobox/> */}
             <Container>
                 <FeatureCard />
                 <Typewriter

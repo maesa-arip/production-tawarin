@@ -15,14 +15,15 @@ class PlanMasterSeeder extends Seeder
      */
     public function run()
     {
-        PlanMaster::create(['name' => $name =  'Gambar Arsitektur','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Gambar 3D Interior','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Gambar 3D Exterior','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Animasi 3D','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Gambar Struktur','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Gambar MEP','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'RAB dan Spesifikasi Teknis','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Time Schedule dan Bobot Pembayaran','slug' => str($name)->slug(),'type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Lainnya','slug' => str($name)->slug(),'type'=>'text']);
+        // PlanMaster::create(['name' => $name =  'Gambar Arsitektur','slug' => str($name)->slug(),'type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar Arsitektur','slug' => 'gambar_arsitektur','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar 3D Interior','slug' => 'gambar_3d_interior','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar 3D Exterior','slug' => 'gambar_3d_exterior','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Animasi 3D','slug' => 'animasi_3d','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar Struktur','slug' => 'gambar_struktur','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar MEP','slug' => 'gambar_mep','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'RAB dan Spesifikasi Teknis','slug' => 'rab_dan_spesifikasi_teknis','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Time Schedule dan Bobot Pembayaran','slug' => 'time_schedule_dan_bobot_pembayaran','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Lainnya','slug' => 'lainnya','type'=>'text']);
     }
 }

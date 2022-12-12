@@ -4,13 +4,7 @@ import { Head } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
-import AddModal from "@/Components/Modal/AddModal";
-import EditModal from "@/Components/Modal/EditModal";
-import DestroyModal from "@/Components/Modal/DestroyModal";
-import Button from "@/Components/Button";
-import CreateRole from "@/Components/Permissions/Roles/CreateRole";
-import EditRole from "@/Components/Permissions/Roles/EditRole";
-import Dropdown from "@/Components/Dropdown";
+import NavLink from "@/Components/NavLink";
 
 const UpIcon = () => (
     <svg
@@ -110,39 +104,6 @@ export default function Index(props) {
         <>
             <Head title="Permissions to Role" />
             <Container>Assign Permissions to Role </Container>
-            <AddModal
-                isOpenAddDialog={isOpenAddDialog}
-                setIsOpenAddDialog={setIsOpenAddDialog}
-                size="2xl"
-                title={"Assign Permissions to Role"}
-            >
-                <CreateRole
-                    isOpenAddDialog={isOpenAddDialog}
-                    setIsOpenAddDialog={setIsOpenAddDialog}
-                />
-            </AddModal>
-            <EditModal
-                isOpenEditDialog={isOpenEditDialog}
-                setIsOpenEditDialog={setIsOpenEditDialog}
-                size="2xl"
-                title={"Edit Role"}
-            >
-                <EditRole
-                    model={state}
-                    isOpenEditDialog={isOpenEditDialog}
-                    setIsOpenEditDialog={setIsOpenEditDialog}
-                />
-            </EditModal>
-            <DestroyModal
-                isOpenDestroyDialog={isOpenDestroyDialog}
-                setIsOpenDestroyDialog={setIsOpenDestroyDialog}
-                size="2xl"
-                title={"Delete Role"}
-            >
-                <Button color={"pink"} onClick={destroyRole}>
-                    Delete
-                </Button>
-            </DestroyModal>
 
             <div className="py-12">
                 <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
@@ -151,7 +112,7 @@ export default function Index(props) {
                             <div className="flex items-center justify-start mb-6 gap-x-2">
                                 <button
                                     type="button"
-                                    onClick={openAddDialog}
+                                    
                                     className="px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                 >
                                     Assign Permissions to Role
@@ -331,42 +292,7 @@ export default function Index(props) {
                                                         )}
                                                     </td>
                                                     <td>
-                                                        <Dropdown>
-                                                            <Dropdown.Trigger>
-                                                                <button>
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        className="w-4 h-4 text-gray-400"
-                                                                        viewBox="0 0 20 20"
-                                                                        fill="currentColor"
-                                                                    >
-                                                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </Dropdown.Trigger>
-                                                            <Dropdown.Content>
-                                                                <button
-                                                                    onClick={() =>
-                                                                        openEditDialog(
-                                                                            roles
-                                                                        )
-                                                                    }
-                                                                    className="block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100"
-                                                                >
-                                                                    Edit
-                                                                </button>
-                                                                <button
-                                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                                    onClick={() =>
-                                                                        openDestroyDialog(
-                                                                            roles
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    Delete
-                                                                </button>
-                                                            </Dropdown.Content>
-                                                        </Dropdown>
+                                                        <NavLink href={route("assign.role.edit",roles.id)}>Edit</NavLink>
                                                     </td>
                                                 </tr>
                                             ))}

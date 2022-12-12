@@ -71,7 +71,7 @@ class RolePermissionController extends Controller
 
     public function edit(Role $role)
     {
-        return view('permission.assign.sync', [
+        return inertia('Permissions/PermissionRole/Edit',[
             'role' => $role,
             'roles' => Role::get(),
             'permissions' => Permission::get(),

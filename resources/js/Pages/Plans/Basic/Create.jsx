@@ -16,8 +16,18 @@ export default function Create({
 }) {
     // const [enabled, setEnabled] = useState(false);
     const [anggaran, setAnggaran] = useState("");
+    const [acuanAnggaran, setAcuanAnggaran] = useState("");
     const [dariAnggaran, setDariAnggaran] = useState("");
     const [sampaiAnggaran, setSampaiAnggaran] = useState("");
+
+    const onChangeAcuanAnggaranHandler = (e) => {
+        setAcuanAnggaran(e.target.value);
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    const formatRupiahAcuanAnggaran = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(acuanAnggaran);
 
     const onChangeAnggaranHandler = (e) => {
         setAnggaran(e.target.value);
@@ -81,8 +91,7 @@ export default function Create({
                                     </h3>
                                     
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Use a permanent address where you can
-                                        receive mail.
+                                        Masukan data lengkap perencanaanmu disini.
                                     </p>
                                 </div>
                             </div>
@@ -212,6 +221,7 @@ export default function Create({
                                                         data.jumlah_revisi ?? ""
                                                     }
                                                     onChange={onChange}
+                                                    min="1" max="5"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -261,7 +271,13 @@ export default function Create({
                                                         data.acuan_anggaran ??
                                                         ""
                                                     }
-                                                    onChange={onChange}
+                                                    min="1000000"
+                                                    onChange={
+                                                        onChangeAcuanAnggaranHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -270,6 +286,18 @@ export default function Create({
                                                         {errors.acuan_anggaran}
                                                     </span>
                                                 )}
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {acuanAnggaran &&
+                                                        formatRupiahAcuanAnggaran}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {acuanAnggaran &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    acuanAnggaran
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label
@@ -288,6 +316,7 @@ export default function Create({
                                                     onWheel={(e) =>
                                                         e.target.blur()
                                                     }
+                                                    min="1000000"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -326,6 +355,7 @@ export default function Create({
                                                     onWheel={(e) =>
                                                         e.target.blur()
                                                     }
+                                                    min="1000000"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -365,6 +395,7 @@ export default function Create({
                                                     onWheel={(e) =>
                                                         e.target.blur()
                                                     }
+                                                    min="1000000"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -407,8 +438,7 @@ export default function Create({
                                         Kebutuhan Perencanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Decide which communications you'd like
-                                        to receive and how.
+                                        Silakan centang dan isi kebutuhan perencanaanmu, agar para konsultan yang menawar bisa menyiapkan data sesuai dengan kebutuhanmu.
                                     </p>
                                 </div>
                             </div>
@@ -503,8 +533,7 @@ export default function Create({
                                         Gambar Perencanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
-                                        This information will be displayed
-                                        publicly so be careful what you share.
+                                        Sertakan contoh gambar rumah yang disukai guna memudahkan kondultan membuat desain sesuai keinginanmu.
                                     </p>
                                 </div>
                             </div>
@@ -513,7 +542,7 @@ export default function Create({
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">
-                                                Cover photo
+                                                Contoh Gambar Rumah yang disukai (Max 5)
                                             </label>
                                             <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
                                                 <div className="w-full text-center">
@@ -534,7 +563,8 @@ export default function Create({
                                                     <Filepond
                                                         inputname={"document"}
                                                         allowMultiple={true}
-                                                        maxFiles={"3"}
+                                                        maxFiles={"5"}
+                                                        required={true}
                                                     />
                                                     <div className="flex justify-center text-sm text-gray-600">
                                                         <label
@@ -558,7 +588,7 @@ export default function Create({
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
                                         
-                                        <Button processing={processing}>Save</Button>
+                                        <Button processing={processing}>Simpan</Button>
                                     </div>
                                 </div>
                             </div>

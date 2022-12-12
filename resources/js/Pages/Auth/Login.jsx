@@ -10,6 +10,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import LoginImage from "../../../img/LoginImage.png";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -49,6 +50,7 @@ export default function Login({ status, canResetPassword }) {
                         <div className="mb-12 grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 md:mb-0">
                             <img
                                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                                // src={LoginImage}
                                 className="w-full"
                                 alt="Sample image"
                             />
@@ -75,7 +77,7 @@ export default function Login({ status, canResetPassword }) {
                                         type="button"
                                         data-mdb-ripple="true"
                                         data-mdb-ripple-color="light"
-                                        className="inline-block p-3 mx-1 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out bg-blue-600 rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+                                        className="inline-block p-3 mx-1 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out rounded-full shadow-md bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg"
                                     >
                                         {/* Facebook */}
                                         <svg
@@ -94,7 +96,7 @@ export default function Login({ status, canResetPassword }) {
                                         type="button"
                                         data-mdb-ripple="true"
                                         data-mdb-ripple-color="light"
-                                        className="inline-block p-3 mx-1 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out bg-blue-600 rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+                                        className="inline-block p-3 mx-1 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out rounded-full shadow-md bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg"
                                     >
                                         {/* Twitter */}
                                         <svg
@@ -113,7 +115,7 @@ export default function Login({ status, canResetPassword }) {
                                         type="button"
                                         data-mdb-ripple="true"
                                         data-mdb-ripple-color="light"
-                                        className="inline-block p-3 mx-1 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out bg-blue-600 rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+                                        className="inline-block p-3 mx-1 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out rounded-full shadow-md bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg"
                                     >
                                         {/* Linkedin */}
                                         <svg

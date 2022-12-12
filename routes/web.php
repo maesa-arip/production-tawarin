@@ -15,6 +15,8 @@ use App\Http\Controllers\Permissions\RoleController;
 use App\Http\Controllers\Permissions\RolePermissionController;
 use App\Http\Controllers\Permissions\UserPermissionController;
 use App\Http\Controllers\Permissions\UserRoleController;
+use App\Http\Controllers\Plan\Admin\PlanAdminController;
+use App\Http\Controllers\Plan\PlanBidController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
@@ -71,6 +73,7 @@ Route::get('example/form', [ExampleController::class, 'form'])->name('example.fo
 Route::get('example/funding', [ExampleController::class, 'funding'])->name('example.funding');
 Route::get('example/descriptionlist', [ExampleController::class, 'descriptionlist'])->name('example.descriptionlist');
 Route::post('/upload/filepond/store', [UploadController::class, 'store'])->name('filepond.store');
+Route::delete('/upload/filepond/destroy', [UploadController::class, 'destroy'])->name('filepond.destroy');
 Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone'])->name('dropzone.store');
 // End Example
 
@@ -107,8 +110,7 @@ Route::prefix('role-and-permission')->namespace('Permissions')->group(function (
 //Public List
     // Plans
     Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
-    Route::Resource('public/plans', PlanController::class)->only('show');
-    // Route::Resource('plans', PlanController::class)->only('show');
+    Route::get('public/plans/{plan}', [PlanController::class,'show'])->name('plans.show');
     // End Plans
 
     // Fundings
@@ -133,10 +135,14 @@ Route::resource('toko/products', ProductController::class);
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
-    // Route::get('/profile', [UserController::class,'profile'])->name('users.profile');
+    Route::get('/profiles', [UserController::class,'profile'])->name('users.profiles');
     Route::apiResource('users', UserController::class);
     // Plans
-    Route::Resource('plans', PlanController::class);
+    Route::Resource('adminplans', PlanAdminController::class);
+    Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class,'confirmed'])->name('planadmin.confirmed');
+    Route::post('/planadmin/rejected/{id}', [PlanAdminController::class,'rejected'])->name('planadmin.rejected');
+    Route::Resource('plans', PlanController::class)->except('show');
+    Route::Resource('planbids', PlanBidController::class);
     // End Plans
 
     // Plans

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import App from "@/Layouts/App";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
@@ -15,7 +15,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
+export default function Filepond({ props,inputname,allowMultiple,maxFiles,required }) {
+    const { csrf_token } = usePage().props
     const [files, setFiles] = useState([]);
     // console.log(files[0].file.name);
     // console.log(files);
@@ -34,18 +35,27 @@ export default function Filepond({ props,inputname,allowMultiple,maxFiles }) {
                         maxFiles={maxFiles}
                         name={inputname}
                         credits={'false'}
-                        required={false}
+                        required={required}
                         allowReorder={'true'}
                         server={{
                             // url: '/uploader',
                             process: {
                                 url: "/upload/filepond/store",
                                 method: "POST",
+                                headers:{
+                                    'X-CSRF-TOKEN' : csrf_token
+                                },
                                 withCredentials: false,
                                 timeout: 7000,
                                 onload: null,
                                 onerror: null,
                             },
+                            // revert: (uniqueFileId, load, error) => {
+                            //     // console.log("deleted");
+                            //     // deleteImage(uniqueFileId);
+                            //     error('Error terjadi saat delete file');
+                            //     load();
+                            // },
                             options: {
                                 type: "local"
                               }

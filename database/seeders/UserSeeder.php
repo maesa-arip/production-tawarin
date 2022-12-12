@@ -32,6 +32,38 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password' => bcrypt('password')
             ],
+            [
+                'name' => 'Owner1',
+                'username' => 'owner1',
+                'address' => 'Pemogan',
+                'email' => 'owner1@gmail.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('password')
+            ],
+            [
+                'name' => 'Owner2',
+                'username' => 'owner2',
+                'address' => 'Pemogan',
+                'email' => 'owner2@gmail.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('password')
+            ],
+            [
+                'name' => 'Konsultan1',
+                'username' => 'konsultan1',
+                'address' => 'Pemogan',
+                'email' => 'konsultan1@gmail.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('password')
+            ],
+            [
+                'name' => 'Konsultan2',
+                'username' => 'konsultan2',
+                'address' => 'Pemogan',
+                'email' => 'konsultan2@gmail.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('password')
+            ],
         ])->each(fn ($q)=>User::create($q));
     }
 }

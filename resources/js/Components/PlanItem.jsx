@@ -37,7 +37,7 @@ export default function PlanItem({ plan }) {
                         <div className="flex flex-col">
                             <Link
                                 className="ml-2 text-xs font-semibold text-black truncate"
-                                href={`/plans/${plan.slug}`}
+                                href={`/public/plans/${plan.slug}`}
                             >
                                 {plan.name}
                             </Link>

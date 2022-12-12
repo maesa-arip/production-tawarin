@@ -23,9 +23,7 @@ class UploadController extends Controller
             $file = $request->file('document');
 
             $filename = hexdec(uniqid()) . '.' . $file->extension();
-        $folder = uniqid() . '-' . now()->timestamp;
-        Session::put('folder', $folder); //save session  folder
-        Session::put('filename', $filename); //save session filename
+            $folder = uniqid() . '-' . now()->timestamp;
 
             $file->storeAs('public/files/tmp/' . $folder, $filename);
 
@@ -33,17 +31,40 @@ class UploadController extends Controller
                 'folder' => $folder,
                 'filename' => $filename
             ]);
+            Session::push('folder', $folder); //save session  folder
+            // folder = [item1, item2, item3];
+            Session::push('filename', $filename); //save session filename
 
             return 'Success';
             //return $filename;
         }
         // }
         return '';
-        
-    
     }
     public function storedropzone()
     {
         return "works";
+    }
+    public function destroy(Request $request)
+    {
+        //check data from temporaryImage
+        $db = TemporaryFile::where('filename', $request->filename)->first();
+        if($db){
+            $path = storage_path() . '/app/files/tmp/' . $db->folder . '/' . $db->filename;
+            if (File::exists($path)) {
+                File::delete($path);
+                rmdir(storage_path('app/files/tmp/' . $db->folder));
+
+                //delete record in table temporaryImage
+                TemporaryFile::where([
+                    'folder' =>  $db->folder,
+                    'filename' => $db->filename
+                ])->delete();
+                return 'deleted';
+            }
+            else {
+                return 'not found';
+            }
+        }
     }
 }

@@ -321,7 +321,7 @@ export default function Index(props) {
                                                                 <button>
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
-                                                                        className="h-4 w-4 text-gray-400"
+                                                                        className="w-4 h-4 text-gray-400"
                                                                         viewBox="0 0 20 20"
                                                                         fill="currentColor"
                                                                     >
@@ -336,12 +336,12 @@ export default function Index(props) {
                                                                             roles
                                                                         )
                                                                     }
-                                                                    className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
+                                                                    className="block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100"
                                                                 >
                                                                     Edit
                                                                 </button>
                                                                 <button
-                                                                    className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out items-center gap-x-2"
+                                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                     onClick={() =>
                                                                         openDestroyDialog(
                                                                             roles

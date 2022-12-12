@@ -39,6 +39,8 @@ class HandleInertiaRequests extends Middleware
     {
         $cart_global_count = $request->user() ? Cache::rememberForever('carts_global_count',fn()=> Cart::whereBelongsTo($request->user())->whereNull('paid_at')->count()) : null;
         $notification_count = $request->user() ? Cache::rememberForever('notifications_count',fn()=> auth()->user()->unreadNotifications->count()) : null;
+        $permissions = $request->user() ? $request->user()->getAllPermissions() : null;
+        $roles = $request->user() ? $request->user()->getRoleNames() : null;
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -58,6 +60,9 @@ class HandleInertiaRequests extends Middleware
             ])),
             'carts_global_count' => $cart_global_count,
             'notifications_count' => $notification_count,
+            'permissions' => $permissions,
+            'roles' => $roles,
+            'csrf_token' => csrf_token(),
         ]);
     }
 }

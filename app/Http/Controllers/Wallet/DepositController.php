@@ -45,24 +45,29 @@ class DepositController extends Controller
     {
         $user = auth()->user();
         $admin = User::find(1);
-        $deposit = $user->deposit($request->amount, null, false);
+        $deposit = $user->deposit($request->amount, null, false);        
         $temporaryFolder = Session::get('folder');
         $namefile = Session::get('filename');
-        $temporary = TemporaryFile::where('folder', $temporaryFolder)->where('filename', $namefile)->first();
-        if ($temporary) { //if exist
-            $deposit->addMedia(storage_path('app/public/files/tmp/'. $temporaryFolder .'/'.$temporary->filename))
-            ->toMediaCollection('BuktiTransfer');
+
+        for ($i = 0; $i < count($temporaryFolder); $i++) {
+            $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $namefile[$i])->first();
+            if ($temporary) { //if exist
+                $deposit->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
+                    ->toMediaCollection('BuktiTransfer');
                 //hapus file and folder temporary
                 $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
                 if (File::exists($path)) {
-                    Storage::move('files/tmp/'.$temporary->folder.'/'.$temporary->filename, 'files/'.$temporary->folder.'/'.$temporary->filename);
+                    Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
                     File::delete($path);
                     rmdir(storage_path('app/files/tmp/' . $temporary->folder));
                     //delete record in temporary table
                     $temporary->delete();
                 }
+            }
         }
-        
+        Session::remove('folder');
+        Session::remove('filename');
+
         $admin->notify(new UserDepositNotification($deposit));
         Cache::forget('notifications_count');
         return redirect('wallets')->with([

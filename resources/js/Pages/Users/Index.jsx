@@ -71,7 +71,7 @@ export default function Index(props) {
         ) {
             numbers.push(i);
         }
-        setPageNumber(numbers);
+        numbers.length === 0 ? setPageNumber([10]) : setPageNumber(numbers);
     }, []);
     const onChange = (event) =>
         setParams({ ...params, [event.target.name]: event.target.value });
