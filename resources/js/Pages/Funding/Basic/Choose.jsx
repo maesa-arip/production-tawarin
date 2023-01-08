@@ -47,7 +47,7 @@ export default function Choose() {
                                     <div>
                                         <dt className="sr-only">Category</dt>
                                         <dd className="group-hover:text-blue-200">
-                                            Cari pendanaanmu disini
+                                            Cari pendanaan disini
                                         </dd>
                                     </div>
                                     <div className="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4">
