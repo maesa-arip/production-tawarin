@@ -1,0 +1,1 @@
+import{A as t}from"./App.7ca08178.js";import{a as o}from"./app.10fd3fd6.js";import"./XIcon.38f85a98.js";import"./clsx.m.256e9345.js";import"./transition.74158844.js";import"./Tawarin.938b8d9c.js";function i(){return o("div",{children:"ShowResult"})}i.layout=r=>o(t,{children:r});export{i as default};

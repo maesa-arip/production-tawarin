@@ -165,6 +165,7 @@ Route::middleware('auth')->group(function () {
     // End Plans
 
     // Plans
+    Route::get('fundings/choose',[FundingController::class,'choose'])->name('fundings.choose');
     Route::get('plans/choose',[PlanController::class,'choose'])->name('plans.choose');
     Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
     Route::Resource('projects', ProjectController::class);

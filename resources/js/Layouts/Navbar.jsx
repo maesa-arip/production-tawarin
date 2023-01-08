@@ -147,7 +147,7 @@ export default function Navbar() {
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
-                            {/* <Dropdown>
+                            <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
                                         <button
@@ -182,7 +182,7 @@ export default function Navbar() {
                                         Buat Pendanaan
                                     </Dropdown.Link>
                                 </Dropdown.Content>
-                            </Dropdown> */}
+                            </Dropdown>
                             {/* <NavLink href="/projects/choose">Proyek</NavLink>
                             <NavLink href="/">Keahlian</NavLink>
                             <NavLink href="/toko/products">Toko</NavLink>
@@ -300,7 +300,7 @@ export default function Navbar() {
                                 </DropdownMenu.Link>
                             </DropdownMenu> */}
 
-                            <Dropdown>
+                            {/* <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
                                         <button
@@ -352,7 +352,7 @@ export default function Navbar() {
                                         Assign Roles to User
                                     </Dropdown.Link>
                                 </Dropdown.Content>
-                            </Dropdown>
+                            </Dropdown> */}
 
                             {/* <DropdownMenu label={"Example"}>
                                 <DropdownMenu.Link href="/example/homefunding">
@@ -731,7 +731,7 @@ export default function Navbar() {
                     <div className="grid items-center justify-between grid-cols-4 gap-8">
                     <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href="/public/fundings/list"
+                            href={route('fundings.choose')}
                         >
                             <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">

@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\File;
 
 class FundingController extends Controller
 {
+    public function choose()
+    {
+        return inertia('Funding/Basic/Choose');
+    }
     public $loadDefault = 10;
     public function index(Request $request)
     {
