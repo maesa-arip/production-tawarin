@@ -140,7 +140,23 @@ export default function Show({
                                         Anggaran Proyek
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
-                                        Rp {numberFormat(plan.bid_price_user)}
+                                        Rp {numberFormat(plan.anggaran_proyek)}
+                                    </dd>
+                                </div>
+                                <div className="pt-4 border-t border-gray-200">
+                                    <dt className="font-medium text-gray-900">
+                                        Anggaran Perencanaan (Dari)
+                                    </dt>
+                                    <dd className="mt-2 text-sm text-gray-500">
+                                        Rp {numberFormat(plan.dari_anggaran)}
+                                    </dd>
+                                </div>
+                                <div className="pt-4 border-t border-gray-200">
+                                    <dt className="font-medium text-gray-900">
+                                        Anggaran Perencanaan (Sampai)
+                                    </dt>
+                                    <dd className="mt-2 text-sm text-gray-500">
+                                        Rp {numberFormat(plan.sampai_anggaran)}
                                     </dd>
                                 </div>
                             </dl>

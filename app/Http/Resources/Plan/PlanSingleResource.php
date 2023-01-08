@@ -21,6 +21,8 @@ class PlanSingleResource extends JsonResource
             'jumlah_revisi' => $this->jumlah_revisi,
             'luas_bangunan' => $this->luas_bangunan,
             'anggaran_proyek' => $this->anggaran_proyek,
+            'dari_anggaran' => $this->dari_anggaran,
+            'sampai_anggaran' => $this->sampai_anggaran,
             'slug' => $this->slug,
             'name' => $this->name,
             'is_approved' => $this->is_approved,

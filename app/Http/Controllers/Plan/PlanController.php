@@ -140,21 +140,20 @@ class PlanController extends Controller
             'sampai_anggaran' => $request->sampai_anggaran,
             'plan_category_id' => $request->plan_category_id,
         ]);
+        
         $plan = Plan::create($atrribute_plans);
         $temporaryFolder = Session::get('folder');
         $namefile = Session::get('filename');
         for ($i = 0; $i < count($temporaryFolder); $i++) {
             $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $namefile[$i])->first();
-            if ($temporary) { //if exist
+            if ($temporary) {
                 $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
                     ->toMediaCollection('contohgambar');
-                //hapus file and folder temporary
                 $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
                 if (File::exists($path)) {
                     Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
                     File::delete($path);
                     rmdir(storage_path('app/files/tmp/' . $temporary->folder));
-                    //delete record in temporary table
                     $temporary->delete();
                 }
             }
