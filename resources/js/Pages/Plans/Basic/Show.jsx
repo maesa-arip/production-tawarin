@@ -12,6 +12,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import Filepond from "@/Pages/Uploads/Filepond";
+import { IconChecks } from "@tabler/icons";
 
 export default function Show({
     plan,
@@ -19,24 +20,30 @@ export default function Show({
     plan_master_checkboxs,
     plan_master_texts,
     plan_details,
-
+    planWithSum,
 }) {
     const { data, setData, post, patch, processing, reset, errors } = useForm(
         {}
     );
-    const { permissions } = usePage().props
-    const permission_name = permissions ? permissions.map(permission => permission.name):'null';
+    const { permissions } = usePage().props;
+    const permission_name = permissions
+        ? permissions.map((permission) => permission.name)
+        : "null";
     const [bid, setBid] = useState("");
-    
+
     const onChangeBidHandler = (e) => {
         setBid(e.target.value);
-        setData({ ...data, [e.target.id]: e.target.value,['plan_id']: plan.id });
+        setData({
+            ...data,
+            [e.target.id]: e.target.value,
+            ["plan_id"]: plan.id,
+        });
     };
     const formatRupiahBid = new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
     }).format(bid);
-    
+
     const confirmHandler = (e) => {
         e.preventDefault();
         patch(route("planadmin.confirmed", plan.id));
@@ -69,10 +76,15 @@ export default function Show({
                 <div className="bg-white">
                     <div className="grid items-start max-w-2xl grid-cols-1 px-4 py-12 mx-auto gap-y-16 gap-x-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
                         <div>
+                            {planWithSum.plan_bids_sum_is_approved == 1 && (
+                                <Link className="inline-flex px-2 py-1 text-xl font-semibold text-white bg-teal-500 rounded">
+                                    Sudah Ada Pemenang
+                                    <IconChecks className="inline-flex mt-1 ml-2"/>
+                                </Link>
+                            )}
                             <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                                 {plan.name}
                             </h2>
-
                             <Link
                                 className="inline-flex px-2 py-1 text-xs font-semibold text-white rounded bg-sky-500"
                                 href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}
@@ -256,7 +268,10 @@ export default function Show({
                                     dengan contoh gambar yang sudah disertakan
                                 </div>
                             </div>
-                            {permission_name.indexOf("melakukan penawaran perencanaan") > -1 ? (
+                            {permission_name.indexOf(
+                                "melakukan penawaran perencanaan"
+                            ) > -1 &&
+                            planWithSum.plan_bids_sum_is_approved != 1 ? (
                                 <form onSubmit={onSubmitHandler}>
                                     <div className="mb-6 bg-white rounded-lg shadow">
                                         <div className="px-2 mx-3 mt-6 text-sm font-medium text-gray-400 mb-7">
@@ -306,43 +321,43 @@ export default function Show({
                                                     untuk Tawarin.
                                                 </div>
                                                 <div>
-                                                <label
-                                                    htmlFor="bid_price_user"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Penawaran
-                                                </label>
-                                                <input
-                                                    type="number"
-                                                    name="bid_price_user"
-                                                    id="bid_price_user"
-                                                    onChange={
-                                                        onChangeBidHandler
-                                                    }
-                                                    onWheel={(e) =>
-                                                        e.target.blur()
-                                                    }
-                                                    
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-                                                />
-                                                {errors.bid_price_user && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.bid_price_user}
-                                                    </span>
-                                                )}
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-sky-500">
-                                                    {bid &&
-                                                        formatRupiahBid}{" "}
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-sky-500">
-                                                        {bid &&
-                                                            "(" +
-                                                                Terbilang(
-                                                                    bid
-                                                                ) +
-                                                                " Rupiah)"}
-                                                    </span>
-                                                </div>
+                                                    <label
+                                                        htmlFor="bid_price_user"
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        Penawaran
+                                                    </label>
+                                                    <input
+                                                        type="number"
+                                                        name="bid_price_user"
+                                                        id="bid_price_user"
+                                                        onChange={
+                                                            onChangeBidHandler
+                                                        }
+                                                        onWheel={(e) =>
+                                                            e.target.blur()
+                                                        }
+                                                        autoComplete="off"
+                                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                                                    />
+                                                    {errors.bid_price_user && (
+                                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                            {
+                                                                errors.bid_price_user
+                                                            }
+                                                        </span>
+                                                    )}
+                                                    <div className="inline mt-1 ml-1 text-xs font-semibold text-sky-500">
+                                                        {bid && formatRupiahBid}{" "}
+                                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-sky-500">
+                                                            {bid &&
+                                                                "(" +
+                                                                    Terbilang(
+                                                                        bid
+                                                                    ) +
+                                                                    " Rupiah)"}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                                 <div className="mt-4">
                                                     <label
@@ -431,103 +446,107 @@ export default function Show({
                             ) : (
                                 ""
                             )}
-                            {permission_name.indexOf("approve perencanaan") > -1 ? (
+                            {permission_name.indexOf("approve perencanaan") >
+                            -1 ? (
                                 <div className="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8">
-                                <div className="shadow sm:rounded-md sm:overflow-hidden">
-                                    <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
-                                        <div className="grid grid-cols-1 col-span-2 gap-2 ">
-                                            <h2 className="mt-4 mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-xl">
-                                                Konfirmasi
-                                            </h2>
+                                    <div className="shadow sm:rounded-md sm:overflow-hidden">
+                                        <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+                                            <div className="grid grid-cols-1 col-span-2 gap-2 ">
+                                                <h2 className="mt-4 mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-xl">
+                                                    Konfirmasi
+                                                </h2>
 
-                                            <div className="px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
-                                                    width={24}
-                                                    height={24}
-                                                    viewBox="0 0 24 24"
-                                                    strokeWidth={2}
-                                                    stroke="currentColor"
-                                                    fill="none"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                >
-                                                    <path
-                                                        stroke="none"
-                                                        d="M0 0h24v24H0z"
+                                                <div className="px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                                        width={24}
+                                                        height={24}
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={2}
+                                                        stroke="currentColor"
                                                         fill="none"
-                                                    />
-                                                    <circle
-                                                        cx={12}
-                                                        cy={12}
-                                                        r={9}
-                                                    />
-                                                    <line
-                                                        x1={12}
-                                                        y1={8}
-                                                        x2="12.01"
-                                                        y2={8}
-                                                    />
-                                                    <polyline points="11 12 12 12 12 16 13 16" />
-                                                </svg>
-                                                Silakan Pilih, apakah
-                                                perencanaan ini akan diterima
-                                                dan ditampilkan atau ditolak
-                                                serta berikan alasan bila
-                                                ditolak.
-                                            </div>
-                                            <div className="mt-4">
-                                                <label
-                                                    htmlFor={"description"}
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Alasan ditolak
-                                                </label>
-                                                <div className="mt-1">
-                                                    <textarea
-                                                        id={"description"}
-                                                        name={"description"}
-                                                        rows={3}
-                                                        onChange={onChange}
-                                                        className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-                                                        placeholder=""
-                                                        defaultValue={""}
-                                                    />
-                                                    {errors && (
-                                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                            {errors.description}
-                                                        </span>
-                                                    )}
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    >
+                                                        <path
+                                                            stroke="none"
+                                                            d="M0 0h24v24H0z"
+                                                            fill="none"
+                                                        />
+                                                        <circle
+                                                            cx={12}
+                                                            cy={12}
+                                                            r={9}
+                                                        />
+                                                        <line
+                                                            x1={12}
+                                                            y1={8}
+                                                            x2="12.01"
+                                                            y2={8}
+                                                        />
+                                                        <polyline points="11 12 12 12 12 16 13 16" />
+                                                    </svg>
+                                                    Silakan Pilih, apakah
+                                                    perencanaan ini akan
+                                                    diterima dan ditampilkan
+                                                    atau ditolak serta berikan
+                                                    alasan bila ditolak.
                                                 </div>
-                                                <p className="mt-2 text-sm text-gray-500">
-                                                    Masukan alasan jika
-                                                    perencanaan ditolak.
-                                                </p>
+                                                <div className="mt-4">
+                                                    <label
+                                                        htmlFor={"description"}
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        Alasan ditolak
+                                                    </label>
+                                                    <div className="mt-1">
+                                                        <textarea
+                                                            id={"description"}
+                                                            name={"description"}
+                                                            rows={3}
+                                                            onChange={onChange}
+                                                            className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                                                            placeholder=""
+                                                            defaultValue={""}
+                                                        />
+                                                        {errors && (
+                                                            <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                                {
+                                                                    errors.description
+                                                                }
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <p className="mt-2 text-sm text-gray-500">
+                                                        Masukan alasan jika
+                                                        perencanaan ditolak.
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="flex justify-end bg-gray-50">
-                                        <div className="px-4 py-3 text-right sm:px-6">
-                                            <Button
-                                                onClick={rejectHandler}
-                                                color="pink"
-                                            >
-                                                Tolak
-                                            </Button>
-                                        </div>
-                                        <div className="px-4 py-3 text-right sm:px-6">
-                                            <Button onClick={confirmHandler}>
-                                                Terima
-                                            </Button>
+                                        <div className="flex justify-end bg-gray-50">
+                                            <div className="px-4 py-3 text-right sm:px-6">
+                                                <Button
+                                                    onClick={rejectHandler}
+                                                    color="pink"
+                                                >
+                                                    Tolak
+                                                </Button>
+                                            </div>
+                                            <div className="px-4 py-3 text-right sm:px-6">
+                                                <Button
+                                                    onClick={confirmHandler}
+                                                >
+                                                    Terima
+                                                </Button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             ) : (
                                 ""
                             )}
-                            
                         </div>
                     </div>
                 </div>

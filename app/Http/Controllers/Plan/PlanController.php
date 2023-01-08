@@ -9,10 +9,13 @@ use App\Http\Resources\Plan\PlanMasterResource;
 use App\Http\Resources\Plan\PlanResource;
 use App\Http\Resources\Plan\PlanSingleResource;
 use App\Models\Plan\Plan;
+use App\Models\Plan\PlanBid;
 use App\Models\Plan\PlanCategory;
 use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
+use App\Models\Plan\PlanStep;
 use App\Models\TemporaryFile;
+use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -21,16 +24,65 @@ use Illuminate\Support\Str;
 
 class PlanController extends Controller
 {
+    public function choose()
+    {
+        return inertia('Plans/Basic/Choose');
+    }
+    public function tahapan(Plan $plan)
+    {
+
+        $balance = $plan->balance;
+        $planbid = PlanBid::where('plan_id', $plan->id)->where('is_approved', 1)->sum('bid_price') / 2;
+
+        $tahap = 1;
+        $transaction = Transaction::where('payable_id', $plan->id)->first();
+        if (is_null($transaction)) {
+            $tahap = 1;
+        }
+        if ($transaction) {
+            if ($transaction->confirmed == false) {
+                $tahap = 2;
+            }
+            if ($balance == $planbid) {
+                $tahap = 3;
+            }
+        }
+        $step = PlanStep::where('type', 1)->where('step', $tahap)->first();
+
+        return Inertia('Plans/Tahapan/Owner/Index', [
+            'plan' => PlanSingleResource::make($plan->load('plan_category')),
+            'balance' => $balance,
+            'tahap' => $tahap,
+            'step' => $step,
+        ]);
+    }
+    public function hasil(Plan $plan)
+    {
+
+        $balance = $plan->balance;
+        $planbid = PlanBid::where('plan_id', $plan->id)->where('is_approved', 1)->sum('bid_price') / 2;
+        if ($balance == $planbid) {
+            $tahap = 1;
+        }
+        return Inertia('Plans/Hasil/Index', [
+            'plan' => PlanSingleResource::make($plan->load('plan_category')),
+            'balance' => $balance,
+            'tahap' => $tahap,
+        ]);
+    }
+
     public $loadDefault = 10;
     public function index(Request $request)
     {
         $plans = Plan::query()
             ->with('plan_category')
             ->with('owner')
+            ->with('plan_bids')
+
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->where('user_id', auth()->user()->id)
             ->doesntHave('planReject')
-            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug','is_approved', 'jumlah_revisi', 'name', 'plan_category_id', 'created_at');
+            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug', 'is_approved', 'jumlah_revisi', 'name', 'plan_category_id', 'created_at')->withCount(['plan_bids'])->withSum('plan_bids', 'is_approved');
         if ($request->q) {
             $plans->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')
@@ -55,9 +107,9 @@ class PlanController extends Controller
             ]
         ]);
         $planRejectCount = Plan::query()
-        ->where('user_id', auth()->user()->id)
-        ->has('planReject')->count();
-        return inertia('Plans/Basic/Index', ['plans' => $plans, 'planRejectCount'=>$planRejectCount]);
+            ->where('user_id', auth()->user()->id)
+            ->has('planReject')->count();
+        return inertia('Plans/Basic/Index', ['plans' => $plans, 'planRejectCount' => $planRejectCount]);
     }
 
     public function create()
@@ -77,7 +129,7 @@ class PlanController extends Controller
         $atrribute_plans = ([
             'user_id' => auth()->user()->id,
             'name' => $name = 'Perencanaan ' . $request->name,
-            'slug' => str($name)->slug().'-'. Str::lower(Str::random(6)),
+            'slug' => str($name)->slug() . '-' . Str::lower(Str::random(6)),
             'jangka_waktu_penawaran' => $request->jangka_waktu_penawaran,
             'jangka_waktu_pelaksanaan' => $request->jangka_waktu_pelaksanaan,
             'jumlah_revisi' => $request->jumlah_revisi,
@@ -175,6 +227,7 @@ class PlanController extends Controller
 
     public function show(Plan $plan)
     {
+        $planWithSum = $plan->with('plan_bids')->where('id', $plan->id)->withSum('plan_bids', 'is_approved')->first();
         $media = $plan->getMedia('contohgambar');
         $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
         $plan_master_texts = PlanMaster::where('type', 'text')->get();
@@ -183,6 +236,7 @@ class PlanController extends Controller
         return Inertia('Plans/Basic/Show', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
             'media' => ($media),
+            'planWithSum' => $planWithSum,
             'plan_details' => ($plan_details),
             'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
             'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
@@ -213,7 +267,7 @@ class PlanController extends Controller
         $plans = Plan::query()
             ->with('plan_category')
             ->with('owner')
-            ->where('is_approved',1) 
+            ->where('is_approved', 1)
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at');
         if ($request->q) {

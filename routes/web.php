@@ -16,8 +16,10 @@ use App\Http\Controllers\Permissions\RolePermissionController;
 use App\Http\Controllers\Permissions\UserPermissionController;
 use App\Http\Controllers\Permissions\UserRoleController;
 use App\Http\Controllers\Plan\Admin\PlanAdminController;
+use App\Http\Controllers\Plan\BidPlanController;
 use App\Http\Controllers\Plan\PlanBidController;
 use App\Http\Controllers\Plan\PlanController;
+use App\Http\Controllers\Plan\PlanResultController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
@@ -32,6 +34,7 @@ use App\Http\Controllers\Wallet\TransferController;
 use App\Http\Controllers\Wallet\WalletController;
 use App\Http\Controllers\Wallet\Admin\WithdrawAdminController;
 use App\Http\Controllers\Wallet\HistoryController as WalletHistoryController;
+use App\Http\Controllers\Wallet\PlanDepositController;
 use App\Http\Controllers\Wallet\WithdrawController;
 use Illuminate\Support\Facades\Route;
 
@@ -142,10 +145,27 @@ Route::middleware('auth')->group(function () {
     Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class,'confirmed'])->name('planadmin.confirmed');
     Route::post('/planadmin/rejected/{id}', [PlanAdminController::class,'rejected'])->name('planadmin.rejected');
     Route::Resource('plans', PlanController::class)->except('show');
+    // -- Tahapan Perencanaan
+        Route::get('plan/tahapan/{plan}',[PlanController::class,'tahapan'])->name('plan.tahapan');
+        Route::get('bidplan/tahapan/{plan}',[BidPlanController::class,'tahapan'])->name('bidplan.tahapan');
+
+        Route::get('plan/hasil/{plan}',[PlanController::class,'hasil'])->name('plan.hasil');
+        Route::get('bidplan/hasil/{plan}',[BidPlanController::class,'hasil'])->name('bidplan.hasil');
+
+        //Hasil Perencanaan
+            Route::get('plan/uploadresult/{plan}',[PlanResultController::class,'UploadResult'])->name('plan.uploadhasil');
+            Route::post('plan/uploadresult/{plan}',[PlanResultController::class,'StoreUploadResult'])->name('plan.simpanhasil');
+            Route::get('plan/showresult/{plan}',[PlanResultController::class,'ShowResult'])->name('plan.lihathasil');
+        //End Hasil Perencanaan
+    // -- End Tahapan Perencanaan
     Route::Resource('planbids', PlanBidController::class);
+    Route::get('bidplans/{id}', [BidPlanController::class,'listpenawar'])->name('bidplans.listpenawar');
+    Route::get('bidplans/selectwinnerplan/{id}', [BidPlanController::class,'selectwinnerplan'])->name('bidplans.selectwinnerplan');
+    Route::Resource('bidplans', PlanBidController::class);
     // End Plans
 
     // Plans
+    Route::get('plans/choose',[PlanController::class,'choose'])->name('plans.choose');
     Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
     Route::Resource('projects', ProjectController::class);
     // End Plans
@@ -165,6 +185,8 @@ Route::middleware('auth')->group(function () {
     Route::Resource('histories', WalletHistoryController::class);
     Route::get('wallet/transfers', [TransferController::class,'transfer'])->name('wallet.transfer');
     Route::post('wallet/transfers', [TransferController::class,'transferstore'])->name('wallet.transferstore');
+    Route::get('plan/deposit/{plan}',[PlanDepositController::class,'plandeposit'])->name('plan.deposit');
+    Route::post('plan/deposit/{plan}',[PlanDepositController::class,'plandepositstore'])->name('plan.depositstore');
     // End Wallets
 
     //Notifications

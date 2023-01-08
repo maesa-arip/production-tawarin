@@ -30,11 +30,12 @@ class PlanBidController extends Controller
             ->with('plan_category')
             ->with('owner')
             ->with('plan_bid')
+            ->with('plan_bids')
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->whereHas('plan_bids', function($q){
                 $q->where('user_id', auth()->user()->id);
             })
-            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug', 'jumlah_revisi', 'name', 'plan_category_id','created_at');
+            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug', 'jumlah_revisi', 'name', 'plan_category_id','created_at')->withSum('plan_bids','is_approved');
         if ($request->q) {
             $plans->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')

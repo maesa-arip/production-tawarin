@@ -31,7 +31,7 @@ export default function Home() {
                     <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
                             <div className="relative z-10 max-w-2xl mx-auto lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
-                                <h1 className="text-4xl font-medium tracking-tight text-gray-900">
+                                <h1 className="text-2xl font-medium tracking-tight text-gray-900 md:text-4xl">
                                     <Typewriter
                                         options={{
                                             strings: [
@@ -43,7 +43,7 @@ export default function Home() {
                                         }}
                                     />
 
-                                    <span className="block pb-2 -mt-2 tracking-tight text-transparent sm:text-xl md:text-4xl bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-500 bg-clip-text lg:mt-4">
+                                    <span className="block pb-2 -mt-2 text-2xl tracking-tight text-transparent md:text-4xl bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-500 bg-clip-text lg:mt-4">
                                         <span>Super Ekosistem Tawarin.</span>
                                     </span>
                                 </h1>
@@ -973,7 +973,7 @@ export default function Home() {
                                 Ini adalah daftar perencanaan di tawarin
                             </p>
                         </div>
-                        <div className="mt-10 flex flex-col bg-white border shadow-sm rounded-xl">
+                        <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
                     <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                         <svg
                             className="max-w-[5rem]"
@@ -1493,7 +1493,7 @@ export default function Home() {
                                 Ini adalah daftar Proyek di tawarin
                             </p>
                         </div>
-                        <div className="mt-10 flex flex-col bg-white border shadow-sm rounded-xl">
+                        <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
                     <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                         <svg
                             className="max-w-[5rem]"

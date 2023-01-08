@@ -147,6 +147,42 @@ export default function Navbar() {
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
+                            {/* <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                        >
+                                            Pendanaan
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    <Dropdown.Link href={"/fundings"}>
+                                        Pendanaan Saya
+                                    </Dropdown.Link>
+                                    <Dropdown.Link href={route("funding.list")}>
+                                        Cari Pendanaan
+                                    </Dropdown.Link>
+                                    <Dropdown.Link href={"/fundings/create"}>
+                                        Buat Pendanaan
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown> */}
                             {/* <NavLink href="/projects/choose">Proyek</NavLink>
                             <NavLink href="/">Keahlian</NavLink>
                             <NavLink href="/toko/products">Toko</NavLink>
@@ -704,7 +740,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href="/public/plans/list"
+                            href={route('plans.choose')}
                         >
                             <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
@@ -768,7 +804,7 @@ export default function Navbar() {
                     <NavLinkMobile
                         href="/"
                         className={
-                            "w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                            "w-full focus:text-black hover:text-black justify-center inline-block text-center pt-2 pb-1"
                         }
                     >
                         <svg
@@ -794,7 +830,7 @@ export default function Navbar() {
                     </NavLinkMobile>
                     <NavLinkMobile
                         href="/wallets"
-                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -822,7 +858,7 @@ export default function Navbar() {
 
                     <NavLinkMobile
                         onClick={openMenuModal}
-                        className="justify-center inline-block w-full pt-2 pb-1 text-center cursor-pointer focus:text-teal-500 hover:text-teal-500"
+                        className="justify-center inline-block w-full pt-2 pb-1 text-center cursor-pointer focus:text-black hover:text-black"
                     >
                         <svg
                             width={25}
@@ -861,7 +897,7 @@ export default function Navbar() {
                         <>
                             <NavLinkMobile
                                 href="/wallets"
-                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -890,7 +926,7 @@ export default function Navbar() {
                             </NavLinkMobile>
                             <NavLinkMobile
                                 href="/profile"
-                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -923,7 +959,7 @@ export default function Navbar() {
                         <>
                             <NavLinkMobile
                                 href="/login"
-                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -952,7 +988,7 @@ export default function Navbar() {
                             </NavLinkMobile>
                             <NavLinkMobile
                                 href="/register"
-                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-teal-500 hover:text-teal-500"
+                                className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

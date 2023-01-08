@@ -3,6 +3,8 @@
 namespace App\Models\Plan;
 
 use App\Models\User;
+use Bavix\Wallet\Interfaces\Confirmable;
+use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Traits\CanConfirm;
 use Bavix\Wallet\Traits\HasWallet;
 use Bavix\Wallet\Traits\HasWallets;
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Plan extends Model implements HasMedia
+class Plan extends Model implements HasMedia, Wallet, Confirmable
 {
     use HasFactory,InteractsWithMedia,SoftDeletes,HasWallet, HasWallets, CanConfirm;
 

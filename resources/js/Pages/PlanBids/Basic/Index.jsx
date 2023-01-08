@@ -189,10 +189,7 @@ export default function Index(props) {
                                                     scope="col"
                                                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        
-                                                    >
+                                                    <div className="flex items-center cursor-pointer gap-x-2">
                                                         Nama Owner
                                                         {params.field ==
                                                             "owner" &&
@@ -292,10 +289,7 @@ export default function Index(props) {
                                                     scope="col"
                                                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        
-                                                    >
+                                                    <div className="flex items-center cursor-pointer gap-x-2">
                                                         Nilai Penawaran
                                                         {params.field ==
                                                             "bid_price" &&
@@ -393,20 +387,44 @@ export default function Index(props) {
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {numberFormat(
-                                                            plan.plan_bid.bid_price
+                                                            plan.plan_bid
+                                                                .bid_price
                                                         )}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
-                                                        {plan.plan_bid.is_approved ==
-                                                        1 ? (
+                                                        {plan.plan_bids_sum_is_approved ==
+                                                            1 &&
+                                                        plan.plan_bid
+                                                            .is_approved ==
+                                                            1 ? (
                                                             <Button>
-                                                                Diterima
+                                                                Pemenang
                                                             </Button>
                                                         ) : (
+                                                            ""
+                                                        )}
+                                                        {plan.plan_bids_sum_is_approved ==
+                                                            1 &&
+                                                        plan.plan_bid
+                                                            .is_approved ==
+                                                            0 ? (
+                                                            <Button color="pink">
+                                                                Gagal
+                                                            </Button>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                        {plan.plan_bids_sum_is_approved ==
+                                                            0 &&
+                                                        plan.plan_bid
+                                                            .is_approved ==
+                                                            0 ? (
                                                             <Button color="yellow">
                                                                 Menunggu
                                                                 Konfirmasi
                                                             </Button>
+                                                        ) : (
+                                                            ""
                                                         )}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
@@ -427,19 +445,24 @@ export default function Index(props) {
                                                                 </button>
                                                             </Dropdown.Trigger>
                                                             <Dropdown.Content>
-                                                                {plan.plan_bid.is_approved ==
+                                                                {plan.plan_bid
+                                                                    .is_approved ==
                                                                 1 ? (
                                                                     <></>
                                                                 ) : (
                                                                     <>
-                                                                        <Dropdown.Link as={"button"}
+                                                                    {plan.plan_bids_sum_is_approved == 0 && plan.plan_bid.is_approved == 0 ? <Dropdown.Link
+                                                                            as={
+                                                                                "button"
+                                                                            }
                                                                             href={route(
                                                                                 "plans.edit",
                                                                                 `${plan.slug}`
                                                                             )}
                                                                         >
                                                                             Edit
-                                                                        </Dropdown.Link>
+                                                                        </Dropdown.Link> : ""}
+                                                                        
                                                                         <button
                                                                             className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                             onClick={() =>
@@ -453,7 +476,10 @@ export default function Index(props) {
                                                                     </>
                                                                 )}
                                                                 <>
-                                                                    <Dropdown.Link as={"button"}
+                                                                    <Dropdown.Link
+                                                                        as={
+                                                                            "button"
+                                                                        }
                                                                         href={route(
                                                                             "plans.show",
                                                                             `${plan.slug}`
@@ -462,15 +488,23 @@ export default function Index(props) {
                                                                         Lihat
                                                                         Detail
                                                                     </Dropdown.Link>
-                                                                    <Dropdown.Link as={"button"}
-                                                                        href={route(
-                                                                            "plans.show",
-                                                                            `${plan.slug}`
-                                                                        )}
-                                                                    >
-                                                                        Tahapan
-                                                                        Perencanaan
-                                                                    </Dropdown.Link>
+                                                                    {plan
+                                                                        .plan_bid
+                                                                        .is_approved ==
+                                                                        1 && (
+                                                                        <Dropdown.Link
+                                                                            as={
+                                                                                "button"
+                                                                            }
+                                                                            href={route(
+                                                                                "bidplan.tahapan",
+                                                                                `${plan.slug}`
+                                                                            )}
+                                                                        >
+                                                                            Tahapan
+                                                                            Perencanaan
+                                                                        </Dropdown.Link>
+                                                                    )}
                                                                 </>
                                                             </Dropdown.Content>
                                                         </Dropdown>

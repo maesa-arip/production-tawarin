@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Wallet\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Wallet\DepositAdminResource;
 use App\Http\Resources\Wallet\TransactionSingleResource;
+use App\Models\Plan\Plan;
 use App\Models\User;
 use App\Notifications\DepositConfirmNotification;
 use Bavix\Wallet\Models\Transaction;
@@ -63,8 +64,14 @@ class DepositAdminController extends Controller
     }
     public function confirmed(Transaction $transaction,$id)
     {
+        
         $transaction = Transaction::find($id);
-        $user = User::find($transaction->payable_id);
+        if ($transaction->payable_type=='App\Models\User') {
+            $user = User::find($transaction->payable_id);
+        }
+        if ($transaction->payable_type=='App\Models\Plan\Plan') {
+            $user = Plan::find($transaction->payable_id);
+        }
         $user->confirm($transaction);
 
         // $pesan = [
@@ -74,7 +81,7 @@ class DepositAdminController extends Controller
         //     'url' => '',
         // ];
 
-        $user->notify(new DepositConfirmNotification($transaction));
+        // $user->notify(new DepositConfirmNotification($transaction));
         Cache::forget('notifications_count');
 
         return redirect('/admindeposits')->with([

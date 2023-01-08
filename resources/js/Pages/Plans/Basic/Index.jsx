@@ -305,6 +305,33 @@ export default function Index(props) {
                                                     <div
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
+                                                            sort(
+                                                                "plan_bids_count"
+                                                            )
+                                                        }
+                                                    >
+                                                        Jumlah Penawar
+                                                        {params.field ==
+                                                            "plan_bids_count" &&
+                                                            params.direction ==
+                                                                "asc" && (
+                                                                <UpIcon />
+                                                            )}
+                                                        {params.field ==
+                                                            "plan_bids_count" &&
+                                                            params.direction ==
+                                                                "desc" && (
+                                                                <DownIcon />
+                                                            )}
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                >
+                                                    <div
+                                                        className="flex items-center cursor-pointer gap-x-2"
+                                                        onClick={() =>
                                                             sort("created_at")
                                                         }
                                                     >
@@ -350,18 +377,32 @@ export default function Index(props) {
                                                             plan.anggaran_proyek
                                                         )}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        {plan.is_approved ==
-                                                        1 ? (
+                                                    {plan.plan_bids_sum_is_approved ==
+                                                    "1" ? (
+                                                        <td className="px-6 py-4 whitespace-nowrap">
                                                             <Button>
-                                                                Diterima
+                                                                Sudah Memilih
+                                                                Pemenang
                                                             </Button>
-                                                        ) : (
-                                                            <Button color="yellow">
-                                                                Menunggu
-                                                                Konfirmasi
-                                                            </Button>
-                                                        )}
+                                                        </td>
+                                                    ) : (
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            {plan.is_approved ==
+                                                            1 ? (
+                                                                <Button>
+                                                                    Diterima
+                                                                </Button>
+                                                            ) : (
+                                                                <Button color="yellow">
+                                                                    Menunggu
+                                                                    Konfirmasi
+                                                                </Button>
+                                                            )}
+                                                        </td>
+                                                    )}
+
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        {plan.plan_bids_count}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {plan.created_at}
@@ -386,7 +427,12 @@ export default function Index(props) {
                                                                     ""
                                                                 ) : (
                                                                     <>
-                                                                        <Dropdown.Link href={route("plans.edit",`${plan.slug}`)}>
+                                                                        <Dropdown.Link
+                                                                            href={route(
+                                                                                "plans.edit",
+                                                                                `${plan.slug}`
+                                                                            )}
+                                                                        >
                                                                             Edit
                                                                         </Dropdown.Link>
                                                                         <button
@@ -410,24 +456,30 @@ export default function Index(props) {
                                                                 >
                                                                     Lihat Detail
                                                                 </Dropdown.Link>
-                                                                <Dropdown.Link
-                                                                    href={route(
-                                                                        "plans.show",
-                                                                        `${plan.slug}`
-                                                                    )}
-                                                                >
-                                                                    Lihat
-                                                                    Penawaran
-                                                                </Dropdown.Link>
-                                                                <Dropdown.Link
-                                                                    href={route(
-                                                                        "plans.show",
-                                                                        `${plan.slug}`
-                                                                    )}
-                                                                >
-                                                                    Tahapan
-                                                                    Perencanaan
-                                                                </Dropdown.Link>
+                                                                {plan.plan_bids_count >
+                                                                    0 && (
+                                                                    <Dropdown.Link
+                                                                        href={route(
+                                                                            "bidplans.listpenawar",
+                                                                            `${plan.id}`
+                                                                        )}
+                                                                    >
+                                                                        Lihat
+                                                                        Penawaran
+                                                                    </Dropdown.Link>
+                                                                )}
+                                                                {plan.plan_bids_sum_is_approved ==
+                                                                    "1" && (
+                                                                    <Dropdown.Link
+                                                                        href={route(
+                                                                            "plan.tahapan",
+                                                                            `${plan.slug}`
+                                                                        )}
+                                                                    >
+                                                                        Tahapan
+                                                                        Perencanaan
+                                                                    </Dropdown.Link>
+                                                                )}
                                                             </Dropdown.Content>
                                                         </Dropdown>
                                                     </td>
