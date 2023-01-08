@@ -35,12 +35,12 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
+        '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
         '98caa11a197f6516a8e48aa4abb5ccc6' => __DIR__ . '/..' . '/inertiajs/inertia-laravel/helpers.php',
         'd634523d799d97a8ab4807b650bf5cea' => __DIR__ . '/..' . '/pestphp/pest-plugin-laravel/src/Autoload.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
-        '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -151,6 +151,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
             'Laravel\\Sanctum\\' => 16,
             'Laravel\\Sail\\' => 13,
             'Laravel\\Breeze\\' => 15,
+            'LaravelDaily\\PermissionsUI\\' => 27,
         ),
         'I' => 
         array (
@@ -517,6 +518,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         array (
             0 => __DIR__ . '/..' . '/laravel/breeze/src',
         ),
+        'LaravelDaily\\PermissionsUI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src',
+        ),
         'Intervention\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
@@ -701,6 +706,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'App\\Http\\Controllers\\Plan\\PlanBidController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanBidController.php',
         'App\\Http\\Controllers\\Plan\\PlanController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanController.php',
         'App\\Http\\Controllers\\Plan\\PlanRejectController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanRejectController.php',
+        'App\\Http\\Controllers\\Plan\\PlanResultController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanResultController.php',
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\Project\\ProjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/Project/ProjectController.php',
         'App\\Http\\Controllers\\Toko\\CartController' => __DIR__ . '/../..' . '/app/Http/Controllers/Toko/CartController.php',
@@ -3726,6 +3732,12 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'Intervention\\Image\\Point' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Point.php',
         'Intervention\\Image\\Response' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Response.php',
         'Intervention\\Image\\Size' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Size.php',
+        'LaravelDaily\\PermissionsUI\\Controllers\\Controller' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Controllers/Controller.php',
+        'LaravelDaily\\PermissionsUI\\Controllers\\PermissionController' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Controllers/PermissionController.php',
+        'LaravelDaily\\PermissionsUI\\Controllers\\RoleController' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Controllers/RoleController.php',
+        'LaravelDaily\\PermissionsUI\\Controllers\\UserController' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Controllers/UserController.php',
+        'LaravelDaily\\PermissionsUI\\Facades\\PermissionsUI' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Facades/PermissionsUI.php',
+        'LaravelDaily\\PermissionsUI\\PermissionsUIServiceProvider' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/PermissionsUIServiceProvider.php',
         'Laravel\\Breeze\\BreezeServiceProvider' => __DIR__ . '/..' . '/laravel/breeze/src/BreezeServiceProvider.php',
         'Laravel\\Breeze\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallCommand.php',
         'Laravel\\Breeze\\Console\\InstallsApiStack' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsApiStack.php',

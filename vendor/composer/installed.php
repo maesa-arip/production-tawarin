@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'a03cc6a1a915b2c53c5e609a68ab682862ebd175',
+        'reference' => '14d8e27b2504a42b8fa088f95b3da701eecab435',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -487,7 +487,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'a03cc6a1a915b2c53c5e609a68ab682862ebd175',
+            'reference' => '14d8e27b2504a42b8fa088f95b3da701eecab435',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -524,6 +524,15 @@
             'install_path' => __DIR__ . '/../laravel/tinker',
             'aliases' => array(),
             'reference' => '5062061b4924af3392225dd482ca7b4d85d8b8ef',
+            'dev_requirement' => false,
+        ),
+        'laraveldaily/laravel-permission-ui' => array(
+            'pretty_version' => '0.1.4',
+            'version' => '0.1.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laraveldaily/laravel-permission-ui',
+            'aliases' => array(),
+            'reference' => '5aebd824ea3a44e0406868e5441aa0f433cb85e4',
             'dev_requirement' => false,
         ),
         'laravolt/indonesia' => array(

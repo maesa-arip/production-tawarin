@@ -77,6 +77,13 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
+  'laraveldaily/laravel-permission-ui' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'LaravelDaily\\PermissionsUI\\PermissionsUIServiceProvider',
+    ),
+  ),
   'laravolt/indonesia' => 
   array (
     'providers' => 

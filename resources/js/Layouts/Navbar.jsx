@@ -96,6 +96,7 @@ export default function Navbar() {
                         >
                             {/* <NavLink href="/">Home</NavLink> */}
                             <NavLink href="/wallets">Saldo</NavLink>
+                            <NavLink href="/permissions">Permissions</NavLink>
 
                             {/* <DropdownMenu label={"Perencanaan"}>
                                 <DropdownMenu.Link href="/plans">
