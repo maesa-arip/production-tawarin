@@ -9,6 +9,7 @@ import Button from "@/Components/Button";
 import { numberFormat } from "@/Libs/helper";
 import NavLink from "@/Components/NavLink";
 import Dropdown from "@/Components/Dropdown";
+import DropdownMobile from "@/Components/DropdownMobile";
 
 const UpIcon = () => (
     <svg
@@ -100,7 +101,7 @@ export default function Index(props) {
     return (
         <>
             <Head title="Plans" />
-            <Container>Plans</Container>
+            <Container>Perencanaan</Container>
             <DestroyModal
                 isOpenDestroyDialog={isOpenDestroyDialog}
                 setIsOpenDestroyDialog={setIsOpenDestroyDialog}
@@ -563,23 +564,28 @@ export default function Index(props) {
                     </div>
                 </div>
 
-                <div className="grid w-full grid-cols-2 gap-1 mt-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="grid w-full grid-cols-2 mt-4 gap-x-1 gap-y-2 md:gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {plans.map((plan, index) => (
                         <div key={index} className="relative w-full mx-auto">
                             <a
                                 href="#"
-                                className="relative inline-block w-full transition-transform duration-300 ease-in-out transform hover:-translate-y-2"
+                                className="relative inline-block w-full transition-transform duration-300 ease-in-out transform"
                             >
                                 <div className="p-2 bg-white rounded-lg shadow">
-                                    <div className="relative flex justify-center overflow-hidden rounded-lg h-52">
-                                        <div className="w-full transition-transform duration-500 ease-in-out transform hover:scale-110">
+                                    <div className="relative flex justify-center h-48 overflow-hidden rounded-lg">
+                                        <div className="w-full transition-transform duration-500 ease-in-out transform">
                                             <div className="absolute inset-0 bg-black opacity-10" />
+                                            <img
+                                                        src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
+                                                        alt="Front of men's Basic Tee in black."
+                                                        className="object-cover object-top w-full h-full lg:h-full lg:w-full"
+                                                    />
                                         </div>
                                         <div className="absolute bottom-0 flex justify-center mb-3">
                                             <div className="flex px-2 py-1 space-x-1 overflow-hidden bg-white rounded-lg shadow md:px-5 md:space-x-5">
-                                                <p className="flex items-center font-medium text-gray-800">
+                                                <p className="flex items-center text-xs font-medium text-gray-800">
                                                     <svg
-                                                        className="w-5 h-5 mr-2 fill-current"
+                                                        className="w-4 h-4 mr-2 fill-current"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 512 512"
                                                     >
@@ -587,9 +593,9 @@ export default function Index(props) {
                                                     </svg>
                                                     3 + 1
                                                 </p>
-                                                <p className="flex items-center font-medium text-gray-800">
+                                                <p className="flex items-center text-xs font-medium text-gray-800">
                                                     <svg
-                                                        className="w-5 h-5 mr-2 fill-current"
+                                                        className="w-4 h-4 mr-2 fill-current"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 480 512"
                                                     >
@@ -597,9 +603,9 @@ export default function Index(props) {
                                                     </svg>
                                                     2
                                                 </p>
-                                                <p className="flex items-center font-medium text-gray-800">
+                                                <p className="flex items-center text-xs font-medium text-gray-800">
                                                     <svg
-                                                        className="w-5 h-5 mr-2 fill-current"
+                                                        className="w-4 h-4 mr-2 fill-current"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 512 512"
                                                     >
@@ -609,9 +615,98 @@ export default function Index(props) {
                                                 </p>
                                             </div>
                                         </div>
-                                        <span className="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-red-500 rounded-lg select-none">
-                                            Featured
+                                        <span className="absolute top-0 right-0 z-10 inline-flex items-center justify-center px-1 mt-1 ml-1 text-xs font-thin text-white bg-blue-500 rounded-lg select-none">
+                                            <DropdownMobile>
+                                                <DropdownMobile.Trigger>
+                                                    <button>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="w-4 h-4 mt-1 text-white"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                        </svg>
+                                                    </button>
+                                                </DropdownMobile.Trigger>
+                                                <DropdownMobile.Content>
+                                                    {plan.is_approved == 1 ? (
+                                                        ""
+                                                    ) : (
+                                                        <>
+                                                            <DropdownMobile.Link
+                                                                href={route(
+                                                                    "plans.edit",
+                                                                    `${plan.slug}`
+                                                                )}
+                                                            >
+                                                                Edit
+                                                            </DropdownMobile.Link>
+                                                            <button
+                                                                className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                onClick={() =>
+                                                                    openDestroyDialog(
+                                                                        plan
+                                                                    )
+                                                                }
+                                                            >
+                                                                Hapus
+                                                            </button>
+                                                        </>
+                                                    )}
+
+                                                    <DropdownMobile.Link
+                                                        href={route(
+                                                            "plans.show",
+                                                            `${plan.slug}`
+                                                        )}
+                                                    >
+                                                        Lihat Detail
+                                                    </DropdownMobile.Link>
+                                                    {plan.plan_bids_count >
+                                                        0 && (
+                                                        <DropdownMobile.Link
+                                                            href={route(
+                                                                "bidplans.listpenawar",
+                                                                `${plan.id}`
+                                                            )}
+                                                        >
+                                                            Lihat Penawaran
+                                                        </DropdownMobile.Link>
+                                                    )}
+                                                    {plan.plan_bids_sum_is_approved ==
+                                                        "1" && (
+                                                        <DropdownMobile.Link
+                                                            href={route(
+                                                                "plan.tahapan",
+                                                                `${plan.slug}`
+                                                            )}
+                                                        >
+                                                            Tahapan Perencanaan
+                                                        </DropdownMobile.Link>
+                                                    )}
+                                                </DropdownMobile.Content>
+                                            </DropdownMobile>
                                         </span>
+
+                                        {plan.plan_bids_sum_is_approved ==
+                                        "1" ? (
+                                            <span className="absolute top-0 left-0 z-10 inline-flex px-2 py-1 mt-1 text-xs font-medium text-white bg-blue-500 rounded-lg select-none">
+                                                Sudah Ada Pemenang
+                                            </span>
+                                        ) : (
+                                            <>
+                                                {plan.is_approved == 1 ? (
+                                                    <span className="absolute top-0 left-0 z-10 inline-flex px-2 py-1 mt-1 text-xs font-medium text-white bg-blue-500 rounded-lg select-none">
+                                                        Diterima
+                                                    </span>
+                                                ) : (
+                                                    <span className="absolute top-0 left-0 z-10 inline-flex px-2 py-1 mt-1 text-xs font-medium text-white bg-yellow-500 rounded-lg select-none">
+                                                        Menunggu Konfirmasi
+                                                    </span>
+                                                )}
+                                            </>
+                                        )}
                                     </div>
                                     <div className="mt-4">
                                         <h2

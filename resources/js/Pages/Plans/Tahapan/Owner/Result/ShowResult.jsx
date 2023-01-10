@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/inertia-react";
 import React from "react";
 
 export default function ShowResult({ plan, data , plan_master}) {
-  console.log(plan_master);
+  console.log(data);
     return (
         <div>
             <Head title="Upload Hasil" />
@@ -11,14 +11,14 @@ export default function ShowResult({ plan, data , plan_master}) {
                 <div className="grid items-start max-w-2xl grid-cols-1 px-4 py-4 mx-auto gap-y-8 gap-x-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
                   {plan_master.map(
                     (master, index) => 
-                    {data.master.slug ? (
+                    {data.gambar_arsitektur ? (
                       <div className="mb-6 bg-white rounded-lg shadow">
                           <div className="px-2 mx-3 mt-6 text-sm font-medium text-gray-400 mb-7">
                               <h2 className="mb-4 text-xl font-semibold tracking-tight text-gray-900">
-                                  {master.name}
+                                  {master.slug}
                               </h2>
                               <div className="grid grid-cols-6 col-span-2 gap-2 ">
-                                  {data.master.slug.map(
+                                  {data.gambar_arsitektur.map(
                                       (result, index) =>
                                           index < 2 && (
                                               <div
@@ -33,7 +33,7 @@ export default function ShowResult({ plan, data , plan_master}) {
                                               </div>
                                           )
                                   )}
-                                  {data.master.slug.map(
+                                  {data.gambar_arsitektur.map(
                                       (result, index) =>
                                           index > 1 &&
                                           index < 6 && (
