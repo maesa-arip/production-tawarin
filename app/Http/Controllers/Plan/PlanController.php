@@ -15,9 +15,14 @@ use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
 use App\Models\Plan\PlanStep;
 use App\Models\TemporaryFile;
+use App\Models\User;
+use App\Notifications\Plan\PlanNewNotification;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -78,11 +83,14 @@ class PlanController extends Controller
             ->with('plan_category')
             ->with('owner')
             ->with('plan_bids')
-
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->where('user_id', auth()->user()->id)
             ->doesntHave('planReject')
-            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug', 'is_approved', 'jumlah_revisi', 'name', 'plan_category_id', 'created_at')->withCount(['plan_bids'])->withSum('plan_bids', 'is_approved');
+            ->with('media')
+            // ->has('media')
+            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'jangka_waktu_pelaksanaan','user_id', 'slug', 'is_approved', 'jumlah_revisi', 'name', 'plan_category_id', 'created_at')
+            ->withCount(['plan_bids'])
+            ->withSum('plan_bids', 'is_approved');
         if ($request->q) {
             $plans->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')
@@ -95,7 +103,7 @@ class PlanController extends Controller
         $plans = (PlanResource::collection($plans->latest()->fastPaginate($request->load)->withQueryString())
         )->additional([
             'attributes' => [
-                'total' => Plan::count(),
+                'total' => 1100,
                 'per_page' => 10,
             ],
             'filtered' => [
@@ -218,6 +226,11 @@ class PlanController extends Controller
             ]);
         }
         //End Plan Details
+        $user = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->get();
+        Notification::send($user, new PlanNewNotification($plan));
+        Cache::forget('notifications_count');
         return redirect('plans')->with([
             'type' => 'success',
             'message' => 'Plans was created',
@@ -268,7 +281,7 @@ class PlanController extends Controller
             ->with('owner')
             ->where('is_approved', 1)
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
-            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at');
+            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran','jangka_waktu_pelaksanaan' ,'user_id', 'slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at');
         if ($request->q) {
             $plans->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')
@@ -281,7 +294,7 @@ class PlanController extends Controller
         $plans = (PlanResource::collection($plans->latest()->fastPaginate($request->load)->withQueryString())
         )->additional([
             'attributes' => [
-                // 'total' => Plan::count(),
+                'total' => 1100,
                 'per_page' => 10,
             ],
             'filtered' => [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Plan;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,6 +25,8 @@ class PlanResource extends JsonResource
             'slug' => $this->slug,
             'name' => $this->name,
             'is_approved' => $this->is_approved,
+            'jangka_waktu_penawaran' => $this->jangka_waktu_penawaran,
+            'jangka_waktu_pelaksanaan' => $this->jangka_waktu_pelaksanaan,
             'plan_bids_count' => $this->plan_bids_count,
             'plan_bids_sum_is_approved' => $this->plan_bids_sum_is_approved,
             'plan_category' => [
@@ -36,7 +39,9 @@ class PlanResource extends JsonResource
                 'name' => $this->owner->name,
             ],
             'created_at' => $this->created_at->diffForHumans(),
-            // 'planReject' => PlanResource::collection($this->whenLoaded('planReject')),
+            'until' =>  ($this->created_at->addDays($this->jangka_waktu_penawaran))->diffInDays(Carbon::now()),
+            'media'  => $this->getFirstMediaUrl('contohgambar'),
+            // 'media' => PlanResource::collection($this->whenLoaded('media')),
         ];
     }
 }

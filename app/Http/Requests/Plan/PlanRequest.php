@@ -33,7 +33,7 @@ class PlanRequest extends FormRequest
             'jumlah_revisi' => ['required'],
             'luas_bangunan' => ['required'],
             'anggaran_proyek' => ['required'],
-            'acuan_anggaran' => ['required'],
+            // 'acuan_anggaran' => ['required'],
             // 'cover' => ['required'],
             'dari_anggaran' => ['required'],
             'sampai_anggaran' => ['required'],

@@ -8,7 +8,7 @@ function Footer() {
       <div className="absolute inset-x-0 top-0 h-32 text-slate-900/10 [mask-image:linear-gradient(white,transparent)]">
                 <svg
                     aria-hidden="true"
-                    className="absolute inset-0 h-full w-full"
+                    className="absolute inset-0 w-full h-full"
                 >
                     <defs>
                         <pattern
@@ -28,7 +28,7 @@ function Footer() {
                     <rect width="100%" height="100%" fill="url(#:Rf6:)" />
                 </svg>
             </div>
-      <div className="max-w-6xl px-4 mx-auto sm:px-6">
+      <div className="px-4 mx-auto sm:px-6">
         
 
         {/* Top area: Blocks */}

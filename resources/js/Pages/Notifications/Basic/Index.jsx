@@ -3,7 +3,7 @@ import Header from "@/Components/Header";
 import NavLink from "@/Components/NavLink";
 import App from "@/Layouts/App";
 import { numberFormat } from "@/Libs/helper";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/inertia-react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React from "react";
@@ -221,6 +221,14 @@ export default function Index({ notifications }) {
                                             
                                             {notification.data.message}
                                         </div>
+                                        {notification.data.url ?
+                                        <Link
+                                        href={notification.data.url}
+                                        className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                    >
+                                        Lihat
+                                    </Link>
+                                        :''}
                                     </div>
                                 ))}
                             </div>

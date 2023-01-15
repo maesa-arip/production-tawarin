@@ -74,7 +74,7 @@ export default function Show({
             <Head title="Plans" />
             <Container>
                 <div className="bg-white">
-                    <div className="grid items-start max-w-2xl grid-cols-1 px-4 py-12 mx-auto gap-y-16 gap-x-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+                    <div className="grid items-start grid-cols-1 px-4 py-12 mx-auto gap-y-16 gap-x-8 sm:px-6 sm:py-16 lg:grid-cols-2 lg:px-8">
                         <div>
                             {planWithSum.plan_bids_sum_is_approved == 1 && (
                                 <Link className="inline-flex px-2 py-1 text-xl font-semibold text-white bg-teal-500 rounded">

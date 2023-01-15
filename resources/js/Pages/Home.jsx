@@ -1,6 +1,6 @@
 import React from "react";
 import App from "@/Layouts/App";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import RadioCard from "@/Components/RadioCard";
 import Hero from "@/Components/Hero";
@@ -21,14 +21,16 @@ import TestimonialImage from "../../img/LandingPageFunding/testimonials.png";
 import DefaultUserImage from "../../img/LandingPageFunding/defaultuser.jpg";
 import Typewriter from "typewriter-effect";
 import Logo from "../../img/Tawarin.png";
+import { IconBuildingSkyscraper, IconBuildingStore, IconCash, IconHomeEdit, IconTools, IconUserSearch } from "@tabler/icons";
 
-export default function Home() {
+export default function Home(props) {
+    const { data: plans } = props.plans;
     return (
         <>
             <Head title="Home" />
             <Container>
                 <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36">
-                    <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
                             <div className="relative z-10 max-w-2xl mx-auto lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
                                 <h1 className="text-2xl font-medium tracking-tight text-gray-900 md:text-4xl">
@@ -57,7 +59,8 @@ export default function Home() {
                                     <a
                                         aria-label="Download on the Play Store"
                                         className="text-white transition-colors bg-gray-800 rounded-lg hover:bg-gray-900"
-                                        href="https://play.google.com/store/apps/details?id=com.tawarin.net" target="_blank"
+                                        href="https://play.google.com/store/apps/details?id=com.tawarin.net"
+                                        target="_blank"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -690,7 +693,7 @@ export default function Home() {
                     aria-label="Features for building a portfolio"
                     className="py-20 sm:py-32"
                 >
-                    <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="max-w-2xl mx-auto sm:text-center">
                             <h2 className="text-3xl font-medium tracking-tight text-gray-900">
                                 Mari mulai projekmu disini
@@ -705,266 +708,85 @@ export default function Home() {
                             className="grid max-w-2xl grid-cols-1 gap-6 mx-auto mt-16 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
                         >
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                                <svg
-                                    viewBox="0 0 32 32"
-                                    aria-hidden="true"
-                                    className="w-8 h-8"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
-                                        fill="#737373"
-                                    />
-                                    <path
-                                        d="M12 25l8-8m0 0h-6m6 0v6"
-                                        stroke="#171717"
-                                        strokeWidth={2}
-                                        strokeLinecap="round"
-                                    />
-                                    <circle
-                                        cx={16}
-                                        cy={16}
-                                        r={16}
-                                        fill="#A3A3A3"
-                                        fillOpacity="0.2"
-                                    />
-                                </svg>
+                                <IconCash className="w-8 h-8"/>
+                                <Link href={route('fundings.choose')}>
+                                <h3 className="mt-6 font-semibold text-gray-900">
+                                    Pendanaan
+                                </h3>
+                                </Link>
+                                
+                                <p className="mt-2 text-gray-700">
+                                    Watch your investments grow exponentially,
+                                    leaving other investors in the dust.
+                                </p>
+                            </li>
+                            <li className="p-8 border border-gray-200 rounded-2xl">
+                            <IconHomeEdit className="w-8 h-8"/>
+                                <Link href={route('plans.choose')}>
                                 <h3 className="mt-6 font-semibold text-gray-900">
                                     Perencanaan
                                 </h3>
+                                </Link>
                                 <p className="mt-2 text-gray-700">
                                     Whether it’s $1 or $1,000,000, we can put
                                     your money to work for you.
                                 </p>
+                                
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                                <svg
-                                    viewBox="0 0 32 32"
-                                    aria-hidden="true"
-                                    className="w-8 h-8"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
-                                        fill="#737373"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M9 13a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H10a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H10a1 1 0 01-1-1v-2zm1 5a1 1 0 00-1 1v2a1 1 0 001 1h12a1 1 0 001-1v-2a1 1 0 00-1-1H10z"
-                                        fill="url(#:R1adm:-gradient)"
-                                    />
-                                    <rect
-                                        x={9}
-                                        y={6}
-                                        width={14}
-                                        height={4}
-                                        rx={1}
-                                        fill="#171717"
-                                    />
-                                    <circle
-                                        cx={16}
-                                        cy={16}
-                                        r={16}
-                                        fill="#A3A3A3"
-                                        fillOpacity="0.2"
-                                    />
-                                    <defs>
-                                        <linearGradient
-                                            id=":R1adm:-gradient"
-                                            x1={16}
-                                            y1={12}
-                                            x2={16}
-                                            y2={28}
-                                            gradientUnits="userSpaceOnUse"
-                                        >
-                                            <stop stopColor="#737373" />
-                                            <stop
-                                                offset={1}
-                                                stopColor="#737373"
-                                                stopOpacity={0}
-                                            />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
+                            <IconBuildingSkyscraper className="w-8 h-8"/>
+                                <Link href={route('projects.choose')}>
                                 <h3 className="mt-6 font-semibold text-gray-900">
                                     Proyek
                                 </h3>
+                                </Link>
                                 <p className="mt-2 text-gray-700">
                                     Invest in different industries to find the
                                     most opportunities to win huge.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                                <svg
-                                    viewBox="0 0 32 32"
-                                    aria-hidden="true"
-                                    className="w-8 h-8"
-                                >
-                                    <circle
-                                        cx={16}
-                                        cy={16}
-                                        r={16}
-                                        fill="#A3A3A3"
-                                        fillOpacity="0.2"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M5 4a4 4 0 014-4h14a4 4 0 014 4v10h-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9a2 2 0 00-2 2v24a2 2 0 002 2h5v2H9a4 4 0 01-4-4V4z"
-                                        fill="#737373"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M24 32a8 8 0 100-16 8 8 0 000 16zm1-8.414V19h-2v5.414l4 4L28.414 27 25 23.586z"
-                                        fill="#171717"
-                                    />
-                                </svg>
+                            <IconUserSearch className="w-8 h-8"/>
+                                <Link href={route('projects.choose')}>
                                 <h3 className="mt-6 font-semibold text-gray-900">
                                     Keahlian
                                 </h3>
+                                </Link>
                                 <p className="mt-2 text-gray-700">
                                     Get insider tips on big stock moves and act
                                     on them within seconds.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                                <svg
-                                    viewBox="0 0 32 32"
-                                    fill="none"
-                                    aria-hidden="true"
-                                    className="w-8 h-8"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
-                                        fill="#737373"
-                                    />
-                                    <circle
-                                        cx={11}
-                                        cy={14}
-                                        r={2}
-                                        fill="#171717"
-                                    />
-                                    <circle
-                                        cx={11}
-                                        cy={20}
-                                        r={2}
-                                        fill="#171717"
-                                    />
-                                    <circle
-                                        cx={11}
-                                        cy={26}
-                                        r={2}
-                                        fill="#171717"
-                                    />
-                                    <path
-                                        d="M16 14h6M16 20h6M16 26h6"
-                                        stroke="#737373"
-                                        strokeWidth={2}
-                                        strokeLinecap="square"
-                                    />
-                                    <circle
-                                        cx={16}
-                                        cy={16}
-                                        r={16}
-                                        fill="#A3A3A3"
-                                        fillOpacity="0.2"
-                                    />
-                                </svg>
+                            <IconBuildingStore className="w-8 h-8"/>
+                                <Link href={route('projects.choose')}>
                                 <h3 className="mt-6 font-semibold text-gray-900">
                                     Toko
                                 </h3>
+                                </Link>
                                 <p className="mt-2 text-gray-700">
                                     Invite new insiders to get tips faster and
                                     beat even other Pocket users.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                                <svg
-                                    viewBox="0 0 32 32"
-                                    aria-hidden="true"
-                                    className="w-8 h-8"
-                                >
-                                    <circle
-                                        cx={16}
-                                        cy={16}
-                                        r={16}
-                                        fill="#A3A3A3"
-                                        fillOpacity="0.2"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M5 4a4 4 0 014-4h14a4 4 0 014 4v10h-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9a2 2 0 00-2 2v24a2 2 0 002 2h5v2H9a4 4 0 01-4-4V4z"
-                                        fill="#737373"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M18 19.5a3.5 3.5 0 117 0V22a2 2 0 012 2v6a2 2 0 01-2 2h-7a2 2 0 01-2-2v-6a2 2 0 012-2v-2.5zm2 2.5h3v-2.5a1.5 1.5 0 00-3 0V22z"
-                                        fill="#171717"
-                                    />
-                                </svg>
+                            <IconTools className="w-8 h-8"/>
+                                <Link href={route('projects.choose')}>
                                 <h3 className="mt-6 font-semibold text-gray-900">
                                     Alat
                                 </h3>
+                                </Link>
                                 <p className="mt-2 text-gray-700">
                                     Cutting-edge security technology that even
                                     the NSA doesn’t know about keeps you hidden.
                                 </p>
                             </li>
-                            <li className="p-8 border border-gray-200 rounded-2xl">
-                                <svg
-                                    viewBox="0 0 32 32"
-                                    fill="none"
-                                    aria-hidden="true"
-                                    className="w-8 h-8"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
-                                        fill="#737373"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M23 13.838V26a2 2 0 01-2 2H11a2 2 0 01-2-2V15.65l2.57 3.212a1 1 0 001.38.175L15.4 17.2a1 1 0 011.494.353l1.841 3.681c.399.797 1.562.714 1.843-.13L23 13.837z"
-                                        fill="#171717"
-                                    />
-                                    <path
-                                        d="M10 12h12"
-                                        stroke="#737373"
-                                        strokeWidth={2}
-                                        strokeLinecap="square"
-                                    />
-                                    <circle
-                                        cx={16}
-                                        cy={16}
-                                        r={16}
-                                        fill="#A3A3A3"
-                                        fillOpacity="0.2"
-                                    />
-                                </svg>
-                                <h3 className="mt-6 font-semibold text-gray-900">
-                                    Funding
-                                </h3>
-                                <p className="mt-2 text-gray-700">
-                                    Watch your investments grow exponentially,
-                                    leaving other investors in the dust.
-                                </p>
-                            </li>
+                            
                         </ul>
                     </div>
                 </section>
                 <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
                     <section className="w-full h-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
-                        
                         <div className="mb-6">
                             <h4 className="text-xl font-semibold capitalize">
                                 Perencanaan
@@ -973,492 +795,208 @@ export default function Home() {
                                 Ini adalah daftar perencanaan di tawarin
                             </p>
                         </div>
-                        <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
-                    <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
-                        <svg
-                            className="max-w-[5rem]"
-                            viewBox="0 0 375 428"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M254.509 253.872L226.509 226.872"
-                                className="stroke-gray-400"
-                                stroke="currentColor"
-                                strokeWidth={7}
-                                strokeLinecap="round"
-                            />
-                            <path
-                                d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
-                                className="stroke-gray-400"
-                                stroke="currentColor"
-                                strokeWidth={7}
-                                strokeLinecap="round"
-                            />
-                            <rect
-                                x="270.524"
-                                y="221.872"
-                                width="137.404"
-                                height="73.2425"
-                                rx="36.6212"
-                                transform="rotate(40.8596 270.524 221.872)"
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <ellipse
-                                cx="133.109"
-                                cy="404.372"
-                                rx="121.5"
-                                ry="23.5"
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <path
-                                d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
-                                className="stroke-gray-400"
-                                stroke="currentColor"
-                                strokeWidth={7}
-                                strokeLinecap="round"
-                            />
-                            <ellipse
-                                cx="96.6084"
-                                cy="116.872"
-                                rx={9}
-                                ry={12}
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <ellipse
-                                cx="172.608"
-                                cy="117.872"
-                                rx={9}
-                                ry={12}
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <path
-                                d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                        </svg>
-                        <p className="mt-5 text-sm text-gray-500">
-                            No data to show
-                        </p>
-                    </div>
-                        </div>
-                        {/* <ul className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/belajar-queue-di-laravel-klqu1">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/belajar-queue-di-laravel-klqu1.jpg?tr=n-thumbnail"
-                                                alt="Belajar Laravel Queues"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/queues"
-                                            >
-                                                Queues
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/belajar-queue-di-laravel-klqu1"
+
+                        <ul className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
+                            {plans.map ? (
+                                plans.map((plan) => (
+                                    <div className="text-left focus:outline-none">
+                                        <Link
+                                            href={route(
+                                                "plans.show",
+                                                `${plan.slug}`
+                                            )}
                                         >
-                                            Belajar Laravel Queues
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>12 Episodes</span>
-                                            <span>168 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/amazon-s3-dengan-laravel-odnkg">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/amazon-s3-dengan-laravel-odnkg.jpg?tr=n-thumbnail"
-                                                alt="Amazon S3 Dengan Laravel"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
+                                            <div className="LazyLoad is-visible">
+                                                <img
+                                                    className="object-cover mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow h-44 w-96 group-hover:shadow-lg"
+                                                    src={plan.media}
+                                                    alt={plan.slug}
+                                                    style={{
+                                                        opacity: 1,
+                                                        transform: "none",
+                                                    }}
+                                                />
+                                            </div>
+                                        </Link>
+                                        <div className="mt-2.5 lg:mt-3 flex items-center justify-between">
+                                            <div className="flex flex-wrap items-center text-xs font-medium text-blue-600 md:text-sm md:gap-x-3 hover:text-blue-700">
+                                                <Link href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}>
+                                                    {plan.plan_category.name}
+                                                </Link>
+                                            </div>
                                         </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/amazon-s3"
-                                            >
-                                                Amazon S3
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/amazon-s3-dengan-laravel-odnkg"
+                                        <Link
+                                            className="mt-2.5 lg:mt-3 flex gap-x-8 flex-row-reverse justify-between"
+                                            href={route(
+                                                "plans.show",
+                                                `${plan.slug}`
+                                            )}
                                         >
-                                            Amazon S3 Dengan Laravel
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>7 Episodes</span>
-                                            <span>58 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/tailwind-css-uncovered-drzna">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/tailwind-css-uncovered-drzna.jpg?tr=n-thumbnail"
-                                                alt="Tailwind CSS Uncovered"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
+                                            <span className="block w-px h-6 bg-orange-500" />
+                                            <div>
+                                                <span className="block leading-tight tracking-tighter">
+                                                    <span className="font-medium text-slate-800">
+                                                        {plan.name}
+                                                    </span>
+                                                </span>
+                                                <span className="flex items-center mt-2 space-x-2 text-xs lg:mt-3 text-slate-500">
+                                                    <span>
+                                                        {
+                                                            plan.jangka_waktu_pelaksanaan
+                                                        }{" "}
+                                                        Hari Pengerjaan
+                                                    </span>
+                                                    <span>
+                                                        {plan.jumlah_revisi}{" "}
+                                                        Kali Revisi
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    </div>
+
+                                    // <li className="relative">
+                                    //     <div className="text-left focus:outline-none">
+                                    //         <Link
+                                    //             href={route(
+                                    //                 "plans.show",
+                                    //                 `${plan.slug}`
+                                    //             )}
+                                    //         >
+                                    //             <div className="LazyLoad is-visible">
+                                    //                 <img
+                                    //                     className="object-cover mb-1 transition-shadow duration-500 ease-in-out border rounded-lg shadow-none w-96 h-52"
+                                    //                     src={plan.media}
+                                    //                     alt={plan.slug}
+                                    //                     style={{
+                                    //                         opacity: 1,
+                                    //                         transform: "none",
+                                    //                     }}
+                                    //                 />
+                                    //             </div>
+                                    //         </Link>
+                                    //         <span className="flex items-center justify-between">
+                                    //             <span className="space-x-2 font-medium">
+                                    //                 <Link
+                                    //                     className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 decoration-skip-ink decoration-2"
+                                    //                     href={route(
+                                    //                         "plans.show",
+                                    //                         `${plan.slug}`
+                                    //                     )}
+                                    //                 >
+                                    //                     {plan.name}
+                                    //                 </Link>
+                                    //             </span>
+                                    //             <span className="inline-block w-4 h-1 bg-orange-500 rounded-full" />
+                                    //         </span>
+                                    //         <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
+                                    //             <Link
+                                    //                 className="font-medium text-shark-800 line-clamp-1"
+                                    //                 href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}
+                                    //             >
+                                    //                 {plan.plan_category.name}
+                                    //             </Link>
+                                    //         </span>
+                                    //         <span className="flex items-center justify-between text-xs">
+                                    //             <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
+                                    //                 <span>
+                                    //                     {
+                                    //                         plan.jangka_waktu_pelaksanaan
+                                    //                     }{" "}
+                                    //                     Hari Pengerjaan
+                                    //                 </span>
+                                    //                 <span>
+                                    //                     {plan.jumlah_revisi}{" "}
+                                    //                     Kali Revisi
+                                    //                 </span>
+                                    //             </span>
+                                    //         </span>
+                                    //     </div>
+                                    // </li>
+                                ))
+                            ) : (
+                                <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
+                                    <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
+                                        <svg
+                                            className="max-w-[5rem]"
+                                            viewBox="0 0 375 428"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M254.509 253.872L226.509 226.872"
+                                                className="stroke-gray-400"
+                                                stroke="currentColor"
+                                                strokeWidth={7}
+                                                strokeLinecap="round"
                                             />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/tailwind-css"
-                                            >
-                                                Tailwind CSS
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 bg-orange-500 rounded-full" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/tailwind-css-uncovered-drzna"
-                                        >
-                                            Tailwind CSS Uncovered
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>2 Episodes</span>
-                                            <span>16 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/blog-dengan-inertia-react-ssr-adhfl">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/blog-dengan-inertia-react-ssr-adhfl.jpg?tr=n-thumbnail"
-                                                alt="Blog Dengan Laravel Inertia dan React (SSR)"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
+                                            <path
+                                                d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
+                                                className="stroke-gray-400"
+                                                stroke="currentColor"
+                                                strokeWidth={7}
+                                                strokeLinecap="round"
                                             />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/inertia"
-                                            >
-                                                Inertia
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/reactjs"
-                                            >
-                                                React.js
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/tailwind-css"
-                                            >
-                                                Tailwind CSS
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/blog-dengan-inertia-react-ssr-adhfl"
-                                        >
-                                            Blog Dengan Laravel Inertia dan
-                                            React (SSR)
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>28 Episodes</span>
-                                            <span>303 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/membangun-toko-online-dengan-payment-gateway-dtmdj">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/membangun-toko-online-dengan-payment-gateway-dtmdj.jpg?tr=n-thumbnail"
-                                                alt="Membangun Toko Online Dengan Payment Gateway"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
+                                            <rect
+                                                x="270.524"
+                                                y="221.872"
+                                                width="137.404"
+                                                height="73.2425"
+                                                rx="36.6212"
+                                                transform="rotate(40.8596 270.524 221.872)"
+                                                className="fill-gray-400"
+                                                fill="currentColor"
                                             />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel-9"
-                                            >
-                                                Laravel 9
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/inertia"
-                                            >
-                                                Inertia
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/reactjs"
-                                            >
-                                                React.js
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/membangun-toko-online-dengan-payment-gateway-dtmdj"
-                                        >
-                                            Membangun Toko Online Dengan Payment
-                                            Gateway
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>24 Episodes</span>
-                                            <span>246 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/multi-bahasa-dengan-laravel-1i4yb">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/multi-bahasa-dengan-laravel-1i4yb.jpg?tr=n-thumbnail"
-                                                alt="Multi Bahasa Dengan Laravel"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
+                                            <ellipse
+                                                cx="133.109"
+                                                cy="404.372"
+                                                rx="121.5"
+                                                ry="23.5"
+                                                className="fill-gray-400"
+                                                fill="currentColor"
                                             />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/reactjs"
-                                            >
-                                                React.js
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/js"
-                                            >
-                                                Javascript
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/multi-bahasa-dengan-laravel-1i4yb"
-                                        >
-                                            Multi Bahasa Dengan Laravel
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>4 Episodes</span>
-                                            <span>53 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/new-in-laravel-9-bkygy">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/new-in-laravel-9-bkygy.jpg?tr=n-thumbnail"
-                                                alt="New in Laravel 9"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
+                                            <path
+                                                d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
+                                                className="stroke-gray-400"
+                                                stroke="currentColor"
+                                                strokeWidth={7}
+                                                strokeLinecap="round"
                                             />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel-9"
-                                            >
-                                                Laravel 9
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 bg-orange-500 rounded-full" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/new-in-laravel-9-bkygy"
-                                        >
-                                            New in Laravel 9
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>8 Episodes</span>
-                                            <span>64 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/javascript-dari-awal-bpiyg">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/javascript-dari-awal-bpiyg.jpg?tr=n-thumbnail"
-                                                alt="Javascript Dari Awal"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
+                                            <ellipse
+                                                cx="96.6084"
+                                                cy="116.872"
+                                                rx={9}
+                                                ry={12}
+                                                className="fill-gray-400"
+                                                fill="currentColor"
                                             />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/js"
-                                            >
-                                                Javascript
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/javascript-dari-awal-bpiyg"
-                                        >
-                                            Javascript Dari Awal
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>17 Episodes</span>
-                                            <span>133 mins</span>
-                                        </span>
-                                    </span>
+                                            <ellipse
+                                                cx="172.608"
+                                                cy="117.872"
+                                                rx={9}
+                                                ry={12}
+                                                className="fill-gray-400"
+                                                fill="currentColor"
+                                            />
+                                            <path
+                                                d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
+                                                className="fill-gray-400"
+                                                fill="currentColor"
+                                            />
+                                        </svg>
+                                        <p className="mt-5 text-sm text-gray-500">
+                                            No data to show
+                                        </p>
+                                    </div>
                                 </div>
-                            </li>
-                        </ul> */}
+                            )}
+                        </ul>
                         <div className="mt-10 lg:mt-12" />
                         <div className="flex justify-center md:justify-end">
-                            <a
+                            <Link
                                 color="black"
                                 className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 to-yellow-600 mb-2"
-                                href="/series?page=2"
+                                href="/public/plans/list"
                             >
                                 Lihat lebih banyak
                                 <svg
@@ -1478,10 +1016,9 @@ export default function Home() {
                                         d="M1 1l4 4-4 4"
                                     />
                                 </svg>
-                            </a>
+                            </Link>
                         </div>
                     </section>
-                    
                 </div>
                 <div className="grid grid-cols-12 mx-auto max-w-screen-2xl md:mt-10">
                     <section className="w-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
@@ -1494,78 +1031,78 @@ export default function Home() {
                             </p>
                         </div>
                         <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
-                    <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
-                        <svg
-                            className="max-w-[5rem]"
-                            viewBox="0 0 375 428"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M254.509 253.872L226.509 226.872"
-                                className="stroke-gray-400"
-                                stroke="currentColor"
-                                strokeWidth={7}
-                                strokeLinecap="round"
-                            />
-                            <path
-                                d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
-                                className="stroke-gray-400"
-                                stroke="currentColor"
-                                strokeWidth={7}
-                                strokeLinecap="round"
-                            />
-                            <rect
-                                x="270.524"
-                                y="221.872"
-                                width="137.404"
-                                height="73.2425"
-                                rx="36.6212"
-                                transform="rotate(40.8596 270.524 221.872)"
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <ellipse
-                                cx="133.109"
-                                cy="404.372"
-                                rx="121.5"
-                                ry="23.5"
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <path
-                                d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
-                                className="stroke-gray-400"
-                                stroke="currentColor"
-                                strokeWidth={7}
-                                strokeLinecap="round"
-                            />
-                            <ellipse
-                                cx="96.6084"
-                                cy="116.872"
-                                rx={9}
-                                ry={12}
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <ellipse
-                                cx="172.608"
-                                cy="117.872"
-                                rx={9}
-                                ry={12}
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                            <path
-                                d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
-                                className="fill-gray-400"
-                                fill="currentColor"
-                            />
-                        </svg>
-                        <p className="mt-5 text-sm text-gray-500">
-                            No data to show
-                        </p>
-                    </div>
+                            <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
+                                <svg
+                                    className="max-w-[5rem]"
+                                    viewBox="0 0 375 428"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M254.509 253.872L226.509 226.872"
+                                        className="stroke-gray-400"
+                                        stroke="currentColor"
+                                        strokeWidth={7}
+                                        strokeLinecap="round"
+                                    />
+                                    <path
+                                        d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
+                                        className="stroke-gray-400"
+                                        stroke="currentColor"
+                                        strokeWidth={7}
+                                        strokeLinecap="round"
+                                    />
+                                    <rect
+                                        x="270.524"
+                                        y="221.872"
+                                        width="137.404"
+                                        height="73.2425"
+                                        rx="36.6212"
+                                        transform="rotate(40.8596 270.524 221.872)"
+                                        className="fill-gray-400"
+                                        fill="currentColor"
+                                    />
+                                    <ellipse
+                                        cx="133.109"
+                                        cy="404.372"
+                                        rx="121.5"
+                                        ry="23.5"
+                                        className="fill-gray-400"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
+                                        className="stroke-gray-400"
+                                        stroke="currentColor"
+                                        strokeWidth={7}
+                                        strokeLinecap="round"
+                                    />
+                                    <ellipse
+                                        cx="96.6084"
+                                        cy="116.872"
+                                        rx={9}
+                                        ry={12}
+                                        className="fill-gray-400"
+                                        fill="currentColor"
+                                    />
+                                    <ellipse
+                                        cx="172.608"
+                                        cy="117.872"
+                                        rx={9}
+                                        ry={12}
+                                        className="fill-gray-400"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
+                                        className="fill-gray-400"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                                <p className="mt-5 text-sm text-gray-500">
+                                    No data to show
+                                </p>
+                            </div>
                         </div>
                         {/* <ul className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
                             <li className="relative">
@@ -1975,10 +1512,10 @@ export default function Home() {
                         </ul> */}
                         <div className="mt-10 lg:mt-12" />
                         <div className="flex justify-center md:justify-end">
-                            <a
+                            <Link
                                 color="black"
                                 className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 to-yellow-600 mb-2"
-                                href="/series?page=2"
+                                href="/public/plans/list"
                             >
                                 Lihat lebih banyak
                                 <svg
@@ -1998,7 +1535,7 @@ export default function Home() {
                                         d="M1 1l4 4-4 4"
                                     />
                                 </svg>
-                            </a>
+                            </Link>
                         </div>
                     </section>
                 </div>
@@ -2036,7 +1573,7 @@ export default function Home() {
                             ></rect>
                         </svg>
                     </div>
-                    <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="max-w-2xl mx-auto md:text-center">
                             <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
                                 Testimonials

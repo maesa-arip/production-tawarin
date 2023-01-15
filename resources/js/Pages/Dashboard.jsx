@@ -6,6 +6,8 @@ import FeatureCard from "@/Components/FeatureCard";
 import { Tab } from "@headlessui/react";
 import Typewriter from "typewriter-effect";
 import MyCombobox from "@/Components/ComboboxMultiple";
+import { IconDotsVertical } from "@tabler/icons";
+import Button from "@/Components/Button";
 
 export default function Dashboard(props) {
     function classNames(...classes) {
@@ -66,6 +68,54 @@ export default function Dashboard(props) {
             <Head title="Dashboard" />
             {/* <MyCombobox/> */}
             <Container>
+            <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                    <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
+                        <div class="grid grid-cols-6 gap-2 w-full ">
+                            <div class="col-start-1 col-span-2">
+                                <p className="text-sm font-semibold">Belanja</p>
+                                <p className="text-xs font-medium text-gray-500">
+                                    8 jan 2023
+                                </p>
+                            </div>
+                            <div class="col-end-6 col-span-3 flex items-center justify-end ">
+                                <p className="px-1 py-1 text-xs font-semibold text-red-500 bg-yellow-200 rounded">
+                                    Sudah Memilih Pemenang
+                                </p>
+                            </div>
+                            <div class="col-end-7 col-span-1 flex items-center justify-center">
+                                <IconDotsVertical />
+                            </div>
+                            <div className="col-span-6 col-start-1 border-b border-gray-100"></div>
+                            <div class="col-start-1 col-span-1 flex items-center justify-center mb-2">
+                                <img
+                                    src="https://tailwindcomponents.com/storage/avatars/njkIbPhyZCftc4g9XbMWwVsa7aGVPajYLRXhEeoo.jpg"
+                                    alt="aji"
+                                    className="object-cover w-12 h-12 rounded-2xl"
+                                />
+                            </div>
+                            <div class="col-start-2 col-span-5 mb-2">
+                                <p className="text-base font-semibold">
+                                    Perencanaan ABC
+                                </p>
+                                <p className="text-xs font-medium text-gray-500">
+                                    1 Penawar
+                                </p>
+                            </div>
+                            <div class="col-start-1 col-span-3">
+                                <p className="text-xs font-medium text-gray-500">
+                                    Total Anggaran
+                                </p>
+                                <p className="text-sm font-semibold">
+                                    Rp 500.000
+                                </p>
+                            </div>
+                            <div class="col-end-7 col-span-3">
+                                <Button>Tahapan</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <FeatureCard />
                 <Typewriter
                     options={{

@@ -11,7 +11,7 @@ export default function Pagination({ marginTop = 'mt-10', meta, links }) {
                       // preserveScroll
                       key={i} 
                       href={link.url}
-                      className={clsx(link.active && 'text-blue-500 w-12 h-9 rounded-lg flex items-center justify-center border bg-white', 'text-black w-12 h-9 rounded-lg flex items-center justify-center border bg-white')}>
+                      className={clsx(link.active && 'text-blue-700 w-12 h-9 rounded-lg flex items-center justify-center border bg-blue-100', 'text-black w-12 h-9 rounded-lg flex items-center justify-center border bg-white')}>
                       {link.label}
                     </Link>
                 </div>

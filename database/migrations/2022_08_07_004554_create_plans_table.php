@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('jumlah_revisi');
             $table->integer('luas_bangunan');
             $table->bigInteger('anggaran_proyek');
-            $table->bigInteger('acuan_anggaran');
+            // $table->bigInteger('acuan_anggaran');
             $table->integer('dari_anggaran');
             $table->integer('sampai_anggaran');
             $table->tinyInteger('is_approved')->default(0);

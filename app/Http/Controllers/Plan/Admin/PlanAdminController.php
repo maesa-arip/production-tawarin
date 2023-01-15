@@ -9,9 +9,11 @@ use App\Models\Plan\Plan;
 use App\Models\Plan\PlanReject;
 use App\Models\User;
 use App\Notifications\Plan\PlanConfirmedNotification;
+use App\Notifications\Plan\PlanNewToKonsultanNotification;
 use App\Notifications\Plan\PlanRejectNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Notification;
 
 class PlanAdminController extends Controller
 {
@@ -25,9 +27,6 @@ class PlanAdminController extends Controller
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->where('is_approved',0)
             ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'user_id', 'slug', 'is_approved','jumlah_revisi', 'name', 'plan_category_id', 'created_at');
-
-
-        
         if ($request->q) {
             $plans->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')
@@ -67,6 +66,11 @@ class PlanAdminController extends Controller
             ]
         );
         $user->notify(new PlanConfirmedNotification($plan));
+
+        $konsultan = User::whereHas('roles', function ($query) {
+            $query->where('name', 'konsultan (drafter)')->orWhere('name', 'konsultan (arsitek)');
+        })->get();
+        Notification::send($konsultan, new PlanNewToKonsultanNotification($plan));
         Cache::forget('notifications_count');
         return redirect('adminplans')->with([
             'type' => 'success',
