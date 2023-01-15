@@ -32,7 +32,7 @@ class HomeController extends Controller
         if ($request->has(['field', 'direction'])) {
             $plans->orderBy($request->field, $request->direction);
         }
-        $plans = (PlanResource::collection($plans->latest()->fastPaginate(8)->withQueryString()));
+        $plans = (PlanResource::collection($plans->latest()->fastPaginate(20)->withQueryString()));
         return inertia('Home', ['plans' => $plans]);
     }
 }

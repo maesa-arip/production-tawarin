@@ -809,7 +809,11 @@ export default function Home(props) {
                                             <div className="LazyLoad is-visible">
                                                 <img
                                                     className="object-cover mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow h-44 w-96 group-hover:shadow-lg"
-                                                    src={plan.media}
+                                                    src={
+                                                        plan.media
+                                                            ? plan.media
+                                                            : "storage/files/default/NoImage.svg"
+                                                    }
                                                     alt={plan.slug}
                                                     style={{
                                                         opacity: 1,
