@@ -79,7 +79,7 @@ export default function Show({
                             {planWithSum.plan_bids_sum_is_approved == 1 && (
                                 <Link className="inline-flex px-2 py-1 text-xl font-semibold text-white bg-teal-500 rounded">
                                     Sudah Ada Pemenang
-                                    <IconChecks className="inline-flex mt-1 ml-2"/>
+                                    <IconChecks className="inline-flex mt-1 ml-2" />
                                 </Link>
                             )}
                             <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -247,16 +247,33 @@ export default function Show({
                                         {media.map(
                                             (plan, index) =>
                                                 index < 2 && (
-                                                    <div
-                                                        key={plan.id}
-                                                        className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
-                                                    >
-                                                        <img
-                                                            className="object-cover w-full h-full "
-                                                            src={`/storage/${plan.id}/${plan.file_name}`}
-                                                            alt={index}
-                                                        />
-                                                    </div>
+                                                    <>
+                                                        {plan.mime_type ==
+                                                        "video/mp4" ? (
+                                                            <div
+                                                                key={plan.id}
+                                                                className="h-full col-span-2 overflow-hidden shadow rounded-xl"
+                                                            >
+                                                                <div className="">
+                                                                    <video
+                                                                        controls
+                                                                        src={`/storage/${plan.id}/${plan.file_name}`}
+                                                                    ></video>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div
+                                                                key={plan.id}
+                                                                className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
+                                                            >
+                                                                <img
+                                                                    className="object-cover w-full h-full "
+                                                                    src={`/storage/${plan.id}/${plan.file_name}`}
+                                                                    alt={index}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </>
                                                 )
                                         )}
 
@@ -264,16 +281,33 @@ export default function Show({
                                             (plan, index) =>
                                                 index > 1 &&
                                                 index < 6 && (
-                                                    <div
-                                                        key={plan.id}
-                                                        className="shadow overflow-hidden rounded-xl col-span-2 max-h-[10rem]"
-                                                    >
-                                                        <img
-                                                            className="object-cover w-full h-full "
-                                                            src={`/storage/${plan.id}/${plan.file_name}`}
-                                                            alt={index}
-                                                        />
-                                                    </div>
+                                                    <>
+                                                        {plan.mime_type ==
+                                                        "video/mp4" ? (
+                                                            <div
+                                                                key={plan.id}
+                                                                className="h-full col-span-2 overflow-hidden shadow rounded-xl"
+                                                            >
+                                                                <div className="">
+                                                                    <video
+                                                                        controls
+                                                                        src={`/storage/${plan.id}/${plan.file_name}`}
+                                                                    ></video>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div
+                                                                key={plan.id}
+                                                                className="max-h-[10rem] col-span-2 overflow-hidden shadow rounded-xl"
+                                                            >
+                                                                <img
+                                                                    className="object-cover w-full h-full "
+                                                                    src={`/storage/${plan.id}/${plan.file_name}`}
+                                                                    alt={index}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </>
                                                 )
                                         )}
                                     </div>
