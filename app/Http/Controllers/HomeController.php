@@ -20,6 +20,7 @@ class HomeController extends Controller
         $plans = Plan::query()
             ->with('plan_category')
             ->with('owner')
+            ->with('media')
             ->where('is_approved', 1)
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran','jangka_waktu_pelaksanaan' ,'user_id', 'slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at');
@@ -32,7 +33,7 @@ class HomeController extends Controller
         if ($request->has(['field', 'direction'])) {
             $plans->orderBy($request->field, $request->direction);
         }
-        $plans = (PlanResource::collection($plans->latest()->fastPaginate(20)->withQueryString()));
+        $plans = (PlanResource::collection($plans->latest()->fastPaginate(8)->withQueryString()));
         return inertia('Home', ['plans' => $plans]);
     }
 }

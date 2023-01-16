@@ -22,6 +22,7 @@ import DefaultUserImage from "../../img/LandingPageFunding/defaultuser.jpg";
 import Typewriter from "typewriter-effect";
 import Logo from "../../img/Tawarin.png";
 import { IconBuildingSkyscraper, IconBuildingStore, IconCash, IconHomeEdit, IconTools, IconUserSearch } from "@tabler/icons";
+import EmptyCard from "@/Components/EmptyCard";
 
 export default function Home(props) {
     const { data: plans } = props.plans;
@@ -32,7 +33,7 @@ export default function Home(props) {
                 <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36">
                     <div className="px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
-                            <div className="relative z-10 max-w-2xl mx-auto lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
+                            <div className="relative z-10 mx-auto lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
                                 <h1 className="text-2xl font-medium tracking-tight text-gray-900 md:text-4xl">
                                     <Typewriter
                                         options={{
@@ -694,7 +695,7 @@ export default function Home(props) {
                     className="py-20 sm:py-32"
                 >
                     <div className="px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="max-w-2xl mx-auto sm:text-center">
+                        <div className="mx-auto sm:text-center">
                             <h2 className="text-3xl font-medium tracking-tight text-gray-900">
                                 Mari mulai projekmu disini
                             </h2>
@@ -705,7 +706,7 @@ export default function Home(props) {
                         </div>
                         <ul
                             role="list"
-                            className="grid max-w-2xl grid-cols-1 gap-6 mx-auto mt-16 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
+                            className="grid grid-cols-1 gap-6 mx-auto mt-16 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
                         >
                             <li className="p-8 border border-gray-200 rounded-2xl">
                                 <IconCash className="w-8 h-8"/>
@@ -785,7 +786,7 @@ export default function Home(props) {
                         </ul>
                     </div>
                 </section>
-                <div className="grid grid-cols-12 mx-auto max-w-screen-2xl">
+                <div className="grid grid-cols-12 mx-auto">
                     <section className="w-full h-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="mb-6">
                             <h4 className="text-xl font-semibold capitalize">
@@ -798,8 +799,8 @@ export default function Home(props) {
 
                         <ul className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
                             {plans.map ? (
-                                plans.map((plan) => (
-                                    <div className="text-left focus:outline-none">
+                                plans.map((plan, index) => (
+                                    <div className="text-left focus:outline-none" key={index}>
                                         <Link
                                             href={route(
                                                 "plans.show",
@@ -919,80 +920,7 @@ export default function Home(props) {
                                     // </li>
                                 ))
                             ) : (
-                                <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
-                                    <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
-                                        <svg
-                                            className="max-w-[5rem]"
-                                            viewBox="0 0 375 428"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M254.509 253.872L226.509 226.872"
-                                                className="stroke-gray-400"
-                                                stroke="currentColor"
-                                                strokeWidth={7}
-                                                strokeLinecap="round"
-                                            />
-                                            <path
-                                                d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
-                                                className="stroke-gray-400"
-                                                stroke="currentColor"
-                                                strokeWidth={7}
-                                                strokeLinecap="round"
-                                            />
-                                            <rect
-                                                x="270.524"
-                                                y="221.872"
-                                                width="137.404"
-                                                height="73.2425"
-                                                rx="36.6212"
-                                                transform="rotate(40.8596 270.524 221.872)"
-                                                className="fill-gray-400"
-                                                fill="currentColor"
-                                            />
-                                            <ellipse
-                                                cx="133.109"
-                                                cy="404.372"
-                                                rx="121.5"
-                                                ry="23.5"
-                                                className="fill-gray-400"
-                                                fill="currentColor"
-                                            />
-                                            <path
-                                                d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
-                                                className="stroke-gray-400"
-                                                stroke="currentColor"
-                                                strokeWidth={7}
-                                                strokeLinecap="round"
-                                            />
-                                            <ellipse
-                                                cx="96.6084"
-                                                cy="116.872"
-                                                rx={9}
-                                                ry={12}
-                                                className="fill-gray-400"
-                                                fill="currentColor"
-                                            />
-                                            <ellipse
-                                                cx="172.608"
-                                                cy="117.872"
-                                                rx={9}
-                                                ry={12}
-                                                className="fill-gray-400"
-                                                fill="currentColor"
-                                            />
-                                            <path
-                                                d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
-                                                className="fill-gray-400"
-                                                fill="currentColor"
-                                            />
-                                        </svg>
-                                        <p className="mt-5 text-sm text-gray-500">
-                                            No data to show
-                                        </p>
-                                    </div>
-                                </div>
+                                <EmptyCard/>
                             )}
                         </ul>
                         <div className="mt-10 lg:mt-12" />
@@ -1024,7 +952,7 @@ export default function Home(props) {
                         </div>
                     </section>
                 </div>
-                <div className="grid grid-cols-12 mx-auto max-w-screen-2xl md:mt-10">
+                <div className="grid grid-cols-12 mx-auto md:mt-10">
                     <section className="w-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="mb-6">
                             <h4 className="text-xl font-semibold capitalize">
@@ -1578,7 +1506,7 @@ export default function Home(props) {
                         </svg>
                     </div>
                     <div className="px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="max-w-2xl mx-auto md:text-center">
+                        <div className="mx-auto md:text-center">
                             <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
                                 Testimonials
                             </h2>
@@ -1589,7 +1517,7 @@ export default function Home(props) {
                         </div>
                         <ul
                             role="list"
-                            className="grid max-w-2xl grid-cols-1 gap-6 mx-auto mt-16 sm:gap-8 lg:mt-20 lg:max-w-none lg:grid-cols-3"
+                            className="grid grid-cols-1 gap-6 mx-auto mt-16 sm:gap-8 lg:mt-20 lg:max-w-none lg:grid-cols-3"
                         >
                             <li>
                                 <ul

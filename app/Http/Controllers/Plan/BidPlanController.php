@@ -62,7 +62,7 @@ class BidPlanController extends Controller
         $bidplans = (BidPlanResource::collection($bidplans->latest()->fastPaginate($request->load)->withQueryString())
         )->additional([
             'attributes' => [
-                'total' => Plan::count(),
+                'total' => 1100,
                 'per_page' => 10,
             ],
             'filtered' => [

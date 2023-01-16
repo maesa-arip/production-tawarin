@@ -30,6 +30,7 @@ class BidPlanResource extends JsonResource
                 'slug' => $this->plan->slug,
             ],
             'created_at' => $this->created_at->diffForHumans(),
+            'media'  => $this->getFirstMediaUrl('desainawal'),
         ];
     }
 }

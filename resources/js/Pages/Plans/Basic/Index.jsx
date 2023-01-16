@@ -11,6 +11,7 @@ import NavLink from "@/Components/NavLink";
 import Dropdown from "@/Components/Dropdown";
 import DropdownMobile from "@/Components/DropdownMobile";
 import { IconBan, IconCirclePlus, IconDotsVertical } from "@tabler/icons";
+import Header from "@/Components/Header";
 
 const UpIcon = () => (
     <svg
@@ -101,20 +102,23 @@ export default function Index(props) {
     return (
         <>
             <Head title="Plans" />
-            <Container>Perencanaan
-            <DestroyModal
-                isOpenDestroyDialog={isOpenDestroyDialog}
-                setIsOpenDestroyDialog={setIsOpenDestroyDialog}
-                size="2xl"
-                title={"Hapus Perencanaan"}
-            >
-                <Button color={"pink"} onClick={destroyPlan}>
-                    Hapus
-                </Button>
-            </DestroyModal>
-
-            <div className="hidden py-12 lg:block">
-                {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
+            <Header
+                title="Perencanaan"
+                description="List Perencanaan Saya."
+            />
+            <Container>
+                <DestroyModal
+                    isOpenDestroyDialog={isOpenDestroyDialog}
+                    setIsOpenDestroyDialog={setIsOpenDestroyDialog}
+                    size="2xl"
+                    title={"Hapus Perencanaan"}
+                >
+                    <Button color={"pink"} onClick={destroyPlan}>
+                        Hapus
+                    </Button>
+                </DestroyModal>
+                <div className="hidden lg:block">
+                    {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mb-6 gap-x-2">
@@ -395,7 +399,7 @@ export default function Index(props) {
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <img
-                                                            className="object-cover w-16 h-12 rounded-lg "
+                                                            className="object-cover w-16 h-12 border rounded-lg"
                                                             src={
                                                                 plan.media
                                                                     ? plan.media
@@ -521,7 +525,16 @@ export default function Index(props) {
                                                                 >
                                                                     Lihat Detail
                                                                 </Dropdown.Link>
-                                                                {plan.plan_bids_count >
+                                                                <Dropdown.Link
+                                                                    href={route(
+                                                                        "bidplans.listpenawar",
+                                                                        `${plan.id}`
+                                                                    )}
+                                                                >
+                                                                    Lihat
+                                                                    Penawaran
+                                                                </Dropdown.Link>
+                                                                {/* {plan.plan_bids_count >
                                                                     0 && (
                                                                     <Dropdown.Link
                                                                         href={route(
@@ -532,7 +545,7 @@ export default function Index(props) {
                                                                         Lihat
                                                                         Penawaran
                                                                     </Dropdown.Link>
-                                                                )}
+                                                                )} */}
                                                                 {plan.plan_bids_sum_is_approved ==
                                                                     "1" && (
                                                                     <Dropdown.Link
@@ -582,11 +595,9 @@ export default function Index(props) {
                         ))}
                     </ul>
                 </div>
-            {/* </div> */}
-
-            <div className="lg:hidden">
-                <div className="flex items-center justify-between">
-                <div className="w-1/2">
+                <div className="lg:hidden">
+                    <div className="flex items-center justify-between">
+                        <div className="w-1/2">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
                                 <NavLink
                                     type="button"
@@ -595,7 +606,8 @@ export default function Index(props) {
                                     }
                                     href={"plans/create"}
                                 >
-                                    Tambah <IconCirclePlus className="w-4 h-4"/>
+                                    Tambah{" "}
+                                    <IconCirclePlus className="w-4 h-4" />
                                 </NavLink>
                                 <NavLink
                                     type="button"
@@ -608,47 +620,47 @@ export default function Index(props) {
                                 </NavLink>
                             </div>
                         </div>
-                    <div className="w-1/2">
-                        <div className="flex items-center justify-between mt-2 mb-0 gap-x-1">
-                            <select
-                                name="load"
-                                id="load"
-                                onChange={onChange}
-                                value={params.load}
-                                className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
-                            >
-                                {pageNumber.map((page, index) => (
-                                    <option key={index}>{page}</option>
-                                ))}
-                            </select>
-                            <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
-                                <svg
-                                    className="inline w-5 h-5 text-gray-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                    />
-                                </svg>
-                                <input
-                                    type="text"
-                                    autoComplete="off"
-                                    name="q"
-                                    id="q"
+                        <div className="w-1/2">
+                            <div className="flex items-center justify-between mt-2 mb-0 gap-x-1">
+                                <select
+                                    name="load"
+                                    id="load"
                                     onChange={onChange}
-                                    value={params.q}
-                                    className="w-full border-0 focus:ring-0 form-text"
-                                />
+                                    value={params.load}
+                                    className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
+                                >
+                                    {pageNumber.map((page, index) => (
+                                        <option key={index}>{page}</option>
+                                    ))}
+                                </select>
+                                <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
+                                    <svg
+                                        className="inline w-5 h-5 text-gray-500"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        />
+                                    </svg>
+                                    <input
+                                        type="text"
+                                        autoComplete="off"
+                                        name="q"
+                                        id="q"
+                                        onChange={onChange}
+                                        value={params.q}
+                                        className="w-full border-0 focus:ring-0 form-text"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                     <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                         {plans.map((plan, index) => (
                             <div
@@ -764,7 +776,7 @@ export default function Index(props) {
                                             <div className="col-span-12 col-start-1 border-b border-gray-100"></div>
                                             <div className="flex items-center justify-center col-span-2 col-start-1 mb-2">
                                                 <img
-                                                    className="object-cover w-12 h-12 rounded-lg "
+                                                    className="object-cover w-12 h-12 border rounded-lg"
                                                     src={
                                                         plan.media
                                                             ? plan.media
@@ -865,7 +877,7 @@ export default function Index(props) {
                             </button>
                         ))}
                     </ul>
-            </div>
+                </div>
             </Container>
         </>
     );

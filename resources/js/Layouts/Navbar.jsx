@@ -21,6 +21,7 @@ import {
     IconWallet,
 } from "@tabler/icons";
 import Dropdown from "@/Components/Dropdown";
+import MenuLogo from "@/Components/MenuLogo";
 
 export default function Navbar() {
     const { auth, categories_global, carts_global_count, notifications_count } =
@@ -830,7 +831,7 @@ export default function Navbar() {
                         <span className="block text-xs tab tab-home">Home</span>
                     </NavLinkMobile>
                     <NavLinkMobile
-                        href="/wallets"
+                        href={route('choose.pilar')}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                     >
                         <svg
@@ -861,7 +862,7 @@ export default function Navbar() {
                         onClick={openMenuModal}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center cursor-pointer focus:text-black hover:text-black"
                     >
-                        <svg
+                        {/* <svg
                             width={25}
                             height={25}
                             viewBox="0 0 42 42"
@@ -888,7 +889,8 @@ export default function Navbar() {
                                     />
                                 </svg>
                             </g>
-                        </svg>
+                        </svg> */}
+                        <MenuLogo/>
                         <span onClick={openMenuModal} className="block text-xs">
                             Explore
                         </span>

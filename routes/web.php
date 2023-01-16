@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChooseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Inertia\Inertia;
@@ -165,6 +166,7 @@ Route::middleware('auth')->group(function () {
     // End Plans
 
     // Plans
+    Route::get('pilar/choose',[ChooseController::class,'pilar'])->name('choose.pilar');
     Route::get('fundings/choose',[FundingController::class,'choose'])->name('fundings.choose');
     Route::get('plans/choose',[PlanController::class,'choose'])->name('plans.choose');
     Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
