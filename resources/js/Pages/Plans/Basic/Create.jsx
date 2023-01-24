@@ -8,6 +8,7 @@ import { Terbilang } from "@/Libs/helper";
 import Button from "@/Components/Button";
 import Filepond from "@/Pages/Uploads/Filepond";
 import ListBoxPage from "@/Components/ListBoxPage";
+import CurrencyInput from "react-currency-input-field";
 
 export default function Create({
     plan_master_checkboxs,
@@ -23,12 +24,12 @@ export default function Create({
     const [sampaiAnggaran, setSampaiAnggaran] = useState("");
 
     const onChangeLuasBangunanHandler = (e) => {
-        setAcuanAnggaran(e.target.value*4000000);
-        setAcuanDariAnggaran(e.target.value*4000000*1/100);
-        setAcuanSampaiAnggaran(e.target.value*4000000*3/100);
+        setAcuanAnggaran(e.target.value * 4000000);
+        setAcuanDariAnggaran((e.target.value * 4000000 * 1) / 100);
+        setAcuanSampaiAnggaran((e.target.value * 4000000 * 3) / 100);
         setData({ ...data, [e.target.id]: e.target.value });
     };
-    
+
     const formatRupiahAcuanAnggaran = new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
@@ -71,13 +72,15 @@ export default function Create({
 
     const { data, setData, post, processing, reset, errors } = useForm({});
 
-    const onChange = (e) => {setData({ ...data, [e.target.id]: e.target.value })};
+    const onChange = (e) => {
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
 
     const defaultValue = [{ name: "Pilih" }];
     const [selected, setSelected] = useState(defaultValue[0]);
 
     const onChangePlanCategoryId = (e) => {
-        setData({ ...data, ['plan_category_id']: e.id});
+        setData({ ...data, ["plan_category_id"]: e.id });
     };
 
     const onSubmitHandler = (e) => {
@@ -102,9 +105,10 @@ export default function Create({
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                                         Data Perencanaan
                                     </h3>
-                                    
+
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Masukan data lengkap perencanaanmu disini.
+                                        Masukan data lengkap perencanaanmu
+                                        disini.
                                     </p>
                                 </div>
                             </div>
@@ -152,13 +156,21 @@ export default function Create({
                                                 >
                                                     Pilih Kategori
                                                 </label>
-                                                <ListBoxPage ShouldMap={ plan_categories} selected={selected} onChange={(e) => {
-                                                                onChangePlanCategoryId(e);
-                                                                setSelected(e);
-                                                              }}/>
+                                                <ListBoxPage
+                                                    ShouldMap={plan_categories}
+                                                    selected={selected}
+                                                    onChange={(e) => {
+                                                        onChangePlanCategoryId(
+                                                            e
+                                                        );
+                                                        setSelected(e);
+                                                    }}
+                                                />
                                                 {errors && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.plan_category_id}
+                                                        {
+                                                            errors.plan_category_id
+                                                        }
                                                     </span>
                                                 )}
                                             </div>
@@ -168,7 +180,8 @@ export default function Create({
                                                     htmlFor="jangka_waktu_penawaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Jangka Waktu Penawaran (Hari)
+                                                    Jangka Waktu Penawaran
+                                                    (Hari)
                                                 </label>
                                                 <input
                                                     type="number"
@@ -196,7 +209,8 @@ export default function Create({
                                                     htmlFor="jangka_waktu_pelaksanaan"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Jangka Waktu Pelaksanaan (Hari)
+                                                    Jangka Waktu Pelaksanaan
+                                                    (Hari)
                                                 </label>
                                                 <input
                                                     type="number"
@@ -234,7 +248,8 @@ export default function Create({
                                                         data.jumlah_revisi ?? ""
                                                     }
                                                     onChange={onChange}
-                                                    min="1" max="5"
+                                                    min="1"
+                                                    max="5"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -259,7 +274,9 @@ export default function Create({
                                                     value={
                                                         data.luas_bangunan ?? ""
                                                     }
-                                                    onChange={onChangeLuasBangunanHandler}
+                                                    onChange={
+                                                        onChangeLuasBangunanHandler
+                                                    }
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -269,36 +286,15 @@ export default function Create({
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="col-span-3 sm:col-span-3">
+                                            <div className="block w-full col-span-6 px-2 py-1 mt-1 border-2 border-gray-500 rounded-md shadow-sm ring-gray-500 sm:text-sm sm:col-span-6 lg:col-span-3">
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="acuan_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
                                                     Acuan Anggaran Proyek
                                                 </label>
-                                                {/* <input
-                                                    type="number"
-                                                    name="acuan_anggaran"
-                                                    id="acuan_anggaran"
-                                                    value={
-                                                        data.acuan_anggaran ??
-                                                        ""
-                                                    }
-                                                    min="1000000"
-                                                    onChange={
-                                                        onChangeAcuanAnggaranHandler
-                                                    }
-                                                    onWheel={(e) =>
-                                                        e.target.blur()
-                                                    }
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.acuan_anggaran && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.acuan_anggaran}
-                                                    </span>
-                                                )} */}
+                                                
                                                 <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
                                                     {acuanAnggaran &&
                                                         formatRupiahAcuanAnggaran}{" "}
@@ -312,36 +308,15 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 sm:col-span-3">
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="acuan_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Acuan Anggaran Perencanaan (Dari)
+                                                    Acuan Anggaran Perencanaan
+                                                    (Dari)
                                                 </label>
-                                                {/* <input
-                                                    type="number"
-                                                    name="acuan_anggaran"
-                                                    id="acuan_anggaran"
-                                                    value={
-                                                        data.acuan_anggaran ??
-                                                        ""
-                                                    }
-                                                    min="1000000"
-                                                    onChange={
-                                                        onChangeAcuanAnggaranHandler
-                                                    }
-                                                    onWheel={(e) =>
-                                                        e.target.blur()
-                                                    }
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.acuan_anggaran && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.acuan_anggaran}
-                                                    </span>
-                                                )} */}
+                                                
                                                 <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
                                                     {acuanDariAnggaran &&
                                                         formatRupiahAcuanDariAnggaran}{" "}
@@ -355,36 +330,15 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 sm:col-span-3">
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="acuan_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Acuan Anggaran Perencanan (Sampai)
+                                                    Acuan Anggaran Perencanan
+                                                    (Sampai)
                                                 </label>
-                                                {/* <input
-                                                    type="number"
-                                                    name="acuan_anggaran"
-                                                    id="acuan_anggaran"
-                                                    value={
-                                                        data.acuan_anggaran ??
-                                                        ""
-                                                    }
-                                                    min="1000000"
-                                                    onChange={
-                                                        onChangeAcuanAnggaranHandler
-                                                    }
-                                                    onWheel={(e) =>
-                                                        e.target.blur()
-                                                    }
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.acuan_anggaran && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.acuan_anggaran}
-                                                    </span>
-                                                )} */}
+                                                
                                                 <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
                                                     {acuanSampaiAnggaran &&
                                                         formatRupiahAcuanSampaiAnggaran}{" "}
@@ -398,7 +352,8 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 sm:col-span-3">
+                                            </div>
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="anggaran_proyek"
                                                     className="block text-sm font-medium text-gray-700"
@@ -437,13 +392,28 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 sm:col-span-3">
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="dari_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
                                                     Anggaran Perencanaan (dari)
                                                 </label>
+                                                {/* <CurrencyInput
+                                                    id="dari_anggaran"
+                                                    name="dari_anggaran"
+                                                    placeholder="Masukan anggaran"
+                                                    prefix="Rp "
+                                                    decimalSeparator=","
+                                                    groupSeparator="."
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    onValueChange={(
+                                                        value,
+                                                        name
+                                                    ) =>
+                                                    console.log(value, name)
+                                                    }
+                                                /> */}
                                                 <input
                                                     type="number"
                                                     name="dari_anggaran"
@@ -476,7 +446,7 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-3">
+                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
                                                 <label
                                                     htmlFor="sampai_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
@@ -537,7 +507,10 @@ export default function Create({
                                         Kebutuhan Perencanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Silakan centang dan isi kebutuhan perencanaanmu, agar para konsultan yang menawar bisa menyiapkan data sesuai dengan kebutuhanmu.
+                                        Silakan centang dan isi kebutuhan
+                                        perencanaanmu, agar para konsultan yang
+                                        menawar bisa menyiapkan data sesuai
+                                        dengan kebutuhanmu.
                                     </p>
                                 </div>
                             </div>
@@ -569,7 +542,9 @@ export default function Create({
                                                             id={
                                                                 plan_master_checkbox.slug
                                                             }
-                                                            name={plan_master_checkbox.slug}
+                                                            name={
+                                                                plan_master_checkbox.slug
+                                                            }
                                                             className="sr-only peer"
                                                         />
                                                         <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-blue-600  rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500 peer-after:ring-indigo-500" />
@@ -632,7 +607,9 @@ export default function Create({
                                         Gambar Perencanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Sertakan contoh gambar rumah yang disukai guna memudahkan kondultan membuat desain sesuai keinginanmu.
+                                        Sertakan contoh gambar rumah yang
+                                        disukai guna memudahkan kondultan
+                                        membuat desain sesuai keinginanmu.
                                     </p>
                                 </div>
                             </div>
@@ -641,7 +618,8 @@ export default function Create({
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">
-                                                Contoh Gambar Rumah yang disukai (Max 5)
+                                                Contoh Gambar Rumah yang disukai
+                                                (Max 5)
                                             </label>
                                             <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
                                                 <div className="w-full text-center">
@@ -686,8 +664,9 @@ export default function Create({
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                        
-                                        <Button processing={processing}>Simpan</Button>
+                                        <Button processing={processing}>
+                                            Simpan
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

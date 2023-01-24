@@ -552,7 +552,7 @@ export default function Navbar() {
                 >
                     <Popover.Panel
                         focus
-                        className="absolute inset-x-0 top-0 z-20 p-2 transition origin-top-right transform md:hidden"
+                        className="absolute inset-x-0 top-0 p-2 transition origin-top-right transform z-60 md:hidden"
                     >
                         <div className="bg-white divide-y-2 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 divide-gray-50">
                             <div className="px-5 pt-5 pb-6">
@@ -724,7 +724,7 @@ export default function Navbar() {
 
             <section
                 id="bottom-navigation"
-                className="fixed inset-x-0 bottom-0 z-10 block bg-white shadow md:hidden"
+                className="fixed inset-x-0 bottom-0 z-50 block bg-white shadow md:hidden"
             >
                 <MenuModal
                     isOpenMenuModal={isOpenMenuModal}
@@ -733,7 +733,7 @@ export default function Navbar() {
                     <div className="grid items-center justify-between grid-cols-4 gap-8">
                     <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href={route('fundings.choose')}
+                            href={route('funding.list')}
                         >
                             <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
@@ -742,7 +742,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href={route('plans.choose')}
+                            href={route('plan.list')}
                         >
                             <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">

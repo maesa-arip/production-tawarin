@@ -427,7 +427,7 @@ export default function Index(props) {
                                                             </span>
                                                             <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
                                                                 {numberFormat(
-                                                                    plan.bid_price
+                                                                    plan.plan_bid.bid_price
                                                                 )}
                                                             </div>
                                                         </div>
@@ -833,7 +833,7 @@ export default function Index(props) {
                                                             1 ? (
                                                                 <Link
                                                                 href={route(
-                                                                    "plan.tahapan",
+                                                                    "bidplan.tahapan",
                                                                     `${plan.slug}`
                                                                 )}
                                                                 className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"

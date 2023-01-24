@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import App from "@/Layouts/App";
-import { Head, Link } from "@inertiajs/inertia-react";
+import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import Header from "@/Components/Header";
 import Pagination from "@/Components/Pagination";
@@ -11,11 +11,16 @@ import NavLink from "@/Components/NavLink";
 import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
 import EmptyCard from "@/Components/EmptyCard";
+import InfoModal from "@/Components/Modal/InfoModal";
 
 export default function List(props) {
     const { data: plans, meta, links, filtered, attributes } = props.plans;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
+    const { permissions } = usePage().props;
+    const permission_name = permissions
+        ? permissions.map((permission) => permission.name)
+        : "null";
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
@@ -52,6 +57,13 @@ export default function List(props) {
             direction: params.direction == "asc" ? "desc" : "asc",
         });
     };
+    const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [state, setState] = useState([]);
+    const openInfoDialog = () => {
+        setState();
+        setIsOpenInfoDialog(true);
+    };
+
     return (
         <div>
             <Head title="Plans" />
@@ -59,61 +71,110 @@ export default function List(props) {
                 title="Perencanaan"
                 description="List perencanaan yang ada di Tawarin."
             />
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog}
+                setIsOpenInfoDialog={setIsOpenInfoDialog}
+                size="2xl"
+                title={"Info"}
+                header={""}
+            >
+                Anda harus memiliki akun owner terlebih dahulu sebelum bisa
+                membuat perencanaan
+            </InfoModal>
             <Container>
                 <div className="flex items-center justify-end">
-                        <div className="w-1/2">
-                            <div className="flex items-center justify-start gap-x-2">
+                    <div className="w-2/3">
+                        <div className="flex items-center justify-start gap-x-2">
+                            {permission_name.indexOf("membuat perencanaan") >
+                            -1 ? (
+                                <div className="flex items-center justify-start gap-x-2">
+                                    <NavLink
+                                        type="button"
+                                        className={
+                                            "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                        }
+                                        href={"/plans/create"}
+                                    >
+                                        Tambah
+                                        {/* <IconCirclePlus className="w-4 h-4"/> */}
+                                    </NavLink>
+                                    <NavLink
+                                        type="button"
+                                        className={
+                                            "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                        }
+                                        href={route('plans.index')}
+                                    >
+                                        Perencanaan Saya
+                                        {/* <IconUserCircle className="w-4 h-4"/> */}
+                                    </NavLink>
+                                </div>
+                            ) : (
+                                <button
+                                    className="justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                    onClick={() => openInfoDialog()}
+                                >
+                                    Tambah
+                                </button>
+                            )}
+                            {permission_name.indexOf(
+                                "melakukan penawaran perencanaan"
+                            ) > -1 ? (
                                 <NavLink
                                     type="button"
                                     className={
                                         "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     }
-                                    href={"/plans/create"}
+                                    href={"/planbids"}
                                 >
-                                    Tambah <IconCirclePlus className="w-4 h-4"/>
+                                    Penawaran Saya
+                                    {/* <IconCirclePlus className="w-4 h-4"/> */}
                                 </NavLink>
-                            </div>
+                            ) : (
+                                ""
+                            )}
                         </div>
-                        <div className="w-1/2">
-                            <div className="flex items-center justify-end gap-x-2">
-                                <select
+                    </div>
+                    <div className="w-1/3">
+                        <div className="flex items-center justify-end gap-x-2">
+                            <select
                                     name="load"
                                     id="load"
                                     onChange={onChange}
                                     value={params.load}
-                                    className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
+                                    className="hidden transition duration-150 ease-in-out border-gray-300 rounded-lg md:flex focus:ring-blue-200 focus:ring form-select"
                                 >
                                     {pageNumber.map((page, index) => (
                                         <option key={index}>{page}</option>
                                     ))}
                                 </select>
-                                <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
-                                    <svg
-                                        className="inline w-5 h-5 text-gray-500"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                        />
-                                    </svg>
-                                    <input
-                                        type="text"
-                                        name="q"
-                                        id="q"
-                                        onChange={onChange}
-                                        value={params.q}
-                                        className="w-full border-0 focus:ring-0 form-text"
+                            <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
+                                <svg
+                                    className="inline w-5 h-5 text-gray-500"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                                     />
-                                </div>
+                                </svg>
+                                <input
+                                    type="text"
+                                    name="q"
+                                    id="q"
+                                    onChange={onChange}
+                                    value={params.q}
+                                    className="w-full border-0 focus:ring-0 form-text"
+                                />
                             </div>
                         </div>
                     </div>
+                </div>
                 {plans.length ? (
                     <div className="grid w-full grid-cols-2 gap-1 mt-4 md:gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {plans.map((plan, index) => (
@@ -148,9 +209,14 @@ export default function List(props) {
                                                     </p>
                                                 </div>
                                             </div>
-                                            <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-blue-500 rounded-lg select-none z-9">
-                                                {plan.until} Hari Lagi
-                                            </span>
+                                            {plan.plan_bids_sum_is_approved == 1 ? (
+                                <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-yellow-500 rounded-lg select-none z-9">
+                                Sudah Ada Pemenang
+                            </span>
+                            ) : <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-blue-500 rounded-lg select-none z-9">
+                            {plan.until} Hari Lagi
+                        </span>}
+                                            
                                         </div>
                                         <div className="mt-4">
                                             <h2
@@ -168,13 +234,15 @@ export default function List(props) {
                                         </div>
                                         <div className="flex items-center justify-between my-2 space-x-4">
                                             <span className="items-center w-full px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-100 rounded-md md:justify-between md:flex ">
-                                                <p className="text-[10px] md:text-xs">Anggaran Proyek</p> 
-                                                <p className="md:ml-1 text-[9px] md:text-xs">
-                                                Rp{" "} {numberFormat(
-                                                    plan.anggaran_proyek
-                                                )}
+                                                <p className="text-[10px] md:text-xs">
+                                                    Anggaran Proyek
                                                 </p>
-                                                
+                                                <p className="md:ml-1 text-[9px] md:text-xs">
+                                                    Rp{" "}
+                                                    {numberFormat(
+                                                        plan.anggaran_proyek
+                                                    )}
+                                                </p>
                                             </span>
                                         </div>
 
@@ -183,27 +251,27 @@ export default function List(props) {
                                         </div> */}
                                         <div className="flex items-center justify-between space-x-4">
                                             <span className="items-center w-full px-2 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-md md:flex md:justify-between">
-                                                <p className="text-[10px] md:text-xs">Anggaran Perencanaan</p> 
+                                                <p className="text-[10px] md:text-xs">
+                                                    Anggaran Perencanaan
+                                                </p>
                                                 <p className="justify-end text-[9px] md:text-xs md:flex">
-                                                Rp{" "}
-                                                {numberFormat(
-                                                    plan.dari_anggaran
-                                                )}{" "}
-                                                - 
-                                                {/* <div> */}
-                                                Rp{" "}
-                                                {numberFormat(
-                                                    plan.sampai_anggaran
-                                                )}
-                                                {/* </div> */}
-                                                    </p> 
-                                                
+                                                    Rp{" "}
+                                                    {numberFormat(
+                                                        plan.dari_anggaran
+                                                    )}{" "}
+                                                    -{/* <div> */}
+                                                    Rp{" "}
+                                                    {numberFormat(
+                                                        plan.sampai_anggaran
+                                                    )}
+                                                    {/* </div> */}
+                                                </p>
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between my-2 space-x-4">
                                             <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-yellow-700 bg-yellow-100 rounded-md w-36">
                                                 {plan.jangka_waktu_pelaksanaan}{" "}
-                                                Hari Pengarjaan
+                                                Hari Pengerjaan
                                             </span>
                                             <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-green-500 rounded-md bg-green-50">
                                                 {plan.jumlah_revisi} Kali Revisi

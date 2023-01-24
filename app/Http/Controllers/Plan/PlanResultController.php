@@ -69,7 +69,7 @@ class PlanResultController extends Controller
     public function ShowResult(Plan $plan)
     {
         $data = [];
-        $plan_master = PlanMaster::select('slug')->get();
+        $plan_master = PlanMaster::select('name','slug')->get();
         $plan_details = Plan::join('plan_details', 'plan_details.plan_id', 'plans.id')
             ->join('plan_masters', 'plan_masters.id', 'plan_details.plan_master_id')->where('plans.id', $plan->id)
             ->select('plan_masters.name', 'plans.jumlah_revisi', 'plan_masters.slug', 'plan_details.id')

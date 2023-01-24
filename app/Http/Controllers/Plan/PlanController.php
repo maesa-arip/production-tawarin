@@ -35,10 +35,8 @@ class PlanController extends Controller
     }
     public function tahapan(Plan $plan)
     {
-
         $balance = $plan->balance;
         $planbid = PlanBid::where('plan_id', $plan->id)->where('is_approved', 1)->sum('bid_price') / 2;
-
         $tahap = 1;
         $transaction = Transaction::where('payable_id', $plan->id)->first();
         if (is_null($transaction)) {
@@ -52,6 +50,13 @@ class PlanController extends Controller
                 $tahap = 3;
             }
         }
+        if ($plan->plan_result && $balance == $planbid) {
+            $tahap = 4;
+        }
+        if ($balance == $planbid * 2) {
+            $tahap = 5;
+        }
+        
         $step = PlanStep::where('type', 1)->where('step', $tahap)->first();
 
         return Inertia('Plans/Tahapan/Owner/Index', [
@@ -87,7 +92,6 @@ class PlanController extends Controller
             ->where('user_id', auth()->user()->id)
             ->doesntHave('planReject')
             ->with('media')
-            // ->has('media')
             ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'jangka_waktu_pelaksanaan','user_id', 'slug', 'is_approved', 'jumlah_revisi', 'name', 'plan_category_id', 'created_at')
             ->withCount(['plan_bids'])
             ->withSum('plan_bids', 'is_approved');
@@ -278,10 +282,23 @@ class PlanController extends Controller
     {
         $plans = Plan::query()
             ->with('plan_category')
+            // ->with('owner.roles.permissions')
             ->with('owner')
+            ->with('media')
             ->where('is_approved', 1)
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
-            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran','jangka_waktu_pelaksanaan' ,'user_id', 'slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at');
+            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran','jangka_waktu_pelaksanaan','jangka_waktu_penawaran' ,'user_id', 'slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at')
+            ->withCount(['plan_bids'])
+            ->withSum('plan_bids', 'is_approved');
+            // ->addSelect(['winner' => function ($query) {
+            //     $query->select('name')
+            //         ->from('users')
+            //         ->whereColumn('user_id', 'users.id')
+            //         ->where('is_approved', 1)
+            //         ->orderBy('arrived_at', 'desc')
+            //         ->limit(1);
+            // }])->get();
+            // dd($plans);
         if ($request->q) {
             $plans->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')

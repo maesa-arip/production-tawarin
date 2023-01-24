@@ -8,8 +8,12 @@ use App\Http\Resources\Plan\PlanSingleResource;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanBid;
 use App\Models\Plan\PlanStep;
+use App\Models\User;
+use App\Notifications\Plan\PlanWinnerToKonsultanNotification;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Notification;
 
 class BidPlanController extends Controller
 {
@@ -31,10 +35,13 @@ class BidPlanController extends Controller
                 $tahap = 3;
             }
         }
+        if ($plan->plan_result) {
+            $tahap = 4;
+        }
         // if ($balance == $planbid*2) {
         //     $tahap = 4;
         //  }
-        $step = PlanStep::where('type', 1)->where('step', $tahap)->first();
+        $step = PlanStep::where('type', 2)->where('step', $tahap)->first();
         return Inertia('Plans/Tahapan/Konsultan/Index', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
             'balance' => $balance,
@@ -77,9 +84,12 @@ class BidPlanController extends Controller
     }
     public function selectwinnerplan($id)
     {
-        $planbids = PlanBid::find($id);
+        $planbids = PlanBid::with('plan')->find($id);
         $planbids->is_approved = 1;
         $planbids->save();
+        $user = User::find($planbids->user_id);
+        $user->notify(new PlanWinnerToKonsultanNotification($planbids));
+        Cache::forget('notifications_count');
         return redirect('plans')->with([
             'type' => 'success',
             'message' => 'Selamat anda sudah memilih pemenang',
