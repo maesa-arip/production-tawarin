@@ -1,8 +1,8 @@
 import { useForm } from "@inertiajs/inertia-react";
 import React from "react";
-import FormUser from "./FormUser";
+import FormRevision from "./FormRevision";
 
-export default function CreateUser({
+export default function CreateRevision({
     setIsOpenAddDialog,
 }) {
     const { data, setData, post, reset, errors } = useForm({
@@ -25,7 +25,7 @@ export default function CreateUser({
 
     return (
         <form onSubmit={onSubmit}>
-            <FormUser {...{ errors, data, setData, submit: "Save", closeButton }} />
+            <FormRevision {...{ errors, data, setData, submit: "Save", closeButton }} />
         </form>
     );
 }

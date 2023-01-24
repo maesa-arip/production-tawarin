@@ -21,6 +21,7 @@ use App\Http\Controllers\Plan\BidPlanController;
 use App\Http\Controllers\Plan\PlanBidController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Plan\PlanResultController;
+use App\Http\Controllers\Plan\PlanRevisionController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
@@ -158,6 +159,10 @@ Route::middleware('auth')->group(function () {
             Route::post('plan/uploadresult/{plan}',[PlanResultController::class,'StoreUploadResult'])->name('plan.simpanhasil');
             Route::get('plan/showresult/{plan}',[PlanResultController::class,'ShowResult'])->name('plan.lihathasil');
         //End Hasil Perencanaan
+
+        Route::post('plan/uploadrevision/{planrevision}',[PlanRevisionController::class,'StoreRevision'])->name('plan.simpanrevisi');
+
+
     // -- End Tahapan Perencanaan
     Route::Resource('planbids', PlanBidController::class);
     Route::get('bidplans/{id}', [BidPlanController::class,'listpenawar'])->name('bidplans.listpenawar');

@@ -15,4 +15,8 @@ class PlanResult extends Model implements HasMedia
     {
         return $this->belongsTo(PlanDetail::class);
     }
+    public function plan_revisions()
+    {
+        return $this->hasMany(PlanRevision::class);
+    }
 }

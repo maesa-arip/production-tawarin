@@ -39,7 +39,7 @@ function Footer() {
             <div className="mb-2">
               {/* Logo */}
               <Link to="/" className="inline-block" aria-label="Cruip">
-              <img className="w-8 h-8" src={Logo}/>
+              <img className="w-8 h-8" src={Logo} alt="logo"/>
               </Link>
             </div>
             <div className="text-sm text-gray-600">
@@ -49,7 +49,7 @@ function Footer() {
 
           {/* 2nd block */}
           <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="mb-2 font-medium text-gray-800">Products</h6>
+            <p className="mb-2 font-medium text-gray-800">Products</p>
             <ul className="text-sm">
               <li className="mb-2">
                 <Link to="#" className="text-gray-600 transition duration-150 ease-in-out hover:text-gray-900">Web Studio</Link>

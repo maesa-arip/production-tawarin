@@ -56,10 +56,10 @@ class Plan extends Model implements HasMedia, Wallet, Confirmable
     {
         return $this->hasManyThrough(PlanResult::class,PlanDetail::class);
     }
-    public function plan_revision()
-    {
-        return $this->hasManyThrough(PlanRevision::class,PlanDetail::class);
-    }
+    // public function plan_revision()
+    // {
+    //     return $this->hasManyThrough(PlanRevision::class,PlanDetail::class);
+    // }
     public function planReject()
     {
         return $this->hasOne(PlanReject::class);

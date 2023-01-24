@@ -72,7 +72,8 @@ class PlanResultController extends Controller
         $plan_master = PlanMaster::select('name','slug')->get();
         $plan_details = Plan::join('plan_details', 'plan_details.plan_id', 'plans.id')
             ->join('plan_masters', 'plan_masters.id', 'plan_details.plan_master_id')->where('plans.id', $plan->id)
-            ->select('plan_masters.name', 'plans.jumlah_revisi', 'plan_masters.slug', 'plan_details.id')
+            ->join('plan_results', 'plan_results.plan_detail_id', 'plan_details.id')
+            ->select('plan_masters.name', 'plans.jumlah_revisi', 'plan_masters.slug', 'plan_details.id', 'plan_results.id as result_id')
             ->get();
         foreach ($plan_details as $plan_detail) {
             $plan_result = PlanResult::where('plan_detail_id', $plan_detail->id)->first();
@@ -82,6 +83,7 @@ class PlanResultController extends Controller
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
             'data' => $data,
             'plan_master' => $plan_master,
+            'plan_details' => $plan_details,
         ]);
     }
 }

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PlanRevision extends Model
 {
     use HasFactory;
-    public function plan_detail()
+    public function plan_result()
     {
-        return $this->belongsTo(PlanDetail::class);
+        return $this->belongsTo(PlanResult::class);
     }
     public function plan_revision_result()
     {
