@@ -39,7 +39,7 @@ export default function Navbar() {
                             <NavLink href="/">
                                 <span className="sr-only"></span>
                                 <img
-                                    className="w-8 h-8 sm:h-10"
+                                    className="w-8 h-8"
                                     src={Logo}
                                     aria-label="TawarinLogo"
                                     alt="Logo"

@@ -358,7 +358,7 @@ export default function Home(props) {
                                                     </svg>
 
                                                     <img
-                                                        className="w-5 h-5 sm:h-6"
+                                                        className="w-5 h-5"
                                                         src={Logo}
                                                         alt="logo"
                                                     />
