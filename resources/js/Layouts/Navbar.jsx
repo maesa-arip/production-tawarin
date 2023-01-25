@@ -559,9 +559,10 @@ export default function Navbar() {
                                 <div className="flex items-center justify-between">
                                     <NavLink href="/">
                                         <img
-                                            className="w-auto h-8 sm:h-10"
+                                            className="w-8 h-8 sm:h-10"
                                             src={Logo}
-                                            alt="Workflow"
+                                            aria-label="TawarinLogo"
+                                            alt="Logo"
                                         />
                                     </NavLink>
                                     <div className="-mr-2">

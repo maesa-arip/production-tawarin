@@ -798,7 +798,7 @@ export default function Home(props) {
                             </p>
                         </div>
 
-                        <ul className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
+                        <div className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
                             {plans.map ? (
                                 plans.map((plan, index) => (
                                     <div className="text-left focus:outline-none" key={index}>
@@ -923,7 +923,7 @@ export default function Home(props) {
                             ) : (
                                 <EmptyCard/>
                             )}
-                        </ul>
+                        </div>
                         <div className="mt-10 lg:mt-12" />
                         <div className="flex justify-center md:justify-end">
                             <Link
