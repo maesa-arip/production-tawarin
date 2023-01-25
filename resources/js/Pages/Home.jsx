@@ -21,14 +21,26 @@ import TestimonialImage from "../../img/LandingPageFunding/testimonials.png";
 import DefaultUserImage from "../../img/LandingPageFunding/defaultuser.jpg";
 import Typewriter from "typewriter-effect";
 import Logo from "../../img/Tawarin.png";
-import { IconBuildingSkyscraper, IconBuildingStore, IconCash, IconHomeEdit, IconTools, IconUserSearch } from "@tabler/icons";
+import {
+    IconBuildingSkyscraper,
+    IconBuildingStore,
+    IconCash,
+    IconHomeEdit,
+    IconTools,
+    IconUserSearch,
+} from "@tabler/icons";
 import EmptyCard from "@/Components/EmptyCard";
 
 export default function Home(props) {
     const { data: plans } = props.plans;
     return (
         <>
-            <Head title="Home" />
+            <Head>
+                <title>Home</title>
+                <meta name="home" content="home tawarin" />
+            </Head>
+
+            {/* <Head title="Home" /> */}
             <Container>
                 <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36">
                     <div className="px-4 mx-auto sm:px-6 lg:px-8">
@@ -710,37 +722,36 @@ export default function Home(props) {
                             className="grid grid-cols-1 gap-6 mx-auto mt-16 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
                         >
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                                <IconCash className="w-8 h-8"/>
-                                <Link href={route('fundings.choose')}>
-                                <h3 className="mt-6 font-semibold text-gray-900">
-                                    Pendanaan
-                                </h3>
+                                <IconCash className="w-8 h-8" />
+                                <Link href={route("fundings.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Pendanaan
+                                    </h3>
                                 </Link>
-                                
+
                                 <p className="mt-2 text-gray-700">
                                     Watch your investments grow exponentially,
                                     leaving other investors in the dust.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                            <IconHomeEdit className="w-8 h-8"/>
-                                <Link href={route('plans.choose')}>
-                                <h3 className="mt-6 font-semibold text-gray-900">
-                                    Perencanaan
-                                </h3>
+                                <IconHomeEdit className="w-8 h-8" />
+                                <Link href={route("plans.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Perencanaan
+                                    </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
                                     Whether it’s $1 or $1,000,000, we can put
                                     your money to work for you.
                                 </p>
-                                
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                            <IconBuildingSkyscraper className="w-8 h-8"/>
-                                <Link href={route('projects.choose')}>
-                                <h3 className="mt-6 font-semibold text-gray-900">
-                                    Proyek
-                                </h3>
+                                <IconBuildingSkyscraper className="w-8 h-8" />
+                                <Link href={route("projects.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Proyek
+                                    </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
                                     Invest in different industries to find the
@@ -748,11 +759,11 @@ export default function Home(props) {
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                            <IconUserSearch className="w-8 h-8"/>
-                                <Link href={route('projects.choose')}>
-                                <h3 className="mt-6 font-semibold text-gray-900">
-                                    Keahlian
-                                </h3>
+                                <IconUserSearch className="w-8 h-8" />
+                                <Link href={route("projects.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Keahlian
+                                    </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
                                     Get insider tips on big stock moves and act
@@ -760,11 +771,11 @@ export default function Home(props) {
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                            <IconBuildingStore className="w-8 h-8"/>
-                                <Link href={route('projects.choose')}>
-                                <h3 className="mt-6 font-semibold text-gray-900">
-                                    Toko
-                                </h3>
+                                <IconBuildingStore className="w-8 h-8" />
+                                <Link href={route("projects.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Toko
+                                    </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
                                     Invite new insiders to get tips faster and
@@ -772,18 +783,17 @@ export default function Home(props) {
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
-                            <IconTools className="w-8 h-8"/>
-                                <Link href={route('projects.choose')}>
-                                <h3 className="mt-6 font-semibold text-gray-900">
-                                    Alat
-                                </h3>
+                                <IconTools className="w-8 h-8" />
+                                <Link href={route("projects.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Alat
+                                    </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
                                     Cutting-edge security technology that even
                                     the NSA doesn’t know about keeps you hidden.
                                 </p>
                             </li>
-                            
                         </ul>
                     </div>
                 </section>
@@ -801,7 +811,10 @@ export default function Home(props) {
                         <div className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
                             {plans.map ? (
                                 plans.map((plan, index) => (
-                                    <div className="text-left focus:outline-none" key={index}>
+                                    <div
+                                        className="text-left focus:outline-none"
+                                        key={index}
+                                    >
                                         <Link
                                             href={route(
                                                 "plans.show",
@@ -826,7 +839,9 @@ export default function Home(props) {
                                         </Link>
                                         <div className="mt-2.5 lg:mt-3 flex items-center justify-between">
                                             <div className="flex flex-wrap items-center text-xs font-medium text-blue-600 md:text-sm md:gap-x-3 hover:text-blue-700">
-                                                <Link href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}>
+                                                <Link
+                                                    href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}
+                                                >
                                                     {plan.plan_category.name}
                                                 </Link>
                                             </div>
@@ -921,7 +936,7 @@ export default function Home(props) {
                                     // </li>
                                 ))
                             ) : (
-                                <EmptyCard/>
+                                <EmptyCard />
                             )}
                         </div>
                         <div className="mt-10 lg:mt-12" />

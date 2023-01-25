@@ -39,8 +39,10 @@ export default function Navbar() {
                             <NavLink href="/">
                                 <span className="sr-only"></span>
                                 <img
-                                    className="w-auto h-8 sm:h-10"
+                                    className="w-8 h-8 sm:h-10"
                                     src={Logo}
+                                    aria-label="TawarinLogo"
+                                    alt="Logo"
                                 />
                             </NavLink>
                         </div>
@@ -859,43 +861,15 @@ export default function Navbar() {
                         </span>
                     </NavLinkMobile>
 
-                    <NavLinkMobile
+                    <div
                         onClick={openMenuModal}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center cursor-pointer focus:text-black hover:text-black"
                     >
-                        {/* <svg
-                            width={25}
-                            height={25}
-                            viewBox="0 0 42 42"
-                            className="inline-block mb-1"
-                        >
-                            <g
-                                stroke="none"
-                                strokeWidth={1}
-                                fill="none"
-                                fillRule="evenodd"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                </svg>
-                            </g>
-                        </svg> */}
                         <MenuLogo/>
                         <span onClick={openMenuModal} className="block text-xs">
                             Explore
                         </span>
-                    </NavLinkMobile>
+                    </div>
 
                     {auth.user ? (
                         <>
