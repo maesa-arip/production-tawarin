@@ -37,7 +37,10 @@ export default function Home(props) {
         <>
             <Head>
                 <title>Home</title>
-                <meta name="home" content="home tawarin" />
+                <meta
+                    name="description"
+                    content="Membuat perencanaan, proyek dan belanja dengan mudah."
+                />
             </Head>
 
             {/* <Head title="Home" /> */}

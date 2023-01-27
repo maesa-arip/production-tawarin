@@ -27,7 +27,7 @@ export default function MenuModal({children,isOpenMenuModal,setIsOpenMenuModal})
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
-          <div className="fixed inset-x-0 bottom-0">
+          <div className="fixed inset-x-0 bottom-0 mb-12">
             <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
