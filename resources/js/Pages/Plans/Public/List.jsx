@@ -274,7 +274,7 @@ export default function List(props) {
                                                 Hari Pengerjaan
                                             </span>
                                             <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-green-500 rounded-md bg-green-50">
-                                                {plan.jumlah_revisi} Kali Revisi
+                                                {plan.jumlah_revisi} Kali Revisi1
                                             </span>
                                         </div>
                                     </div>

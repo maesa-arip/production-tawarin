@@ -158,9 +158,16 @@ Route::middleware('auth')->group(function () {
             Route::get('plan/uploadresult/{plan}',[PlanResultController::class,'UploadResult'])->name('plan.uploadhasil');
             Route::post('plan/uploadresult/{plan}',[PlanResultController::class,'StoreUploadResult'])->name('plan.simpanhasil');
             Route::get('plan/showresult/{plan}',[PlanResultController::class,'ShowResult'])->name('plan.lihathasil');
+            Route::put('plan/finishresult/{planresult}',[PlanResultController::class,'FinishResult'])->name('planresult.finish');
         //End Hasil Perencanaan
 
-        Route::post('plan/uploadrevision/{planrevision}',[PlanRevisionController::class,'StoreRevision'])->name('plan.simpanrevisi');
+        //Revisi
+            Route::get('plan/showrevision/{plan}',[PlanRevisionController::class,'ShowRevision'])->name('plan.lihatrevisi');
+            Route::post('plan/uploadrevision/{planrevision}',[PlanRevisionController::class,'StoreRevision'])->name('plan.simpanrevisi');
+        //End Revisi
+
+        
+        
 
 
     // -- End Tahapan Perencanaan

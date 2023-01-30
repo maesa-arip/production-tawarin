@@ -4,7 +4,7 @@ export default function FeatureCard() {
   return (
     <div className="flex flex-col">
   <h2 className="mb-4 text-2xl font-bold">
-    Feature Cards
+    {/* Feature Cards */}
   </h2>
   <div className="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     <div className="flex items-start p-4 bg-white shadow-lg rounded-xl">

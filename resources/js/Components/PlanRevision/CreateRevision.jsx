@@ -3,19 +3,16 @@ import React from "react";
 import FormRevision from "./FormRevision";
 
 export default function CreateRevision({
-    setIsOpenAddDialog,
+    setIsOpenAddDialog,result
 }) {
     const { data, setData, post, reset, errors } = useForm({
-        username: "",
-        name: "",
-        email: "",
-        password: "",
-        address: "",
+        description: "",
+        plan_result_id: "",
     });
     const closeButton = (e) => setIsOpenAddDialog(false);
     const onSubmit = (e) => {
         e.preventDefault();
-        post(route("users.store"), {
+        post(route("plan.simpanrevisi",result), {
             data,
             onSuccess: () => {
                 reset(), setIsOpenAddDialog(false);
@@ -25,7 +22,7 @@ export default function CreateRevision({
 
     return (
         <form onSubmit={onSubmit}>
-            <FormRevision {...{ errors, data, setData, submit: "Save", closeButton }} />
+            <FormRevision {...{ errors, data, setData, submit: "Simpan", closeButton }} />
         </form>
     );
 }

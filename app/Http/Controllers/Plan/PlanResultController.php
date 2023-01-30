@@ -8,6 +8,7 @@ use App\Models\Plan\Plan;
 use App\Models\Plan\PlanMaster;
 use App\Models\Plan\PlanResult;
 use App\Models\TemporaryFile;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\File;
@@ -68,22 +69,33 @@ class PlanResultController extends Controller
     }
     public function ShowResult(Plan $plan)
     {
-        $data = [];
+        $dataplan = [];
         $plan_master = PlanMaster::select('name','slug')->get();
         $plan_details = Plan::join('plan_details', 'plan_details.plan_id', 'plans.id')
             ->join('plan_masters', 'plan_masters.id', 'plan_details.plan_master_id')->where('plans.id', $plan->id)
             ->join('plan_results', 'plan_results.plan_detail_id', 'plan_details.id')
-            ->select('plan_masters.name', 'plans.jumlah_revisi', 'plan_masters.slug', 'plan_details.id', 'plan_results.id as result_id')
+            ->select('plan_masters.name', 'plans.jumlah_revisi', 'plan_masters.slug', 'plan_details.id', 'plans.jumlah_revisi','plan_results.is_finish', 'plan_results.id as result_id')
+            ->addSelect(['jumlah_pengajuan_revisi' => function (Builder $builder) {
+                $builder->from('plan_revisions')->selectRaw('count(*) as jumlah_pengajuan_revisi')->whereColumn('plan_results.id', 'plan_revisions.plan_result_id');
+            }])
             ->get();
         foreach ($plan_details as $plan_detail) {
             $plan_result = PlanResult::where('plan_detail_id', $plan_detail->id)->first();
-            $data[$plan_detail->slug] = $plan_result->getMedia($plan_detail->slug);
+            $dataplan[$plan_detail->slug] = $plan_result->getMedia($plan_detail->slug);
         }
         return Inertia('Plans/Tahapan/Owner/Result/ShowResult', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
-            'data' => $data,
+            'dataplan' => $dataplan,
             'plan_master' => $plan_master,
             'plan_details' => $plan_details,
+        ]);
+    }
+    public function FinishResult(PlanResult $planresult)
+    {
+        $planresult->update(['is_finish' => 1]);
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => 'Data berhasil disimpan',
         ]);
     }
 }

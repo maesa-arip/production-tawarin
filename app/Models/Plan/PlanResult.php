@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class PlanResult extends Model implements HasMedia
 {
-    protected $fillable = ['plan_detail_id', 'description'];
+    protected $fillable = ['plan_detail_id', 'description','is_finish'];
     use HasFactory, InteractsWithMedia;
     public function plan_detail()
     {

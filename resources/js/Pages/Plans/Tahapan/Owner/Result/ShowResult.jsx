@@ -1,6 +1,6 @@
 import Button from "@/Components/Button";
 import App from "@/Layouts/App";
-import { Head, Link } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
 import CreateUser from "@/Components/Users/CreateUser";
 import EditeUser from "@/Components/Users/EditUser";
@@ -11,15 +11,17 @@ import CreateRevision from "@/Components/PlanRevision/CreateRevision";
 import EditeRevision from "@/Components/PlanRevision/EditRevision";
 import EditRevision from "@/Components/PlanRevision/EditRevision";
 import { Inertia } from "@inertiajs/inertia";
+import { result } from "lodash";
 
-export default function ShowResult({ plan, data, plan_master, plan_details }) {
-
-    // console.log(plan_details);
-    // console.log(plan_master);
+export default function ShowResult({
+    plan,
+    dataplan,
+    plan_master,
+    plan_details,
+}) {
     const openAddDialog = (result) => {
         setState(result);
         setIsOpenAddDialog(true);
-        // console.log(result);
     };
     const openEditDialog = (person) => {
         setState(person);
@@ -30,17 +32,55 @@ export default function ShowResult({ plan, data, plan_master, plan_details }) {
         setIsOpenDestroyDialog(true);
     };
 
-    const storeRevision = () => {
-        Inertia.post(route("plan.simpanrevisi", state.id), {
-            onSuccess: () => setIsOpenDestroyDialog(false),
+    // const submit = (e) => {
+    //     e.preventDefault();
+    //     post(route('chirps.store'), { onSuccess: () => reset() });
+    // };
+
+    // const { data, setData, post, processing, reset, errors } = useForm({
+    //     description: '',
+    // });
+
+    // const storeRevision = (e) => {
+    //     e.preventDefault();
+    //     post(route("plan.simpanrevisi", state.id), {
+    //         data,
+    //         onSuccess: () => {
+    //             reset(), setIsOpenDestroyDialog(false);
+    //         },
+    //     });
+    // };
+
+    // const storeRevision = (e) => {
+    //     e.preventDefault();
+    //     Inertia.post(route("plan.simpanrevisi", state.id), {
+    //         onSuccess: () => setIsOpenDestroyDialog(false),
+    //     });
+    //     // console.log(state.result_id)
+    // };
+
+    // const finishRevision = (e) => {
+    //         e.preventDefault();
+    //         Inertia.put(route("planresult.finish", state.result_id), {
+    //             onSuccess: () => {
+    //                 reset(), setIsOpenDestroyDialog(false);
+    //                 console.log('finish')
+    //             }
+    //         });
+    //         // console.log(state.result_id)
+    //     };
+
+    const { data, setData, put, clearErrors, reset, errors } = useForm({});
+
+    const finishRevision = (e) => {
+        e.preventDefault();
+        put(route("planresult.finish", state.result_id), {
+            data,
+            onSuccess: () => {
+                reset(), setIsOpenDestroyDialog(false);
+            },
         });
-        // console.log(state.result_id)
     };
-    const handleClick = (e) => {
-        const id = e.target.id;
-        console.log(id);
-      }
-     
 
     const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
@@ -53,15 +93,13 @@ export default function ShowResult({ plan, data, plan_master, plan_details }) {
                 isOpenAddDialog={isOpenAddDialog}
                 setIsOpenAddDialog={setIsOpenAddDialog}
                 size="2xl"
-                title={"Revisi"}
+                title={"Revisi " + state.name}
             >
                 <CreateRevision
                     isOpenAddDialog={isOpenAddDialog}
                     setIsOpenAddDialog={setIsOpenAddDialog}
+                    result={state.result_id}
                 />
-                <Button onClick={storeRevision}>
-                    Simpan
-                </Button>
             </AddModal>
             <EditModal
                 isOpenEditDialog={isOpenEditDialog}
@@ -79,18 +117,16 @@ export default function ShowResult({ plan, data, plan_master, plan_details }) {
                 isOpenDestroyDialog={isOpenDestroyDialog}
                 setIsOpenDestroyDialog={setIsOpenDestroyDialog}
                 size="2xl"
-                title={"Delete User 123"} 
+                title={"Tidak ada revisi untuk " + state.name + " ?"}
             >
-                <Button color={"pink"} onClick={storeRevision}>
-                    Delete
-                </Button>
+                <Button onClick={finishRevision}>Selesai</Button>
             </DestroyModal>
             <div className="bg-white">
                 <div className="grid items-start max-w-2xl grid-cols-1 px-4 py-4 mx-auto gap-y-8 gap-x-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
                     {plan_details.map((result, index) => (
                         <>
-                            {data[result.slug] ? (
-                                <div className="mt-5 ">
+                            {dataplan[result.slug] ? (
+                                <div className="mt-5 " key={index}>
                                     <div className="bg-white ">
                                         <div>
                                             <div className="mt-5 md:mt-0">
@@ -100,9 +136,19 @@ export default function ShowResult({ plan, data, plan_master, plan_details }) {
                                                             <label className="block text-sm font-medium text-gray-700">
                                                                 {result.name}
                                                             </label>
-                                                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
+
+                                                            <div className="relative flex justify-center px-6 pt-5 pb-6 mt-1 overflow-hidden border-2 border-gray-300 border-dashed rounded-md">
+                                                                {result.is_finish ==
+                                                                    1 && (
+                                                                    <div className="absolute top-0 right-0 w-16 h-16">
+                                                                        <div className="absolute right-[-44px] top-[22px] w-[170px] transform rotate-45 bg-sky-100 text-center text-sky-900 font-semibold py-1">
+                                                                            Selesai
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+
                                                                 <div className="w-full text-center">
-                                                                    {data[
+                                                                    {dataplan[
                                                                         result
                                                                             .slug
                                                                     ].map(
@@ -116,7 +162,7 @@ export default function ShowResult({ plan, data, plan_master, plan_details }) {
                                                                                     key={
                                                                                         result.id
                                                                                     }
-                                                                                    className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
+                                                                                    className=" shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
                                                                                 >
                                                                                     <img
                                                                                         className="object-cover w-full h-full "
@@ -128,7 +174,7 @@ export default function ShowResult({ plan, data, plan_master, plan_details }) {
                                                                                 </div>
                                                                             )
                                                                     )}
-                                                                    {data[
+                                                                    {dataplan[
                                                                         result
                                                                             .slug
                                                                     ].map(
@@ -171,33 +217,108 @@ export default function ShowResult({ plan, data, plan_master, plan_details }) {
                                                                     }
                                                                 />
                                                             </div>
-                                                            <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                                                <button
-                                                                    onClick={() =>
-                                                                        openAddDialog(
-                                                                            result
-                                                                        )
-                                                                    }
-                                                                    type="submit"
-                                                                    className="w-full inline-flex justify-center items-center rounded-md border border-transparent bg-pink-100 px-4 py-2 text-sm font-medium text-pink-900 hover:bg-pink-200 active:bg-pink-300 transition ease-in-out duration-150 sm:ml-3 sm:w-auto sm:text-sm"
-                                                                    tabIndex={0}
-                                                                >
-                                                                    Add Revisi
-                                                                </button>
-                                                                <button 
-                                                                onClick={() =>
-                                                                openDestroyDialog(
-                                                                    result
-                                                                )
-                                                            }
-                                                                    type="button"
-                                                                    name={result.slug}
-                                                                    id={result.slug}
-                                                                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                                                >
-                                                                    Selesai {result.name}
-                                                                </button>
-                                                            </div>
+                                                            {result.is_finish ==
+                                                                1 &&
+                                                            result.jumlah_pengajuan_revisi ==
+                                                                0 ? (
+                                                                <div className="py-3 sm:flex sm:flex-row-reverse">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium transition duration-150 ease-in-out border border-transparent rounded-md text-sky-900 bg-sky-100 hover:bg-sky-200 active:bg-sky-300 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    >
+                                                                        Tidak
+                                                                        Ada
+                                                                        Revisi
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                ""
+                                                            )}
+                                                            {result.is_finish ==
+                                                                1 &&
+                                                            result.jumlah_pengajuan_revisi >
+                                                                0 ? (
+                                                                <div className="py-3 sm:flex sm:flex-row-reverse">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium transition duration-150 ease-in-out border border-transparent rounded-md text-sky-900 bg-sky-100 hover:bg-sky-200 active:bg-sky-300 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    >
+                                                                        Revisi
+                                                                        Selesai
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                ""
+                                                            )}
+
+                                                            {result.is_finish ==
+                                                                0 &&
+                                                            result.jumlah_pengajuan_revisi >=
+                                                                result.jumlah_revisi ? (
+                                                                <div className="py-3 sm:flex sm:flex-row-reverse">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium transition duration-150 ease-in-out border border-transparent rounded-md text-sky-900 bg-sky-100 hover:bg-sky-200 active:bg-sky-300 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    >
+                                                                        Pengajuan
+                                                                        Revisi
+                                                                        Sudah{" "}
+                                                                        {
+                                                                            result.jumlah_pengajuan_revisi
+                                                                        }{" "}
+                                                                        Kali
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                ""
+                                                            )}
+                                                            {result.is_finish ==
+                                                                0 &&
+                                                            result.jumlah_pengajuan_revisi <
+                                                                result.jumlah_revisi ? (
+                                                                <div className="py-3 sm:flex sm:flex-row-reverse">
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            openAddDialog(
+                                                                                result
+                                                                            )
+                                                                        }
+                                                                        type="submit"
+                                                                        className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-pink-900 transition duration-150 ease-in-out bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 active:bg-pink-300 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                        tabIndex={
+                                                                            0
+                                                                        }
+                                                                    >
+                                                                        Ajukan
+                                                                        Revisi
+                                                                        Ke-
+                                                                        {result.jumlah_pengajuan_revisi +
+                                                                            1}
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            openDestroyDialog(
+                                                                                result
+                                                                            )
+                                                                        }
+                                                                        type="button"
+                                                                        name={
+                                                                            result.slug
+                                                                        }
+                                                                        id={
+                                                                            result.slug
+                                                                        }
+                                                                        className="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    >
+                                                                        Selesai{" "}
+                                                                        {
+                                                                            result.name
+                                                                        }
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                ""
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>

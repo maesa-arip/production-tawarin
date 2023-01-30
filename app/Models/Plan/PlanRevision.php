@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlanRevision extends Model
 {
+    protected $fillable = ['plan_result_id','description'];
     use HasFactory;
     public function plan_result()
     {

@@ -4,11 +4,8 @@ import FormRevision from "./FormRevision";
 
 export default function EditRevision({ setIsOpenEditDialog, model }) {
     const { data, setData, put, reset, errors } = useForm({
-        username: model.username,
-        name: model.name,
-        email: model.email,
-        password: model.password,
-        address: model.address,
+        description: model.description,
+        plan_result_id: model.plan_result_id,
     });
     const closeButton = (e) => setIsOpenEditDialog(false);
     const onSubmit = (e) => {
@@ -23,11 +20,8 @@ export default function EditRevision({ setIsOpenEditDialog, model }) {
     useEffect(() => {
         setData({
             ...data,
-            username: model.username,
-            name: model.name,
-            email: model.email,
-            password: model.password,
-            address: model.address,
+            description: model.description,
+            plan_result_id: model.plan_result_id,
         });
     }, [model]);
 

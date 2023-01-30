@@ -161,7 +161,7 @@ export default function Index(props) {
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
                             <div className="flex items-center justify-end mb-6 gap-x-2">
-                                <select
+                                {/* <select
                                     name="load"
                                     id="load"
                                     onChange={onChange}
@@ -195,7 +195,7 @@ export default function Index(props) {
                                         value={params.q}
                                         className="w-full border-0 focus:ring-0 form-text"
                                     />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

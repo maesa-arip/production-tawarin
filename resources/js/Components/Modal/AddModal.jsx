@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 
-export default function AddModal({title,children, isOpenAddDialog,setIsOpenAddDialog, size='6xl'}) {
+export default function AddModal({title,children, isOpenAddDialog,setIsOpenAddDialog,result, size='6xl'}) {
   return (
     <div>
       <Transition  appear show={isOpenAddDialog} as={Fragment}>
@@ -19,7 +19,7 @@ export default function AddModal({title,children, isOpenAddDialog,setIsOpenAddDi
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
