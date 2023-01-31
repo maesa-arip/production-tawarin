@@ -7,6 +7,7 @@ use App\Http\Resources\Plan\PlanSingleResource;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanMaster;
 use App\Models\Plan\PlanResult;
+use App\Models\Plan\PlanRevisionResult;
 use App\Models\TemporaryFile;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -98,4 +99,5 @@ class PlanResultController extends Controller
             'message' => 'Data berhasil disimpan',
         ]);
     }
+    
 }

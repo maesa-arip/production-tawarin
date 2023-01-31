@@ -22,6 +22,7 @@ use App\Http\Controllers\Plan\PlanBidController;
 use App\Http\Controllers\Plan\PlanController;
 use App\Http\Controllers\Plan\PlanResultController;
 use App\Http\Controllers\Plan\PlanRevisionController;
+use App\Http\Controllers\PlanRevisionResultController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
@@ -166,6 +167,9 @@ Route::middleware('auth')->group(function () {
             Route::post('plan/uploadrevision/{planrevision}',[PlanRevisionController::class,'StoreRevision'])->name('plan.simpanrevisi');
         //End Revisi
 
+        //Revisi Result
+        Route::post('plan/uploadrevisionresult/{planrevisionresult}',[PlanRevisionResultController::class,'StoreRevisionResult'])->name('plan.simpanrevisionresult');
+        //End Revisi Result
         
         
 

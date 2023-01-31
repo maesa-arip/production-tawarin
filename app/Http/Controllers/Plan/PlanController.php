@@ -146,7 +146,7 @@ class PlanController extends Controller
             'jangka_waktu_pelaksanaan' => $request->jangka_waktu_pelaksanaan,
             'jumlah_revisi' => $request->jumlah_revisi,
             'luas_bangunan' => $request->luas_bangunan,
-            'acuan_anggaran' => $request->acuan_anggaran,
+            'acuan_anggaran' => $request->anggaran_proyek,
             'anggaran_proyek' => $request->anggaran_proyek,
             'dari_anggaran' => $request->dari_anggaran,
             'sampai_anggaran' => $request->sampai_anggaran,

@@ -110,6 +110,15 @@ export default function Index({ plan, balance,tahap,step }) {
                                 >
                                     Upload Hasil
                                 </NavLink>
+                                <NavLink
+                                    type="button"
+                                    className={
+                                        "mt-4 inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                    }
+                                    href={route('plan.lihatrevisi',plan.slug)}
+                                >
+                                    Lihat Revisi
+                                </NavLink>
                                 {/* <NavLink
                                     type="button"
                                     className={
