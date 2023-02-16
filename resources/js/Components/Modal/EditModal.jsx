@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 
-export default function EditModal({title,children, isOpenEditDialog,setIsOpenEditDialog, size='6xl'}) {
+export default function EditModal({title,children, isOpenEditDialog,setIsOpenEditDialog, size='max-w-4xl'}) {
   return (
     <div>
       <Transition  appear show={isOpenEditDialog} as={Fragment}>
@@ -19,7 +19,7 @@ export default function EditModal({title,children, isOpenEditDialog,setIsOpenEdi
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -29,7 +29,7 @@ export default function EditModal({title,children, isOpenEditDialog,setIsOpenEdi
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className={`w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-${size}`}>
+                <Dialog.Panel className={`w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all ${size}`}>
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
@@ -41,7 +41,7 @@ export default function EditModal({title,children, isOpenEditDialog,setIsOpenEdi
                     {/* <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center text-right rounded-md border border-transparent bg-pink-100 px-4 py-2 text-sm font-medium text-pink-900 hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-right text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
                       onClick={()=> setIsOpenEditDialog(false)}
                     >
                       Close

@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
          
         //     info("Attempted to lazy load [{$relation}] on model [{$class}].");
         // });
+        
         Model::preventLazyLoading(! $this->app->isProduction());
     }
 }

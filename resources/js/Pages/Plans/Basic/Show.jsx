@@ -21,6 +21,7 @@ export default function Show({
     plan_master_texts,
     plan_details,
     planWithSum,
+    persentase,
 }) {
     const { data, setData, post, patch, processing, reset, errors } = useForm(
         {}
@@ -42,7 +43,7 @@ export default function Show({
     const formatRupiahBid = new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
-    }).format(bid);
+    }).format(bid * (100 + persentase) / 100);
 
     const confirmHandler = (e) => {
         e.preventDefault();
@@ -400,12 +401,13 @@ export default function Show({
                                                     <div className="inline mt-1 ml-1 text-xs font-semibold text-sky-500">
                                                         {bid && formatRupiahBid}{" "}
                                                         <span className="inline mt-1 ml-1 text-xs italic font-semibold text-sky-500">
-                                                            {bid &&
+                                                            {/* {bid 
+                                                            &&
                                                                 "(" +
                                                                     Terbilang(
-                                                                        bid
+                                                                        (bid)
                                                                     ) +
-                                                                    " Rupiah)"}
+                                                                    " Rupiah)"} */}
                                                         </span>
                                                     </div>
                                                 </div>

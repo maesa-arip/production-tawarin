@@ -6,8 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "barryvdh/laravel-snappy": "^1.0",
         "bavix/laravel-wallet": "^9.5",
         "guzzlehttp/guzzle": "^7.2",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "hammerstone/fast-paginate": "^0.1.5",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^9.19",

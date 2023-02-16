@@ -52,6 +52,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'h' => 
+        array (
+            'h4cc\\WKHTMLToPDF\\' => 17,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -153,6 +157,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
             'Laravel\\Breeze\\' => 15,
             'LaravelDaily\\PermissionsUI\\' => 27,
         ),
+        'K' => 
+        array (
+            'Knp\\Snappy\\' => 11,
+        ),
         'I' => 
         array (
             'Intervention\\Image\\' => 19,
@@ -206,6 +214,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         array (
             'Brick\\Math\\' => 11,
             'Bavix\\Wallet\\' => 13,
+            'Barryvdh\\Snappy\\' => 16,
             'Barryvdh\\LaravelIdeHelper\\' => 26,
             'Barryvdh\\Debugbar\\' => 18,
         ),
@@ -224,6 +233,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'h4cc\\WKHTMLToPDF\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64',
         ),
         'ZipStream\\' => 
         array (
@@ -522,6 +535,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         array (
             0 => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src',
         ),
+        'Knp\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
+        ),
         'Intervention\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
@@ -644,6 +661,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         array (
             0 => __DIR__ . '/..' . '/bavix/laravel-wallet/src',
         ),
+        'Barryvdh\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src',
+        ),
         'Barryvdh\\LaravelIdeHelper\\' => 
         array (
             0 => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src',
@@ -702,9 +723,11 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'App\\Http\\Controllers\\Permissions\\RoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Permissions/RoleController.php',
         'App\\Http\\Controllers\\Permissions\\RolePermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Permissions/RolePermissionController.php',
         'App\\Http\\Controllers\\Permissions\\UserRoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Permissions/UserRoleController.php',
+        'App\\Http\\Controllers\\PlanRevisionResultController' => __DIR__ . '/../..' . '/app/Http/Controllers/PlanRevisionResultController.php',
         'App\\Http\\Controllers\\Plan\\Admin\\PlanAdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/Admin/PlanAdminController.php',
         'App\\Http\\Controllers\\Plan\\BidPlanController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/BidPlanController.php',
         'App\\Http\\Controllers\\Plan\\PlanBidController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanBidController.php',
+        'App\\Http\\Controllers\\Plan\\PlanContractController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanContractController.php',
         'App\\Http\\Controllers\\Plan\\PlanController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanController.php',
         'App\\Http\\Controllers\\Plan\\PlanRejectController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanRejectController.php',
         'App\\Http\\Controllers\\Plan\\PlanResultController' => __DIR__ . '/../..' . '/app/Http/Controllers/Plan/PlanResultController.php',
@@ -778,8 +801,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'App\\Models\\Plan\\Plan' => __DIR__ . '/../..' . '/app/Models/Plan/Plan.php',
         'App\\Models\\Plan\\PlanBid' => __DIR__ . '/../..' . '/app/Models/Plan/PlanBid.php',
         'App\\Models\\Plan\\PlanCategory' => __DIR__ . '/../..' . '/app/Models/Plan/PlanCategory.php',
+        'App\\Models\\Plan\\PlanContract' => __DIR__ . '/../..' . '/app/Models/Plan/PlanContract.php',
         'App\\Models\\Plan\\PlanDetail' => __DIR__ . '/../..' . '/app/Models/Plan/PlanDetail.php',
         'App\\Models\\Plan\\PlanMaster' => __DIR__ . '/../..' . '/app/Models/Plan/PlanMaster.php',
+        'App\\Models\\Plan\\PlanMasterRoom' => __DIR__ . '/../..' . '/app/Models/Plan/PlanMasterRoom.php',
         'App\\Models\\Plan\\PlanReject' => __DIR__ . '/../..' . '/app/Models/Plan/PlanReject.php',
         'App\\Models\\Plan\\PlanResult' => __DIR__ . '/../..' . '/app/Models/Plan/PlanResult.php',
         'App\\Models\\Plan\\PlanRevision' => __DIR__ . '/../..' . '/app/Models/Plan/PlanRevision.php',
@@ -793,6 +818,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'App\\Models\\Toko\\Product' => __DIR__ . '/../..' . '/app/Models/Toko/Product.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Notifications\\DepositConfirmNotification' => __DIR__ . '/../..' . '/app/Notifications/DepositConfirmNotification.php',
+        'App\\Notifications\\Plan\\PlanBidNotification' => __DIR__ . '/../..' . '/app/Notifications/Plan/PlanBidNotification.php',
         'App\\Notifications\\Plan\\PlanConfirmedNotification' => __DIR__ . '/../..' . '/app/Notifications/Plan/PlanConfirmedNotification.php',
         'App\\Notifications\\Plan\\PlanNewNotification' => __DIR__ . '/../..' . '/app/Notifications/Plan/PlanNewNotification.php',
         'App\\Notifications\\Plan\\PlanNewToKonsultanNotification' => __DIR__ . '/../..' . '/app/Notifications/Plan/PlanNewToKonsultanNotification.php',
@@ -890,6 +916,15 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'Barryvdh\\Reflection\\DocBlock\\Tag\\VarTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VarTag.php',
         'Barryvdh\\Reflection\\DocBlock\\Tag\\VersionTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VersionTag.php',
         'Barryvdh\\Reflection\\DocBlock\\Type\\Collection' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Type/Collection.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyImage.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyPdf.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyImage.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyPdf.php',
+        'Barryvdh\\Snappy\\ImageWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ImageWrapper.php',
+        'Barryvdh\\Snappy\\LumenServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/LumenServiceProvider.php',
+        'Barryvdh\\Snappy\\PdfFaker' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/PdfFaker.php',
+        'Barryvdh\\Snappy\\PdfWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/PdfWrapper.php',
+        'Barryvdh\\Snappy\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ServiceProvider.php',
         'Bavix\\Wallet\\Commands\\TransferFixCommand' => __DIR__ . '/..' . '/bavix/laravel-wallet/src/Commands/TransferFixCommand.php',
         'Bavix\\Wallet\\Exceptions\\AmountInvalid' => __DIR__ . '/..' . '/bavix/laravel-wallet/src/Exceptions/AmountInvalid.php',
         'Bavix\\Wallet\\Exceptions\\BalanceIsEmpty' => __DIR__ . '/..' . '/bavix/laravel-wallet/src/Exceptions/BalanceIsEmpty.php',
@@ -1197,6 +1232,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'Database\\Seeders\\PermissionsSeeder' => __DIR__ . '/../..' . '/database/seeders/PermissionsSeeder.php',
         'Database\\Seeders\\PlanCategorySeeder' => __DIR__ . '/../..' . '/database/seeders/PlanCategorySeeder.php',
         'Database\\Seeders\\PlanMasterSeeder' => __DIR__ . '/../..' . '/database/seeders/PlanMasterSeeder.php',
+        'Database\\Seeders\\PlanStepSeeder' => __DIR__ . '/../..' . '/database/seeders/PlanStepSeeder.php',
         'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DebugBar\\Bridge\\CacheCacheCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/CacheCacheCollector.php',
         'DebugBar\\Bridge\\DoctrineCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/DoctrineCollector.php',
@@ -3737,6 +3773,11 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'Intervention\\Image\\Point' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Point.php',
         'Intervention\\Image\\Response' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Response.php',
         'Intervention\\Image\\Size' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Size.php',
+        'Knp\\Snappy\\AbstractGenerator' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php',
+        'Knp\\Snappy\\Exception\\FileAlreadyExistsException' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Exception/FileAlreadyExistsException.php',
+        'Knp\\Snappy\\GeneratorInterface' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/GeneratorInterface.php',
+        'Knp\\Snappy\\Image' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Image.php',
+        'Knp\\Snappy\\Pdf' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Pdf.php',
         'LaravelDaily\\PermissionsUI\\Controllers\\Controller' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Controllers/Controller.php',
         'LaravelDaily\\PermissionsUI\\Controllers\\PermissionController' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Controllers/PermissionController.php',
         'LaravelDaily\\PermissionsUI\\Controllers\\RoleController' => __DIR__ . '/..' . '/laraveldaily/laravel-permission-ui/src/Controllers/RoleController.php',
@@ -7093,6 +7134,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'ZipStream\\Option\\Version' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Option/Version.php',
         'ZipStream\\Stream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Stream.php',
         'ZipStream\\ZipStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/ZipStream.php',
+        'h4cc\\WKHTMLToPDF\\WKHTMLToPDF' => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64/WKHTMLToPDF.php',
         'phpDocumentor\\Reflection\\Element' => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src/Element.php',
         'phpDocumentor\\Reflection\\File' => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src/File.php',
         'phpDocumentor\\Reflection\\Fqsen' => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src/Fqsen.php',

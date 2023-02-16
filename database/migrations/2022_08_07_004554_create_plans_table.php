@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('jangka_waktu_penawaran');
             $table->integer('jangka_waktu_pelaksanaan');
             $table->integer('jumlah_revisi');
+            $table->integer('panjang');
+            $table->integer('lebar');
             $table->integer('luas_bangunan');
             $table->bigInteger('anggaran_proyek');
             // $table->bigInteger('acuan_anggaran');

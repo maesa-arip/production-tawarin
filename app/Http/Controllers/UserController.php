@@ -6,13 +6,14 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public $loadDefault = 10;
     public function index(Request $request)
     {
-        $query = User::query();
+        $query = User::query()->with('roles');
         if ($request->q) {
             $query->where('name','like','%'.$request->q.'%')
             ->orWhere('username','like','%'.$request->q.'%')
@@ -40,28 +41,47 @@ class UserController extends Controller
 
             ]
         ]);
-        return inertia('Users/Index',['users'=>$users]);
+        $roles = Role::get();
+        // $roles = Role::pluck('name', 'id');
+        return inertia('Users/Index',['users'=>$users, 'roles'=>$roles]);
+        // return inertia('Users/Index',['users'=>$users]);
     }
     public function store(UserRequest $request)
     {
         $atrributes = $request->toArray();
         $atrributes['password'] = bcrypt($request->password);
-        User::create($atrributes);
+        $user = User::create($atrributes);
+        $user->syncRoles($request->input('roles'));
 
         return back()->with([
             'type' => 'success',
             'message' => 'Users was created',
         ]);
     }
-    public function update(UserRequest $request, User $user)
-    {
-        $atrributes = $request->toArray();
-        $atrributes['password'] = bcrypt($request->password);
-        $user->update($atrributes);
+    // public function update(UserRequest $request, User $user)
+    // {
+    //     $atrributes = $request->toArray();
+    //     $atrributes['password'] = bcrypt($request->password);
+    //     $user->update($atrributes);
+    //     $user->syncRoles($request->input('roles'));
 
+    //     return back()->with([
+    //         'type' => 'success',
+    //         'message' => 'Users was updated',
+    //     ]);
+    // }
+    public function update(Request $request, User $user)
+    {
+        // dd($request->all());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'email','unique:users,email,'. optional($user)->id],
+        ]);
+        $user->update($validated);
+        $user->syncRoles($request->input('roles'));
         return back()->with([
             'type' => 'success',
-            'message' => 'Users was updated',
+            'message' => 'User berhasil diubah',
         ]);
     }
 

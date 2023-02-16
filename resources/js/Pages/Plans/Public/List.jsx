@@ -103,7 +103,7 @@ export default function List(props) {
                                         className={
                                             "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         }
-                                        href={route('plans.index')}
+                                        href={route("plans.index")}
                                     >
                                         Perencanaan Saya
                                         {/* <IconUserCircle className="w-4 h-4"/> */}
@@ -138,16 +138,16 @@ export default function List(props) {
                     <div className="w-1/3">
                         <div className="flex items-center justify-end gap-x-2">
                             <select
-                                    name="load"
-                                    id="load"
-                                    onChange={onChange}
-                                    value={params.load}
-                                    className="hidden transition duration-150 ease-in-out border-gray-300 rounded-lg md:flex focus:ring-blue-200 focus:ring form-select"
-                                >
-                                    {pageNumber.map((page, index) => (
-                                        <option key={index}>{page}</option>
-                                    ))}
-                                </select>
+                                name="load"
+                                id="load"
+                                onChange={onChange}
+                                value={params.load}
+                                className="hidden transition duration-150 ease-in-out border-gray-300 rounded-lg md:flex focus:ring-blue-200 focus:ring form-select"
+                            >
+                                {pageNumber.map((page, index) => (
+                                    <option key={index}>{page}</option>
+                                ))}
+                            </select>
                             <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
                                 <svg
                                     className="inline w-5 h-5 text-gray-500"
@@ -209,14 +209,17 @@ export default function List(props) {
                                                     </p>
                                                 </div>
                                             </div>
-                                            {plan.plan_bids_sum_is_approved == 1 ? (
-                                <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-yellow-500 rounded-lg select-none z-9">
-                                Sudah Ada Pemenang
-                            </span>
-                            ) : <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-blue-500 rounded-lg select-none z-9">
-                            {plan.until} Hari Lagi
-                        </span>}
-                                            
+                                            {plan.plan_bids_sum_is_approved ==
+                                            1 ? (
+                                                <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-yellow-500 rounded-lg select-none z-9">
+                                                    Pemenang Perencanaan Ini:{" "}
+                                                    {plan.winner.name}
+                                                </span>
+                                            ) : (
+                                                <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-blue-500 rounded-lg select-none z-9">
+                                                    {plan.until} Hari Lagi
+                                                </span>
+                                            )}
                                         </div>
                                         <div className="mt-4">
                                             <h2
@@ -274,7 +277,7 @@ export default function List(props) {
                                                 Hari Pengerjaan
                                             </span>
                                             <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-green-500 rounded-md bg-green-50">
-                                                {plan.jumlah_revisi} Kali Revisi1
+                                                {plan.plan_bids_count} Penawar
                                             </span>
                                         </div>
                                     </div>

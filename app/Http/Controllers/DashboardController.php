@@ -20,6 +20,7 @@ class DashboardController extends Controller
         $plans = Plan::query()
             ->with('plan_category')
             ->with('owner')
+            ->with('winner')
             ->with('plan_bids')
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->where('user_id', auth()->user()->id)

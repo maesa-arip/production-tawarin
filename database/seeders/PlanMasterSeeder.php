@@ -17,8 +17,8 @@ class PlanMasterSeeder extends Seeder
     {
         // PlanMaster::create(['name' => $name =  'Gambar Arsitektur','slug' => str($name)->slug(),'type'=>'checkbox']);
         PlanMaster::create(['name' => $name =  'Gambar Arsitektur','slug' => 'gambar_arsitektur','type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Gambar 3D Interior','slug' => 'gambar_3d_interior','type'=>'checkbox']);
-        PlanMaster::create(['name' => $name =  'Gambar 3D Exterior','slug' => 'gambar_3d_exterior','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Gambar Sipil','slug' => 'gambar_sipil','type'=>'checkbox']);
+        PlanMaster::create(['name' => $name =  'Metode Pelaksanaan','slug' => 'metode_pelaksanaan','type'=>'checkbox']);
         PlanMaster::create(['name' => $name =  'Animasi 3D','slug' => 'animasi_3d','type'=>'checkbox']);
         PlanMaster::create(['name' => $name =  'Gambar Struktur','slug' => 'gambar_struktur','type'=>'checkbox']);
         PlanMaster::create(['name' => $name =  'Gambar MEP','slug' => 'gambar_mep','type'=>'checkbox']);

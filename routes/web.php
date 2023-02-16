@@ -84,33 +84,33 @@ Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone']
 // End Example
 
 // Permissions
-Route::prefix('role-and-permission')->namespace('Permissions')->group(function () {
-    Route::get('permission-to-role', [RolePermissionController::class, 'index'])->name('assign.role.index');
-    Route::post('permission-to-role', [RolePermissionController::class, 'store']);
-    Route::get('permission-to-role/{role}/edit', [RolePermissionController::class, 'edit'])->name('assign.role.edit');
-    Route::put('permission-to-role/{role}/edit', [RolePermissionController::class, 'update']);
-    //User
-    Route::get('role-to-user', [UserRoleController::class, 'index'])->name('assign.user.index');
-    Route::post('role-to-user', [UserRoleController::class, 'store']);
-    Route::get('role-to-user/{user}/edit', [UserRoleController::class, 'edit'])->name('assign.user.edit');
-    Route::put('role-to-user/{user}/edit', [UserRoleController::class, 'update']);
+// Route::prefix('role-and-permission')->namespace('Permissions')->group(function () {
+//     Route::get('permission-to-role', [RolePermissionController::class, 'index'])->name('assign.role.index');
+//     Route::post('permission-to-role', [RolePermissionController::class, 'store']);
+//     Route::get('permission-to-role/{role}/edit', [RolePermissionController::class, 'edit'])->name('assign.role.edit');
+//     Route::put('permission-to-role/{role}/edit', [RolePermissionController::class, 'update']);
+//     //User
+//     Route::get('role-to-user', [UserRoleController::class, 'index'])->name('assign.user.index');
+//     Route::post('role-to-user', [UserRoleController::class, 'store']);
+//     Route::get('role-to-user/{user}/edit', [UserRoleController::class, 'edit'])->name('assign.user.edit');
+//     Route::put('role-to-user/{user}/edit', [UserRoleController::class, 'update']);
 
-    Route::prefix('roles')->group(function () {
-        Route::get('', [RoleController::class, 'index'])->name('roles.index');
-        Route::post('store', [RoleController::class, 'store'])->name('roles.store');
-        Route::get('{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
-        Route::put('{role}/edit', [RoleController::class, 'update'])->name('roles.update');
-        Route::delete('{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
-    });
+//     // Route::prefix('roles')->group(function () {
+//     //     Route::get('', [RoleController::class, 'index'])->name('roles.index');
+//     //     Route::post('store', [RoleController::class, 'store'])->name('roles.store');
+//     //     Route::get('{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+//     //     Route::put('{role}/edit', [RoleController::class, 'update'])->name('roles.update');
+//     //     Route::delete('{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+//     // });
 
-    Route::prefix('permissions')->group(function () {
-        Route::get('', [PermissionController::class, 'index'])->name('permissions.index');
-        Route::post('store', [PermissionController::class, 'store'])->name('permissions.store');
-        Route::get('{permission}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
-        Route::put('{permission}/edit', [PermissionController::class, 'update'])->name('permissions.update');
-        Route::delete('{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
-    });
-});
+//     // Route::prefix('permissions')->group(function () {
+//     //     Route::get('', [PermissionController::class, 'index'])->name('permissions.index');
+//     //     Route::post('store', [PermissionController::class, 'store'])->name('permissions.store');
+//     //     Route::get('{permission}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+//     //     Route::put('{permission}/edit', [PermissionController::class, 'update'])->name('permissions.update');
+//     //     Route::delete('{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+//     // });
+// });
 
 
 //Public List
@@ -138,11 +138,18 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('toko/products/me', [ProductController::class, 'mine'])->middleware('auth')->name('products.mine');
 Route::resource('toko/products', ProductController::class);
 
+
+Route::group(['middleware' => ['permission:atur hak akses user']], function () {
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('roles', RoleController::class);
+    Route::apiResource('permissions', PermissionController::class);
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
     Route::get('/profiles', [UserController::class,'profile'])->name('users.profiles');
-    Route::apiResource('users', UserController::class);
+   
     // Plans
     Route::Resource('adminplans', PlanAdminController::class);
     Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class,'confirmed'])->name('planadmin.confirmed');

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import App from "@/Layouts/App";
 import { Head, useForm } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
@@ -14,6 +14,7 @@ export default function Create({
     plan_master_checkboxs,
     plan_master_texts,
     plan_categories,
+    plan_master_rooms,
 }) {
     // const [enabled, setEnabled] = useState(false);
     const [anggaran, setAnggaran] = useState("");
@@ -22,13 +23,24 @@ export default function Create({
     const [acuanSampaiAnggaran, setAcuanSampaiAnggaran] = useState("");
     const [dariAnggaran, setDariAnggaran] = useState("");
     const [sampaiAnggaran, setSampaiAnggaran] = useState("");
+    const [panjang, setPanjang] = useState(0);
+    const [lebar, setLebar] = useState(0);
+    
 
-    const onChangeLuasBangunanHandler = (e) => {
-        setAcuanAnggaran(e.target.value * 4000000);
-        setAcuanDariAnggaran((e.target.value * 4000000 * 1) / 100);
-        setAcuanSampaiAnggaran((e.target.value * 4000000 * 3) / 100);
+    const onChangePanjangBangunanHandler = (e) => {
+        setPanjang(e.target.value);
         setData({ ...data, [e.target.id]: e.target.value });
     };
+    const onChangeLebarBangunanHandler = (e) => {
+        setLebar(e.target.value);
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    useEffect(() => {
+        setAcuanAnggaran(parseInt(panjang) * parseInt(lebar) * 4000000);
+        setAcuanDariAnggaran((parseInt(panjang) * parseInt(lebar) * 4000000 * 1) / 100);
+        setAcuanSampaiAnggaran((parseInt(panjang) * parseInt(lebar) * 4000000 * 3) / 100);
+        setData({ ...data, ["luas_bangunan"]: parseInt(panjang) * parseInt(lebar) });
+    }, [panjang, lebar]);
 
     const formatRupiahAcuanAnggaran = new Intl.NumberFormat("id-ID", {
         style: "currency",
@@ -92,6 +104,7 @@ export default function Create({
             },
         });
     };
+    // console.log(data)
 
     return (
         <div>
@@ -115,8 +128,8 @@ export default function Create({
                             <div className="mt-5 md:mt-0 md:col-span-2">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 bg-white sm:p-6">
-                                        <div className="grid grid-cols-6 gap-6">
-                                            <div className="col-span-6 sm:col-span-5">
+                                        <div className="grid grid-cols-12 gap-6">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="name"
                                                     className="block text-sm font-medium text-gray-700"
@@ -149,7 +162,7 @@ export default function Create({
                                                 )}
                                             </div>
 
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="plan_category_id"
                                                     className="block text-sm font-medium text-gray-700"
@@ -175,7 +188,7 @@ export default function Create({
                                                 )}
                                             </div>
 
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-4">
                                                 <label
                                                     htmlFor="jangka_waktu_penawaran"
                                                     className="block text-sm font-medium text-gray-700"
@@ -183,6 +196,7 @@ export default function Create({
                                                     Jangka Waktu Penawaran
                                                     (Hari)
                                                 </label>
+                                                
                                                 <input
                                                     type="number"
                                                     name="jangka_waktu_penawaran"
@@ -204,7 +218,7 @@ export default function Create({
                                                 )}
                                             </div>
 
-                                            <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-4">
                                                 <label
                                                     htmlFor="jangka_waktu_pelaksanaan"
                                                     className="block text-sm font-medium text-gray-700"
@@ -233,7 +247,7 @@ export default function Create({
                                                 )}
                                             </div>
 
-                                            <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-4">
                                                 <label
                                                     htmlFor="jumlah_revisi"
                                                     className="block text-sm font-medium text-gray-700"
@@ -260,12 +274,89 @@ export default function Create({
                                                 )}
                                             </div>
 
-                                            <div className="col-span-6 sm:col-span-3">
+                                            <div className="col-span-12 md:col-span-4">
+                                                <label
+                                                    htmlFor="panjang"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Panjang Tanah M
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="panjang"
+                                                    id="panjang"
+                                                    value={
+                                                        data.panjang ?? ""
+                                                    }
+                                                    onChange={
+                                                        onChangePanjangBangunanHandler
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.panjang && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.panjang}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4">
+                                                <label
+                                                    htmlFor="lebar"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Lebar Tanah M<sup></sup>
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="lebar"
+                                                    id="lebar"
+                                                    value={
+                                                        data.lebar ?? ""
+                                                    }
+                                                    onChange={
+                                                        onChangeLebarBangunanHandler
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.lebar && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.lebar}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4">
                                                 <label
                                                     htmlFor="luas_bangunan"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Luas Bangunan M<sup>2</sup>
+                                                    Luas Tanah M<sup>2</sup>
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="luas_bangunan"
+                                                    id="luas_bangunan"
+                                                    readOnly
+                                                    value={
+                                                        data.luas_bangunan ?? ""
+                                                    }
+                                                    
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-500 rounded-md shadow-sm ring-gray-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                                                />
+                                                {errors.luas_bangunan && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.luas_bangunan}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="luas_bangunan"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Perkiraan Luas Bangunan M<sup>2</sup>
                                                 </label>
                                                 <input
                                                     type="number"
@@ -274,11 +365,9 @@ export default function Create({
                                                     value={
                                                         data.luas_bangunan ?? ""
                                                     }
-                                                    onChange={
-                                                        onChangeLuasBangunanHandler
-                                                    }
+                                                    
                                                     autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    className="block w-full mt-1 border-gray-500 rounded-md shadow-sm ring-gray-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                                 />
                                                 {errors.luas_bangunan && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
@@ -286,8 +375,8 @@ export default function Create({
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="block w-full col-span-6 px-2 py-1 mt-1 border-2 border-gray-500 rounded-md shadow-sm ring-gray-500 sm:text-sm sm:col-span-6 lg:col-span-3">
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                            <div className="block w-full col-span-12 px-2 py-1 mt-1 border-2 border-gray-500 rounded-md shadow-sm ring-gray-500 sm:text-sm md:col-span-6">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="acuan_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
@@ -308,7 +397,7 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="acuan_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
@@ -330,7 +419,7 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="acuan_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
@@ -353,7 +442,7 @@ export default function Create({
                                                 </div>
                                             </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="anggaran_proyek"
                                                     className="block text-sm font-medium text-gray-700"
@@ -370,7 +459,6 @@ export default function Create({
                                                     onWheel={(e) =>
                                                         e.target.blur()
                                                     }
-                                                    min="1000000"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -392,7 +480,7 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="dari_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
@@ -424,7 +512,6 @@ export default function Create({
                                                     onWheel={(e) =>
                                                         e.target.blur()
                                                     }
-                                                    min="1000000"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -446,7 +533,7 @@ export default function Create({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                                            <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="sampai_anggaran"
                                                     className="block text-sm font-medium text-gray-700"
@@ -464,7 +551,6 @@ export default function Create({
                                                     onWheel={(e) =>
                                                         e.target.blur()
                                                     }
-                                                    min="1000000"
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 />
@@ -604,6 +690,81 @@ export default function Create({
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
+                                        Kebutuhan Ruang
+                                    </h3>
+                                    <p className="mt-1 text-sm text-gray-600">
+                                        Silakan centang dan isi kebutuhan
+                                        perencanaanmu, agar para konsultan yang
+                                        menawar bisa menyiapkan data sesuai
+                                        dengan kebutuhanmu.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="mt-5 md:mt-0 md:col-span-2">
+                                <div className="overflow-hidden shadow sm:rounded-md">
+                                    <div className="grid grid-cols-12 py-5 bg-white gap-y-8">
+                                        {plan_master_rooms.map(
+                                            (plan_master_room, i) => (
+                                                <div className="col-span-12 px-6 md:col-span-6 lg:col-span-4" key={plan_master_room.id}>
+                                                    <label
+                                                        htmlFor={
+                                                            plan_master_room.slug
+                                                        }
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        {plan_master_room.name}
+                                                    </label>
+                                                    <div className="mt-1">
+                                                    <input
+                                                    type="number"
+                                                    key={
+                                                        plan_master_room.id
+                                                    }
+                                                    id={
+                                                        plan_master_room.slug
+                                                    }
+                                                    name={
+                                                        plan_master_room.slug
+                                                    }
+                                                    onChange={onChange}
+                                                    value={
+                                                        plan_master_room.count ?? ""
+                                                    }
+                                                    
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.plan_master_room && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.plan_master_room}
+                                                    </span>
+                                                )}
+                                                        
+                                                    </div>
+                                                    {/* <p className="mt-0 text-sm text-gray-500">
+                                                        Masukan Jumlah{" "}
+                                                        {plan_master_room.name}{" "}
+                                                        yang diperlukan.
+                                                    </p> */}
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="hidden sm:block" aria-hidden="true">
+                        <div className="py-5">
+                            <div className="border-t border-gray-200" />
+                        </div>
+                    </div>
+                    <div className="mt-10 sm:mt-0">
+                        <div className="md:grid md:grid-cols-3 md:gap-6">
+                            <div className="md:col-span-1">
+                                <div className="px-4 sm:px-0">
+                                    <h3 className="text-lg font-medium leading-6 text-gray-900">
                                         Gambar Perencanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
@@ -641,7 +802,7 @@ export default function Create({
                                                         inputname={"document"}
                                                         allowMultiple={true}
                                                         maxFiles={"5"}
-                                                        required={true}
+                                                        // required={true}
                                                     />
                                                     <div className="flex justify-center text-sm text-gray-600">
                                                         <label

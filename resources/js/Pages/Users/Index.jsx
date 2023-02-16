@@ -11,6 +11,11 @@ import EditModal from "@/Components/Modal/EditModal";
 import DestroyModal from "@/Components/Modal/DestroyModal";
 import Button from "@/Components/Button";
 import Pagination from "@/Components/Pagination";
+import Create from "./Create";
+import Edit from "./Edit";
+import DangerButton from "@/Components/DangerButton";
+import Dropdown from "@/Components/Dropdown";
+import ThirdButton from "@/Components/ThirdButton";
 
 const UpIcon = () => (
     <svg
@@ -43,6 +48,7 @@ const DownIcon = () => (
 
 export default function Index(props) {
     const { data: people, meta, filtered, attributes } = props.users;
+    const roles = props.roles;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
 
@@ -109,23 +115,14 @@ export default function Index(props) {
     return (
         <>
             <Head title="User" />
-            <Container>
-                Users{" "}
-                <button
-                    type="button"
-                    onClick={openAddDialog}
-                    className="px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                >
-                    Add User
-                </button>
-            </Container>
             <AddModal
                 isOpenAddDialog={isOpenAddDialog}
                 setIsOpenAddDialog={setIsOpenAddDialog}
-                size="2xl"
-                title={"Add User"}
+                size="max-w-4xl"
+                title="Tambah User"
             >
-                <CreateUser
+                <Create
+                    roles={roles}
                     isOpenAddDialog={isOpenAddDialog}
                     setIsOpenAddDialog={setIsOpenAddDialog}
                 />
@@ -133,10 +130,11 @@ export default function Index(props) {
             <EditModal
                 isOpenEditDialog={isOpenEditDialog}
                 setIsOpenEditDialog={setIsOpenEditDialog}
-                size="2xl"
+                size="max-w-4xl"
                 title={"Edit User"}
             >
-                <EditeUser
+                <Edit
+                    roles={roles}
                     model={state}
                     isOpenEditDialog={isOpenEditDialog}
                     setIsOpenEditDialog={setIsOpenEditDialog}
@@ -145,23 +143,31 @@ export default function Index(props) {
             <DestroyModal
                 isOpenDestroyDialog={isOpenDestroyDialog}
                 setIsOpenDestroyDialog={setIsOpenDestroyDialog}
-                size="2xl"
-                title={"Delete User"}
+                size="max-w-4xl"
+                title="Delete User"
+                warning="Yakin hapus data ini ?"
             >
-                <Button color={"pink"} onClick={destroyUser}>
+                <DangerButton className="ml-2" onClick={destroyUser}>
                     Delete
-                </Button>
-                {/* <button onClick={destroyUser} className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
-                        Delete
-                </button> */}
+                </DangerButton>
             </DestroyModal>
 
             <div className="py-12">
                 <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-end">
+                <div className="flex items-center justify-between mb-2">
                         <div className="w-1/2">
-                            <div className="flex items-center justify-end mb-6 gap-x-2">
-                                {/* <select
+                            <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
+                                <ThirdButton
+                                    type="button"
+                                    onClick={openAddDialog}
+                                >
+                                    Tambah
+                                </ThirdButton>
+                            </div>
+                        </div>
+                        <div className="w-1/2">
+                            <div className="flex items-center justify-end mt-2 mb-0 gap-x-1">
+                                <select
                                     name="load"
                                     id="load"
                                     onChange={onChange}
@@ -189,21 +195,22 @@ export default function Index(props) {
                                     </svg>
                                     <input
                                         type="text"
+                                        autoComplete="off"
                                         name="q"
                                         id="q"
                                         onChange={onChange}
                                         value={params.q}
                                         className="w-full border-0 focus:ring-0 form-text"
                                     />
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col p-1">
-                        <div className="-my-2 overflow-x-auto rounded sm:-mx-6 lg:-mx-8">
+                    <div className="flex flex-col">
+                        <div className="-my-2 sm:-mx-6 lg:-mx-8">
                             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                                <div className="border-b border-gray-200 shadow sm:rounded-lg">
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead className="bg-gray-50">
                                             <tr>
@@ -326,7 +333,7 @@ export default function Index(props) {
                                                             sort("created_at")
                                                         }
                                                     >
-                                                        Joined
+                                                        Roles
                                                         {params.field ==
                                                             "created_at" &&
                                                             params.direction ==
@@ -346,7 +353,7 @@ export default function Index(props) {
                                                     className="relative px-6 py-3"
                                                 >
                                                     <span className="sr-only">
-                                                        Edit
+                                                       
                                                     </span>
                                                 </th>
                                             </tr>
@@ -369,30 +376,55 @@ export default function Index(props) {
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {person.email}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        {person.joined}
+                                                    <td>
+                                                        {person.roles.map(
+                                                            (role, index) => (
+                                                                <span
+                                                                    key={index}
+                                                                    className="px-2 py-1 mx-1 text-xs text-blue-500 uppercase rounded-full bg-blue-50"
+                                                                >
+                                                                    {role.name}
+                                                                </span>
+                                                            )
+                                                        )}
                                                     </td>
                                                     <td>
-                                                        <button
-                                                            className="flex items-center gap-x-2"
-                                                            onClick={() =>
-                                                                openEditDialog(
-                                                                    person
-                                                                )
-                                                            }
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        <button
-                                                            className="flex items-center gap-x-2"
-                                                            onClick={() =>
-                                                                openDestroyDialog(
-                                                                    person
-                                                                )
-                                                            }
-                                                        >
-                                                            Delete
-                                                        </button>
+                                                        <Dropdown>
+                                                            <Dropdown.Trigger>
+                                                                <button>
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-4 h-4 text-gray-400"
+                                                                        viewBox="0 0 20 20"
+                                                                        fill="currentColor"
+                                                                    >
+                                                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                                    </svg>
+                                                                </button>
+                                                            </Dropdown.Trigger>
+                                                            <Dropdown.Content>
+                                                                <button
+                                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                    onClick={() =>
+                                                                        openEditDialog(
+                                                                            person
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    Edit
+                                                                </button>
+                                                                <button
+                                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                    onClick={() =>
+                                                                        openDestroyDialog(
+                                                                            person
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    Hapus
+                                                                </button>
+                                                            </Dropdown.Content>
+                                                        </Dropdown>
                                                     </td>
                                                 </tr>
                                             ))}

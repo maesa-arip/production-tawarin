@@ -20,6 +20,7 @@ class HomeController extends Controller
         $plans = Plan::query()
             ->with('plan_category')
             ->with('owner')
+            ->with('winner')
             ->with('media')
             ->where('is_approved', 1)
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))

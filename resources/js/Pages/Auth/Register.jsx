@@ -11,6 +11,7 @@ export default function Register() {
         name: '',
         email: '',
         username: '',
+        phone: '',
         password: '',
         password_confirmation: '',
     });
@@ -60,6 +61,19 @@ export default function Register() {
                         value={data.username}
                         className="block w-full mt-1"
                         autoComplete="username"
+                        isFocused={true}
+                        onChange={onChange}
+                        required
+                    />
+                </div>
+                <div className="mt-4">
+                    <Label forInput="phone" value="Phone" />
+                    <Input
+                        type="text"
+                        name="phone"
+                        value={data.phone}
+                        className="block w-full mt-1"
+                        autoComplete="phone"
                         isFocused={true}
                         onChange={onChange}
                         required

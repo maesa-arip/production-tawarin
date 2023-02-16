@@ -23,6 +23,7 @@ class PlanAdminController extends Controller
         $plans = Plan::query()
             ->with('plan_category')
             ->with('owner')
+            ->with('winner')
             ->doesnthave('planReject')
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
             ->where('is_approved',0)

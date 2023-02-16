@@ -17,40 +17,40 @@ class PlanCategorySeeder extends Seeder
     {
         collect([
             [
-                'name' => 'Ritel',
-                'slug' => 'ritel'
+                'name' => 'Proyek Konstruksi Teknik Sipil',
+                'slug' => 'proyek-konstruksi-teknik-sipil'
             ],
             [
-                'name' => 'F&B',
-                'slug' => 'f&b'
+                'name' => 'Proyek Konstruksi Bangunan Gedung',
+                'slug' => 'proyek-konstruksi-bangunan-gedung'
             ],
             [
-                'name' => 'Laundry',
-                'slug' => 'laundry'
+                'name' => 'Proyek Konstruksi Jalan Raya',
+                'slug' => 'proyek-konstruksi-jalan-raya'
             ],
             [
-                'name' => 'Mekanik',
-                'slug' => 'mekanik'
+                'name' => 'Proyek Konstruksi Perumahan',
+                'slug' => 'proyek-konstruksi-perumahan'
             ],
             [
-                'name' => 'Jasa',
-                'slug' => 'jasa'
+                'name' => 'Proyek Konstruksi Bangunan Industri',
+                'slug' => 'proyek-konstruksi-bangunan-industri'
             ],
             [
-                'name' => 'Agrikultur',
-                'slug' => 'agrikultur'
+                'name' => 'Proyek Konstruksi Bangunan Air',
+                'slug' => 'proyek-konstruksi-bangunan-air'
             ],
             [
-                'name' => 'Beauty Care',
-                'slug' => 'beauty-care'
+                'name' => 'Proyek Konstruksi Jembatan',
+                'slug' => 'proyek-konstruksi-jembatan'
             ],
             [
-                'name' => 'Pendidikan',
-                'slug' => 'pendidikan'
+                'name' => 'Proyek Konstruksi Sekolah',
+                'slug' => 'proyek-konstruksi-sekolah'
             ],
             [
-                'name' => 'Teknologi',
-                'slug' => 'teknologi'
+                'name' => 'Proyek Konstruksi Rumah Sakit',
+                'slug' => 'proyek-konstruksi-rumah-sakit'
             ],
         ])->each(fn ($q)=>PlanCategory::create($q));
     }

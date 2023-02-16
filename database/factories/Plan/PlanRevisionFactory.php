@@ -17,7 +17,7 @@ class PlanRevisionFactory extends Factory
     public function definition()
     {
         return [
-            'plan_detail_id' => rand(1, 10),
+            'plan_result_id' => rand(1, 10),
             'description' => str($this->faker->sentence(4))->title(),
             'created_at' => now(),
         ];

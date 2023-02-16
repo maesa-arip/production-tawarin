@@ -38,10 +38,15 @@ class PlanResource extends JsonResource
                 'id' => $this->owner->id,
                 'name' => $this->owner->name,
             ],
+            'winner' => [
+                'id' => $this->winner ? $this->winner->id : '',
+                'name' => $this->winner ? $this->winner->name : '',
+            ],
             'created_at' => $this->created_at->diffForHumans(),
             'until' =>  ($this->created_at->addDays($this->jangka_waktu_penawaran))->diffInDays(Carbon::now()),
             'media'  => $this->getFirstMediaUrl('contohgambar'),
             // 'media' => PlanResource::collection($this->whenLoaded('media')),
         ];
+        // return parent::toArray($request);
     }
 }

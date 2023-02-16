@@ -31,6 +31,8 @@ class PlanRequest extends FormRequest
             'jangka_waktu_penawaran' => ['required'],
             'jangka_waktu_pelaksanaan' => ['required'],
             'jumlah_revisi' => ['required'],
+            'panjang' => ['required'],
+            'lebar' => ['required'],
             'luas_bangunan' => ['required'],
             'anggaran_proyek' => ['required'],
             // 'acuan_anggaran' => ['required'],

@@ -17,53 +17,73 @@ class UserSeeder extends Seeder
     {
         collect([
             [
+                'name' => 'Tawarin',
+                'username' => 'tawarin',
+                'address' => 'Jalan Kunti',
+                'email' => 'tawarinfirst@gmail.com',
+                'phone' => '089',
+                'email_verified_at' => now(),
+                'password' => bcrypt('JustDoItTawarin')
+            ],
+            [
                 'name' => 'Maesa',
                 'username' => 'maesa',
                 'address' => 'Pemogan',
-                'email' => 'maesa@gmail.com',
+                'email' => 'mahesa.deary@gmail.com',
+                'phone' => '089629258211',
                 'email_verified_at' => now(),
                 'password' => bcrypt('password')
             ],
             [
-                'name' => 'Ari',
-                'username' => 'ari',
-                'address' => 'Pemogan',
-                'email' => 'ari@gmail.com',
+                'name' => 'agus suryawan',
+                'username' => 'Agus surya',
+                'address' => 'Perum Taman Uma Dewi Residance Gang 4 No 2, Jalan Penganyutan Buduk Mengwi Badung Bali',
+                'email' => 'agus.suryawan.supit@gmail.com',
+                'phone' => '089',
                 'email_verified_at' => now(),
-                'password' => bcrypt('password')
+                'password' => '$2y$10$vLY.RIcod0jTvA1lQZQP6OzTm9aMzn7JfyQXOl.NuDIdufywiRIZK'
             ],
             [
-                'name' => 'Owner1',
-                'username' => 'owner1',
-                'address' => 'Pemogan',
-                'email' => 'owner1@gmail.com',
+                'name' => 'I Nyoman Wisnu Bawa',
+                'username' => 'WISNU',
+                'address' => 'Jl. Mayang sari no 23',
+                'email' => 'anjaarchitect83@gmail.com',
+                'phone' => '089',
                 'email_verified_at' => now(),
-                'password' => bcrypt('password')
+                'password' => '$2y$10$o/FsxdWv9fvIzJMB/pmbvu6kkCov/fy.4EKRGtX61FtOJfty0tWxK'
             ],
-            [
-                'name' => 'Owner2',
-                'username' => 'owner2',
-                'address' => 'Pemogan',
-                'email' => 'owner2@gmail.com',
-                'email_verified_at' => now(),
-                'password' => bcrypt('password')
-            ],
-            [
-                'name' => 'Konsultan1',
-                'username' => 'konsultan1',
-                'address' => 'Pemogan',
-                'email' => 'konsultan1@gmail.com',
-                'email_verified_at' => now(),
-                'password' => bcrypt('password')
-            ],
-            [
-                'name' => 'Konsultan2',
-                'username' => 'konsultan2',
-                'address' => 'Pemogan',
-                'email' => 'konsultan2@gmail.com',
-                'email_verified_at' => now(),
-                'password' => bcrypt('password')
-            ],
+            // [
+            //     'name' => 'Owner1',
+            //     'username' => 'owner1',
+            //     'address' => 'Pemogan',
+            //     'email' => 'owner1@gmail.com',
+            //     'email_verified_at' => now(),
+            //     'password' => bcrypt('password')
+            // ],
+            // [
+            //     'name' => 'Owner2',
+            //     'username' => 'owner2',
+            //     'address' => 'Pemogan',
+            //     'email' => 'owner2@gmail.com',
+            //     'email_verified_at' => now(),
+            //     'password' => bcrypt('password')
+            // ],
+            // [
+            //     'name' => 'Konsultan1',
+            //     'username' => 'konsultan1',
+            //     'address' => 'Pemogan',
+            //     'email' => 'konsultan1@gmail.com',
+            //     'email_verified_at' => now(),
+            //     'password' => bcrypt('password')
+            // ],
+            // [
+            //     'name' => 'Konsultan2',
+            //     'username' => 'konsultan2',
+            //     'address' => 'Pemogan',
+            //     'email' => 'konsultan2@gmail.com',
+            //     'email_verified_at' => now(),
+            //     'password' => bcrypt('password')
+            // ],
         ])->each(fn ($q)=>User::create($q));
     }
 }

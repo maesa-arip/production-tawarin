@@ -32,6 +32,7 @@ class User extends Authenticatable implements Wallet, Confirmable
         'email',
         'password',
         'username',
+        'phone',
         'address'
     ];
 

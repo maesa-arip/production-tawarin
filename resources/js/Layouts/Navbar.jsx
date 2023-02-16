@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePage } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/inertia-react";
 import NavLink from "@/Components/NavLink";
 import NavLinkMobile from "@/Components/NavLinkMobile";
 import DropdownMenu from "@/Components/DropdownMenu";
@@ -24,12 +24,14 @@ import Dropdown from "@/Components/Dropdown";
 import MenuLogo from "@/Components/MenuLogo";
 
 export default function Navbar() {
-    const { auth, categories_global, carts_global_count, notifications_count } =
+    const { auth, categories_global, carts_global_count, notifications_count,permissions } =
         usePage().props;
     const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
     const openMenuModal = () => {
         setIsOpenMenuModal(true);
     };
+    
+    const permission_name = permissions ? permissions.map((permission) => permission.name) : "null";
     return (
         <>
             <Popover className="relative bg-white">
@@ -98,8 +100,11 @@ export default function Navbar() {
                             className="hidden space-x-10 md:flex"
                         >
                             {/* <NavLink href="/">Home</NavLink> */}
+                            {auth.user && 
                             <NavLink href="/wallets">Saldo</NavLink>
-                            <NavLink href="/permissions">Permissions</NavLink>
+                        }
+                            {/* <NavLink href="/permissions">Permissions</NavLink> */}
+
 
                             {/* <DropdownMenu label={"Perencanaan"}>
                                 <DropdownMenu.Link href="/plans">
@@ -112,6 +117,58 @@ export default function Navbar() {
                                     Buat Perencanaan
                                 </DropdownMenu.Link>
                             </DropdownMenu> */}
+                            {permission_name.indexOf(
+                                "atur hak akses"
+                            ) > -1 &&
+                            <div className="hidden sm:flex sm:items-center sm:ml-6">
+                                <div className="relative ml-3">
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <span className="inline-flex rounded-md">
+                                                <button
+                                                    type="button"
+                                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
+                                                >
+                                                    Permission
+                                                    <svg
+                                                        className="ml-2 -mr-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clipRule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            <Link className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                href={route("users.index")}
+                                            >
+                                                Users
+                                            </Link>
+                                            <Link className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                href={route("roles.index")}
+                                            >
+                                                Roles
+                                            </Link>
+                                            <Link className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                href={route("permissions.index")}
+                                            >
+                                                Permissions
+                                            </Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                </div>
+                            </div>
+}
+{permission_name.indexOf(
+                                "lihat menu perencanaan"
+                            ) > -1 &&
                             <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
@@ -151,6 +208,10 @@ export default function Navbar() {
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
+}
+{permission_name.indexOf(
+                                "lihat menu pendanaan"
+                            ) > -1 &&
                             <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
@@ -187,6 +248,7 @@ export default function Navbar() {
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
+}
                             {/* <NavLink href="/projects/choose">Proyek</NavLink>
                             <NavLink href="/">Keahlian</NavLink>
                             <NavLink href="/toko/products">Toko</NavLink>
@@ -226,6 +288,9 @@ export default function Navbar() {
                                     Withdraw
                                 </DropdownMenu.Link>
                             </DropdownMenu> */}
+                            {permission_name.indexOf(
+                                "lihat menu admin saldo"
+                            ) > -1 &&
                             <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
@@ -259,6 +324,10 @@ export default function Navbar() {
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
+}
+{permission_name.indexOf(
+                                "lihat menu admin general"
+                            ) > -1 &&
                             <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
@@ -289,6 +358,7 @@ export default function Navbar() {
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
+}
                             {/* <DropdownMenu label={"Hak Akses"}>
                                 <DropdownMenu.Link href="/role-and-permission/roles">
                                     Roles

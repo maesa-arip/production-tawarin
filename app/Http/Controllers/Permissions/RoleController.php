@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Permissions;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Permission\RoleResource;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -12,20 +13,19 @@ class RoleController extends Controller
     public $loadDefault = 10;
     public function index(Request $request)
     {
-        $query = Role::query();
+        $roles = Role::query()->with('permissions');
         if ($request->q) {
-            $query->where('name','like','%'.$request->q.'%')
-            ->orWhere('guard_name','like','%'.$request->q.'%')
+            $roles->where('name','like','%'.$request->q.'%')
             ;
         }
         if ($request->has(['field','direction'])) {
-            $query->orderBy($request->field,$request->direction);
+            $roles->orderBy($request->field,$request->direction);
         }
         $roles = (
-            RoleResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+            RoleResource::collection($roles->latest()->fastPaginate($request->load)->withQueryString())
         )->additional([
             'attributes' => [
-                'total' => Role::count(),
+                'total' => 1100,
                 'per_page' =>10,
             ],
             'filtered' => [
@@ -34,44 +34,41 @@ class RoleController extends Controller
                 'page' => $request->page ?? 1,
                 'field' => $request->field ?? '',
                 'direction' => $request->direction ?? '',
+
             ]
         ]);
-        return inertia('Permissions/Roles/Index',['roles'=>$roles]);
+        $permissions = Permission::get();
+        return inertia('Users/Roles/Index',['roles'=>$roles, 'permissions'=>$permissions]);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        request()->validate([
-            'name' => 'required',
+        $request->validate([
+            'name' => ['required', 'string'],
+            'permissions' => ['array'],
         ]);
-        Role::create([
-            'name' => request('name'),
-            'guard_name' => request('guard_name') ?? 'web',
-        ]);
+        $role = Role::create(['name' => $request->input('name')]);
+        $role->givePermissionTo($request->input('permissions'));
         return back()->with([
             'type' => 'success',
-            'message' => 'Role was created',
+            'message' => 'Role berhasil dibuat',
         ]);
     }
     public function edit(Role $role)
     {
-        return view('permission.roles.edit', [
-            'role' => $role,
-            'submit' => 'Update',
-        ]);
+        
     }
-    public function update(Role $role)
+    public function update(Request $request, Role $role)
     {
-        request()->validate([
-            'name' => 'required',
+        $request->validate([
+            'name' => ['required', 'string'],
+            'permissions' => ['array'],
         ]);
-        $role->update([
-            'name' => request('name'),
-            'guard_name' => request('guard_name') ?? 'web',
-        ]);
+        $role->update(['name' => $request->input('name')]);
+        $role->syncPermissions($request->input('permissions'));
         return back()->with([
             'type' => 'success',
-            'message' => 'Role was updated',
+            'message' => 'Role berhasil diubah',
         ]);
     }
 
@@ -80,7 +77,7 @@ class RoleController extends Controller
         $role->delete();
         return back()->with([
             'type' => 'success',
-            'message' => 'Role was deleted',
+            'message' => 'Role berhasil dihapus',
         ]);
     }
 }

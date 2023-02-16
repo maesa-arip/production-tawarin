@@ -167,7 +167,7 @@ function Footer() {
             </li>
           </ul>
 
-          <div className="mr-4 text-sm text-gray-600">Powered by <Link href='/' clLinkssName="text-blue-600 hover:underline hover:cursor-pointer">Tawarin</Link></div>
+          <div className="mr-4 text-sm text-gray-600">Powered by <Link href='/' className="text-blue-600 hover:underline hover:cursor-pointer">Tawarin</Link></div>
 
         </div>
 

@@ -11,10 +11,14 @@ use App\Models\Plan\PlanBid;
 use App\Models\Plan\PlanCategory;
 use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
+use App\Models\User;
+use App\Notifications\Plan\PlanBidNotification;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Notification;
 
 class PlanBidController extends Controller
 {
@@ -113,6 +117,12 @@ class PlanBidController extends Controller
         
         Session::remove('folder');
         Session::remove('filename');
+
+        $plan = Plan::find($request->plan_id);
+        $user = User::find($plan->user_id);
+        $user->notify(new PlanBidNotification($plan));
+        Cache::forget('notifications_count');
+
         return redirect('planbids')->with([
             'type' => 'success',
             'message' => 'Penawaran sudah terkirim',
