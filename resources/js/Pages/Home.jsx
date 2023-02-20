@@ -31,8 +31,13 @@ import {
 } from "@tabler/icons";
 import EmptyCard from "@/Components/EmptyCard";
 
+
+
 export default function Home(props) {
     const { data: plans } = props.plans;
+
+
+
     return (
         <>
             <Head>
@@ -42,7 +47,6 @@ export default function Home(props) {
                     content="Membuat perencanaan, proyek dan belanja dengan mudah."
                 />
             </Head>
-
             {/* <Head title="Home" /> */}
             <Container>
                 <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36">
@@ -1871,6 +1875,7 @@ export default function Home(props) {
                 <HideScrollBar />
             </Container>
             {/* <Marquee/> */}
+            
         </>
     );
 }

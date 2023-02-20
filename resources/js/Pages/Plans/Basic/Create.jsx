@@ -9,6 +9,9 @@ import Button from "@/Components/Button";
 import Filepond from "@/Pages/Uploads/Filepond";
 import ListBoxPage from "@/Components/ListBoxPage";
 import CurrencyInput from "react-currency-input-field";
+import ThirdButton from "@/Components/ThirdButton";
+import DangerButton from "@/Components/DangerButton";
+import { IconTrash } from "@tabler/icons";
 
 export default function Create({
     plan_master_checkboxs,
@@ -25,7 +28,6 @@ export default function Create({
     const [sampaiAnggaran, setSampaiAnggaran] = useState("");
     const [panjang, setPanjang] = useState(0);
     const [lebar, setLebar] = useState(0);
-    
 
     const onChangePanjangBangunanHandler = (e) => {
         setPanjang(e.target.value);
@@ -37,9 +39,16 @@ export default function Create({
     };
     useEffect(() => {
         setAcuanAnggaran(parseInt(panjang) * parseInt(lebar) * 4000000);
-        setAcuanDariAnggaran((parseInt(panjang) * parseInt(lebar) * 4000000 * 1) / 100);
-        setAcuanSampaiAnggaran((parseInt(panjang) * parseInt(lebar) * 4000000 * 3) / 100);
-        setData({ ...data, ["luas_bangunan"]: parseInt(panjang) * parseInt(lebar) });
+        setAcuanDariAnggaran(
+            (parseInt(panjang) * parseInt(lebar) * 4000000 * 1) / 100
+        );
+        setAcuanSampaiAnggaran(
+            (parseInt(panjang) * parseInt(lebar) * 4000000 * 3) / 100
+        );
+        setData({
+            ...data,
+            ["luas_bangunan"]: parseInt(panjang) * parseInt(lebar),
+        });
     }, [panjang, lebar]);
 
     const formatRupiahAcuanAnggaran = new Intl.NumberFormat("id-ID", {
@@ -104,12 +113,158 @@ export default function Create({
             },
         });
     };
-    // console.log(data)
+    console.log(data);
+    const [inputFields, setInputFields] = useState([{ name: "", age: "" }]);
+    const handleFormChange = (index, event) => {
+        let data = [...inputFields];
+        data[index][event.target.name] = event.target.value;
+        setInputFields(data);
+    };
+    const addFields = () => {
+        let newfield = { name: "", age: "" };
+
+        setInputFields([...inputFields, newfield]);
+    };
+    const submit = (e) => {
+        e.preventDefault();
+        console.log(inputFields);
+    };
+    const removeFields = (index) => {
+        let data = [...inputFields];
+        data.splice(index, 1);
+        setInputFields(data);
+    };
 
     return (
         <div>
             <Head title="Plan Create" />
+
             <Container>
+                <div className="mt-10 sm:mt-0">
+                    <div className="md:grid md:grid-cols-3 md:gap-6">
+                        <div className="md:col-span-1">
+                            <div className="px-4 sm:px-0">
+                                <h3 className="text-lg font-medium leading-6 text-gray-900">
+                                    Kebutuhan Ruang
+                                </h3>
+                                <p className="mt-1 text-sm text-gray-600">
+                                    Silakan centang dan isi kebutuhan
+                                    perencanaanmu, agar para konsultan yang
+                                    menawar bisa menyiapkan data sesuai dengan
+                                    kebutuhanmu.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mt-5 md:mt-0 md:col-span-2">
+                            <div className="overflow-hidden shadow sm:rounded-md">
+                                <div className="px-4 py-5 bg-white sm:p-6">
+                                    <div className="mb-4 justify-items-start">
+                                        {/* <form onSubmit={submit}> */}
+                                        <div className="flex my-2">
+                                                        <label
+                                                            // htmlFor="jangka_waktu_penawaran"
+                                                            className="block w-full text-sm font-medium text-gray-700"
+                                                        >
+                                                            Nama Kebutuhan Ruangan
+                                                        </label>
+                                                        <label
+                                                            // htmlFor="jangka_waktu_penawaran"
+                                                            className="block w-full text-sm font-medium text-gray-700"
+                                                        >
+                                                            Jumlah Ruangan
+                                                        </label>
+                                                        <label
+                                                            // htmlFor="jangka_waktu_penawaran"
+                                                            className="inline-flex items-center px-10 text-sm font-medium text-gray-700"
+                                                        >
+                                                            
+                                                        </label>
+                                                        </div>
+                                        {inputFields.map((input, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <div className="flex my-2">
+                                                        {/* <label
+                                                            // htmlFor="jangka_waktu_penawaran"
+                                                            className="block text-sm font-medium text-gray-700"
+                                                        >
+                                                            Nama
+                                                        </label> */}
+
+                                                        <input
+                                                        type="text"
+                                                            name="name"
+                                                            // placeholder="Nama Kebutuhan Ruangan"
+                                                            value={input.name}
+                                                            autoComplete="off"
+                                                            className="block w-full mt-1 mr-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            onChange={(event) =>
+                                                                handleFormChange(
+                                                                    index,
+                                                                    event
+                                                                )
+                                                            }
+                                                        />
+                                                        {/* <label
+                                                            // htmlFor="jangka_waktu_pelaksanaan"
+                                                            className="block text-sm font-medium text-gray-700"
+                                                        >
+                                                            Usia
+                                                        </label> */}
+                                                        <input
+                                                        type="text"
+                                                            name="age"
+                                                            // placeholder="Jumlah"
+                                                            value={input.age}
+                                                            autoComplete="off"
+                                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            onChange={(event) =>
+                                                                handleFormChange(
+                                                                    index,
+                                                                    event
+                                                                )
+                                                            }
+                                                        />
+                                                        <ThirdButton color="red" className="ml-4" onClick={() =>
+                                                                removeFields(
+                                                                    index
+                                                                )
+                                                            }><IconTrash/></ThirdButton>
+                                                        {/* <button
+                                                            onClick={() =>
+                                                                removeFields(
+                                                                    index
+                                                                )
+                                                            }
+                                                        >
+                                                            Remove
+                                                        </button> */}
+                                                    </div>
+
+                                                    
+                                                </div>
+
+                                                
+                                            );
+                                        })}
+                                        
+                                        {/* </form> */}
+                                    </div>
+                                    {/* <ThirdButton className="mr-4" onClick={submit}>Submit</ThirdButton> */}
+                                    <ThirdButton onClick={addFields}>Tambah</ThirdButton>
+                                </div>
+                                
+                                {/* <button onClick={addFields}>Add More..</button> */}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="hidden sm:block" aria-hidden="true">
+                    <div className="py-5">
+                        <div className="border-t border-gray-200" />
+                    </div>
+                </div>
                 <form onSubmit={onSubmitHandler}>
                     <div className="mt-10 sm:mt-0">
                         <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -196,7 +351,7 @@ export default function Create({
                                                     Jangka Waktu Penawaran
                                                     (Hari)
                                                 </label>
-                                                
+
                                                 <input
                                                     type="number"
                                                     name="jangka_waktu_penawaran"
@@ -285,9 +440,7 @@ export default function Create({
                                                     type="number"
                                                     name="panjang"
                                                     id="panjang"
-                                                    value={
-                                                        data.panjang ?? ""
-                                                    }
+                                                    value={data.panjang ?? ""}
                                                     onChange={
                                                         onChangePanjangBangunanHandler
                                                     }
@@ -311,9 +464,7 @@ export default function Create({
                                                     type="number"
                                                     name="lebar"
                                                     id="lebar"
-                                                    value={
-                                                        data.lebar ?? ""
-                                                    }
+                                                    value={data.lebar ?? ""}
                                                     onChange={
                                                         onChangeLebarBangunanHandler
                                                     }
@@ -341,7 +492,6 @@ export default function Create({
                                                     value={
                                                         data.luas_bangunan ?? ""
                                                     }
-                                                    
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-500 rounded-md shadow-sm ring-gray-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                                 />
@@ -356,7 +506,8 @@ export default function Create({
                                                     htmlFor="luas_bangunan"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Perkiraan Luas Bangunan M<sup>2</sup>
+                                                    Perkiraan Luas Bangunan M
+                                                    <sup>2</sup>
                                                 </label>
                                                 <input
                                                     type="number"
@@ -365,7 +516,6 @@ export default function Create({
                                                     value={
                                                         data.luas_bangunan ?? ""
                                                     }
-                                                    
                                                     autoComplete="off"
                                                     className="block w-full mt-1 border-gray-500 rounded-md shadow-sm ring-gray-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                                 />
@@ -376,71 +526,71 @@ export default function Create({
                                                 )}
                                             </div>
                                             <div className="block w-full col-span-12 px-2 py-1 mt-1 border-2 border-gray-500 rounded-md shadow-sm ring-gray-500 sm:text-sm md:col-span-6">
-                                            <div className="col-span-12 md:col-span-6">
-                                                <label
-                                                    htmlFor="acuan_anggaran"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Acuan Anggaran Proyek
-                                                </label>
-                                                
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                    {acuanAnggaran &&
-                                                        formatRupiahAcuanAnggaran}{" "}
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                <div className="col-span-12 md:col-span-6">
+                                                    <label
+                                                        htmlFor="acuan_anggaran"
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        Acuan Anggaran Proyek
+                                                    </label>
+
+                                                    <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
                                                         {acuanAnggaran &&
-                                                            "(" +
-                                                                Terbilang(
-                                                                    acuanAnggaran
-                                                                ) +
-                                                                " Rupiah)"}
-                                                    </span>
+                                                            formatRupiahAcuanAnggaran}{" "}
+                                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                            {acuanAnggaran &&
+                                                                "(" +
+                                                                    Terbilang(
+                                                                        acuanAnggaran
+                                                                    ) +
+                                                                    " Rupiah)"}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-span-12 md:col-span-6">
-                                                <label
-                                                    htmlFor="acuan_anggaran"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Acuan Anggaran Perencanaan
-                                                    (Dari)
-                                                </label>
-                                                
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                    {acuanDariAnggaran &&
-                                                        formatRupiahAcuanDariAnggaran}{" "}
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                <div className="col-span-12 md:col-span-6">
+                                                    <label
+                                                        htmlFor="acuan_anggaran"
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        Acuan Anggaran
+                                                        Perencanaan (Dari)
+                                                    </label>
+
+                                                    <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
                                                         {acuanDariAnggaran &&
-                                                            "(" +
-                                                                Terbilang(
-                                                                    acuanDariAnggaran
-                                                                ) +
-                                                                " Rupiah)"}
-                                                    </span>
+                                                            formatRupiahAcuanDariAnggaran}{" "}
+                                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                            {acuanDariAnggaran &&
+                                                                "(" +
+                                                                    Terbilang(
+                                                                        acuanDariAnggaran
+                                                                    ) +
+                                                                    " Rupiah)"}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-span-12 md:col-span-6">
-                                                <label
-                                                    htmlFor="acuan_anggaran"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Acuan Anggaran Perencanan
-                                                    (Sampai)
-                                                </label>
-                                                
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                    {acuanSampaiAnggaran &&
-                                                        formatRupiahAcuanSampaiAnggaran}{" "}
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                <div className="col-span-12 md:col-span-6">
+                                                    <label
+                                                        htmlFor="acuan_anggaran"
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        Acuan Anggaran
+                                                        Perencanan (Sampai)
+                                                    </label>
+
+                                                    <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
                                                         {acuanSampaiAnggaran &&
-                                                            "(" +
-                                                                Terbilang(
-                                                                    acuanSampaiAnggaran
-                                                                ) +
-                                                                " Rupiah)"}
-                                                    </span>
+                                                            formatRupiahAcuanSampaiAnggaran}{" "}
+                                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                            {acuanSampaiAnggaran &&
+                                                                "(" +
+                                                                    Terbilang(
+                                                                        acuanSampaiAnggaran
+                                                                    ) +
+                                                                    " Rupiah)"}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             </div>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
@@ -624,6 +774,9 @@ export default function Create({
                                                                 plan_master_checkbox.id
                                                             }
                                                             onChange={onChange}
+                                                            value={
+                                                                data.name ?? ""
+                                                            }
                                                             type="checkbox"
                                                             id={
                                                                 plan_master_checkbox.slug
@@ -706,7 +859,10 @@ export default function Create({
                                     <div className="grid grid-cols-12 py-5 bg-white gap-y-8">
                                         {plan_master_rooms.map(
                                             (plan_master_room, i) => (
-                                                <div className="col-span-12 px-6 md:col-span-6 lg:col-span-4" key={plan_master_room.id}>
+                                                <div
+                                                    className="col-span-12 px-6 md:col-span-6 lg:col-span-4"
+                                                    key={plan_master_room.id}
+                                                >
                                                     <label
                                                         htmlFor={
                                                             plan_master_room.slug
@@ -716,31 +872,32 @@ export default function Create({
                                                         {plan_master_room.name}
                                                     </label>
                                                     <div className="mt-1">
-                                                    <input
-                                                    type="number"
-                                                    key={
-                                                        plan_master_room.id
-                                                    }
-                                                    id={
-                                                        plan_master_room.slug
-                                                    }
-                                                    name={
-                                                        plan_master_room.slug
-                                                    }
-                                                    onChange={onChange}
-                                                    value={
-                                                        plan_master_room.count ?? ""
-                                                    }
-                                                    
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.plan_master_room && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.plan_master_room}
-                                                    </span>
-                                                )}
-                                                        
+                                                        <input
+                                                            type="number"
+                                                            key={
+                                                                plan_master_room.id
+                                                            }
+                                                            id={
+                                                                plan_master_room.slug
+                                                            }
+                                                            name={
+                                                                plan_master_room.slug
+                                                            }
+                                                            onChange={onChange}
+                                                            value={
+                                                                plan_master_room.count ??
+                                                                ""
+                                                            }
+                                                            autoComplete="off"
+                                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        />
+                                                        {errors.plan_master_room && (
+                                                            <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                                {
+                                                                    errors.plan_master_room
+                                                                }
+                                                            </span>
+                                                        )}
                                                     </div>
                                                     {/* <p className="mt-0 text-sm text-gray-500">
                                                         Masukan Jumlah{" "}
@@ -755,6 +912,7 @@ export default function Create({
                             </div>
                         </div>
                     </div>
+
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">
                             <div className="border-t border-gray-200" />

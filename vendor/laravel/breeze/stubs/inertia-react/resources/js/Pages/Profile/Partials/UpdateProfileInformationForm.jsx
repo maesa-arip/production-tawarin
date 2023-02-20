@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Link, useForm, usePage } from '@inertiajs/inertia-react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className }) {
@@ -16,6 +15,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
     const submit = (e) => {
         e.preventDefault();
+
         patch(route('profile.update'));
     };
 
@@ -35,13 +35,12 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
                     <TextInput
                         id="name"
-                        type="text"
                         className="mt-1 block w-full"
                         value={data.name}
                         handleChange={(e) => setData('name', e.target.value)}
                         required
-                        autofocus
-                        autocomplete="name"
+                        isFocused
+                        autoComplete="name"
                     />
 
                     <InputError className="mt-2" message={errors.name} />
@@ -57,7 +56,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         value={data.email}
                         handleChange={(e) => setData('email', e.target.value)}
                         required
-                        autocomplete="email"
+                        autoComplete="username"
                     />
 
                     <InputError className="mt-2" message={errors.email} />

@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import DangerButton from '@/Components/DangerButton';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
-import { useForm, usePage } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/react';
 
 export default function DeleteUserForm({ className }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
@@ -22,17 +22,13 @@ export default function DeleteUserForm({ className }) {
         password: '',
     });
 
-    const submit = (e) => {
-        e.preventDefault();
-        post(route('profile.destroy'));
-    };
-
     const confirmUserDeletion = () => {
         setConfirmingUserDeletion(true);
     };
 
     const deleteUser = (e) => {
         e.preventDefault();
+
         destroy(route('profile.destroy'), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
@@ -43,6 +39,7 @@ export default function DeleteUserForm({ className }) {
 
     const closeModal = () => {
         setConfirmingUserDeletion(false);
+
         reset();
     };
 
@@ -62,7 +59,7 @@ export default function DeleteUserForm({ className }) {
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
                 <form onSubmit={deleteUser} className="p-6">
                     <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        Are you sure your want to delete your account?
+                        Are you sure you want to delete your account?
                     </h2>
 
                     <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">

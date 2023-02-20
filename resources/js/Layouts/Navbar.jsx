@@ -24,14 +24,21 @@ import Dropdown from "@/Components/Dropdown";
 import MenuLogo from "@/Components/MenuLogo";
 
 export default function Navbar() {
-    const { auth, categories_global, carts_global_count, notifications_count,permissions } =
-        usePage().props;
+    const {
+        auth,
+        categories_global,
+        carts_global_count,
+        notifications_count,
+        permissions,
+    } = usePage().props;
     const [isOpenMenuModal, setIsOpenMenuModal] = useState(false);
     const openMenuModal = () => {
         setIsOpenMenuModal(true);
     };
-    
-    const permission_name = permissions ? permissions.map((permission) => permission.name) : "null";
+
+    const permission_name = permissions
+        ? permissions.map((permission) => permission.name)
+        : "null";
     return (
         <>
             <Popover className="relative bg-white">
@@ -100,11 +107,10 @@ export default function Navbar() {
                             className="hidden space-x-10 md:flex"
                         >
                             {/* <NavLink href="/">Home</NavLink> */}
-                            {auth.user && 
-                            <NavLink href="/wallets">Saldo</NavLink>
-                        }
+                            {auth.user && (
+                                <NavLink href="/wallets">Saldo</NavLink>
+                            )}
                             {/* <NavLink href="/permissions">Permissions</NavLink> */}
-
 
                             {/* <DropdownMenu label={"Perencanaan"}>
                                 <DropdownMenu.Link href="/plans">
@@ -117,58 +123,59 @@ export default function Navbar() {
                                     Buat Perencanaan
                                 </DropdownMenu.Link>
                             </DropdownMenu> */}
-                            {permission_name.indexOf(
-                                "atur hak akses"
-                            ) > -1 &&
-                            <div className="hidden sm:flex sm:items-center sm:ml-6">
-                                <div className="relative ml-3">
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            <span className="inline-flex rounded-md">
-                                                <button
-                                                    type="button"
-                                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
-                                                >
-                                                    Permission
-                                                    <svg
-                                                        className="ml-2 -mr-0.5 h-4 w-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
+                            {permission_name.indexOf("atur hak akses") > -1 && (
+                                <div className="hidden sm:flex sm:items-center sm:ml-6">
+                                    <div className="relative ml-3">
+                                        <Dropdown>
+                                            <Dropdown.Trigger>
+                                                <span className="inline-flex rounded-md">
+                                                    <button
+                                                        type="button"
+                                                        className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
                                                     >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                        </Dropdown.Trigger>
-                                        <Dropdown.Content>
-                                            <Link className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                href={route("users.index")}
-                                            >
-                                                Users
-                                            </Link>
-                                            <Link className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                href={route("roles.index")}
-                                            >
-                                                Roles
-                                            </Link>
-                                            <Link className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                href={route("permissions.index")}
-                                            >
-                                                Permissions
-                                            </Link>
-                                        </Dropdown.Content>
-                                    </Dropdown>
+                                                        Permission
+                                                        <svg
+                                                            className="ml-2 -mr-0.5 h-4 w-4"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </span>
+                                            </Dropdown.Trigger>
+                                            <Dropdown.Content>
+                                                <Link
+                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                    href={route("users.index")}
+                                                >
+                                                    Users
+                                                </Link>
+                                                <Link
+                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                    href={route("roles.index")}
+                                                >
+                                                    Roles
+                                                </Link>
+                                                <Link
+                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                    href={route(
+                                                        "permissions.index"
+                                                    )}
+                                                >
+                                                    Permissions
+                                                </Link>
+                                            </Dropdown.Content>
+                                        </Dropdown>
+                                    </div>
                                 </div>
-                            </div>
-}
-{permission_name.indexOf(
-                                "lihat menu perencanaan"
-                            ) > -1 &&
+                            )}
+
                             <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
@@ -194,61 +201,76 @@ export default function Navbar() {
                                 </Dropdown.Trigger>
 
                                 <Dropdown.Content>
-                                <Dropdown.Link href={"/planbids"}>
-                                        Penawaran Saya
-                                    </Dropdown.Link>
-                                    <Dropdown.Link href={"/plans"}>
-                                        Perencanaan Saya
-                                    </Dropdown.Link>
                                     <Dropdown.Link href={route("plan.list")}>
                                         Cari Perencanaan
                                     </Dropdown.Link>
-                                    <Dropdown.Link href={"/plans/create"}>
-                                        Buat Perencanaan
-                                    </Dropdown.Link>
-                                </Dropdown.Content>
-                            </Dropdown>
-}
-{permission_name.indexOf(
-                                "lihat menu pendanaan"
-                            ) > -1 &&
-                            <Dropdown>
-                                <Dropdown.Trigger>
-                                    <span className="inline-flex rounded-md">
-                                        <button
-                                            type="button"
-                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
-                                        >
-                                            Pendanaan
-                                            <svg
-                                                className="ml-2 -mr-0.5 h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
+                                    {permission_name.indexOf(
+                                        "melakukan penawaran perencanaan"
+                                    ) > -1 && (
+                                        <Dropdown.Link href={"/planbids"}>
+                                            Penawaran Saya
+                                        </Dropdown.Link>
+                                    )}
+                                    {permission_name.indexOf(
+                                        "lihat menu perencanaan"
+                                    ) > -1 && (
+                                        <>
+                                            <Dropdown.Link href={"/plans"}>
+                                                Perencanaan Saya
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={"/plans/create"}
                                             >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </Dropdown.Trigger>
-
-                                <Dropdown.Content>
-                                    <Dropdown.Link href={"/fundings"}>
-                                        Pendanaan Saya
-                                    </Dropdown.Link>
-                                    <Dropdown.Link href={route("funding.list")}>
-                                        Cari Pendanaan
-                                    </Dropdown.Link>
-                                    <Dropdown.Link href={"/fundings/create"}>
-                                        Buat Pendanaan
-                                    </Dropdown.Link>
+                                                Buat Perencanaan
+                                            </Dropdown.Link>
+                                        </>
+                                    )}
                                 </Dropdown.Content>
                             </Dropdown>
-}
+
+                            {permission_name.indexOf("lihat menu pendanaan") >
+                                -1 && (
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                            >
+                                                Pendanaan
+                                                <svg
+                                                    className="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+
+                                    <Dropdown.Content>
+                                        <Dropdown.Link href={"/fundings"}>
+                                            Pendanaan Saya
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route("funding.list")}
+                                        >
+                                            Cari Pendanaan
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={"/fundings/create"}
+                                        >
+                                            Buat Pendanaan
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
+                            )}
                             {/* <NavLink href="/projects/choose">Proyek</NavLink>
                             <NavLink href="/">Keahlian</NavLink>
                             <NavLink href="/toko/products">Toko</NavLink>
@@ -288,77 +310,76 @@ export default function Navbar() {
                                     Withdraw
                                 </DropdownMenu.Link>
                             </DropdownMenu> */}
+                            {permission_name.indexOf("lihat menu admin saldo") >
+                                -1 && (
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                            >
+                                                Admin
+                                                <svg
+                                                    className="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+
+                                    <Dropdown.Content>
+                                        <Dropdown.Link href={"/admindeposits"}>
+                                            Deposit
+                                        </Dropdown.Link>
+                                        <Dropdown.Link href={"/adminwithdraws"}>
+                                            Withdraw
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
+                            )}
                             {permission_name.indexOf(
-                                "lihat menu admin saldo"
-                            ) > -1 &&
-                            <Dropdown>
-                                <Dropdown.Trigger>
-                                    <span className="inline-flex rounded-md">
-                                        <button
-                                            type="button"
-                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
-                                        >
-                                            Admin
-                                            <svg
-                                                className="ml-2 -mr-0.5 h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </Dropdown.Trigger>
-
-                                <Dropdown.Content>
-                                    <Dropdown.Link href={"/admindeposits"}>
-                                        Deposit
-                                    </Dropdown.Link>
-                                    <Dropdown.Link href={"/adminwithdraws"}>
-                                        Withdraw
-                                    </Dropdown.Link>
-                                </Dropdown.Content>
-                            </Dropdown>
-}
-{permission_name.indexOf(
                                 "lihat menu admin general"
-                            ) > -1 &&
-                            <Dropdown>
-                                <Dropdown.Trigger>
-                                    <span className="inline-flex rounded-md">
-                                        <button
-                                            type="button"
-                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
-                                        >
-                                            Admin Perencanaan
-                                            <svg
-                                                className="ml-2 -mr-0.5 h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
+                            ) > -1 && (
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
                                             >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </Dropdown.Trigger>
+                                                Admin Perencanaan
+                                                <svg
+                                                    className="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
 
-                                <Dropdown.Content>
-                                    <Dropdown.Link href={"/adminplans"}>
-                                        Atur Perencanaan
-                                    </Dropdown.Link>
-                                </Dropdown.Content>
-                            </Dropdown>
-}
+                                    <Dropdown.Content>
+                                        <Dropdown.Link href={"/adminplans"}>
+                                            Atur Perencanaan
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
+                            )}
                             {/* <DropdownMenu label={"Hak Akses"}>
                                 <DropdownMenu.Link href="/role-and-permission/roles">
                                     Roles
@@ -804,9 +825,9 @@ export default function Navbar() {
                     setIsOpenMenuModal={setIsOpenMenuModal}
                 >
                     <div className="grid items-center justify-between grid-cols-4 gap-8">
-                    <NavLinkMobile
+                        <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href={route('funding.list')}
+                            href={route("funding.list")}
                         >
                             <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
@@ -815,7 +836,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href={route('plan.list')}
+                            href={route("plan.list")}
                         >
                             <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
@@ -851,7 +872,7 @@ export default function Navbar() {
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Toko
                             </div>
-                        </NavLinkMobile>          
+                        </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href="/projects/choose"
@@ -862,8 +883,7 @@ export default function Navbar() {
                                 Alat
                             </div>
                         </NavLinkMobile>
-                        
-                        
+
                         {/* <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href="/wallets"
@@ -876,62 +896,78 @@ export default function Navbar() {
                     </div>
                 </MenuModal>
                 <div id="tabs" className="flex justify-between">
-                    {auth.user ? <NavLinkMobile
-                        href="/dashboard"
-                        className={
-                            "w-full focus:text-black hover:text-black justify-center inline-block text-center pt-2 pb-1"
-                        }
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="inline-block mb-1 icon icon-tabler icon-tabler-home-move"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                    {auth.user ? (
+                        <NavLinkMobile
+                            href="/dashboard"
+                            className={
+                                "w-full focus:text-black hover:text-black justify-center inline-block text-center pt-2 pb-1"
+                            }
                         >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" />
-                            <path d="M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5" />
-                            <path d="M16 19h6" />
-                            <path d="M19 16l3 3l-3 3" />
-                        </svg>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="inline-block mb-1 icon icon-tabler icon-tabler-home-move"
+                                width={24}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                fill="none"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                />
+                                <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" />
+                                <path d="M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5" />
+                                <path d="M16 19h6" />
+                                <path d="M19 16l3 3l-3 3" />
+                            </svg>
 
-                        <span className="block text-xs tab tab-home">Home</span>
-                    </NavLinkMobile> :  <NavLinkMobile
-                        href="/"
-                        className={
-                            "w-full focus:text-black hover:text-black justify-center inline-block text-center pt-2 pb-1"
-                        }
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="inline-block mb-1 icon icon-tabler icon-tabler-home-move"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                            <span className="block text-xs tab tab-home">
+                                Home
+                            </span>
+                        </NavLinkMobile>
+                    ) : (
+                        <NavLinkMobile
+                            href="/"
+                            className={
+                                "w-full focus:text-black hover:text-black justify-center inline-block text-center pt-2 pb-1"
+                            }
                         >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" />
-                            <path d="M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5" />
-                            <path d="M16 19h6" />
-                            <path d="M19 16l3 3l-3 3" />
-                        </svg>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="inline-block mb-1 icon icon-tabler icon-tabler-home-move"
+                                width={24}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                fill="none"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                />
+                                <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" />
+                                <path d="M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5" />
+                                <path d="M16 19h6" />
+                                <path d="M19 16l3 3l-3 3" />
+                            </svg>
 
-                        <span className="block text-xs tab tab-home">Home</span>
-                    </NavLinkMobile>}
-                    
+                            <span className="block text-xs tab tab-home">
+                                Home
+                            </span>
+                        </NavLinkMobile>
+                    )}
+
                     <NavLinkMobile
-                        href={route('choose.pilar')}
+                        href={route("choose.pilar")}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                     >
                         <svg
@@ -962,7 +998,7 @@ export default function Navbar() {
                         onClick={openMenuModal}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center cursor-pointer focus:text-black hover:text-black"
                     >
-                        <MenuLogo/>
+                        <MenuLogo />
                         <span onClick={openMenuModal} className="block text-xs">
                             Explore
                         </span>
