@@ -21,6 +21,7 @@ export default function Show({
     media,
     plan_master_checkboxs,
     plan_master_texts,
+    planRooms,
     plan_details,
     planWithSum,
     persentase,
@@ -170,6 +171,18 @@ export default function Show({
                                         Rp {numberFormat(plan.sampai_anggaran)}
                                     </dd>
                                 </div>
+                                {planRooms ? planRooms.map(
+                                        (planroom, i) => (
+                                            <div key={i} className="pt-4 border-t border-gray-200">
+                                            <dt className="font-medium text-gray-900">
+                                                {planroom.name}
+                                            </dt>
+                                            <dd className="mt-2 text-sm text-gray-500">
+                                                {planroom.count}
+                                            </dd>
+                                        </div>
+                                        )
+                                    ): ''}
                             </dl>
                             <div className="mt-5 md:mt-15 md:col-span-2">
                                 {/* <div className="overflow-hidden shadow sm:rounded-md"> */}
@@ -398,7 +411,7 @@ export default function Show({
                                                                                     >
                                                                                         <div className="bg-white">
                                                                                             <div className="sm:flex sm:items-start">
-                                                                                                <div className="text-center  sm:mt-0 sm:text-left">
+                                                                                                <div className="text-center sm:mt-0 sm:text-left">
                                                                                                     <Dialog.Title
                                                                                                         as="h3"
                                                                                                         className="text-lg font-medium leading-6 text-gray-900"

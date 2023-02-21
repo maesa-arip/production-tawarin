@@ -15,6 +15,7 @@ use App\Models\Plan\PlanCategory;
 use App\Models\Plan\PlanDetail;
 use App\Models\Plan\PlanMaster;
 use App\Models\Plan\PlanMasterRoom;
+use App\Models\Plan\PlanRoom;
 use App\Models\Plan\PlanStep;
 use App\Models\TemporaryFile;
 use App\Models\User;
@@ -143,6 +144,7 @@ class PlanController extends Controller
 
     public function store(PlanRequest $request)
     {
+        // dd($request->all());
         $atrribute_plans = ([
             'user_id' => auth()->user()->id,
             'name' => $name = 'Perencanaan ' . $request->name,
@@ -158,7 +160,6 @@ class PlanController extends Controller
             'sampai_anggaran' => $request->sampai_anggaran,
             'plan_category_id' => $request->plan_category_id,
         ]);
-        
         $plan = Plan::create($atrribute_plans);
         $temporaryFolder = Session::get('folder');
         $namefile = Session::get('filename');
@@ -178,12 +179,9 @@ class PlanController extends Controller
                 }
             }
         }
-        
         Session::remove('folder');
         Session::remove('filename');
-
         $planmasters = PlanMaster::get();
-
         foreach ($planmasters as $planmaster) {
             if ($request->has($planmaster->slug)) {
                 if ($planmaster->slug == 'lainnya') {
@@ -202,64 +200,17 @@ class PlanController extends Controller
                 
             }
         }
+        $planMasterRooms = PlanMasterRoom::get();
+        foreach ($planMasterRooms as $planmasterroom) {
+            if ($request->has($planmasterroom->slug)) {
+                    PlanRoom::create([
+                        'plan_id' => $plan->id,
+                        'plan_master_room_id' => $planmasterroom->id,
+                        'count' => $request[$planmasterroom->slug],
+                    ]);
+            }
+        }
 
-        // //Plan Details
-        // if ($request->has('gambar_arsitektur')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 1,
-        //     ]);
-        // }
-        // if ($request->has('gambar_3d_interior')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 2,
-        //     ]);
-        // }
-        // if ($request->has('gambar_3d_exterior')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 3,
-        //     ]);
-        // }
-        // if ($request->has('animasi_3d')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 4,
-        //     ]);
-        // }
-        // if ($request->has('gambar_struktur')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 5,
-        //     ]);
-        // }
-        // if ($request->has('gambar_mep')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 6,
-        //     ]);
-        // }
-        // if ($request->has('rab_dan_spesifikasi_teknis')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 7,
-        //     ]);
-        // }
-        // if ($request->has('time_schedule_dan_bobot_pembayaran')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 8,
-        //     ]);
-        // }
-        // if ($request->has('lainnya')) {
-        //     PlanDetail::create([
-        //         'plan_id' => $plan->id,
-        //         'plan_master_id' => 9,
-        //         'description' => $request->lainnya,
-        //     ]);
-        // }
-        //End Plan Details
         $user = User::whereHas('roles', function ($query) {
             $query->where('name', 'admin');
         })->get();
@@ -279,12 +230,14 @@ class PlanController extends Controller
         $plan_master_texts = PlanMaster::where('type', 'text')->get();
         $plan_details = $plan->plan_details;
         $persentase = 5;
+        $planRooms = PlanRoom::where('plan_id', $plan->id)->join('plan_master_rooms', 'plan_master_rooms.id','plan_rooms.plan_master_room_id')->get();
 
         return Inertia('Plans/Basic/Show', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
             'media' => ($media),
             'planWithSum' => $planWithSum,
             'plan_details' => ($plan_details),
+            'planRooms' => ($planRooms),
             'persentase' => ($persentase),
             'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
             'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
