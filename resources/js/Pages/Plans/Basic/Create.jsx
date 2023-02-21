@@ -41,7 +41,7 @@ export default function Create({
     useEffect(() => {
         setData({
             ...data,
-            ["luas_tanah"]: parseInt(panjang) * parseInt(lebar),
+            ["luas_tanah"]: (parseFloat(panjang) * parseFloat(lebar)).toFixed(2),
         });
     }, [panjang, lebar]);
 
