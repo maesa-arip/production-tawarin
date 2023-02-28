@@ -48,6 +48,7 @@ class UserController extends Controller
     }
     public function store(UserRequest $request)
     {
+        
         $atrributes = $request->toArray();
         $atrributes['password'] = bcrypt($request->password);
         $user = User::create($atrributes);

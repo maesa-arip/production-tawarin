@@ -49,6 +49,7 @@ class UserRoleController extends Controller
 
     public function store()
     {
+        
         $user = User::where('email', request('email'))->first();
         $user->assignRole(request('roles'));
         $notification = array(

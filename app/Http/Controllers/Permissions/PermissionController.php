@@ -13,16 +13,16 @@ class PermissionController extends Controller
     public $loadDefault = 10;
     public function index(Request $request)
     {
-        $permissions = Permission::query()->with('roles');
+        $allPermissions = Permission::query()->with('roles');
         if ($request->q) {
-            $permissions->where('name','like','%'.$request->q.'%')
+            $allPermissions->where('name','like','%'.$request->q.'%')
             ;
         }
         if ($request->has(['field','direction'])) {
-            $permissions->orderBy($request->field,$request->direction);
+            $allPermissions->orderBy($request->field,$request->direction);
         }
-        $permissions = (
-            PermissionResource::collection($permissions->latest()->fastPaginate($request->load)->withQueryString())
+        $allPermissions = (
+            PermissionResource::collection($allPermissions->latest()->fastPaginate($request->load)->withQueryString())
         )->additional([
             'attributes' => [
                 'total' => 1100,
@@ -38,11 +38,12 @@ class PermissionController extends Controller
             ]
         ]);
         $roles = Role::get();
-        return inertia('Users/Permissions/Index',['permissions'=>$permissions, 'roles'=>$roles]);
+        return inertia('Users/Permissions/Index',['allPermissions'=>$allPermissions, 'roles'=>$roles]);
     }
 
     public function store(Request $request)
     {
+        dd($request->all());
         $data = $request->validate([
             'name' => ['required', 'string'],
             'roles' => ['array'],

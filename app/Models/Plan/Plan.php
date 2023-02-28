@@ -49,6 +49,11 @@ class Plan extends Model implements HasMedia, Wallet, Confirmable
     {
         return $this->hasMany(PlanDetail::class);
     }
+    public function plan_rooms()
+    {
+        return $this->hasMany(PlanRoom::class);
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class,'user_id');

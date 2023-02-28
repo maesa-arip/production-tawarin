@@ -41,7 +41,9 @@ export default function Create({
     useEffect(() => {
         setData({
             ...data,
-            ["luas_tanah"]: (parseFloat(panjang) * parseFloat(lebar)).toFixed(2),
+            ["luas_tanah"]: (parseFloat(panjang) * parseFloat(lebar)).toFixed(
+                2
+            ),
         });
     }, [panjang, lebar]);
 
@@ -123,29 +125,32 @@ export default function Create({
         let data = [...inputFields];
         data[index][event.target.name] = event.target.value;
         setInputFields(data);
-        console.log(data)
+        // console.log(data);
     };
     const addFields = (e) => {
         e.preventDefault();
         let newfield = { name: "", count: "" };
         setInputFields([...inputFields, newfield]);
     };
-    const submit = (e) => {
-        e.preventDefault();
-        console.log(inputFields);
-    };
+    // const submit = (e) => {
+    //     e.preventDefault();
+    //     console.log(inputFields);
+    // };
     const removeFields = (index) => {
         let data = [...inputFields];
         data.splice(index, 1);
         setInputFields(data);
     };
+    useEffect(() => {
+        setData({ ...data, ["rooms"]: inputFields });
+    }, [inputFields]);
+    // console.log(inputFields)
 
     return (
         <div>
             <Head title="Plan Create" />
             <Container>
                 <form onSubmit={onSubmitHandler}>
-                    
                     <div className="mt-10 sm:mt-0">
                         <div className="md:grid md:grid-cols-3 md:gap-6">
                             <div className="md:col-span-1">
@@ -612,13 +617,11 @@ export default function Create({
                             </div>
                         </div>
                     </div>
-
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">
                             <div className="border-t border-gray-200" />
                         </div>
                     </div>
-
                     <div className="mt-10 sm:mt-0">
                         <div className="md:grid md:grid-cols-3 md:gap-6">
                             <div className="md:col-span-1">
@@ -792,7 +795,6 @@ export default function Create({
                             </div>
                         </div>
                     </div>
-
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">
                             <div className="border-t border-gray-200" />
@@ -806,7 +808,8 @@ export default function Create({
                                         Kebutuhan Ruang Lainnya
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Silakan masukan kebutuhan ruanganmu jika belum ada dipilihan diatas.
+                                        Silakan masukan kebutuhan ruanganmu jika
+                                        belum ada dipilihan diatas.
                                     </p>
                                 </div>
                             </div>
@@ -815,87 +818,90 @@ export default function Create({
                                     <div className="px-4 py-5 bg-white sm:p-6">
                                         <div className="mb-4 justify-items-start">
                                             {/* <form onSubmit={submit}> */}
-                                            <div className="flex my-2">
-                                                <label
-                                                    // htmlFor="jangka_waktu_penawaran"
-                                                    className="block w-full text-sm font-medium text-gray-700"
-                                                >
-                                                    Nama Kebutuhan Ruangan
-                                                </label>
-                                                <label
-                                                    // htmlFor="jangka_waktu_penawaran"
-                                                    className="block w-full text-sm font-medium text-gray-700"
-                                                >
-                                                    Jumlah Ruangan
-                                                </label>
-                                                <label
-                                                    // htmlFor="jangka_waktu_penawaran"
-                                                    className="inline-flex items-center text-sm font-medium text-gray-700 px-7"
-                                                ></label>
-                                            </div>
-                                            {inputFields.map((input, index) => {
-                                                return (
-                                                    
-                                                        <div key={index} className="flex my-4">
-                                                            <input
-                                                                type="text"
-                                                                name="name"
-                                                                value={
-                                                                    input.name
-                                                                }
-                                                                autoComplete="off"
-                                                                className="block w-full mr-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    handleFormChange(
-                                                                        index,
-                                                                        event
-                                                                    )
-                                                                }
-                                                            />
-
-                                                            <input
-                                                                type="number"
-                                                                name="count"
-                                                                value={
-                                                                    input.count
-                                                                }
-                                                                autoComplete="off"
-                                                                className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    handleFormChange(
-                                                                        index,
-                                                                        event
-                                                                    )
-                                                                }
-                                                            />
-                                                            <ThirdButton
-                                                                color="red"
-                                                                className="ml-4"
-                                                                onClick={() =>
-                                                                    removeFields(
-                                                                        index
-                                                                    )
-                                                                }
+                                                <div className="flex my-2">
+                                                    <label
+                                                        // htmlFor="jangka_waktu_penawaran"
+                                                        className="block w-full text-sm font-medium text-gray-700"
+                                                    >
+                                                        Nama Kebutuhan Ruangan
+                                                    </label>
+                                                    <label
+                                                        // htmlFor="jangka_waktu_penawaran"
+                                                        className="block w-full text-sm font-medium text-gray-700"
+                                                    >
+                                                        Jumlah Ruangan
+                                                    </label>
+                                                    <label
+                                                        // htmlFor="jangka_waktu_penawaran"
+                                                        className="inline-flex items-center text-sm font-medium text-gray-700 px-7"
+                                                    ></label>
+                                                </div>
+                                                {inputFields.map(
+                                                    (input, index) => {
+                                                        return (
+                                                            <div
+                                                                key={index}
+                                                                className="flex my-4"
                                                             >
-                                                                <IconTrash className="w-4 h-4" />
-                                                            </ThirdButton>
-                                                        </div>
-                                                   
-                                                );
-                                            })}
+                                                                <input
+                                                                    type="text"
+                                                                    name="name"
+                                                                    value={
+                                                                        input.name
+                                                                    }
+                                                                    autoComplete="off"
+                                                                    className="block w-full mr-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                                    onChange={(
+                                                                        event
+                                                                    ) =>
+                                                                        handleFormChange(
+                                                                            index,
+                                                                            event
+                                                                        )
+                                                                    }
+                                                                />
 
+                                                                <input
+                                                                    type="number"
+                                                                    name="count"
+                                                                    value={
+                                                                        input.count
+                                                                    }
+                                                                    autoComplete="off"
+                                                                    className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                                    onChange={(
+                                                                        event
+                                                                    ) =>
+                                                                        handleFormChange(
+                                                                            index,
+                                                                            event
+                                                                        )
+                                                                    }
+                                                                />
+                                                                <ThirdButton
+                                                                    color="red"
+                                                                    className="ml-4"
+                                                                    onClick={() =>
+                                                                        removeFields(
+                                                                            index
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <IconTrash className="w-4 h-4" />
+                                                                </ThirdButton>
+                                                            </div>
+                                                        );
+                                                    }
+                                                )}
                                             {/* </form> */}
                                         </div>
                                         <ThirdButton onClick={addFields}>
                                             Tambah
                                         </ThirdButton>
+                                        {/* <ThirdButton className="mx-2" type="submit">
+                                            Save
+                                        </ThirdButton> */}
                                     </div>
-
-                                    {/* <button onClick={addFields}>Add More..</button> */}
                                 </div>
                             </div>
                         </div>

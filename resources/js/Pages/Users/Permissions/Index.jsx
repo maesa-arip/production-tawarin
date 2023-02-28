@@ -45,7 +45,7 @@ const DownIcon = () => (
 );
 
 export default function Index(props) {
-    const { data: permissions, meta, filtered, attributes } = props.permissions;
+    const { data: allPermissions, meta, filtered, attributes } = props.allPermissions;
     const roles = props.roles;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -283,7 +283,7 @@ export default function Index(props) {
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200">
-                                            {permissions.map((permission, index) => (
+                                            {allPermissions.map((permission, index) => (
                                                 <tr key={index}>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {meta.from + index}

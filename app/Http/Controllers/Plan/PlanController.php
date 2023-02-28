@@ -143,8 +143,10 @@ class PlanController extends Controller
     }
 
     public function store(PlanRequest $request)
+    // public function store(Request $request)
     {
-        // dd($request->all());
+        // dd($request->rooms);
+        
         $atrribute_plans = ([
             'user_id' => auth()->user()->id,
             'name' => $name = 'Perencanaan ' . $request->name,
@@ -210,6 +212,13 @@ class PlanController extends Controller
                     ]);
             }
         }
+        foreach ($request->rooms as $rooms) {
+            PlanRoom::create([
+                'plan_id' => $plan->id,
+                'name' => $rooms['name'],
+                'count' => $rooms['count'],
+            ]);
+        }
 
         $user = User::whereHas('roles', function ($query) {
             $query->where('name', 'admin');
@@ -228,9 +237,19 @@ class PlanController extends Controller
         $media = $plan->getMedia('contohgambar');
         $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
         $plan_master_texts = PlanMaster::where('type', 'text')->get();
-        $plan_details = $plan->plan_details;
+        // $plan_details = $plan->plan_details;
+        // $plan_details = $plan->with('plan_details.plan_master')->get();
+        $plan_details = $plan->with('plan_details.plan_master')
+        ->select('plans.id', 'plans.name', 'plan_details.id as plan_detail_id', 'plan_details.description','plan_masters.name as plan_master_name')
+        ->join('plan_details', 'plans.id', '=', 'plan_details.plan_id')
+        ->join('plan_masters', 'plan_details.plan_master_id', '=', 'plan_masters.id')
+        ->where('plan_id', $plan->id)
+        ->withCount('plan_details')
+        ->get();
+        // dd($plan_details);
         $persentase = 5;
-        $planRooms = PlanRoom::where('plan_id', $plan->id)->join('plan_master_rooms', 'plan_master_rooms.id','plan_rooms.plan_master_room_id')->get();
+        $planRooms = PlanRoom::where('plan_id', $plan->id)->leftjoin('plan_master_rooms', 'plan_master_rooms.id','plan_rooms.plan_master_room_id')->select('plan_master_rooms.name','plan_master_rooms.id','plan_rooms.name as othername','plan_rooms.count')->get();
+        
 
         return Inertia('Plans/Basic/Show', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
@@ -244,14 +263,38 @@ class PlanController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit(Plan $plan)
     {
-        dd("edit");
+        $plan_details = $plan->with('plan_details')
+        ->select('plan_details.plan_master_id as id','plan_details.description','plan_masters.name','plan_masters.slug')
+        ->join('plan_details', 'plans.id', '=', 'plan_details.plan_id')
+        ->join('plan_masters', 'plan_details.plan_master_id', '=', 'plan_masters.id')
+        ->where('plan_id', $plan->id)
+        ->get();
+        $plan_rooms = $plan->with('plan_rooms')
+        ->select('plan_rooms.plan_master_room_id as id','plan_rooms.name as elsename','plan_rooms.count','plan_master_rooms.name','plan_master_rooms.slug')
+        ->join('plan_rooms', 'plans.id', '=', 'plan_rooms.plan_id')
+        ->join('plan_master_rooms', 'plan_rooms.plan_master_room_id', '=', 'plan_master_rooms.id')
+        ->where('plan_id', $plan->id)
+        ->get();
+        $plan_categories = PlanCategory::get();
+        $plan_master_rooms = PlanMasterRoom::get();
+        $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
+        $plan_master_texts = PlanMaster::where('type', 'text')->get();
+        return inertia('Plans/Basic/Edit', [
+            'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
+            'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
+            'plan_categories' => $plan_categories,
+            'plan_master_rooms' => PlanMasterRoomResource::collection($plan_master_rooms),
+            'plan' => $plan,
+            'plan_rooms' => $plan_rooms,
+            'plan_details' => $plan_details,
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Plan $plan)
     {
-        //
+        dd("update");
     }
 
     public function destroy($id)

@@ -22,6 +22,7 @@ export default function Form({
 
     const optionsFromDB = roles;
     let userrole = model ? model.roles.map((obj) => obj.id) : [];
+
     const [options, setOptions] = useState([]);
     useEffect(() => {
         const selectedOptionsFromDB = userrole;
