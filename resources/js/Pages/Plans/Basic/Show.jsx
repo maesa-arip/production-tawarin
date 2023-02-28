@@ -329,7 +329,7 @@ export default function Show({
                                 <div className="px-2 mx-3 mt-6 text-sm font-medium text-gray-400 mb-7">
                                     Video
                                     <div className="grid grid-cols-6">
-                                        <div className="col-span-6 col-start-1 md:col-span-2 md:col-start-3">
+                                        <div className="col-span-6 col-start-1 mx-auto md:col-span-2 md:col-start-3">
                                             {media.map(
                                                 (plan, index) =>
                                                     index >= 0 && (
