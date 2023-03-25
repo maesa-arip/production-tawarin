@@ -81,6 +81,7 @@ export default function Show({
         setCurrentImage(plan);
         setOpen(true);
     };
+    console.log(currentImage);
     return (
         <div>
             <Head title="Plans" />
@@ -228,7 +229,7 @@ export default function Show({
                                     {plan_details.map((plan_detail, i) =>
                                         !plan_detail.description ? (
                                             <div
-                                                key={plan_detail.id}
+                                                key={i}
                                                 className="flex items-center justify-between px-3 py-4 rounded-md shadow"
                                             >
                                                 {plan_detail.plan_master_name}
@@ -237,7 +238,7 @@ export default function Show({
                                                     className="relative inline-flex items-center cursor-pointer"
                                                 >
                                                     <input
-                                                        key={plan_detail.id}
+                                                        key={i}
                                                         type="checkbox"
                                                         checked
                                                         disabled
@@ -249,7 +250,7 @@ export default function Show({
                                                 </label>
                                             </div>
                                         ) : (
-                                            <div key={plan_detail.id}>
+                                            <div key={i}>
                                                 <label
                                                     htmlFor={plan_detail.slug}
                                                     className="block text-sm font-medium text-gray-700"
@@ -260,7 +261,7 @@ export default function Show({
                                                 </label>
                                                 <div className="mt-1">
                                                     <textarea
-                                                        key={plan_detail.id}
+                                                        key={i}
                                                         id={plan_detail.slug}
                                                         name={plan_detail.slug}
                                                         disabled
@@ -337,18 +338,16 @@ export default function Show({
                                                             {plan.mime_type ==
                                                             "video/mp4" ? (
                                                                 <div
-                                                                    key={
-                                                                        plan.id
-                                                                    }
+                                                                    key={index}
                                                                     className="w-auto h-auto col-span-2 overflow-hidden shadow rounded-xl"
                                                                 >
                                                                     <div
                                                                         className=""
-                                                                        onClick={() =>
-                                                                            handleClick(
-                                                                                plan
-                                                                            )
-                                                                        }
+                                                                        // onClick={() =>
+                                                                        //     handleClick(
+                                                                        //         plan
+                                                                        //     )
+                                                                        // }
                                                                     >
                                                                         <video
                                                                             controls
@@ -361,190 +360,6 @@ export default function Show({
                                                             )}
                                                         </>
                                                     )
-                                            )}
-                                            {open && currentImage && (
-                                                <Transition
-                                                    appear
-                                                    show={open}
-                                                    as={Fragment}
-                                                >
-                                                    <Dialog
-                                                        as="div"
-                                                        className="relative z-10"
-                                                        open={open}
-                                                        onClose={() =>
-                                                            setOpen(false)
-                                                        }
-                                                    >
-                                                        <Transition.Child
-                                                            as={Fragment}
-                                                            enter="ease-out duration-300"
-                                                            enterFrom="opacity-0"
-                                                            enterTo="opacity-100"
-                                                            leave="ease-in duration-200"
-                                                            leaveFrom="opacity-100"
-                                                            leaveTo="opacity-0"
-                                                        >
-                                                            <div className="fixed inset-0 bg-black bg-opacity-25" />
-                                                        </Transition.Child>
-
-                                                        <div className="fixed inset-0 overflow-y-auto">
-                                                            <div className="flex items-center justify-center min-h-full p-4 text-center">
-                                                                <Transition.Child
-                                                                    as={
-                                                                        Fragment
-                                                                    }
-                                                                    enter="ease-out duration-300"
-                                                                    enterFrom="opacity-0 scale-95"
-                                                                    enterTo="opacity-100 scale-100"
-                                                                    leave="ease-in duration-200"
-                                                                    leaveFrom="opacity-100 scale-100"
-                                                                    leaveTo="opacity-0 scale-95"
-                                                                >
-                                                                    <Dialog.Panel
-                                                                        className={`relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 max-w-full`}
-                                                                    >
-                                                                        <div className="bg-white">
-                                                                            <div className="sm:flex sm:items-start">
-                                                                                <div className="text-center sm:mt-0 sm:text-left">
-                                                                                    <Dialog.Title
-                                                                                        as="h3"
-                                                                                        className="text-lg font-medium leading-6 text-gray-900"
-                                                                                    >
-                                                                                        {/* {title} */}
-                                                                                    </Dialog.Title>
-                                                                                    <div className="mx-2 my-2 md:mx-4 md:my-4">
-                                                                                        <p className="text-sm text-gray-500">
-                                                                                            {/* {header} */}
-                                                                                        </p>
-                                                                                        <img
-                                                                                            className="rounded-lg"
-                                                                                            src={`/storage/${currentImage.id}/${currentImage.file_name}`}
-                                                                                            alt={
-                                                                                                currentImage.alt
-                                                                                            }
-                                                                                        />
-                                                                                        <p className="text-sm text-gray-500">
-                                                                                            {
-                                                                                                currentImage.caption
-                                                                                            }
-                                                                                        </p>
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                setOpen(
-                                                                                                    false
-                                                                                                )
-                                                                                            }
-                                                                                            type="button"
-                                                                                            className="absolute z-30 flex items-center justify-between cursor-pointer bottom-4 right-1/2 group focus:outline-none"
-                                                                                            data-carousel-prev
-                                                                                        >
-                                                                                            <span className="inline-flex items-center justify-center w-5 h-5 bg-pink-200 rounded-full sm:w-10 sm:h-10 dark:bg-gray-800/30 group-hover:bg-pink-300 dark:group-hover:bg-gray-800/60 ring-4 ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                                                                                <svg
-                                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                                    className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800 icon icon-tabler icon-tabler-x"
-                                                                                                    width={
-                                                                                                        24
-                                                                                                    }
-                                                                                                    height={
-                                                                                                        24
-                                                                                                    }
-                                                                                                    viewBox="0 0 24 24"
-                                                                                                    strokeWidth={
-                                                                                                        2
-                                                                                                    }
-                                                                                                    stroke="currentColor"
-                                                                                                    fill="none"
-                                                                                                    strokeLinecap="round"
-                                                                                                    strokeLinejoin="round"
-                                                                                                >
-                                                                                                    <path
-                                                                                                        stroke="none"
-                                                                                                        d="M0 0h24v24H0z"
-                                                                                                        fill="none"
-                                                                                                    />
-                                                                                                    <path d="M18 6l-12 12" />
-                                                                                                    <path d="M6 6l12 12" />
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </button>
-
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleClick(
-                                                                                                    media[
-                                                                                                        (media.indexOf(
-                                                                                                            currentImage
-                                                                                                        ) -
-                                                                                                            1) %
-                                                                                                            media.length
-                                                                                                    ]
-                                                                                                )
-                                                                                            }
-                                                                                            type="button"
-                                                                                            className="absolute left-0 z-30 flex items-center justify-between px-4 cursor-pointer top-1/2 group focus:outline-none"
-                                                                                            data-carousel-prev
-                                                                                        >
-                                                                                            <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-200 rounded-full sm:w-10 sm:h-10 dark:bg-gray-800/30 group-hover:bg-blue-300 dark:group-hover:bg-gray-800/60 ring-4 ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                                                                                <svg
-                                                                                                    className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800"
-                                                                                                    fill="none"
-                                                                                                    stroke="currentColor"
-                                                                                                    viewBox="0 0 24 24"
-                                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                                >
-                                                                                                    <path
-                                                                                                        strokeLinecap="round"
-                                                                                                        strokeLinejoin="round"
-                                                                                                        strokeWidth="2"
-                                                                                                        d="M15 19l-7-7 7-7"
-                                                                                                    ></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </button>
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleClick(
-                                                                                                    media[
-                                                                                                        (media.indexOf(
-                                                                                                            currentImage
-                                                                                                        ) +
-                                                                                                            1) %
-                                                                                                            media.length
-                                                                                                    ]
-                                                                                                )
-                                                                                            }
-                                                                                            type="button"
-                                                                                            className="absolute right-0 z-30 flex items-center justify-center px-4 cursor-pointer top-1/2 group focus:outline-none"
-                                                                                        >
-                                                                                            <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-200 rounded-full sm:w-10 sm:h-10 dark:bg-gray-800/30 group-hover:bg-blue-300 dark:group-hover:bg-gray-800/60 ring-4 ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                                                                                <svg
-                                                                                                    className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800"
-                                                                                                    fill="none"
-                                                                                                    stroke="currentColor"
-                                                                                                    viewBox="0 0 24 24"
-                                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                                >
-                                                                                                    <path
-                                                                                                        strokeLinecap="round"
-                                                                                                        strokeLinejoin="round"
-                                                                                                        strokeWidth="2"
-                                                                                                        d="M9 5l7 7-7 7"
-                                                                                                    ></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </button>
-                                                                                        {/* {children} */}
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </Dialog.Panel>
-                                                                </Transition.Child>
-                                                            </div>
-                                                        </div>
-                                                    </Dialog>
-                                                </Transition>
                                             )}
                                         </div>
                                     </div>
@@ -565,10 +380,10 @@ export default function Show({
                                                     <>
                                                         {plan.mime_type ==
                                                         "video/mp4" ? (
-                                                            ""
+                                                            <></>
                                                         ) : (
                                                             <div
-                                                                key={plan.id}
+                                                                key={index}
                                                                 className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
                                                             >
                                                                 <img
@@ -593,10 +408,10 @@ export default function Show({
                                                     <>
                                                         {plan.mime_type ==
                                                         "video/mp4" ? (
-                                                            ""
+                                                            <></>
                                                         ) : (
                                                             <div
-                                                                key={plan.id}
+                                                                key={index}
                                                                 className="max-h-[10rem] col-span-2 overflow-hidden shadow rounded-xl"
                                                             >
                                                                 <img
@@ -614,6 +429,7 @@ export default function Show({
                                                     </>
                                                 )
                                         )}
+
                                         {open && currentImage && (
                                             <Transition
                                                 appear
@@ -667,18 +483,33 @@ export default function Show({
                                                                                     <p className="text-sm text-gray-500">
                                                                                         {/* {header} */}
                                                                                     </p>
-                                                                                    <img
-                                                                                        className="rounded-lg"
-                                                                                        src={`/storage/${currentImage.id}/${currentImage.file_name}`}
-                                                                                        alt={
-                                                                                            currentImage.alt
-                                                                                        }
-                                                                                    />
-                                                                                    <p className="text-sm text-gray-500">
-                                                                                        {
-                                                                                            currentImage.caption
-                                                                                        }
-                                                                                    </p>
+                                                                                    {currentImage.mime_type ==
+                                                                                    "video/mp4" ? (
+                                                                                        <div className="w-auto h-auto col-span-2 overflow-hidden shadow rounded-xl">
+                                                                                            <div className="">
+                                                                                                <video
+                                                                                                    controls
+                                                                                                    src={`/storage/${currentImage.id}/${currentImage.file_name}`}
+                                                                                                ></video>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <img
+                                                                                                className="rounded-lg"
+                                                                                                src={`/storage/${currentImage.id}/${currentImage.file_name}`}
+                                                                                                alt={
+                                                                                                    currentImage.collection_name
+                                                                                                }
+                                                                                            />
+                                                                                            <p className="text-sm text-gray-500">
+                                                                                                {
+                                                                                                    currentImage.collection_name
+                                                                                                }
+                                                                                            </p>
+                                                                                        </>
+                                                                                    )}
+
                                                                                     <button
                                                                                         onClick={() =>
                                                                                             setOpen(

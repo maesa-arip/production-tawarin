@@ -49,7 +49,8 @@ export default function Home(props) {
             </Head>
             {/* <Head title="Home" /> */}
             <Container>
-                <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36">
+                {/* <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36"> */}
+                <div className="py-12 overflow-hidden lg:pb-32 xl:pb-36">
                     <div className="px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
                             <div className="relative z-10 mx-auto lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
@@ -343,252 +344,13 @@ export default function Home(props) {
                                         </defs>
                                     </svg>
                                 </div>
-                                <div className="-mx-4 h-[448px] px-9 [mask-image:linear-gradient(to_bottom,white_60%,transparent)] sm:mx-0 lg:absolute lg:-inset-x-10 lg:-top-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
-                                    <div className="relative aspect-[366/729] mx-auto max-w-[366px]">
-                                        <div className="absolute inset-y-[calc(1/729*100%)] right-[calc(5/729*100%)] left-[calc(7/729*100%)] rounded-[calc(58/366*100%)/calc(58/729*100%)] shadow-2xl" />
-                                        <div className="absolute top-[calc(23/729*100%)] left-[calc(23/366*100%)] grid h-[calc(686/729*100%)] w-[calc(318/366*100%)] transform grid-cols-1 overflow-hidden bg-gray-900 pt-[calc(23/318*100%)]">
-                                            <div className="flex flex-col">
-                                                <div className="flex justify-between px-4 pt-4">
-                                                    <svg
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        aria-hidden="true"
-                                                        className="flex-none w-6 h-6"
-                                                    >
-                                                        <path
-                                                            d="M5 6h14M5 18h14M5 12h14"
-                                                            stroke="#fff"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                        />
-                                                    </svg>
-
-                                                    <img
-                                                        className="w-5 h-5"
-                                                        src={Logo}
-                                                        alt="logo"
-                                                    />
-
-                                                    <svg
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        aria-hidden="true"
-                                                        className="flex-none w-6 h-6"
-                                                    >
-                                                        <path
-                                                            d="M15 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.696 19h10.608c1.175 0 2.08-.935 1.532-1.897C18.028 15.69 16.187 14 12 14s-6.028 1.689-6.836 3.103C4.616 18.065 5.521 19 6.696 19Z"
-                                                            stroke="#fff"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                        />
-                                                    </svg>
-                                                </div>
-                                                <div className="flex-auto mt-6 bg-white rounded-t-2xl">
-                                                    <div className="p-4">
-                                                        <div className="flex gap-2">
-                                                            <div className="text-xs leading-6 text-gray-500">
-                                                                PT Tawarin
-                                                                Dimana Saja.
-                                                            </div>
-                                                            <svg
-                                                                viewBox="0 0 24 24"
-                                                                className="w-6 h-6 ml-auto"
-                                                                fill="none"
-                                                            >
-                                                                <path
-                                                                    d="M5 12a7 7 0 1 1 14 0 7 7 0 0 1-14 0ZM12 9v6M15 12H9"
-                                                                    stroke="#171717"
-                                                                    strokeWidth={
-                                                                        2
-                                                                    }
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                />
-                                                            </svg>
-                                                        </div>
-                                                        <div className="pt-5 mt-3 border-t border-gray-200">
-                                                            <div className="flex items-baseline gap-2">
-                                                                <div className="text-2xl tracking-tight text-gray-900 tabular-nums">
-                                                                    750.000
-                                                                </div>
-                                                                <div className="text-sm text-gray-900">
-                                                                    Rupiah
-                                                                </div>
-                                                                <div className="ml-auto text-sm tracking-tight tabular-nums text-cyan-500">
-                                                                    +12.21%
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex gap-4 mt-6 text-xs text-gray-500">
-                                                                <div>1D</div>
-                                                                <div>5D</div>
-                                                                <div className="font-semibold text-cyan-600">
-                                                                    1M
-                                                                </div>
-                                                                <div>6M</div>
-                                                                <div>1Y</div>
-                                                                <div>5Y</div>
-                                                            </div>
-                                                            <div className="mt-3 rounded-lg bg-gray-50 ring-1 ring-inset ring-black/5">
-                                                                <svg
-                                                                    viewBox="0 0 286 208"
-                                                                    className="overflow-visible"
-                                                                >
-                                                                    <defs>
-                                                                        <clipPath id=":R79a5m:-clip">
-                                                                            <path d="M 16.0000 32.0000L 23.9375 47.4709L 31.8750 39.3576L 39.8125 80.0116L 47.7500 63.6279L 55.6875 79.3140L 63.6250 87.8140L 71.5625 98.9128L 79.5000 71.6366L 87.4375 127.3372L 95.3750 120.1308L 103.3125 112.3023L 111.2500 120.2355L 119.1875 144.6337L 127.1250 176.0000L 135.0625 162.2326L 143.0000 144.3634L 150.9375 152.3953L 158.8750 144.6221L 166.8125 129.9535L 174.7500 103.3517L 182.6875 112.3401L 190.6250 136.2645L 198.5625 129.6337L 206.5000 120.0959L 214.4375 153.2965L 222.3750 136.5233L 230.3125 143.7035L 238.2500 132.5581L 246.1875 159.0494L 254.1250 144.2413L 262.0625 127.0233L 270.0000 103.2209 V 176 H 16 Z" />
-                                                                        </clipPath>
-                                                                        <linearGradient
-                                                                            id=":R79a5m:-gradient"
-                                                                            x1={
-                                                                                0
-                                                                            }
-                                                                            x2={
-                                                                                0
-                                                                            }
-                                                                            y1={
-                                                                                0
-                                                                            }
-                                                                            y2={
-                                                                                1
-                                                                            }
-                                                                        >
-                                                                            <stop
-                                                                                offset="0%"
-                                                                                stopColor="#13B5C8"
-                                                                            />
-                                                                            <stop
-                                                                                offset="100%"
-                                                                                stopColor="#13B5C8"
-                                                                                stopOpacity={
-                                                                                    0
-                                                                                }
-                                                                            />
-                                                                        </linearGradient>
-                                                                    </defs>
-                                                                    <line
-                                                                        stroke="#a3a3a3"
-                                                                        opacity="0.1"
-                                                                        x1={0}
-                                                                        y1="34.666666666666664"
-                                                                        x2={286}
-                                                                        y2="34.666666666666664"
-                                                                    />
-                                                                    <line
-                                                                        stroke="#a3a3a3"
-                                                                        opacity="0.1"
-                                                                        x1={0}
-                                                                        y1="69.33333333333333"
-                                                                        x2={286}
-                                                                        y2="69.33333333333333"
-                                                                    />
-                                                                    <line
-                                                                        stroke="#a3a3a3"
-                                                                        opacity="0.1"
-                                                                        x1={0}
-                                                                        y1={104}
-                                                                        x2={286}
-                                                                        y2={104}
-                                                                    />
-                                                                    <line
-                                                                        stroke="#a3a3a3"
-                                                                        opacity="0.1"
-                                                                        x1={0}
-                                                                        y1="138.66666666666666"
-                                                                        x2={286}
-                                                                        y2="138.66666666666666"
-                                                                    />
-                                                                    <line
-                                                                        stroke="#a3a3a3"
-                                                                        opacity="0.1"
-                                                                        x1={0}
-                                                                        y1="173.33333333333331"
-                                                                        x2={286}
-                                                                        y2="173.33333333333331"
-                                                                    />
-                                                                    <rect
-                                                                        y={32}
-                                                                        width="270px"
-                                                                        height={
-                                                                            144
-                                                                        }
-                                                                        fill="url(#:R79a5m:-gradient)"
-                                                                        clipPath="url(#:R79a5m:-clip)"
-                                                                        opacity="0.5"
-                                                                    />
-                                                                    <path
-                                                                        d="M 16.0000 32.0000L 23.9375 47.4709L 31.8750 39.3576L 39.8125 80.0116L 47.7500 63.6279L 55.6875 79.3140L 63.6250 87.8140L 71.5625 98.9128L 79.5000 71.6366L 87.4375 127.3372L 95.3750 120.1308L 103.3125 112.3023L 111.2500 120.2355L 119.1875 144.6337L 127.1250 176.0000L 135.0625 162.2326L 143.0000 144.3634L 150.9375 152.3953L 158.8750 144.6221L 166.8125 129.9535L 174.7500 103.3517L 182.6875 112.3401L 190.6250 136.2645L 198.5625 129.6337L 206.5000 120.0959L 214.4375 153.2965L 222.3750 136.5233L 230.3125 143.7035L 238.2500 132.5581L 246.1875 159.0494L 254.1250 144.2413L 262.0625 127.0233L 270.0000 103.2209"
-                                                                        fill="none"
-                                                                        strokeWidth={
-                                                                            2
-                                                                        }
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        pathLength={
-                                                                            1
-                                                                        }
-                                                                        strokeDashoffset="0px"
-                                                                        strokeDasharray="1px 1px"
-                                                                        stroke="#06b6d4"
-                                                                    />
-                                                                </svg>
-                                                            </div>
-                                                            <div className="px-4 py-2 mt-4 text-sm font-semibold text-center text-white rounded-lg bg-cyan-500">
-                                                                Trade
-                                                            </div>
-                                                            <div className="mt-3 text-sm divide-y divide-gray-100">
-                                                                <div className="flex justify-between py-1">
-                                                                    <div className="text-gray-500">
-                                                                        Open
-                                                                    </div>
-                                                                    <div className="font-medium text-gray-900">
-                                                                        6,387.55
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between py-1">
-                                                                    <div className="text-gray-500">
-                                                                        Closed
-                                                                    </div>
-                                                                    <div className="font-medium text-gray-900">
-                                                                        6,487.09
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between py-1">
-                                                                    <div className="text-gray-500">
-                                                                        Low
-                                                                    </div>
-                                                                    <div className="font-medium text-gray-900">
-                                                                        6,322.01
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <svg
-                                            viewBox="0 0 366 729"
-                                            aria-hidden="true"
-                                            className="absolute inset-0 w-full h-full pointer-events-none fill-gray-100"
-                                        >
-                                            <path
-                                                fill="#F2F2F2"
-                                                fillRule="evenodd"
-                                                clipRule="evenodd"
-                                                d="M300.092 1c41.22 0 63.223 21.99 63.223 63.213V184.94c-.173.184-.329.476-.458.851.188-.282.404-.547.647-.791.844-.073 2.496.257 2.496 2.157V268.719c-.406 2.023-2.605 2.023-2.605 2.023a7.119 7.119 0 0 1-.08-.102v394.462c0 41.213-22.001 63.212-63.223 63.212h-95.074c-.881-.468-2.474-.795-4.323-.838l-33.704-.005-.049.001h-.231l-.141-.001c-2.028 0-3.798.339-4.745.843H66.751c-41.223 0-63.223-21.995-63.223-63.208V287.739c-.402-.024-2.165-.23-2.524-2.02v-.973A2.039 2.039 0 0 1 1 284.62v-47.611c0-.042.001-.084.004-.126v-.726c0-1.9 1.652-2.23 2.496-2.157l.028.028v-16.289c-.402-.024-2.165-.23-2.524-2.02v-.973A2.039 2.039 0 0 1 1 214.62v-47.611c0-.042.001-.084.004-.126v-.726c0-1.9 1.652-2.23 2.496-2.157l.028.028v-26.041a2.26 2.26 0 0 0 .093-.236l-.064-.01a3.337 3.337 0 0 1-.72-.12l-.166-.028A2 2 0 0 1 1 135.62v-24.611a2 2 0 0 1 1.671-1.973l.857-.143v-44.68C3.528 22.99 25.53 1 66.75 1h233.341ZM3.952 234.516a5.481 5.481 0 0 0-.229-.278c.082.071.159.163.228.278Zm89.99-206.304A4.213 4.213 0 0 0 89.727 24H56.864C38.714 24 24 38.708 24 56.852v618.296C24 693.292 38.714 708 56.864 708h250.272c18.15 0 32.864-14.708 32.864-32.852V56.852C340 38.708 325.286 24 307.136 24h-32.864a4.212 4.212 0 0 0-4.213 4.212v2.527c0 10.235-8.3 18.532-18.539 18.532H112.48c-10.239 0-18.539-8.297-18.539-18.532v-2.527Z"
-                                            />
-                                            <rect
-                                                x={154}
-                                                y={29}
-                                                width={56}
-                                                height={5}
-                                                rx="2.5"
-                                                fill="#D4D4D4"
-                                            />
-                                        </svg>
-                                    </div>
+                                <div className="h-auto px-4 -mx-4 sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
+                                <div className="w-full h-auto col-span-2 mx-auto lg:w-[700px] overflow-hidden shadow rounded-xl">
+                                    <video
+                                        autoPlay muted loop
+                                        src={`storage/files/default/Intro_Tawarin.mp4`}
+                                    ></video>
+                                </div>
                                 </div>
                             </div>
                             {/* <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
@@ -712,7 +474,7 @@ export default function Home(props) {
                 <section
                     id="secondary-features"
                     aria-label="Features for building a portfolio"
-                    className="py-20 sm:py-32"
+                    className=""
                 >
                     <div className="px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="mx-auto sm:text-center">

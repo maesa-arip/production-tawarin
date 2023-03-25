@@ -15,63 +15,147 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-export default function Filepond({ props,inputname,allowMultiple,maxFiles,required }) {
-    const { csrf_token } = usePage().props
+export default function Filepond({
+    props,
+    inputname,
+    allowMultiple,
+    maxFiles,
+    required,
+}) {
+    const { csrf_token } = usePage().props;
     const [files, setFiles] = useState([]);
-    // console.log(files[0].file.name);
-    // console.log(files);
-    // var tokenElement = document.head.querySelector('meta[name="csrf-token"]');
-    //       var token;
-    //       token = tokenElement.content;
-    // console.log();
+    const handleFilePondInit = () => {
+        console.log("init");
+        let myFiles = [];
+        let arr = ["http://127.0.0.1:8000/storage/26/1759718426953396.jpg"];
+        for (let i = 0; i < arr.length; i++) {
+            myFiles.push({
+                source: [
+                    "http://127.0.0.1:8000/storage/26/1759718426953396.jpg",
+                ],
+                options: {
+                    type: "local",
+                    metadata: {
+                        poster: [
+                            "http://127.0.0.1:8000/storage/26/1759718426953396.jpg",
+                        ],
+                    },
+                },
+            });
+        }
+    };
+    const addFormImage = (image) => {
+        let arr = ["http://127.0.0.1:8000/storage/26/1759718426953396.jpg"];
+        arr.push(image);
+        // this.form.image = arr.join('|');
+        // console.log(this.form.image);
+    };
+    const handleFilePondLoad = (response) => {
+        console.log("loadddd");
+        addFormImage(response);
+        return response;
+    };
+    // const [files2] = useState([
+    //     {
+    //         source: ["http://192.168.1.6:8000/storage/26/1759718426953396.jpg","http://192.168.1.6:8000/storage/28/1759718567338104.png"],
+
+    //         options: { type: "local" },
+    //     },
+    // ]);
+    const [images, setImages] = useState([
+        "http://192.168.1.6:8000/storage/26/1759718426953396.jpg",
+        "http://192.168.1.6:8000/storage/28/1759718567338104.png",
+    ]);
+
     return (
         <div>
             <Head title="" />
             <Container>
-                    <FilePond
-                        files={files}
-                        onupdatefiles={setFiles}
-                        allowMultiple={allowMultiple}
-                        maxFiles={maxFiles}
-                        name={inputname}
-                        credits={'false'}
-                        required={required}
-                        allowReorder={'true'}
-                        server={{
-                            // url: '/uploader',
-                            process: {
-                                url: "/upload/filepond/store",
-                                method: "POST",
-                                headers:{
-                                    'X-CSRF-TOKEN' : csrf_token
-                                },
-                                withCredentials: false,
-                                timeout: 7000,
-                                onload: null,
-                                onerror: null,
+                {/* <FilePond
+                    files={files2}
+                    onupdatefiles={setFiles}
+                    allowMultiple={allowMultiple}
+                    maxFiles={maxFiles}
+                    name={inputname}
+                    credits={"false"}
+                    required={required}
+                    allowReorder={"true"}
+                    server={{
+                        load: (
+                            source,
+                            load,
+                            error,
+                            progress,
+                            abort,
+                            headers
+                        ) => {
+                            var myRequest = new Request(source);
+                            fetch(myRequest).then(function (response) {
+                                response.blob().then(function (myBlob) {
+                                    load(myBlob);
+                                });
+                            });
+                        },
+                        process: {
+                            url: "/upload/filepond/store",
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": csrf_token,
                             },
-                            // revert: (uniqueFileId, load, error) => {
-                            //     // console.log("deleted");
-                            //     // deleteImage(uniqueFileId);
-                            //     error('Error terjadi saat delete file');
-                            //     load();
-                            // },
-                            options: {
-                                type: "local"
-                              }
-                        }}
-                        // onupdatefiles={(fileItems) => {
-                        //     setFiles({
-                        //         files: fileItems.map((fileItem) => fileItem.file),
-                        //     });
-                        // }}
-                        // onupdatefiles={fileItems => {
-                        //     setFiles({
-                        //         files: fileItems.map(fileItem => fileItem.file.name)
-                        //     })
-                        // }}
-                        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                    />
+                            withCredentials: false,
+                            timeout: 7000,
+                            
+                            onerror: null,
+                        },
+                        options: {
+                            type: "local",
+                        },
+                    }}
+                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                /> */}
+                <FilePond
+                
+                    files={images.map((image) => ({ source: image, options: { type: "local"}, }))}
+                    onupdatefiles={(fileItems) => {
+                        setImages(fileItems.map((fileItem) => fileItem.file));
+                    }}
+                    server={{
+                        process: {
+                            url: "/upload/filepond/store",
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": csrf_token,
+                            },
+                            withCredentials: false,
+                            timeout: 7000,
+                            onload: (response) => {
+                                setImages({
+                                    source: response,
+                                    options: {
+                                      type: 'local',
+                                    },
+                                  });
+                                // setImages([...images, response]);
+                            },
+                        },
+                        fetch: {
+                            url: images,
+                            options: { type: "local"},
+                        },
+                        revert: {
+                            url: "https://example.com/revert",
+                        },
+                    }}
+                    labelIdle='Drag & Drop your images or <span class="filepond--label-action">Browse</span>'
+                    allowMultiple={allowMultiple}
+                    maxFiles={maxFiles}
+                    name={inputname}
+                    credits={"false"}
+                    required={required}
+                    allowReorder={"true"}
+                    imagePreviewHeight={200}
+                    allowImagePreview={true}
+                />
             </Container>
         </div>
     );

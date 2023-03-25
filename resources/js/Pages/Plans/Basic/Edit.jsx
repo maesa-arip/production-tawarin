@@ -16,6 +16,8 @@ import InputLabel from "@/Components/InputLabel";
 import TextInputCheckbox from "@/Components/TextInputCheckbox";
 import InputError from "@/Components/InputError";
 
+
+
 export default function Edit({
     plan_master_checkboxs,
     plan_master_texts,
@@ -53,6 +55,8 @@ export default function Edit({
             ),
         });
     }, [panjang, lebar]);
+
+   
 
     const onChangeLuasBangunanHandler = (e) => {
         setLuasBangunan(e.target.value);
@@ -220,7 +224,7 @@ export default function Edit({
             <Head title="Plan Edit" />
             <Container>
                 <form onSubmit={onSubmitHandler}>
-                    <div className="mt-10 sm:mt-0">
+                    {/* <div className="mt-10 sm:mt-0">
                         <div className="md:grid md:grid-cols-3 md:gap-6">
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
@@ -293,12 +297,6 @@ export default function Edit({
                                                         {errors.name}
                                                     </span>
                                                 )}
-                                                {/* <InputError
-                                                    message={
-                                                        errors.plan_category_id
-                                                    }
-                                                    className="mt-1 ml-1"
-                                                /> */}
                                             </div>
 
                                             <div className="col-span-12 md:col-span-4">
@@ -603,21 +601,6 @@ export default function Edit({
                                                 >
                                                     Anggaran Perencanaan (dari)
                                                 </label>
-                                                {/* <CurrencyInput
-                                                    id="dari_anggaran"
-                                                    name="dari_anggaran"
-                                                    placeholder="Masukan anggaran"
-                                                    prefix="Rp "
-                                                    decimalSeparator=","
-                                                    groupSeparator="."
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    onValueChange={(
-                                                        value,
-                                                        name
-                                                    ) =>
-                                                    console.log(value, name)
-                                                    }
-                                                /> */}
                                                 <input
                                                     type="number"
                                                     name="dari_anggaran"
@@ -725,80 +708,6 @@ export default function Edit({
                             <div className="mt-5 md:mt-0 md:col-span-2">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
-                                        {/* {plan_master_checkboxs.map(
-                                            (plan_master_checkbox, i) => (
-                                                <div
-                                                    key={
-                                                        plan_master_checkbox.id
-                                                    }
-                                                    className="flex items-center justify-between px-3 py-4 rounded-md shadow"
-                                                >
-                                                    {plan_master_checkbox.name}
-                                                    <label
-                                                        htmlFor={
-                                                            plan_master_checkbox.slug
-                                                        }
-                                                        className="relative inline-flex items-center cursor-pointer"
-                                                    >
-                                                        <input
-                                                            key={
-                                                                plan_master_checkbox.id
-                                                            }
-                                                            onChange={onChange}
-                                                            value={
-                                                                data.name ?? ""
-                                                            }
-                                                            type="checkbox"
-                                                            id={
-                                                                plan_master_checkbox.slug
-                                                            }
-                                                            name={
-                                                                plan_master_checkbox.slug
-                                                            }
-                                                            className="sr-only peer"
-                                                        />
-                                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-blue-600  rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500 peer-after:ring-indigo-500" />
-                                                    </label>
-                                                </div>
-                                            )
-                                        )}
-                                        {plan_master_texts.map(
-                                            (plan_master_text, i) => (
-                                                <div key={plan_master_text.id}>
-                                                    <label
-                                                        htmlFor={
-                                                            plan_master_text.slug
-                                                        }
-                                                        className="block text-sm font-medium text-gray-700"
-                                                    >
-                                                        {plan_master_text.name}
-                                                    </label>
-                                                    <div className="mt-1">
-                                                        <textarea
-                                                            key={
-                                                                plan_master_text.id
-                                                            }
-                                                            id={
-                                                                plan_master_text.slug
-                                                            }
-                                                            name={
-                                                                plan_master_text.slug
-                                                            }
-                                                            rows={3}
-                                                            onChange={onChange}
-                                                            className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                            placeholder=""
-                                                            defaultValue={""}
-                                                        />
-                                                    </div>
-                                                    <p className="mt-2 text-sm text-gray-500">
-                                                        Masukan Keterangan{" "}
-                                                        {plan_master_text.name}{" "}
-                                                        Bila diperlukan.
-                                                    </p>
-                                                </div>
-                                            )
-                                        )} */}
                                         {options.map((option) =>
                                             !option.description ? (
                                                 <div
@@ -930,11 +839,6 @@ export default function Edit({
                                                             </span>
                                                         )}
                                                     </div>
-                                                    {/* <p className="mt-0 text-sm text-gray-500">
-                                                        Masukan Jumlah{" "}
-                                                        {plan_master_room.name}{" "}
-                                                        yang diperlukan.
-                                                    </p> */}
                                                 </div>
                                             )
                                         )}
@@ -942,7 +846,7 @@ export default function Edit({
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">
                             <div className="border-t border-gray-200" />

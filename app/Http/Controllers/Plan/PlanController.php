@@ -235,6 +235,8 @@ class PlanController extends Controller
     {
         $planWithSum = $plan->with('plan_bids')->where('id', $plan->id)->withSum('plan_bids', 'is_approved')->first();
         $media = $plan->getMedia('contohgambar');
+        // $video = $plan->getMedia('contohgambar')->where('mime_type','video/mp4');
+        // dd($video);
         $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
         $plan_master_texts = PlanMaster::where('type', 'text')->get();
         // $plan_details = $plan->plan_details;
@@ -246,7 +248,7 @@ class PlanController extends Controller
         ->where('plan_id', $plan->id)
         ->withCount('plan_details')
         ->get();
-        // dd($plan_details);
+        // dd($video);
         $persentase = 5;
         $planRooms = PlanRoom::where('plan_id', $plan->id)->leftjoin('plan_master_rooms', 'plan_master_rooms.id','plan_rooms.plan_master_room_id')->select('plan_master_rooms.name','plan_master_rooms.id','plan_rooms.name as othername','plan_rooms.count')->get();
         
@@ -254,6 +256,7 @@ class PlanController extends Controller
         return Inertia('Plans/Basic/Show', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
             'media' => ($media),
+            // 'video' => ($video),
             'planWithSum' => $planWithSum,
             'plan_details' => ($plan_details),
             'planRooms' => ($planRooms),
@@ -281,12 +284,15 @@ class PlanController extends Controller
         $plan_master_rooms = PlanMasterRoom::get();
         $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
         $plan_master_texts = PlanMaster::where('type', 'text')->get();
+        $media = $plan->getMedia('contohgambar');
+        // dd($media);
         return inertia('Plans/Basic/Edit', [
             'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
             'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
             'plan_categories' => $plan_categories,
             'plan_master_rooms' => PlanMasterRoomResource::collection($plan_master_rooms),
             'plan' => $plan,
+            'media' => $media,
             'plan_rooms' => $plan_rooms,
             'plan_details' => $plan_details,
         ]);

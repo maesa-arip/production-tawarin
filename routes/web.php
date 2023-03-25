@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\ChooseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -82,6 +83,12 @@ Route::post('/upload/filepond/store', [UploadController::class, 'store'])->name(
 Route::delete('/upload/filepond/destroy', [UploadController::class, 'destroy'])->name('filepond.destroy');
 Route::post('/upload/dropzone/store', [UploadController::class, 'storedropzone'])->name('dropzone.store');
 // End Example
+
+// Chat
+Route::get('/chat/{user:username}', [ChatController::class, 'show'])->name('chats.show');
+Route::post('/chat/{user:username}', [ChatController::class, 'store'])->name('chats.store');
+Route::get('/chat', [ChatController::class, 'index'])->name('chats.index');
+// End Chat
 
 // Permissions
 // Route::prefix('role-and-permission')->namespace('Permissions')->group(function () {

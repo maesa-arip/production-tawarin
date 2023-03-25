@@ -1,0 +1,1 @@
+import{A as o}from"./App.968f7bc5.js";import{a as r}from"./app.865dd7ba.js";import"./XIcon.7e965a4a.js";import"./clsx.m.256e9345.js";import"./transition.d46445bc.js";import"./Tawarin.08057ae7.js";function p(){return r("div",{className:"px-6 py-4",children:"Start chat now . . ."})}p.layout=t=>r(o,{children:t});export{p as default};

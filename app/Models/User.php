@@ -55,6 +55,11 @@ class User extends Authenticatable implements Wallet, Confirmable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function booted()
+    {
+        static::creating(fn (User $user) => $user->uuid = Str::uuid());
+        // static::creating(fn (User $user) => $user->myreferral = Str::random(6));
+    }
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
@@ -65,6 +70,9 @@ class User extends Authenticatable implements Wallet, Confirmable
         return $this->belongsToMany(Product::class,'user_product');
     }
 
-
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'sender_id');
+    }
     
 }

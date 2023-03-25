@@ -28,12 +28,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     enabledTransports: ['ws', 'wss'],
 // });
 
+
 window.Echo = new Echo({
   broadcaster: 'pusher',
-  key: 'ffc36305c2bdb13b7868',
+  key: 'e1c698f0a47f6cfd704c',
   cluster: 'ap1',
   forceTLS: true
 });
+
 
 // window.Echo.channel('test').listen('.TestEvent', (e)=> {
 //   console.log('Berhasil');
