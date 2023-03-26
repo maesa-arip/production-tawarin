@@ -41,3 +41,8 @@ window.Echo = new Echo({
 //   console.log('Berhasil');
 //   console.log(e);
 // });
+
+// window.Echo.channel('chats.aaf00402-ca31-11ed-9278-10e7c6e2b651').listen('.MessageSent', (e)=> {
+//   console.log('Berhasil');
+//   console.log(e);
+// });

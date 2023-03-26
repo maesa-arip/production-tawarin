@@ -14,15 +14,15 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('invoice.paid.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+// Broadcast::channel('invoice.paid.{id}', function ($user, $id) {
+//     return (int) $user->id === (int) $id;
+// });
 
 Broadcast::channel('chats.{uuid}', function ($user, $uuid) {
     return Auth::check();
 });
 
-// Broadcast::channel('test', function ($user, $id) {
-//     return;
-// });
+Broadcast::channel('test', function ($user, $id) {
+    return;
+});
 

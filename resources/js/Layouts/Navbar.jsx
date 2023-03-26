@@ -967,12 +967,12 @@ export default function Navbar() {
                     )}
 
                     <NavLinkMobile
-                        href={route("choose.pilar")}
+                        href={route("chats.index")}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="inline-block mb-1 icon icon-tabler icon-tabler-category"
+                            className="inline-block mb-1 icon icon-tabler icon-tabler-message"
                             width={24}
                             height={24}
                             viewBox="0 0 24 24"
@@ -983,14 +983,13 @@ export default function Navbar() {
                             strokeLinejoin="round"
                         >
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M4 4h6v6h-6z" />
-                            <path d="M14 4h6v6h-6z" />
-                            <path d="M4 14h6v6h-6z" />
-                            <circle cx={17} cy={17} r={3} />
+                            <path d="M8 9h8" />
+                            <path d="M8 13h6" />
+                            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
                         </svg>
 
                         <span className="block text-xs tab tab-kategori">
-                            Category
+                            Chat
                         </span>
                     </NavLinkMobile>
 

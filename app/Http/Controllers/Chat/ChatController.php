@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Chat;
 
 use App\Events\MessageSent;
+use App\Events\TestEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Models\User;
@@ -24,6 +25,7 @@ class ChatController extends Controller
                 fn ($q) => $q->where('sender_id', $user->id)->where('receiver_id', Auth::id())
     
         )->get();
+        // dd($chats);
         return inertia('Chats/Show',[
             'user'=>$user,
             'chats'=>$chats,

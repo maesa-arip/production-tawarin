@@ -71,8 +71,8 @@ export default function Filepond({
         <div>
             <Head title="" />
             <Container>
-                {/* <FilePond
-                    files={files2}
+                <FilePond
+                    files={files}
                     onupdatefiles={setFiles}
                     allowMultiple={allowMultiple}
                     maxFiles={maxFiles}
@@ -112,8 +112,8 @@ export default function Filepond({
                         },
                     }}
                     labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                /> */}
-                <FilePond
+                />
+                {/* <FilePond
                 
                     files={images.map((image) => ({ source: image, options: { type: "local"}, }))}
                     onupdatefiles={(fileItems) => {
@@ -155,7 +155,7 @@ export default function Filepond({
                     allowReorder={"true"}
                     imagePreviewHeight={200}
                     allowImagePreview={true}
-                />
+                /> */}
             </Container>
         </div>
     );

@@ -224,7 +224,7 @@ export default function Edit({
             <Head title="Plan Edit" />
             <Container>
                 <form onSubmit={onSubmitHandler}>
-                    {/* <div className="mt-10 sm:mt-0">
+                    <div className="mt-10 sm:mt-0">
                         <div className="md:grid md:grid-cols-3 md:gap-6">
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
@@ -846,7 +846,7 @@ export default function Edit({
                                 </div>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">
                             <div className="border-t border-gray-200" />
