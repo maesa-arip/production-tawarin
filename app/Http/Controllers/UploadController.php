@@ -20,6 +20,11 @@ class UploadController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'document' => 'required',
+            'document.*' => 'required|mimes:pdf,xlx,csv|max:2048',
+        ]);
+        
         if ($request->hasFile('document')) {
             $file = $request->file('document');
             $filename = hexdec(uniqid()) . '.' . $file->extension();

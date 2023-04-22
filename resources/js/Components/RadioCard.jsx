@@ -1,40 +1,23 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 
-const plans = [
-  {
-    name: 'Startup',
-    ram: 'Rp. 100.000.000',
-    cpus: '1 Slot',
-    // disk: '160 GB SSD disk',
-  },
-  {
-    name: 'Business',
-    ram: 'Rp. 200.000.000',
-    cpus: '1 Slot',
-    // disk: '512 GB SSD disk',
-  },
-  {
-    name: 'Enterprise',
-    ram: 'Rp. 500.000.000',
-    cpus: '1 Slot',
-    // disk: '1024 GB SSD disk',
-  },
-]
 
-export default function RadioCard() {
-  const [selected, setSelected] = useState(plans[0])
+
+export default function RadioCard({ShouldMap, selected, onChange}) {
+  // const [selected, setSelected] = useState(plans[0])
 
   return (
-    <div className="w-full px-4 py-16">
+    <div className="w-full">
       <div className="w-full max-w-md mx-auto">
-        <RadioGroup value={selected} onChange={setSelected}>
+        <RadioGroup value={selected} onChange={onChange}>
           <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
           <div className="space-y-2">
-            {plans.map((plan) => (
+          {ShouldMap.map((item) => (
+            
               <RadioGroup.Option
-                key={plan.name}
-                value={plan}
+                key={item.name}
+                onChange={(e) => handleChange(e)}
+                value={item}
                 className={({ active, checked }) =>
                   `${
                     active
@@ -54,11 +37,11 @@ export default function RadioCard() {
                         <div className="text-sm">
                           <RadioGroup.Label
                             as="p"
-                            className={`font-medium  ${
+                            className={`font-medium mb-2  ${
                               checked ? 'text-white' : 'text-gray-900'
                             }`}
                           >
-                            {plan.name}
+                            {item.name}
                           </RadioGroup.Label>
                           <RadioGroup.Description
                             as="span"
@@ -67,13 +50,14 @@ export default function RadioCard() {
                             }`}
                           >
                             <span>
-                              {plan.ram} {plan.cpus}
+                              {item.description} 
                             </span>{' '}
-                            <span aria-hidden="true">&middot;</span>{' '}
-                            <span>{plan.disk}</span>
+                            {/* <span aria-hidden="true">&middot;</span>{' '}
+                            <span>{item.name}</span> */}
                           </RadioGroup.Description>
                         </div>
                       </div>
+                      
                       {checked && (
                         <div className="text-white shrink-0">
                           <CheckIcon className="w-6 h-6" />

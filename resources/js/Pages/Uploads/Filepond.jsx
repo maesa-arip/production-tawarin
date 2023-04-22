@@ -11,9 +11,10 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 // Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 export default function Filepond({
     props,
@@ -55,13 +56,12 @@ export default function Filepond({
         addFormImage(response);
         return response;
     };
-    // const [files2] = useState([
-    //     {
-    //         source: ["http://192.168.1.6:8000/storage/26/1759718426953396.jpg","http://192.168.1.6:8000/storage/28/1759718567338104.png"],
-
-    //         options: { type: "local" },
-    //     },
-    // ]);
+    const [files2] = useState([
+        {
+            source: ["http://192.168.1.6:8000/storage/26/1759718426953396.jpg"],
+            options: { type: "local" },
+        },
+    ]);
     const [images, setImages] = useState([
         "http://192.168.1.6:8000/storage/26/1759718426953396.jpg",
         "http://192.168.1.6:8000/storage/28/1759718567338104.png",
@@ -79,6 +79,9 @@ export default function Filepond({
                     name={inputname}
                     credits={"false"}
                     required={required}
+                    allowFileTypeValidation={"true"}
+                    acceptedFileTypes={['image/png', 'image/jpeg']}
+                    allowReplace = {true}
                     allowReorder={"true"}
                     server={{
                         load: (

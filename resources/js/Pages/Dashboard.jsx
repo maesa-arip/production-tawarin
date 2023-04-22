@@ -46,6 +46,7 @@ const DownIcon = () => (
 export default function Dashboard(props) {
     const { data: plans, meta, filtered, attributes } = props.plans;
     const planRejectCount = props.planRejectCount;
+    const permissions = props.permissions;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const reload = useCallback(
@@ -107,7 +108,7 @@ export default function Dashboard(props) {
             <Container>
             
 
-                <FeatureCard />
+                {/* <FeatureCard /> */}
                 <div className="mt-4 flex flex-col px-2 py-2 bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                 <DestroyModal
                     isOpenDestroyDialog={isOpenDestroyDialog}
@@ -326,7 +327,10 @@ export default function Dashboard(props) {
                                                                     Penawaran
                                                                 </Link>
                                                             ) : (
-                                                                <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
+                                                                <Link href={route(
+                                                                    "plans.edit",
+                                                                    `${plan.slug}`
+                                                                )} className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
                                                                     Edit
                                                                 </Link>
                                                             )}

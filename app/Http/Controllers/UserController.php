@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Plan\PlanPortofolio;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -13,7 +14,8 @@ class UserController extends Controller
     public $loadDefault = 10;
     public function index(Request $request)
     {
-        $query = User::query()->with('roles');
+        $query = User::query()->with('roles')->with('join_as');
+        // dd($query);
         if ($request->q) {
             $query->where('name','like','%'.$request->q.'%')
             ->orWhere('username','like','%'.$request->q.'%')
@@ -88,7 +90,18 @@ class UserController extends Controller
 
     public function profile()
     {
-        return inertia('Users/Basic/Profile');
+        $portofolios = PlanPortofolio::where('user_id', auth()->user()->id)->get();
+        $count = PlanPortofolio::where('user_id', auth()->user()->id)->count();
+
+
+        $dataplan = [];
+        foreach ($portofolios as $plan_detail) {
+            $plan_result = PlanPortofolio::where('id', $plan_detail->id)->first();
+            $dataplan[$plan_detail->slug] = $plan_result->getMedia('contohgambar');
+        }
+        // $media = $portofolios->getMedia('contohgambar');
+        // dd($portofolios);
+        return inertia('Users/Basic/Profile',['portofolios'=>$portofolios,'count'=>$count,'dataplan' => $dataplan,]);
     }
 
     public function destroy(User $user)

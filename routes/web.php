@@ -21,6 +21,7 @@ use App\Http\Controllers\Plan\Admin\PlanAdminController;
 use App\Http\Controllers\Plan\BidPlanController;
 use App\Http\Controllers\Plan\PlanBidController;
 use App\Http\Controllers\Plan\PlanController;
+use App\Http\Controllers\Plan\PlanPortofolioController;
 use App\Http\Controllers\Plan\PlanResultController;
 use App\Http\Controllers\Plan\PlanRevisionController;
 use App\Http\Controllers\PlanRevisionResultController;
@@ -124,6 +125,7 @@ Route::get('/chat', [ChatController::class, 'index'])->name('chats.index');
     // Plans
     Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
     Route::get('public/plans/{plan}', [PlanController::class,'show'])->name('plans.show');
+    Route::get('public/planportofolios/{plans}', [PlanPortofolioController::class,'show'])->name('planportofolios.show');
     // End Plans
 
     // Fundings
@@ -162,6 +164,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class,'confirmed'])->name('planadmin.confirmed');
     Route::post('/planadmin/rejected/{id}', [PlanAdminController::class,'rejected'])->name('planadmin.rejected');
     Route::Resource('plans', PlanController::class)->except('show');
+    Route::Resource('planportofolios', PlanPortofolioController::class)->except('show');
     // -- Tahapan Perencanaan
         Route::get('plan/tahapan/{plan}',[PlanController::class,'tahapan'])->name('plan.tahapan');
         Route::get('bidplan/tahapan/{plan}',[BidPlanController::class,'tahapan'])->name('bidplan.tahapan');

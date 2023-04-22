@@ -953,7 +953,7 @@ export default function Create({
                                                         inputname={"document"}
                                                         allowMultiple={true}
                                                         maxFiles={"5"}
-                                                        // required={true}
+                                                        required={true}
                                                     />
                                                     <div className="flex justify-center text-sm text-gray-600">
                                                         <label

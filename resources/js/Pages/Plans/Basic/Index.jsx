@@ -47,6 +47,7 @@ export default function Index(props) {
     const planRejectCount = props.planRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
+    useEffect(() => reload(params), [params]);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
@@ -61,7 +62,7 @@ export default function Index(props) {
         []
     );
 
-    useEffect(() => reload(params), [params]);
+    
     useEffect(() => {
         let numbers = [];
         for (

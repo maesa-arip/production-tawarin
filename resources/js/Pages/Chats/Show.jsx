@@ -78,7 +78,7 @@ export default function Show(props) {
                     <div className="md:hidden">
                         <ApplicationLogo />
                     </div>
-                    <div className="flex items-center">
+                    <div className="items-center hidden md:flex">
                     <div className="flex items-center justify-center w-10 h-10 mx-4 text-2xl font-semibold bg-indigo-200 rounded-full">
                                 {Array.from(user.name)[0]}
                             </div>

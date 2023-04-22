@@ -154,7 +154,7 @@ export default function Index(props) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center justify-between mb-2">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
                                 <ThirdButton
@@ -273,7 +273,7 @@ export default function Index(props) {
                                                     </div>
                                                 </th>
 
-                                                <th
+                                                {/* <th
                                                     scope="col"
                                                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
@@ -297,7 +297,7 @@ export default function Index(props) {
                                                                 <DownIcon />
                                                             )}
                                                     </div>
-                                                </th>
+                                                </th> */}
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
@@ -350,11 +350,34 @@ export default function Index(props) {
                                                 </th>
                                                 <th
                                                     scope="col"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                >
+                                                    <div
+                                                        className="flex items-center cursor-pointer gap-x-2"
+                                                        onClick={() =>
+                                                            sort("join_as")
+                                                        }
+                                                    >
+                                                        Daftar Sebagai
+                                                        {params.field ==
+                                                            "join_as" &&
+                                                            params.direction ==
+                                                                "asc" && (
+                                                                <UpIcon />
+                                                            )}
+                                                        {params.field ==
+                                                            "join_as" &&
+                                                            params.direction ==
+                                                                "desc" && (
+                                                                <DownIcon />
+                                                            )}
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    scope="col"
                                                     className="relative px-6 py-3"
                                                 >
-                                                    <span className="sr-only">
-                                                       
-                                                    </span>
+                                                    <span className="sr-only"></span>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -370,9 +393,9 @@ export default function Index(props) {
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {person.name}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                    {/* <td className="px-6 py-4 whitespace-nowrap">
                                                         {person.address}
-                                                    </td>
+                                                    </td> */}
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {person.email}
                                                     </td>
@@ -387,6 +410,14 @@ export default function Index(props) {
                                                                 </span>
                                                             )
                                                         )}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <span className="px-2 py-1 mx-1 text-xs text-blue-500 uppercase rounded-full bg-blue-50">
+                                                            {
+                                                                person.join_as
+                                                                    .name
+                                                            }
+                                                        </span>
                                                     </td>
                                                     <td>
                                                         <Dropdown>

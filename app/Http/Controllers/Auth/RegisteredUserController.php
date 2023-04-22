@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Auth\JoinAs;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -21,7 +22,8 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Auth/Register');
+        $joinas = JoinAs::get();
+        return Inertia::render('Auth/Register', ['joinas'=>$joinas]);
     }
 
     /**
@@ -40,6 +42,7 @@ class RegisteredUserController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'phone' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'join_as_id' => 'required',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -49,6 +52,7 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'phone' => $request->phone,
             'address' => $request->address,
+            'join_as_id' => $request->join_as_id,
             'password' => Hash::make($request->password),
         ]);
         $user->createWallet(

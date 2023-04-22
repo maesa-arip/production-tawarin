@@ -84,7 +84,7 @@ class PlanController extends Controller
         ]);
     }
 
-    public $loadDefault = 10;
+    public $loadDefault = 15;
     public function index(Request $request)
     {
         $plans = Plan::query()
@@ -112,7 +112,7 @@ class PlanController extends Controller
         )->additional([
             'attributes' => [
                 'total' => 1100,
-                'per_page' => 10,
+                'per_page' => 15,
             ],
             'filtered' => [
                 'load' => $request->load ?? $this->loadDefault,

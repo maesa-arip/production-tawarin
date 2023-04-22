@@ -4,6 +4,7 @@ import NavLink from "@/Components/NavLink";
 import NavLinkMobile from "@/Components/NavLinkMobile";
 import DropdownMenu from "@/Components/DropdownMenu";
 import MenuModal from "@/Components/Modal/MenuModal";
+import InfoModal from "@/Components/Modal/InfoModal";
 import { PhotographIcon } from "@heroicons/react/solid";
 
 import { Fragment } from "react";
@@ -11,6 +12,8 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Logo from "../../img/Tawarin.png";
 import {
+    IconBarcode,
+    IconBrandSupernova,
     IconBuildingSkyscraper,
     IconBuildingStore,
     IconCash,
@@ -18,10 +21,13 @@ import {
     IconShoppingCart,
     IconTools,
     IconUserSearch,
+    IconUsers,
     IconWallet,
+    IconWriting,
 } from "@tabler/icons";
 import Dropdown from "@/Components/Dropdown";
 import MenuLogo from "@/Components/MenuLogo";
+
 
 export default function Navbar() {
     const {
@@ -35,6 +41,21 @@ export default function Navbar() {
     const openMenuModal = () => {
         setIsOpenMenuModal(true);
     };
+    const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [state, setState] = useState([]);
+    const openInfoDialog = () => {
+        setState();
+        setIsOpenInfoDialog(true);
+    };
+    <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog}
+                setIsOpenInfoDialog={setIsOpenInfoDialog}
+                size="2xl"
+                title={"Info"}
+                header={""}
+            >
+                Anda harus login terlebih dahulu untuk menggunakan fitur chat
+            </InfoModal>
 
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
@@ -223,6 +244,11 @@ export default function Navbar() {
                                             >
                                                 Buat Perencanaan
                                             </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route("planportofolios.index")}
+                                            >
+                                                Portofolio
+                                            </Dropdown.Link>
                                         </>
                                     )}
                                 </Dropdown.Content>
@@ -271,6 +297,7 @@ export default function Navbar() {
                                     </Dropdown.Content>
                                 </Dropdown>
                             )}
+                            {/* <NavLink href="/toko/products">Toko</NavLink> */}
                             {/* <NavLink href="/projects/choose">Proyek</NavLink>
                             <NavLink href="/">Keahlian</NavLink>
                             <NavLink href="/toko/products">Toko</NavLink>
@@ -554,12 +581,12 @@ export default function Navbar() {
                                             <Dropdown.Link
                                                 href={route("profile.edit")}
                                             >
-                                                Profile
+                                                Edit Profile
                                             </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route("users.profiles")}
                                             >
-                                                Profiles
+                                                Porfolios
                                             </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route("logout")}
@@ -883,6 +910,54 @@ export default function Navbar() {
                                 Alat
                             </div>
                         </NavLinkMobile>
+                        {auth.user ?  <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route("planportofolios.index")}
+                        >
+                            <IconWriting className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Portofolio
+                            </div>
+                        </NavLinkMobile> : <></>}
+                       
+                        {permission_name.indexOf("lihat menu admin saldo") >
+                            -1 && (
+                            <NavLinkMobile
+                                onClick={() => setIsOpenMenuModal(false)}
+                                href="/projects/choose"
+                            >
+                                <IconBarcode className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                    AdminSaldo
+                                </div>
+                            </NavLinkMobile>
+                        )}
+                        {permission_name.indexOf("lihat menu admin general") >
+                            -1 && (
+                            <NavLinkMobile
+                                onClick={() => setIsOpenMenuModal(false)}
+                                href={"/adminplans"}
+                            >
+                                <IconBrandSupernova className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                    AturPerencanaan
+                                </div>
+                            </NavLinkMobile>
+                        )}
+                        {permission_name.indexOf("atur hak akses") > -1 && (
+                            <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route("users.index")}
+                        >
+                            <IconUsers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                AdminUser
+                            </div>
+                        </NavLinkMobile>
+                            )}
 
                         {/* <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
@@ -966,7 +1041,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                     )}
 
-                    <NavLinkMobile
+                    {auth.user ? <NavLinkMobile
                         href={route("chats.index")}
                         className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                     >
@@ -991,7 +1066,34 @@ export default function Navbar() {
                         <span className="block text-xs tab tab-kategori">
                             Chat
                         </span>
-                    </NavLinkMobile>
+                    </NavLinkMobile> : 
+                    <button
+                    onClick={() => openInfoDialog()}
+                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
+                    >
+                        <svg  onClick={() => openInfoDialog()}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="inline-block mb-1 icon icon-tabler icon-tabler-message"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M8 9h8" />
+                            <path d="M8 13h6" />
+                            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
+                        </svg>
+
+                        <span className="block text-xs tab tab-kategori">
+                            Chat
+                        </span>
+                    </button> }
+                    
 
                     <button
                         onClick={openMenuModal}

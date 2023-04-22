@@ -1,5 +1,6 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import AppChat from "@/Layouts/AppChat";
+import Navbar from "@/Layouts/Navbar";
 import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import React from "react";
 
@@ -7,13 +8,14 @@ export default function Index(props) {
     const { users, auth, roles } = usePage().props;
     return (
         <>
-            <div className="flex flex-row w-full h-full overflow-x-hidden">
+            <div className="w-full h-full overflow-x-hidden">
                 <Head title={"Chat"} />
+                <Navbar/>
                 <div className="flex-col flex-shrink-0 w-full px-8 py-8 bg-white">
                     <div className="flex flex-row items-center justify-center w-full h-12">
-                        <div className="flex items-center justify-center w-10 h-10 text-indigo-700 bg-indigo-100 rounded-2xl">
+                        {/* <div className="flex items-center justify-center w-10 h-10 text-indigo-700 bg-indigo-100 rounded-2xl">
                             <ApplicationLogo />
-                        </div>
+                        </div> */}
                         <Link
                             className="ml-2 text-2xl font-bold"
                             href={route("chats.index")}

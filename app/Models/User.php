@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Auth\JoinAs;
 use App\Models\Plan\Plan;
 use App\Models\Toko\Invoice;
 use App\Models\Toko\Product;
@@ -33,6 +34,7 @@ class User extends Authenticatable implements Wallet, Confirmable
         'email',
         'password',
         'username',
+        'join_as_id',
         'phone',
         'address'
     ];
@@ -66,6 +68,10 @@ class User extends Authenticatable implements Wallet, Confirmable
         return $this->hasMany(Invoice::class);
     }
 
+    public function join_as()
+    {
+        return $this->belongsTo(JoinAs::class);
+    }
     public function products()
     {
         return $this->belongsToMany(Product::class,'user_product');

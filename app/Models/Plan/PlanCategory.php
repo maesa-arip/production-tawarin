@@ -13,4 +13,8 @@ class PlanCategory extends Model
     {
         return $this->hasMany(Plan::class);
     }
+    public function planportofolios()
+    {
+        return $this->hasMany(PlanPortofolio::class);
+    }
 }

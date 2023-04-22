@@ -7,6 +7,7 @@ import Filter from '@/Components/Filter';
 import { Menu } from '@headlessui/react';
 import App from '@/Layouts/App';
 import Container from '@/Components/Container';
+import clsx from 'clsx';
 const menus = [
     { label: 'latest', value: 'latest' },
     { label: 'oldest', value: 'oldest' },
@@ -107,6 +108,30 @@ useEffect(() => reload(keyword), [keyword]);
                 </div>
             }
             <Pagination meta={meta} />
+            {/* <ul className="flex items-center mt-10 gap-x-1">
+                        {meta.links.map((item, index) => (
+                            <button
+                                key={index}
+                                disabled={item.url == null ? true : false}
+                                className={`${
+                                    item.url == null
+                                        ? "text-gray-500"
+                                        : "text-gray-800"
+                                } w-12 h-9 rounded-lg flex items-center justify-center border bg-white`}
+                                onClick={() =>
+                                    setKeyword({
+                                        ...keyword,
+                                        page: new URL(
+                                            item.url
+                                        ).searchKeyword.get("page"),
+                                    })
+                                }
+                            >
+                                {item.label}
+                            </button>
+                            
+                        ))}
+                    </ul> */}
         </div>
         </Container>
     );
