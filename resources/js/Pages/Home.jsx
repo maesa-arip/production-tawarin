@@ -499,8 +499,7 @@ export default function Home(props) {
                                 </Link>
 
                                 <p className="mt-2 text-gray-700">
-                                    Watch your investments grow exponentially,
-                                    leaving other investors in the dust.
+                                Mari bersama-sama mendukung proyek hebat dan berikan kontribusi melalui pendanaan Tawarin.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -511,8 +510,7 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Whether it’s $1 or $1,000,000, we can put
-                                    your money to work for you.
+                                Tunjukkan rencanamu dan dapatkan dukungan untuk pembangunan masa depan melalui platform Tawarin.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -523,8 +521,7 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Invest in different industries to find the
-                                    most opportunities to win huge.
+                                    Buat proyekmu di Tawarin, temukan pekerja ahli serta fasilitas lengkap dan mudah.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -535,8 +532,7 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Get insider tips on big stock moves and act
-                                    on them within seconds.
+                                Cari pekerja konstruksi yang berkualitas dan terpercaya dengan mudah di Tawarin!
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -547,8 +543,7 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Invite new insiders to get tips faster and
-                                    beat even other Pocket users.
+                                Temukan beragam produk konstruksi dan jualanmu sendiri di Tawarin dengan mudah dan aman.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -559,8 +554,7 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Cutting-edge security technology that even
-                                    the NSA doesn’t know about keeps you hidden.
+                                Sewakan alat konstruksi dan industri di Tawarin, kembangkan bisnismu dan jangkau lebih banyak pelanggan.
                                 </p>
                             </li>
                         </ul>
@@ -592,7 +586,7 @@ export default function Home(props) {
                                         >
                                             <div className="LazyLoad is-visible">
                                                 <img
-                                                    className="object-cover mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow h-44 w-96 group-hover:shadow-lg"
+                                                    className="object-cover min-w-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow h-44 max-w-96 group-hover:shadow-lg"
                                                     src={
                                                         plan.media
                                                             ? plan.media
