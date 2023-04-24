@@ -560,22 +560,23 @@ export default function Home(props) {
                         </ul>
                     </div>
                 </section>
-                <div className="grid grid-cols-12 mx-auto">
+                <div className="grid grid-cols-12 mx-auto my-10">
                     <section className="w-full h-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="mb-6">
-                            <h4 className="text-xl font-semibold capitalize">
-                                Perencanaan
-                            </h4>
-                            <p className="text-xs text-shark-500">
-                                Ini adalah daftar perencanaan di tawarin
+                        <div className="mx-auto mb-6 md:text-center">
+                            <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
+                            Perencanaan
+                            </h2>
+                            <p className="mt-4 text-lg tracking-tight text-slate-700">
+                            Ini adalah daftar perencanaan di tawarin
                             </p>
                         </div>
 
                         <div className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
                             {plans.map ? (
                                 plans.map((plan, index) => (
+                                    
                                     <div
-                                        className="text-left focus:outline-none"
+                                        className="p-4 text-left border border-gray-200 focus:outline-none rounded-2xl" 
                                         key={index}
                                     >
                                         <Link
@@ -586,7 +587,7 @@ export default function Home(props) {
                                         >
                                             <div className="LazyLoad is-visible">
                                                 <img
-                                                    className="object-cover min-w-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow h-44 max-w-96 group-hover:shadow-lg"
+                                                    className="object-cover min-w-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg h-44 max-w-96"
                                                     src={
                                                         plan.media
                                                             ? plan.media
@@ -733,14 +734,15 @@ export default function Home(props) {
                 </div>
                 <div className="grid grid-cols-12 mx-auto md:mt-10">
                     <section className="w-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="mb-6">
-                            <h4 className="text-xl font-semibold capitalize">
-                                Proyek
-                            </h4>
-                            <p className="text-xs text-shark-500">
-                                Ini adalah daftar Proyek di tawarin
+                    <div className="mx-auto mb-6 md:text-center">
+                            <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
+                            Proyek
+                            </h2>
+                            <p className="mt-4 text-lg tracking-tight text-slate-700">
+                            Ini adalah daftar Proyek di tawarin
                             </p>
                         </div>
+
                         <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
                             <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                                 <svg
@@ -1304,7 +1306,7 @@ export default function Home(props) {
                                     className="flex flex-col gap-y-6 sm:gap-y-8"
                                 >
                                     <li>
-                                        <figure className="relative p-6 bg-white shadow-xl rounded-2xl shadow-slate-900/10">
+                                        <figure className="relative p-6 bg-white border border-gray-200 rounded-2xl shadow-slate-900/10">
                                             <svg
                                                 aria-hidden="true"
                                                 width={105}
@@ -1315,20 +1317,16 @@ export default function Home(props) {
                                             </svg>
                                             <blockquote className="relative">
                                                 <p className="text-lg tracking-tight text-slate-900">
-                                                    TaxPal is so easy to use I
-                                                    can’t help but wonder if
-                                                    it’s really doing the things
-                                                    the government expects me to
-                                                    do.
+                                                    Aplikasi sangat membantu, membuat transaksi sangat aman dengan konsultan terpercaya
                                                 </p>
                                             </blockquote>
                                             <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
                                                 <div>
                                                     <div className="text-base font-display text-slate-900">
-                                                        Sheryl Berge
+                                                        Maesa Ari Palguna
                                                     </div>
                                                     <div className="mt-1 text-sm text-slate-500">
-                                                        CEO at Lynch LLC
+                                                        Owner
                                                     </div>
                                                 </div>
                                                 <div className="overflow-hidden rounded-full bg-slate-50">
@@ -1352,58 +1350,7 @@ export default function Home(props) {
                                             </figcaption>
                                         </figure>
                                     </li>
-                                    <li>
-                                        <figure className="relative p-6 bg-white shadow-xl rounded-2xl shadow-slate-900/10">
-                                            <svg
-                                                aria-hidden="true"
-                                                width={105}
-                                                height={78}
-                                                className="absolute top-6 left-6 fill-slate-100"
-                                            >
-                                                <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z" />
-                                            </svg>
-                                            <blockquote className="relative">
-                                                <p className="text-lg tracking-tight text-slate-900">
-                                                    I’m trying to get a hold of
-                                                    someone in support, I’m in a
-                                                    lot of trouble right now and
-                                                    they are saying it has
-                                                    something to do with my
-                                                    books. Please get back to me
-                                                    right away.
-                                                </p>
-                                            </blockquote>
-                                            <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
-                                                <div>
-                                                    <div className="text-base font-display text-slate-900">
-                                                        Amy Hahn
-                                                    </div>
-                                                    <div className="mt-1 text-sm text-slate-500">
-                                                        Director at Velocity
-                                                        Industries
-                                                    </div>
-                                                </div>
-                                                <div className="overflow-hidden rounded-full bg-slate-50">
-                                                    <img
-                                                        alt=""
-                                                        srcSet={
-                                                            DefaultUserImage
-                                                        }
-                                                        src={DefaultUserImage}
-                                                        width={56}
-                                                        height={56}
-                                                        decoding="async"
-                                                        data-nimg="future"
-                                                        className="object-cover h-14 w-14"
-                                                        loading="lazy"
-                                                        style={{
-                                                            color: "transparent",
-                                                        }}
-                                                    />
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                             <li>
@@ -1412,7 +1359,7 @@ export default function Home(props) {
                                     className="flex flex-col gap-y-6 sm:gap-y-8"
                                 >
                                     <li>
-                                        <figure className="relative p-6 bg-white shadow-xl rounded-2xl shadow-slate-900/10">
+                                        <figure className="relative p-6 bg-white border border-gray-200 rounded-2xl shadow-slate-900/10">
                                             <svg
                                                 aria-hidden="true"
                                                 width={105}
@@ -1423,24 +1370,16 @@ export default function Home(props) {
                                             </svg>
                                             <blockquote className="relative">
                                                 <p className="text-lg tracking-tight text-slate-900">
-                                                    The best part about TaxPal
-                                                    is every time I pay my
-                                                    employees, my bank balance
-                                                    doesn’t go down like it used
-                                                    to. Looking forward to
-                                                    spending this extra cash
-                                                    when I figure out why my
-                                                    card is being declined.
+                                                    Aplikasi ini sangat bagus, dengan sistem saldo yang jelas, tidak perlu takut dalam melakukan transaksi disini.
                                                 </p>
                                             </blockquote>
                                             <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
                                                 <div>
                                                     <div className="text-base font-display text-slate-900">
-                                                        Leland Kiehn
+                                                    I Nyoman Wisnu Bawa
                                                     </div>
                                                     <div className="mt-1 text-sm text-slate-500">
-                                                        Founder of Kiehn and
-                                                        Sons
+                                                        Konsultan
                                                     </div>
                                                 </div>
                                                 <div className="overflow-hidden rounded-full bg-slate-50">
@@ -1464,56 +1403,7 @@ export default function Home(props) {
                                             </figcaption>
                                         </figure>
                                     </li>
-                                    <li>
-                                        <figure className="relative p-6 bg-white shadow-xl rounded-2xl shadow-slate-900/10">
-                                            <svg
-                                                aria-hidden="true"
-                                                width={105}
-                                                height={78}
-                                                className="absolute top-6 left-6 fill-slate-100"
-                                            >
-                                                <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z" />
-                                            </svg>
-                                            <blockquote className="relative">
-                                                <p className="text-lg tracking-tight text-slate-900">
-                                                    There are so many things I
-                                                    had to do with my old
-                                                    software that I just don’t
-                                                    do at all with TaxPal.
-                                                    Suspicious but I can’t say I
-                                                    don’t love it.
-                                                </p>
-                                            </blockquote>
-                                            <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
-                                                <div>
-                                                    <div className="text-base font-display text-slate-900">
-                                                        Erin Powlowski
-                                                    </div>
-                                                    <div className="mt-1 text-sm text-slate-500">
-                                                        COO at Armstrong Inc
-                                                    </div>
-                                                </div>
-                                                <div className="overflow-hidden rounded-full bg-slate-50">
-                                                    <img
-                                                        alt=""
-                                                        srcSet={
-                                                            DefaultUserImage
-                                                        }
-                                                        src={DefaultUserImage}
-                                                        width={56}
-                                                        height={56}
-                                                        decoding="async"
-                                                        data-nimg="future"
-                                                        className="object-cover h-14 w-14"
-                                                        loading="lazy"
-                                                        style={{
-                                                            color: "transparent",
-                                                        }}
-                                                    />
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </li>
+                                   
                                 </ul>
                             </li>
                             <li>
@@ -1522,7 +1412,7 @@ export default function Home(props) {
                                     className="flex flex-col gap-y-6 sm:gap-y-8"
                                 >
                                     <li>
-                                        <figure className="relative p-6 bg-white shadow-xl rounded-2xl shadow-slate-900/10">
+                                        <figure className="relative p-6 bg-white border border-gray-200 rounded-2xl shadow-slate-900/10">
                                             <svg
                                                 aria-hidden="true"
                                                 width={105}
@@ -1533,20 +1423,16 @@ export default function Home(props) {
                                             </svg>
                                             <blockquote className="relative">
                                                 <p className="text-lg tracking-tight text-slate-900">
-                                                    I used to have to remit tax
-                                                    to the EU and with TaxPal I
-                                                    somehow don’t have to do
-                                                    that anymore. Nervous to
-                                                    travel there now though.
+                                                Sangat mudah dalam mengoperasikan aplikasi, fitur lengkap dan mudah dalam mencari apapun.
                                                 </p>
                                             </blockquote>
                                             <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
                                                 <div>
                                                     <div className="text-base font-display text-slate-900">
-                                                        Peter Renolds
+                                                    Agus Suryawan
                                                     </div>
                                                     <div className="mt-1 text-sm text-slate-500">
-                                                        Founder of West Inc
+                                                        Owner
                                                     </div>
                                                 </div>
                                                 <div className="overflow-hidden rounded-full bg-slate-50">
@@ -1570,57 +1456,7 @@ export default function Home(props) {
                                             </figcaption>
                                         </figure>
                                     </li>
-                                    <li>
-                                        <figure className="relative p-6 bg-white shadow-xl rounded-2xl shadow-slate-900/10">
-                                            <svg
-                                                aria-hidden="true"
-                                                width={105}
-                                                height={78}
-                                                className="absolute top-6 left-6 fill-slate-100"
-                                            >
-                                                <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z" />
-                                            </svg>
-                                            <blockquote className="relative">
-                                                <p className="text-lg tracking-tight text-slate-900">
-                                                    This is the fourth email
-                                                    I’ve sent to your support
-                                                    team. I am literally being
-                                                    held in jail for tax fraud.
-                                                    Please answer your damn
-                                                    emails, this is important.
-                                                </p>
-                                            </blockquote>
-                                            <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
-                                                <div>
-                                                    <div className="text-base font-display text-slate-900">
-                                                        Amy Hahn
-                                                    </div>
-                                                    <div className="mt-1 text-sm text-slate-500">
-                                                        Director at Velocity
-                                                        Industries
-                                                    </div>
-                                                </div>
-                                                <div className="overflow-hidden rounded-full bg-slate-50">
-                                                    <img
-                                                        alt=""
-                                                        srcSet={
-                                                            DefaultUserImage
-                                                        }
-                                                        src={DefaultUserImage}
-                                                        width={56}
-                                                        height={56}
-                                                        decoding="async"
-                                                        data-nimg="future"
-                                                        className="object-cover h-14 w-14"
-                                                        loading="lazy"
-                                                        style={{
-                                                            color: "transparent",
-                                                        }}
-                                                    />
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                         </ul>

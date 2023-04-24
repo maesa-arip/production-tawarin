@@ -67,7 +67,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -154,7 +154,7 @@ Route::group(['middleware' => ['permission:atur hak akses user']], function () {
     Route::apiResource('permissions', PermissionController::class);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','verified')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
     Route::get('/profiles', [UserController::class,'profile'])->name('users.profiles');
@@ -230,12 +230,12 @@ Route::middleware('auth')->group(function () {
     //End Notifications
 });
 
-Route::controller(InvoiceController::class)->middleware('auth')->group(function () {
+Route::controller(InvoiceController::class)->middleware('auth','verified')->group(function () {
     Route::post('toko/invoice', 'store');
     Route::get('toko/invoice/{invoice:order_id}', 'show')->name('tokoinvoice.show');
 });
 
-Route::controller(CartController::class)->middleware('auth')->group(function () {
+Route::controller(CartController::class)->middleware('auth','verified')->group(function () {
     Route::get('toko/carts', 'index');
     Route::delete('toko/carts/delete/{cart}', 'destroy')->name('tokocart.delete');
     Route::post('toko/carts/add-to-cart/{product:slug}',  'store')->name('tokocart.store');

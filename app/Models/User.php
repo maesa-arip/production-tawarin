@@ -20,7 +20,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable implements Wallet, Confirmable
+class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, HasWallets, CanConfirm,HasRoles;
 
