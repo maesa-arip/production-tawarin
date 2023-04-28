@@ -80,7 +80,7 @@ export default function Filepond({
                     credits={"false"}
                     required={required}
                     allowFileTypeValidation={"true"}
-                    acceptedFileTypes={['image/png', 'image/jpeg']}
+                    acceptedFileTypes={['image/png', 'image/jpeg' , 'video/mp4']}
                     allowReplace = {true}
                     allowReorder={"true"}
                     server={{

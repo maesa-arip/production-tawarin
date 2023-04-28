@@ -196,7 +196,7 @@ export default function Navbar() {
                                     </div>
                                 </div>
                             )}
-
+<NavLink href={route('user.list')}>Pengguna</NavLink>
                             <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
@@ -834,8 +834,10 @@ export default function Navbar() {
                                             <NavLink href="/register">
                                                 Register
                                             </NavLink>
+                                            
                                         </>
                                     )}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -908,6 +910,16 @@ export default function Navbar() {
 
                             <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Alat
+                            </div>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route('user.list')}
+                        >
+                            <IconUsers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+
+                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Pengguna
                             </div>
                         </NavLinkMobile>
                         {auth.user ?  <NavLinkMobile

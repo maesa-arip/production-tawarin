@@ -113,4 +113,48 @@ class UserController extends Controller
             'message' => 'Users was deleted',
         ]);
     }
+
+    public function list(Request $request)
+    {
+        $query = User::query()->with('roles')->where('id','<>',1);
+        if ($request->q) {
+            $query->where('name','like','%'.$request->q.'%')
+            ->orWhere('username','like','%'.$request->q.'%')
+            ->orWhere('email','like','%'.$request->q.'%')
+            ->orWhere('address','like','%'.$request->q.'%')
+            ;
+        }
+        if ($request->has(['field','direction'])) {
+            $query->orderBy($request->field,$request->direction);
+        }
+        $users = (
+            UserResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => User::count(),
+                'per_page' =>10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+            ]
+        ]);
+        $roles = Role::get();
+        return inertia('Users/Public/List',['users'=>$users, 'roles'=>$roles]);
+    }
+    public function detail($id)
+    {
+        $user = User::where('username',$id)->first();
+        $portofolios = PlanPortofolio::where('user_id', $user->id)->get();
+        $count = PlanPortofolio::where('user_id', $user->id)->count();
+        $dataplan = [];
+        foreach ($portofolios as $plan_detail) {
+            $plan_result = PlanPortofolio::where('id', $plan_detail->id)->first();
+            $dataplan[$plan_detail->slug] = $plan_result->getMedia('contohgambar');
+        }
+        return inertia('Users/Basic/Profile',['portofolios'=>$portofolios,'count'=>$count,'dataplan' => $dataplan,]);
+    }
 }

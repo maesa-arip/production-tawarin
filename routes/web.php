@@ -154,6 +154,9 @@ Route::group(['middleware' => ['permission:atur hak akses user']], function () {
     Route::apiResource('permissions', PermissionController::class);
 });
 
+Route::get('/user/list', [UserController::class,'list'])->name('user.list');
+Route::get('/user/detail/{username}', [UserController::class,'detail'])->name('user.detail');
+
 Route::middleware('auth','verified')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('toko/history', HistoryController::class)->name('tokohistory');

@@ -841,6 +841,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'App\\Models\\Toko\\Invoice' => __DIR__ . '/../..' . '/app/Models/Toko/Invoice.php',
         'App\\Models\\Toko\\Product' => __DIR__ . '/../..' . '/app/Models/Toko/Product.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\UserDetail' => __DIR__ . '/../..' . '/app/Models/UserDetail.php',
         'App\\Notifications\\DepositConfirmNotification' => __DIR__ . '/../..' . '/app/Notifications/DepositConfirmNotification.php',
         'App\\Notifications\\Plan\\PlanBidNotification' => __DIR__ . '/../..' . '/app/Notifications/Plan/PlanBidNotification.php',
         'App\\Notifications\\Plan\\PlanConfirmedNotification' => __DIR__ . '/../..' . '/app/Notifications/Plan/PlanConfirmedNotification.php',

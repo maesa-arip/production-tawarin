@@ -136,6 +136,7 @@ return array(
     'App\\Models\\Toko\\Invoice' => $baseDir . '/app/Models/Toko/Invoice.php',
     'App\\Models\\Toko\\Product' => $baseDir . '/app/Models/Toko/Product.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
+    'App\\Models\\UserDetail' => $baseDir . '/app/Models/UserDetail.php',
     'App\\Notifications\\DepositConfirmNotification' => $baseDir . '/app/Notifications/DepositConfirmNotification.php',
     'App\\Notifications\\Plan\\PlanBidNotification' => $baseDir . '/app/Notifications/Plan/PlanBidNotification.php',
     'App\\Notifications\\Plan\\PlanConfirmedNotification' => $baseDir . '/app/Notifications/Plan/PlanConfirmedNotification.php',
