@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/inertia-react';
 import { Transition } from '@headlessui/react';
+import TextAreaInput from '@/Components/TextAreaInput';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className }) {
     const user = usePage().props.auth.user;
@@ -14,6 +15,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         email: user.email,
         phone: user.phone,
         address: user.address,
+        visi: user.visi,
+        misi: user.misi,
     });
 
     const submit = (e) => {
@@ -95,6 +98,36 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     />
 
                     <InputError className="mt-2" message={errors.address} />
+                </div>
+                <div>
+                    <InputLabel for="visi" value="Visi" />
+
+                    <TextAreaInput
+                        id="visi"
+                        type="text"
+                        className="block w-full mt-1"
+                        value={data.visi}
+                        handleChange={(e) => setData('visi', e.target.value)}
+                        required
+                        autocomplete="visi"
+                    />
+
+                    <InputError className="mt-2" message={errors.visi} />
+                </div>
+                <div>
+                    <InputLabel for="misi" value="Misi" />
+
+                    <TextAreaInput
+                        id="misi"
+                        type="text"
+                        className="block w-full mt-1"
+                        value={data.misi}
+                        handleChange={(e) => setData('misi', e.target.value)}
+                        required
+                        autocomplete="misi"
+                    />
+
+                    <InputError className="mt-2" message={errors.misi} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

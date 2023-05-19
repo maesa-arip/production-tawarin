@@ -28,7 +28,6 @@ import {
 import Dropdown from "@/Components/Dropdown";
 import MenuLogo from "@/Components/MenuLogo";
 
-
 export default function Navbar() {
     const {
         auth,
@@ -48,14 +47,14 @@ export default function Navbar() {
         setIsOpenInfoDialog(true);
     };
     <InfoModal
-                isOpenInfoDialog={isOpenInfoDialog}
-                setIsOpenInfoDialog={setIsOpenInfoDialog}
-                size="2xl"
-                title={"Info"}
-                header={""}
-            >
-                Anda harus login terlebih dahulu untuk menggunakan fitur chat
-            </InfoModal>
+        isOpenInfoDialog={isOpenInfoDialog}
+        setIsOpenInfoDialog={setIsOpenInfoDialog}
+        size="2xl"
+        title={"Info"}
+        header={""}
+    >
+        Anda harus login terlebih dahulu untuk menggunakan fitur chat
+    </InfoModal>;
 
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
@@ -196,7 +195,9 @@ export default function Navbar() {
                                     </div>
                                 </div>
                             )}
-<NavLink href={route('user.list')}>Pengguna</NavLink>
+                            <NavLink href={route("user.list")}>
+                                Pengguna
+                            </NavLink>
                             <Dropdown>
                                 <Dropdown.Trigger>
                                     <span className="inline-flex rounded-md">
@@ -245,7 +246,9 @@ export default function Navbar() {
                                                 Buat Perencanaan
                                             </Dropdown.Link>
                                             <Dropdown.Link
-                                                href={route("planportofolios.index")}
+                                                href={route(
+                                                    "planportofolios.index"
+                                                )}
                                             >
                                                 Portofolio
                                             </Dropdown.Link>
@@ -834,10 +837,8 @@ export default function Navbar() {
                                             <NavLink href="/register">
                                                 Register
                                             </NavLink>
-                                            
                                         </>
                                     )}
-                                    
                                 </div>
                             </div>
                         </div>
@@ -914,7 +915,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href={route('user.list')}
+                            href={route("user.list")}
                         >
                             <IconUsers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
@@ -922,16 +923,20 @@ export default function Navbar() {
                                 Pengguna
                             </div>
                         </NavLinkMobile>
-                        {auth.user ?  <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("planportofolios.index")}
-                        >
-                            <IconWriting className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Portofolio
-                            </div>
-                        </NavLinkMobile> : <></>}
-                       
+                        {auth.user ? (
+                            <NavLinkMobile
+                                onClick={() => setIsOpenMenuModal(false)}
+                                href={route("planportofolios.index")}
+                            >
+                                <IconWriting className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                    Portofolio
+                                </div>
+                            </NavLinkMobile>
+                        ) : (
+                            <></>
+                        )}
+
                         {permission_name.indexOf("lihat menu admin saldo") >
                             -1 && (
                             <NavLinkMobile
@@ -960,16 +965,16 @@ export default function Navbar() {
                         )}
                         {permission_name.indexOf("atur hak akses") > -1 && (
                             <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("users.index")}
-                        >
-                            <IconUsers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                onClick={() => setIsOpenMenuModal(false)}
+                                href={route("users.index")}
+                            >
+                                <IconUsers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                AdminUser
-                            </div>
-                        </NavLinkMobile>
-                            )}
+                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                    AdminUser
+                                </div>
+                            </NavLinkMobile>
+                        )}
 
                         {/* <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
@@ -1053,59 +1058,70 @@ export default function Navbar() {
                         </NavLinkMobile>
                     )}
 
-                    {auth.user ? <NavLinkMobile
-                        href={route("chats.index")}
-                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="inline-block mb-1 icon icon-tabler icon-tabler-message"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                    {auth.user ? (
+                        <NavLinkMobile
+                            href={route("chats.index")}
+                            className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                         >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M8 9h8" />
-                            <path d="M8 13h6" />
-                            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
-                        </svg>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="inline-block mb-1 icon icon-tabler icon-tabler-message"
+                                width={24}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                fill="none"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                />
+                                <path d="M8 9h8" />
+                                <path d="M8 13h6" />
+                                <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
+                            </svg>
 
-                        <span className="block text-xs tab tab-kategori">
-                            Chat
-                        </span>
-                    </NavLinkMobile> : 
-                    <button
-                    onClick={() => openInfoDialog()}
-                        className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
-                    >
-                        <svg  onClick={() => openInfoDialog()}
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="inline-block mb-1 icon icon-tabler icon-tabler-message"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                            <span className="block text-xs tab tab-kategori">
+                                Chat
+                            </span>
+                        </NavLinkMobile>
+                    ) : (
+                        <button
+                            onClick={() => openInfoDialog()}
+                            className="justify-center inline-block w-full pt-2 pb-1 text-center focus:text-black hover:text-black"
                         >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M8 9h8" />
-                            <path d="M8 13h6" />
-                            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
-                        </svg>
+                            <svg
+                                onClick={() => openInfoDialog()}
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="inline-block mb-1 icon icon-tabler icon-tabler-message"
+                                width={24}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                fill="none"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                />
+                                <path d="M8 9h8" />
+                                <path d="M8 13h6" />
+                                <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
+                            </svg>
 
-                        <span className="block text-xs tab tab-kategori">
-                            Chat
-                        </span>
-                    </button> }
-                    
+                            <span className="block text-xs tab tab-kategori">
+                                Chat
+                            </span>
+                        </button>
+                    )}
 
                     <button
                         onClick={openMenuModal}

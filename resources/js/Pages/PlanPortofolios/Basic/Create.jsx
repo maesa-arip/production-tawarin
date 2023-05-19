@@ -73,6 +73,39 @@ export default function Create({
                                     </p>
                                 </div>
                             </div>
+                            <div className="px-3 py-4 mt-4 mb-6 text-sm text-gray-500 rounded shadow">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                                        width={24}
+                                                        height={24}
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={2}
+                                                        stroke="currentColor"
+                                                        fill="none"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    >
+                                                        <path
+                                                            stroke="none"
+                                                            d="M0 0h24v24H0z"
+                                                            fill="none"
+                                                        />
+                                                        <circle
+                                                            cx={12}
+                                                            cy={12}
+                                                            r={9}
+                                                        />
+                                                        <line
+                                                            x1={12}
+                                                            y1={8}
+                                                            x2="12.01"
+                                                            y2={8}
+                                                        />
+                                                        <polyline points="11 12 12 12 12 16 13 16" />
+                                                    </svg>
+                                                    Pastikan data lengkap dan benar agar portofolio anda bisa kami konfirmasi.
+                                                </div>
                             <div className="mt-5 md:mt-0 md:col-span-2">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 bg-white sm:p-6">
@@ -298,9 +331,7 @@ defaultValue={""}
                                         Gambar Perencanaan
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Sertakan contoh gambar rumah yang
-                                        disukai guna memudahkan kondultan
-                                        membuat desain sesuai keinginanmu.
+                                        Sertakan foto sebelum atau sesudah proyek dikerjakan.
                                     </p>
                                 </div>
                             </div>
@@ -309,7 +340,7 @@ defaultValue={""}
                                     <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">
-                                                Contoh Gambar Rumah yang disukai
+                                                Foto proyek
                                                 (Max 5)
                                             </label>
                                             <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">

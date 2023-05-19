@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import App from "@/Layouts/App";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
@@ -46,9 +46,11 @@ const DownIcon = () => (
 
 export default function Index(props) {
     const { data: roles, meta, filtered, attributes } = props.roles;
-    const permissions = props.permissions;
+    const permission_alls = props.permission_alls;
+    const { permissions } = usePage().props;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
+    // console.log(permissions)
 
     const reload = useCallback(
         debounce((query) => {
@@ -120,7 +122,7 @@ export default function Index(props) {
                 title="Tambah Roles"
             >
                 <Create
-                    permissions={permissions}
+                    permissions={permission_alls}
                     isOpenAddDialog={isOpenAddDialog}
                     setIsOpenAddDialog={setIsOpenAddDialog}
                 />
@@ -132,7 +134,7 @@ export default function Index(props) {
                 title={"Edit Roles"}
             >
                 <Edit
-                    permissions={permissions}
+                    permissions={permission_alls}
                     model={state}
                     isOpenEditDialog={isOpenEditDialog}
                     setIsOpenEditDialog={setIsOpenEditDialog}

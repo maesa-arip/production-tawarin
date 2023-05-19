@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import App from "@/Layouts/App";
-import { Head, usePage } from "@inertiajs/inertia-react";
+import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
-export default function Profile({ media, portofolios, count, dataplan }) {
+export default function Profile({ media, portofolios, count, dataplan, referral }) {
     const { auth } = usePage().props;
     const [open, setOpen] = useState(false);
     const [currentImage, setCurrentImage] = useState(null);
@@ -69,114 +69,43 @@ export default function Profile({ media, portofolios, count, dataplan }) {
                         </div>
                         <div className="p-6 mt-6 bg-white rounded-lg shadow">
                             <h3 className="mb-4 text-sm font-semibold text-gray-600">
-                                Referal
+                                Referral
                             </h3>
                             <ul className="flex items-center justify-center space-x-2">
-                                {/* Story #1 */}
+                            {referral.length > 0 ? referral.map(
+                                                            (person, index) => (
                                 <li className="flex flex-col items-center space-y-2">
                                     {/* Ring */}
-                                    <a
+                                    <Link
                                         className="block p-1 bg-white rounded-full"
-                                        href="#"
+                                        href={route(
+                                            "user.detail",
+                                            person.username
+                                        )}
                                     >
-                                        <img
+                                        <div className="flex items-center justify-center h-16 text-2xl font-semibold bg-indigo-200 w-16 rounded-full">
+                                {Array.from(person.name)[0]}
+                            </div>
+                                        {/* <img
                                             className="w-16 rounded-full"
                                             src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
+                                        /> */}
+                                    </Link>
+                                    {/* <div className="flex items-center justify-center w-full h-full text-2xl font-semibold bg-indigo-200 rounded-full">
+                                {Array.from(person.name)[0]}
+                            </div> */}
                                     {/* Username */}
+                                    <Link href={route(
+                                            "user.detail",
+                                            person.username
+                                        )}>
                                     <span className="text-xs text-gray-500">
-                                        Sage
+                                        {person.name}
                                     </span>
+                                    </Link>
                                 </li>
-                                {/* Story #1 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638649602320-450b717fa622?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Jett
-                                    </span>
-                                </li>
-                                {/* Story #2 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        {/* Thumbnail */}
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638708644743-2502f38000a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Sky
-                                    </span>
-                                </li>
-                                {/* Story #3 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        {/* Thumbnail */}
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638691899851-0e955bceba1f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Olivia
-                                    </span>
-                                </li>
-                                {/* Story #4 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Julia
-                                    </span>
-                                </li>
-                                {/* Story #1 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        {/* Thumbnail */}
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638649602320-450b717fa622?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Hendrick
-                                    </span>
-                                </li>
+                                )
+                                ) : 'Belum Ada Referral'}
                             </ul>
                         </div>
                         {/* <div className="flex p-2 mt-6 bg-white rounded-lg shadow">

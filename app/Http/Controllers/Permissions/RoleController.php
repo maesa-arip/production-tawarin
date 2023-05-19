@@ -37,8 +37,8 @@ class RoleController extends Controller
 
             ]
         ]);
-        $permissions = Permission::get();
-        return inertia('Users/Roles/Index',['roles'=>$roles, 'permissions'=>$permissions]);
+        $permission_alls = Permission::get();
+        return inertia('Users/Roles/Index',['roles'=>$roles, 'permission_alls'=>$permission_alls]);
     }
 
     public function store(Request $request)

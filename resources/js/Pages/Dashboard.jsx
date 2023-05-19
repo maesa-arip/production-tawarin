@@ -13,6 +13,8 @@ import Dropdown from "@/Components/Dropdown";
 import DropdownMobile from "@/Components/DropdownMobile";
 import { IconBan, IconCirclePlus, IconDotsVertical } from "@tabler/icons";
 import Header from "@/Components/Header";
+import InfoModal from "@/Components/Modal/InfoModal";
+import ThirdButton from "@/Components/ThirdButton";
 
 const UpIcon = () => (
     <svg
@@ -47,6 +49,7 @@ export default function Dashboard(props) {
     const { data: plans, meta, filtered, attributes } = props.plans;
     const planRejectCount = props.planRejectCount;
     const permissions = props.permissions;
+    const portofolio = props.portofolio;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
 
@@ -68,7 +71,13 @@ export default function Dashboard(props) {
         });
     };
 
+    const openInfoDialog = () => {
+        setState();
+        setIsOpenInfoDialog(true);
+    };
+
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
+    const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [state, setState] = useState([]);
     return (
         <>
@@ -84,8 +93,30 @@ export default function Dashboard(props) {
                     Hapus
                 </Button>
             </DestroyModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog}
+                setIsOpenInfoDialog={setIsOpenInfoDialog}
+                size="2xl"
+                title={"Info"}
+                header={""}
+            >
+                Ayo lengkapi portofoliomu untuk menarik owner menggunakan jasamu
+                <Link href={"planportofolios/create"}><ThirdButton  className="flex mx-4">Tambah Portofolio</ThirdButton></Link>
+                
+            </InfoModal>
             <Container>
                 <FeatureCard />
+                {portofolio.length > 0 ? <> </> : useEffect(() => {
+                 openInfoDialog()
+                }, [])
+                 }
+                {/* <button className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                            onClick={() =>
+                                                                                openInfoDialog()
+                                                                            }
+                                                                        >
+                                                                            Hapus
+                                                                        </button> */}
                 {plans.length > 0 ? <div className="mt-4 flex flex-col px-2 py-2 bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                     <div className="">
                         <div className="flex items-center justify-between">
@@ -114,6 +145,7 @@ export default function Dashboard(props) {
                                 </div>
                             </div>
                         </div>
+                        
 
                         <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                             {plans.map((plan, index) => (

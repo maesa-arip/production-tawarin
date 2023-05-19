@@ -39,8 +39,8 @@ class HandleInertiaRequests extends Middleware
     {
         $cart_global_count = $request->user() ? Cache::rememberForever('carts_global_count',fn()=> Cart::whereBelongsTo($request->user())->whereNull('paid_at')->count()) : null;
         $notification_count = $request->user() ? Cache::rememberForever('notifications_count',fn()=> auth()->user()->unreadNotifications->count()) : null;
-        $permissions = $request->user() ? $request->user()->getAllPermissions() : null;
         $roles = $request->user() ? $request->user()->getRoleNames() : null;
+        $permissions = $request->user() ? $request->user()->getAllPermissions() : null;
         return array_merge(parent::share($request), [
             'users' => fn () => $request->user() ? \App\Models\User::where('id', '!=', $request->user()->id)->get() : null,
             'auth' => [

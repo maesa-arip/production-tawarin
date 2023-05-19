@@ -481,6 +481,146 @@ export default function Create({
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="col-span-12 mt-5 md:mt-0 md:col-span-6">
+                                                <div className="shadow sm:rounded-md sm:overflow-hidden">
+                                                    <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+                                                        <div>
+                                                            <label className="block text-sm font-medium text-gray-700">
+                                                                Denah Lokasi
+                                                                Beserta Ukuran Lahan
+                                                                (Max 5)
+                                                            </label>
+                                                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
+                                                                <div className="w-full text-center">
+                                                                    <svg
+                                                                        className="w-12 h-12 mx-auto text-gray-400"
+                                                                        stroke="currentColor"
+                                                                        fill="none"
+                                                                        viewBox="0 0 48 48"
+                                                                        aria-hidden="true"
+                                                                    >
+                                                                        <path
+                                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                                            strokeWidth={
+                                                                                2
+                                                                            }
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                        />
+                                                                    </svg>
+                                                                    <Filepond
+                                                                        inputname={
+                                                                            "denahlokasiukuran"
+                                                                        }
+                                                                        allowMultiple={
+                                                                            true
+                                                                        }
+                                                                        maxFiles={
+                                                                            "5"
+                                                                        }
+                                                                        required={
+                                                                            true
+                                                                        }
+                                                                    />
+                                                                    <div className="flex justify-center text-sm text-gray-600">
+                                                                        <label
+                                                                            htmlFor="file-upload"
+                                                                            className="relative font-medium text-indigo-600 bg-white rounded-md hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                                                        >
+                                                                            <span>
+                                                                                Upload
+                                                                                a
+                                                                                file
+                                                                            </span>
+                                                                        </label>
+                                                                        <p className="pl-1">
+                                                                            or
+                                                                            drag
+                                                                            and
+                                                                            drop
+                                                                        </p>
+                                                                    </div>
+                                                                    <p className="text-xs text-gray-500">
+                                                                        PNG,
+                                                                        JPG, GIF
+                                                                        up to
+                                                                        10MB
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-span-12 mt-5 md:mt-0 md:col-span-6">
+                                                <div className="shadow sm:rounded-md sm:overflow-hidden">
+                                                    <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+                                                        <div>
+                                                            <label className="block text-sm font-medium text-gray-700">
+                                                                Foto Kondisi Lahan Saat Ini (Max 5)
+                                                            </label>
+                                                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
+                                                                <div className="w-full text-center">
+                                                                    <svg
+                                                                        className="w-12 h-12 mx-auto text-gray-400"
+                                                                        stroke="currentColor"
+                                                                        fill="none"
+                                                                        viewBox="0 0 48 48"
+                                                                        aria-hidden="true"
+                                                                    >
+                                                                        <path
+                                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                                            strokeWidth={
+                                                                                2
+                                                                            }
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                        />
+                                                                    </svg>
+                                                                    <Filepond
+                                                                        inputname={
+                                                                            "kondisisaatini"
+                                                                        }
+                                                                        allowMultiple={
+                                                                            true
+                                                                        }
+                                                                        maxFiles={
+                                                                            "5"
+                                                                        }
+                                                                        required={
+                                                                            true
+                                                                        }
+                                                                    />
+                                                                    <div className="flex justify-center text-sm text-gray-600">
+                                                                        <label
+                                                                            htmlFor="file-upload"
+                                                                            className="relative font-medium text-indigo-600 bg-white rounded-md hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                                                        >
+                                                                            <span>
+                                                                                Upload
+                                                                                a
+                                                                                file
+                                                                            </span>
+                                                                        </label>
+                                                                        <p className="pl-1">
+                                                                            or
+                                                                            drag
+                                                                            and
+                                                                            drop
+                                                                        </p>
+                                                                    </div>
+                                                                    <p className="text-xs text-gray-500">
+                                                                        PNG,
+                                                                        JPG, GIF
+                                                                        up to
+                                                                        10MB
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="anggaran_proyek"
@@ -818,81 +958,71 @@ export default function Create({
                                     <div className="px-4 py-5 bg-white sm:p-6">
                                         <div className="mb-4 justify-items-start">
                                             {/* <form onSubmit={submit}> */}
-                                                <div className="flex my-2">
-                                                    <label
-                                                        // htmlFor="jangka_waktu_penawaran"
-                                                        className="block w-full text-sm font-medium text-gray-700"
+                                            <div className="flex my-2">
+                                                <label
+                                                    // htmlFor="jangka_waktu_penawaran"
+                                                    className="block w-full text-sm font-medium text-gray-700"
+                                                >
+                                                    Nama Kebutuhan Ruangan
+                                                </label>
+                                                <label
+                                                    // htmlFor="jangka_waktu_penawaran"
+                                                    className="block w-full text-sm font-medium text-gray-700"
+                                                >
+                                                    Jumlah Ruangan
+                                                </label>
+                                                <label
+                                                    // htmlFor="jangka_waktu_penawaran"
+                                                    className="inline-flex items-center text-sm font-medium text-gray-700 px-7"
+                                                ></label>
+                                            </div>
+                                            {inputFields.map((input, index) => {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className="flex my-4"
                                                     >
-                                                        Nama Kebutuhan Ruangan
-                                                    </label>
-                                                    <label
-                                                        // htmlFor="jangka_waktu_penawaran"
-                                                        className="block w-full text-sm font-medium text-gray-700"
-                                                    >
-                                                        Jumlah Ruangan
-                                                    </label>
-                                                    <label
-                                                        // htmlFor="jangka_waktu_penawaran"
-                                                        className="inline-flex items-center text-sm font-medium text-gray-700 px-7"
-                                                    ></label>
-                                                </div>
-                                                {inputFields.map(
-                                                    (input, index) => {
-                                                        return (
-                                                            <div
-                                                                key={index}
-                                                                className="flex my-4"
-                                                            >
-                                                                <input
-                                                                    type="text"
-                                                                    name="name"
-                                                                    value={
-                                                                        input.name
-                                                                    }
-                                                                    autoComplete="off"
-                                                                    className="block w-full mr-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                    onChange={(
-                                                                        event
-                                                                    ) =>
-                                                                        handleFormChange(
-                                                                            index,
-                                                                            event
-                                                                        )
-                                                                    }
-                                                                />
+                                                        <input
+                                                            type="text"
+                                                            name="name"
+                                                            value={input.name}
+                                                            autoComplete="off"
+                                                            className="block w-full mr-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            onChange={(event) =>
+                                                                handleFormChange(
+                                                                    index,
+                                                                    event
+                                                                )
+                                                            }
+                                                        />
 
-                                                                <input
-                                                                    type="number"
-                                                                    name="count"
-                                                                    value={
-                                                                        input.count
-                                                                    }
-                                                                    autoComplete="off"
-                                                                    className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                    onChange={(
-                                                                        event
-                                                                    ) =>
-                                                                        handleFormChange(
-                                                                            index,
-                                                                            event
-                                                                        )
-                                                                    }
-                                                                />
-                                                                <ThirdButton
-                                                                    color="red"
-                                                                    className="ml-4"
-                                                                    onClick={() =>
-                                                                        removeFields(
-                                                                            index
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <IconTrash className="w-4 h-4" />
-                                                                </ThirdButton>
-                                                            </div>
-                                                        );
-                                                    }
-                                                )}
+                                                        <input
+                                                            type="number"
+                                                            name="count"
+                                                            value={input.count}
+                                                            autoComplete="off"
+                                                            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            onChange={(event) =>
+                                                                handleFormChange(
+                                                                    index,
+                                                                    event
+                                                                )
+                                                            }
+                                                        />
+                                                        <ThirdButton
+                                                            color="red"
+                                                            className="ml-4"
+                                                            onClick={() =>
+                                                                removeFields(
+                                                                    index
+                                                                )
+                                                            }
+                                                        >
+                                                            <IconTrash className="w-4 h-4" />
+                                                        </ThirdButton>
+                                                    </div>
+                                                );
+                                            })}
                                             {/* </form> */}
                                         </div>
                                         <ThirdButton onClick={addFields}>

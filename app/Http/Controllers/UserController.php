@@ -148,6 +148,7 @@ class UserController extends Controller
     public function detail($id)
     {
         $user = User::where('username',$id)->first();
+        $referral = User::where('from_referral', $user->referral)->get();
         $portofolios = PlanPortofolio::where('user_id', $user->id)->get();
         $count = PlanPortofolio::where('user_id', $user->id)->count();
         $dataplan = [];
@@ -155,6 +156,6 @@ class UserController extends Controller
             $plan_result = PlanPortofolio::where('id', $plan_detail->id)->first();
             $dataplan[$plan_detail->slug] = $plan_result->getMedia('contohgambar');
         }
-        return inertia('Users/Basic/Profile',['portofolios'=>$portofolios,'count'=>$count,'dataplan' => $dataplan,]);
+        return inertia('Users/Basic/Profile',['portofolios'=>$portofolios,'count'=>$count,'dataplan' => $dataplan, 'referral'=>$referral]);
     }
 }

@@ -9,7 +9,7 @@ export default function App({ auth, header, children }) {
     const { flash } = usePage().props;
     const { permissions } = usePage().props;
     const { roles } = usePage().props;
-    console.log(roles)
+
     useEffect(() => {
         flash.type && toast[flash.type](flash.message)
     })

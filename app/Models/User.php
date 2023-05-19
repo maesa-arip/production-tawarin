@@ -35,7 +35,11 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
         'password',
         'username',
         'join_as_id',
+        'referral',
+        'from_referral',
         'phone',
+        'visi',
+        'misi',
         'address'
     ];
 

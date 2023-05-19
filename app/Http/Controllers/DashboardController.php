@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Plan\PlanResource;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -53,7 +54,8 @@ class DashboardController extends Controller
             ]
         ]);
        
+        $portofolio = User::where('users.id', auth()->user()->id)->join('plan_portofolios', 'plan_portofolios.user_id','users.id')->get();
         
-        return inertia('Dashboard', ['plans' => $plans]);
+        return inertia('Dashboard', ['plans' => $plans, 'portofolio'=> $portofolio]);
     }
 }

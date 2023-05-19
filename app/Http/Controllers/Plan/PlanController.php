@@ -163,6 +163,7 @@ class PlanController extends Controller
             'plan_category_id' => $request->plan_category_id,
         ]);
         $plan = Plan::create($atrribute_plans);
+
         $temporaryFolder = Session::get('folder');
         $namefile = Session::get('filename');
         if ($temporaryFolder) {
@@ -183,6 +184,50 @@ class PlanController extends Controller
         }
         Session::remove('folder');
         Session::remove('filename');
+
+        $temporaryFolderdenahlokasi = Session::get('folderdenahlokasiukuran');
+        $namefiledenahlokasi = Session::get('filenamedenahlokasiukuran');
+        if ($temporaryFolderdenahlokasi) {
+            for ($i = 0; $i < count($temporaryFolderdenahlokasi); $i++) {
+                $temporary = TemporaryFile::where('folder', $temporaryFolderdenahlokasi[$i])->where('filename', $namefiledenahlokasi[$i])->first();
+                if ($temporary) {
+                    $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderdenahlokasi[$i] . '/' . $namefiledenahlokasi[$i]))
+                        ->toMediaCollection('denahlokasiukuran');
+                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                    if (File::exists($path)) {
+                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                        File::delete($path);
+                        rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                        $temporary->delete();
+                    }
+                }
+            }
+        }
+        Session::remove('folderdenahlokasiukuran');
+        Session::remove('filenamedenahlokasiukuran');
+
+        $temporaryFolderkondisisaatini = Session::get('folderkondisisaatini');
+        $namefilekondisisaatini = Session::get('filenamekondisisaatini');
+        
+        if ($temporaryFolderkondisisaatini) {
+            for ($i = 0; $i < count($temporaryFolderkondisisaatini); $i++) {
+                $temporary = TemporaryFile::where('folder', $temporaryFolderkondisisaatini[$i])->where('filename', $namefilekondisisaatini[$i])->first();
+                if ($temporary) {
+                    $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderkondisisaatini[$i] . '/' . $namefilekondisisaatini[$i]))
+                        ->toMediaCollection('kondisisaatini');
+                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                    if (File::exists($path)) {
+                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                        File::delete($path);
+                        rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                        $temporary->delete();
+                    }
+                }
+            }
+        }
+        Session::remove('folderkondisisaatini');
+        Session::remove('filenamekondisisaatini');
+        
         $planmasters = PlanMaster::get();
         foreach ($planmasters as $planmaster) {
             if ($request->has($planmaster->slug)) {
@@ -235,6 +280,8 @@ class PlanController extends Controller
     {
         $planWithSum = $plan->with('plan_bids')->where('id', $plan->id)->withSum('plan_bids', 'is_approved')->first();
         $media = $plan->getMedia('contohgambar');
+        $denahlokasiukuran = $plan->getMedia('denahlokasiukuran');
+        $kondisisaatini = $plan->getMedia('kondisisaatini');
         // $video = $plan->getMedia('contohgambar')->where('mime_type','video/mp4');
         // dd($video);
         $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
@@ -256,6 +303,8 @@ class PlanController extends Controller
         return Inertia('Plans/Basic/Show', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
             'media' => ($media),
+            'denahlokasiukuran' => ($denahlokasiukuran),
+            'kondisisaatini' => ($kondisisaatini),
             // 'video' => ($video),
             'planWithSum' => $planWithSum,
             'plan_details' => ($plan_details),

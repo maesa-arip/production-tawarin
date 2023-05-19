@@ -20,10 +20,34 @@ class UploadController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'document' => 'required',
-            'document.*' => 'required|mimes:pdf,xlx,csv|max:2048',
-        ]);
+        // $request->validate([
+        //     'document' => 'required',
+        //     'document.*' => 'required|mimes:pdf,xlx,csv|max:2048',
+        // ]);
+        if ($request->hasFile('denahlokasiukuran')) {
+            $file = $request->file('denahlokasiukuran');
+            $filename = hexdec(uniqid()) . '.' . $file->extension();
+            $folder = uniqid() . '-' . now()->timestamp;
+            $file->storeAs('public/files/tmp/' . $folder, $filename);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename
+            ]);
+            Session::push('folderdenahlokasiukuran', $folder);
+            Session::push('filenamedenahlokasiukuran', $filename);
+        }
+        if ($request->hasFile('kondisisaatini')) {
+            $file = $request->file('kondisisaatini');
+            $filename = hexdec(uniqid()) . '.' . $file->extension();
+            $folder = uniqid() . '-' . now()->timestamp;
+            $file->storeAs('public/files/tmp/' . $folder, $filename);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename
+            ]);
+            Session::push('folderkondisisaatini', $folder);
+            Session::push('filenamekondisisaatini', $filename);
+        }
         
         if ($request->hasFile('document')) {
             $file = $request->file('document');
@@ -38,6 +62,9 @@ class UploadController extends Controller
             Session::push('filename', $filename);
             return 'Success';
         }
+
+        
+
 
         // Upload Hasil
         // $plan_details = Plan::join('plan_details', 'plan_details.plan_id', 'plans.id')
@@ -60,115 +87,117 @@ class UploadController extends Controller
         //     }
         // }
 
-        if ($request->hasFile('gambar_arsitektur')) {
-            $file = $request->file('gambar_arsitektur');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('foldergambar_arsitektur', $folder);
-            Session::push('filenamegambar_arsitektur', $filename);
-        }
-        if ($request->hasFile('gambar_3d_interior')) {
-            $file = $request->file('gambar_3d_interior');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('foldergambar_3d_interior', $folder);
-            Session::push('filenamegambar_3d_interior', $filename);
-        }
-        if ($request->hasFile('gambar_3d_exterior')) {
-            $file = $request->file('gambar_3d_exterior');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('foldergambar_3d_exterior', $folder);
-            Session::push('filenamegambar_3d_exterior', $filename);
-        }
-        if ($request->hasFile('animasi_3d')) {
-            $file = $request->file('animasi_3d');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('folderanimasi_3d', $folder);
-            Session::push('filenameanimasi_3d', $filename);
-        }
-        if ($request->hasFile('gambar_struktur')) {
-            $file = $request->file('gambar_struktur');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('foldergambar_struktur', $folder);
-            Session::push('filenamegambar_struktur', $filename);
-        }
-        if ($request->hasFile('gambar_mep')) {
-            $file = $request->file('gambar_mep');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('foldergambar_mep', $folder);
-            Session::push('filenamegambar_mep', $filename);
-        }
-        if ($request->hasFile('rab_dan_spesifikasi_teknis')) {
-            $file = $request->file('rab_dan_spesifikasi_teknis');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('folderrab_dan_spesifikasi_teknis', $folder);
-            Session::push('filenamerab_dan_spesifikasi_teknis', $filename);
-        }
-        if ($request->hasFile('time_schedule_dan_bobot_pembayaran')) {
-            $file = $request->file('time_schedule_dan_bobot_pembayaran');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('foldertime_schedule_dan_bobot_pembayaran', $folder);
-            Session::push('filenametime_schedule_dan_bobot_pembayaran', $filename);
-        }
-        if ($request->hasFile('lainnya')) {
-            $file = $request->file('lainnya');
-            $filename = hexdec(uniqid()) . '.' . $file->extension();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('public/files/tmp/' . $folder, $filename);
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename
-            ]);
-            Session::push('folderlainnya', $folder);
-            Session::push('filenamelainnya', $filename);
-        }
+        // if ($request->hasFile('gambar_arsitektur')) {
+        //     $file = $request->file('gambar_arsitektur');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('foldergambar_arsitektur', $folder);
+        //     Session::push('filenamegambar_arsitektur', $filename);
+        // }
+        // if ($request->hasFile('gambar_3d_interior')) {
+        //     $file = $request->file('gambar_3d_interior');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('foldergambar_3d_interior', $folder);
+        //     Session::push('filenamegambar_3d_interior', $filename);
+        // }
+        // if ($request->hasFile('gambar_3d_exterior')) {
+        //     $file = $request->file('gambar_3d_exterior');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('foldergambar_3d_exterior', $folder);
+        //     Session::push('filenamegambar_3d_exterior', $filename);
+        // }
+        // if ($request->hasFile('animasi_3d')) {
+        //     $file = $request->file('animasi_3d');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('folderanimasi_3d', $folder);
+        //     Session::push('filenameanimasi_3d', $filename);
+        // }
+        // if ($request->hasFile('gambar_struktur')) {
+        //     $file = $request->file('gambar_struktur');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('foldergambar_struktur', $folder);
+        //     Session::push('filenamegambar_struktur', $filename);
+        // }
+        // if ($request->hasFile('gambar_mep')) {
+        //     $file = $request->file('gambar_mep');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('foldergambar_mep', $folder);
+        //     Session::push('filenamegambar_mep', $filename);
+        // }
+        // if ($request->hasFile('rab_dan_spesifikasi_teknis')) {
+        //     $file = $request->file('rab_dan_spesifikasi_teknis');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('folderrab_dan_spesifikasi_teknis', $folder);
+        //     Session::push('filenamerab_dan_spesifikasi_teknis', $filename);
+        // }
+        // if ($request->hasFile('time_schedule_dan_bobot_pembayaran')) {
+        //     $file = $request->file('time_schedule_dan_bobot_pembayaran');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('foldertime_schedule_dan_bobot_pembayaran', $folder);
+        //     Session::push('filenametime_schedule_dan_bobot_pembayaran', $filename);
+        // }
+        // if ($request->hasFile('lainnya')) {
+        //     $file = $request->file('lainnya');
+        //     $filename = hexdec(uniqid()) . '.' . $file->extension();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('public/files/tmp/' . $folder, $filename);
+        //     TemporaryFile::create([
+        //         'folder' => $folder,
+        //         'filename' => $filename
+        //     ]);
+        //     Session::push('folderlainnya', $folder);
+        //     Session::push('filenamelainnya', $filename);
+        // }
         //End Upload Hasil
+
+        
 
         return '';
     }

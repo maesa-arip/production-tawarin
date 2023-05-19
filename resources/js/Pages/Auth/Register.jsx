@@ -78,6 +78,18 @@ export default function Register({ joinas }) {
                     />
                 </div>
                 <div className="mt-4">
+                    <Label forInput="from_referral" value="Referral" />
+                    <Input
+                        type="text"
+                        name="from_referral"
+                        value={data.from_referral}
+                        className="block w-full mt-1"
+                        autoComplete="from_referral"
+                        isFocused={true}
+                        onChange={onChange}
+                    />
+                </div>
+                <div className="mt-4">
                     <Label forInput="phone" value="Phone" />
                     <Input
                         type="text"
