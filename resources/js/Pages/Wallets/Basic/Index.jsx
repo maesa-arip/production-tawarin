@@ -3,11 +3,11 @@ import Header from "@/Components/Header";
 import NavLink from "@/Components/NavLink";
 import App from "@/Layouts/App";
 import { numberFormat } from "@/Libs/helper";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/inertia-react";
 import React from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 
-export default function Index({ balance, bonus }) {
+export default function Index({ balance, bonus, referral }) {
     return (
         <>
             <Head title="Wallet" />
@@ -17,129 +17,54 @@ export default function Index({ balance, bonus }) {
                     <h1 className="mb-10 text-3xl font-bold">
                         User yang menggunakan kode referalmu
                     </h1>
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-stretch">
-                            {/* <div className="text-xs text-gray-400">
-                                Members
-                                <br />
-                                Referal
+                    <div className="p-6 mt-6 bg-white rounded-lg shadow">
+                        <h3 className="mb-4 text-sm font-semibold text-gray-600">
+                            Referral
+                        </h3>
+                        <div className="flex flex-col p-1">
+                            <div className="overflow-x-auto rounded sm:-mx-6 lg:-mx-8">
+                                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                    {/* <div className="border-b border-gray-200 shadow sm:rounded-lg"> */}
+                                        <ul className="flex items-center justify-center space-x-2">
+                                            {referral.length > 0
+                                                ? referral.map(
+                                                      (person, index) => (
+                                                          <li className="flex flex-col items-center space-y-2">
+                                                              <Link
+                                                                  className="block p-1 bg-white rounded-full"
+                                                                  href={route(
+                                                                      "user.detail",
+                                                                      person.username
+                                                                  )}
+                                                              >
+                                                                  <div className="flex items-center justify-center w-16 h-16 text-2xl font-semibold bg-indigo-200 rounded-full">
+                                                                      {
+                                                                          Array.from(
+                                                                              person.name
+                                                                          )[0]
+                                                                      }
+                                                                  </div>
+                                                              </Link>
+                                                              <Link
+                                                                  href={route(
+                                                                      "user.detail",
+                                                                      person.username
+                                                                  )}
+                                                              >
+                                                                  <span className="text-xs text-gray-500 truncate">
+                                                                      {
+                                                                          person.name
+                                                                      }
+                                                                  </span>
+                                                              </Link>
+                                                          </li>
+                                                      )
+                                                  )
+                                                : "Belum Ada Referral"}
+                                        </ul>
+                                    {/* </div> */}
+                                </div>
                             </div>
-                            <div className="mx-4 border-l h-100" /> */}
-                            <ul className="flex items-center justify-center space-x-2 overflow-x-auto">
-                                {/* Story #1 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Sage
-                                    </span>
-                                </li>
-                                {/* Story #1 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638649602320-450b717fa622?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Jett
-                                    </span>
-                                </li>
-                                {/* Story #2 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        {/* Thumbnail */}
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638708644743-2502f38000a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Sky
-                                    </span>
-                                </li>
-                                {/* Story #3 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        {/* Thumbnail */}
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638691899851-0e955bceba1f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Olivia
-                                    </span>
-                                </li>
-                                {/* Story #4 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Julia
-                                    </span>
-                                </li>
-                                {/* Story #1 */}
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <a
-                                        className="block p-1 bg-white rounded-full"
-                                        href="#"
-                                    >
-                                        {/* Thumbnail */}
-                                        <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638649602320-450b717fa622?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        />
-                                    </a>
-                                    {/* Username */}
-                                    <span className="text-xs text-gray-500">
-                                        Hendrick
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="flex items-center gap-x-2">
-                            <button
-                                type="button"
-                                className="inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 h-9 rounded-xl hover:text-white"
-                            >
-                                Kode Referal
-                            </button>
                         </div>
                     </div>
                     <hr className="my-10" />

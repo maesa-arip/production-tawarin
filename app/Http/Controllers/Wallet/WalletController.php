@@ -11,11 +11,14 @@ class WalletController extends Controller
 {
     public function index()
     {
+        $user = User::where('id',auth()->user()->id)->first();
+        $referral = User::where('from_referral', $user->referral)->get();
         $balance = auth()->user()->balance;
         $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;
         return inertia('Wallets/Basic/Index',[
             'balance' => $balance,
             'bonus' => $bonus,
+            'referral' => $referral,
         ]);
     }
     public function deposit(User $user)

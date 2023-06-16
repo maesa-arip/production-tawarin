@@ -4,7 +4,13 @@ import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
-export default function Profile({ media, portofolios, count, dataplan, referral }) {
+export default function Profile({
+    media,
+    portofolios,
+    count,
+    dataplan,
+    referral,
+}) {
     const { auth } = usePage().props;
     const [open, setOpen] = useState(false);
     const [currentImage, setCurrentImage] = useState(null);
@@ -72,40 +78,46 @@ export default function Profile({ media, portofolios, count, dataplan, referral 
                                 Referral
                             </h3>
                             <ul className="flex items-center justify-center space-x-2">
-                            {referral.length > 0 ? referral.map(
-                                                            (person, index) => (
-                                <li className="flex flex-col items-center space-y-2">
-                                    {/* Ring */}
-                                    <Link
-                                        className="block p-1 bg-white rounded-full"
-                                        href={route(
-                                            "user.detail",
-                                            person.username
-                                        )}
-                                    >
-                                        <div className="flex items-center justify-center h-16 text-2xl font-semibold bg-indigo-200 w-16 rounded-full">
-                                {Array.from(person.name)[0]}
-                            </div>
-                                        {/* <img
+                                {referral.length > 0
+                                    ? referral.map((person, index) => (
+                                          <li className="flex flex-col items-center space-y-2">
+                                              {/* Ring */}
+                                              <Link
+                                                  className="block p-1 bg-white rounded-full"
+                                                  href={route(
+                                                      "user.detail",
+                                                      person.username
+                                                  )}
+                                              >
+                                                  <div className="flex items-center justify-center w-16 h-16 text-2xl font-semibold bg-indigo-200 rounded-full">
+                                                      {
+                                                          Array.from(
+                                                              person.name
+                                                          )[0]
+                                                      }
+                                                  </div>
+                                                  {/* <img
                                             className="w-16 rounded-full"
                                             src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
                                         /> */}
-                                    </Link>
-                                    {/* <div className="flex items-center justify-center w-full h-full text-2xl font-semibold bg-indigo-200 rounded-full">
+                                              </Link>
+                                              {/* <div className="flex items-center justify-center w-full h-full text-2xl font-semibold bg-indigo-200 rounded-full">
                                 {Array.from(person.name)[0]}
                             </div> */}
-                                    {/* Username */}
-                                    <Link href={route(
-                                            "user.detail",
-                                            person.username
-                                        )}>
-                                    <span className="text-xs text-gray-500">
-                                        {person.name}
-                                    </span>
-                                    </Link>
-                                </li>
-                                )
-                                ) : 'Belum Ada Referral'}
+                                              {/* Username */}
+                                              <Link
+                                                  href={route(
+                                                      "user.detail",
+                                                      person.username
+                                                  )}
+                                              >
+                                                  <span className="text-xs text-gray-500">
+                                                      {person.name}
+                                                  </span>
+                                              </Link>
+                                          </li>
+                                      ))
+                                    : "Belum Ada Referral"}
                             </ul>
                         </div>
                         {/* <div className="flex p-2 mt-6 bg-white rounded-lg shadow">
@@ -415,7 +427,10 @@ export default function Profile({ media, portofolios, count, dataplan, referral 
                             </footer>
                         </form> */}
 
-                        {portofolios.length > 0 ? <></> : <div className="flex flex-col mb-6 bg-white border shadow-sm rounded-xl">
+                        {portofolios.length > 0 ? (
+                            <></>
+                        ) : (
+                            <div className="flex flex-col mb-6 bg-white border shadow-sm rounded-xl">
                                 <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
                                     <svg
                                         className="max-w-[5rem]"
@@ -488,9 +503,9 @@ export default function Profile({ media, portofolios, count, dataplan, referral 
                                         Belum memiliki portofolio
                                     </p>
                                 </div>
-                            </div>}
-                            
-                        
+                            </div>
+                        )}
+
                         {portofolios.map((portofolio, index) => (
                             <div
                                 key={index}

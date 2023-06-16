@@ -10,8 +10,13 @@ class ProjectCategory extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function projects()
+
+    public function project_category()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(ProjectCategory::class);
+    }
+    public function projectategory()
+    {
+        return $this->belongsTo(ProjectCategory::class,'project_category_id');
     }
 }

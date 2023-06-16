@@ -43,15 +43,15 @@ const DownIcon = () => (
 );
 
 export default function Index(props) {
-    const { data: plans, meta, filtered, attributes } = props.plans;
-    const planRejectCount = props.planRejectCount;
+    const { data: projects, meta, filtered, attributes } = props.projects;
+    const projectRejectCount = props.projectRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     useEffect(() => reload(params), [params]);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("plans.index"),
+                route("projects.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -86,13 +86,13 @@ export default function Index(props) {
 
     // CRUD
 
-    const openDestroyDialog = (plan) => {
-        setState(plan);
+    const openDestroyDialog = (project) => {
+        setState(project);
         setIsOpenDestroyDialog(true);
     };
 
-    const destroyPlan = () => {
-        Inertia.delete(route("plans.destroy", state.id), {
+    const destroyproject = () => {
+        Inertia.delete(route("projects.destroy", state.id), {
             onSuccess: () => setIsOpenDestroyDialog(false),
         });
     };
@@ -101,16 +101,16 @@ export default function Index(props) {
     const [state, setState] = useState([]);
     return (
         <>
-            <Head title="Plans" />
-            <Header title="Perencanaan" description="List Perencanaan Saya." />
+            <Head title="Proyek" />
+            <Header title="Proyek" description="List Proyek Saya." />
             <Container>
                 <DestroyModal
                     isOpenDestroyDialog={isOpenDestroyDialog}
                     setIsOpenDestroyDialog={setIsOpenDestroyDialog}
                     size="2xl"
-                    title={"Hapus Perencanaan"}
+                    title={"Hapus Proyek"}
                 >
-                    <Button color={"pink"} onClick={destroyPlan}>
+                    <Button color={"pink"} onClick={destroyproject}>
                         Hapus
                     </Button>
                 </DestroyModal>
@@ -124,18 +124,18 @@ export default function Index(props) {
                                     className={
                                         "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     }
-                                    href={"plans/create"}
+                                    href={"projects/create"}
                                 >
-                                    Tambah Perencanaan
+                                    Tambah Proyek
                                 </NavLink>
                                 <NavLink
                                     type="button"
                                     className={
                                         "justify-start px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
                                     }
-                                    href={"plans/create"}
+                                    href={"projects/create"}
                                 >
-                                    Perencanaan ditolak ( {planRejectCount} )
+                                    Proyek ditolak ( {projectRejectCount} )
                                 </NavLink>
                             </div>
                         </div>
@@ -231,7 +231,7 @@ export default function Index(props) {
                                                             sort("name")
                                                         }
                                                     >
-                                                        Nama Perencanaan
+                                                        Nama Proyek
                                                         {params.field ==
                                                             "name" &&
                                                             params.direction ==
@@ -258,7 +258,7 @@ export default function Index(props) {
                                                             )
                                                         }
                                                     >
-                                                        Jumlah Revisi
+                                                        Jumlah Adendum
                                                         {params.field ==
                                                             "jumlah_revisi" &&
                                                             params.direction ==
@@ -333,19 +333,19 @@ export default function Index(props) {
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
                                                             sort(
-                                                                "plan_bids_count"
+                                                                "project_bids_count"
                                                             )
                                                         }
                                                     >
                                                         Jumlah Penawar
                                                         {params.field ==
-                                                            "plan_bids_count" &&
+                                                            "project_bids_count" &&
                                                             params.direction ==
                                                                 "asc" && (
                                                                 <UpIcon />
                                                             )}
                                                         {params.field ==
-                                                            "plan_bids_count" &&
+                                                            "project_bids_count" &&
                                                             params.direction ==
                                                                 "desc" && (
                                                                 <DownIcon />
@@ -388,8 +388,8 @@ export default function Index(props) {
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200">
-                                            {plans.map((plan, index) => (
-                                                <tr key={plan.id}>
+                                            {projects.map((project, index) => (
+                                                <tr key={project.id}>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {meta.from + index}
                                                     </td>
@@ -397,22 +397,22 @@ export default function Index(props) {
                                                         <img
                                                             className="object-cover w-16 h-12 border rounded-lg"
                                                             src={
-                                                                plan.media
-                                                                    ? plan.media
+                                                                project.media
+                                                                    ? project.media
                                                                     : "storage/files/default/NoImage.svg"
                                                             }
-                                                            alt={plan.slug}
+                                                            alt={project.slug}
                                                         ></img>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
-                                                        {plan.name}
+                                                        {project.name}
                                                     </td>
 
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <div className="flex mt-1 rounded-md shadow-sm">
                                                             <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
                                                                 {
-                                                                    plan.jumlah_revisi
+                                                                    project.jumlah_revisi
                                                                 }
                                                             </div>
                                                             <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
@@ -427,12 +427,12 @@ export default function Index(props) {
                                                             </span>
                                                             <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
                                                                 {numberFormat(
-                                                                    plan.anggaran_proyek
+                                                                    project.anggaran_proyek
                                                                 )}
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    {plan.plan_bids_sum_is_approved ==
+                                                    {project.project_bids_sum_is_approved ==
                                                     "1" ? (
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <Button>
@@ -442,7 +442,7 @@ export default function Index(props) {
                                                         </td>
                                                     ) : (
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            {plan.is_approved ==
+                                                            {project.is_approved ==
                                                             1 ? (
                                                                 <Button>
                                                                     Diterima
@@ -460,7 +460,7 @@ export default function Index(props) {
                                                         <div className="flex mt-1 rounded-md shadow-sm">
                                                             <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
                                                                 {
-                                                                    plan.plan_bids_count
+                                                                    project.project_bids_count
                                                                 }
                                                             </div>
                                                             <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
@@ -470,7 +470,7 @@ export default function Index(props) {
                                                     </td>
 
                                                     <td className="px-6 py-4 whitespace-nowrap">
-                                                        {plan.created_at}
+                                                        {project.created_at}
                                                     </td>
                                                     <td>
                                                         <Dropdown>
@@ -487,15 +487,15 @@ export default function Index(props) {
                                                                 </button>
                                                             </Dropdown.Trigger>
                                                             <Dropdown.Content>
-                                                                {plan.is_approved ==
+                                                                {project.is_approved ==
                                                                 1 ? (
                                                                     ""
                                                                 ) : (
                                                                     <>
                                                                         <Dropdown.Link
                                                                             href={route(
-                                                                                "plans.edit",
-                                                                                `${plan.slug}`
+                                                                                "projects.edit",
+                                                                                `${project.slug}`
                                                                             )}
                                                                         >
                                                                             Edit
@@ -504,7 +504,7 @@ export default function Index(props) {
                                                                             className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                             onClick={() =>
                                                                                 openDestroyDialog(
-                                                                                    plan
+                                                                                    project
                                                                                 )
                                                                             }
                                                                         >
@@ -515,43 +515,43 @@ export default function Index(props) {
 
                                                                 <Dropdown.Link
                                                                     href={route(
-                                                                        "plans.show",
-                                                                        `${plan.slug}`
+                                                                        "projects.show",
+                                                                        `${project.slug}`
                                                                     )}
                                                                 >
                                                                     Lihat Detail
                                                                 </Dropdown.Link>
-                                                                <Dropdown.Link
+                                                                {/* <Dropdown.Link
                                                                     href={route(
-                                                                        "bidplans.listpenawar",
-                                                                        `${plan.id}`
+                                                                        "bidprojects.listpenawar",
+                                                                        `${project.id}`
                                                                     )}
                                                                 >
                                                                     Lihat
                                                                     Penawaran
-                                                                </Dropdown.Link>
-                                                                {/* {plan.plan_bids_count >
+                                                                </Dropdown.Link> */}
+                                                                {/* {project.project_bids_count >
                                                                     0 && (
                                                                     <Dropdown.Link
                                                                         href={route(
-                                                                            "bidplans.listpenawar",
-                                                                            `${plan.id}`
+                                                                            "bidprojects.listpenawar",
+                                                                            `${project.id}`
                                                                         )}
                                                                     >
                                                                         Lihat
                                                                         Penawaran
                                                                     </Dropdown.Link>
                                                                 )} */}
-                                                                {plan.plan_bids_sum_is_approved ==
+                                                                {project.project_bids_sum_is_approved ==
                                                                     "1" && (
                                                                     <Dropdown.Link
                                                                         href={route(
-                                                                            "plan.tahapan",
-                                                                            `${plan.slug}`
+                                                                            "project.tahapan",
+                                                                            `${project.slug}`
                                                                         )}
                                                                     >
                                                                         Tahapan
-                                                                        Perencanaan
+                                                                        Proyek
                                                                     </Dropdown.Link>
                                                                 )}
                                                             </Dropdown.Content>
@@ -600,7 +600,7 @@ export default function Index(props) {
                                     className={
                                         "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     }
-                                    href={"plans/create"}
+                                    href={"projects/create"}
                                 >
                                     Tambah{" "}
                                     <IconCirclePlus className="w-4 h-4" />
@@ -610,9 +610,9 @@ export default function Index(props) {
                                     className={
                                         "justify-start px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
                                     }
-                                    href={"plans/create"}
+                                    href={"projects/create"}
                                 >
-                                    Ditolak({planRejectCount})
+                                    Ditolak({projectRejectCount})
                                 </NavLink>
                             </div>
                         </div>
@@ -658,7 +658,7 @@ export default function Index(props) {
                         </div>
                     </div>
                     <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-                        {plans.map((plan, index) => (
+                        {projects.map((project, index) => (
                             <div
                                 key={index}
                                 className="relative w-full mx-auto"
@@ -668,21 +668,21 @@ export default function Index(props) {
                                         <div className="grid w-full grid-cols-12 gap-1">
                                             <div className="col-span-4 col-start-1">
                                                 <p className="text-sm font-semibold">
-                                                    {plan.owner.name}
+                                                    {project.owner.name}
                                                 </p>
                                                 <p className="text-xs font-medium text-gray-500">
-                                                    {plan.plan_category.name}
+                                                    {project.project_category.name}
                                                 </p>
                                             </div>
                                             <div className="flex items-center justify-end col-span-6 col-end-12">
-                                                {plan.plan_bids_sum_is_approved ==
+                                                {project.project_bids_sum_is_approved ==
                                                 "1" ? (
                                                     <p className="px-1 py-1 text-xs font-semibold text-blue-900 rounded bg-sky-200">
                                                         Sudah Memilih Pemenang
                                                     </p>
                                                 ) : (
                                                     <>
-                                                        {plan.is_approved ==
+                                                        {project.is_approved ==
                                                         1 ? (
                                                             <p className="px-1 py-1 text-xs font-semibold text-blue-900 rounded bg-sky-200">
                                                                 Diterima
@@ -706,15 +706,15 @@ export default function Index(props) {
                                                             </button>
                                                         </DropdownMobile.Trigger>
                                                         <DropdownMobile.Content>
-                                                            {plan.is_approved ==
+                                                            {project.is_approved ==
                                                             1 ? (
                                                                 ""
                                                             ) : (
                                                                 <>
                                                                     <DropdownMobile.Link
                                                                         href={route(
-                                                                            "plans.edit",
-                                                                            `${plan.slug}`
+                                                                            "projects.edit",
+                                                                            `${project.slug}`
                                                                         )}
                                                                     >
                                                                         Edit
@@ -723,7 +723,7 @@ export default function Index(props) {
                                                                         className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                         onClick={() =>
                                                                             openDestroyDialog(
-                                                                                plan
+                                                                                project
                                                                             )
                                                                         }
                                                                     >
@@ -734,34 +734,35 @@ export default function Index(props) {
 
                                                             <DropdownMobile.Link
                                                                 href={route(
-                                                                    "plans.show",
-                                                                    `${plan.slug}`
+                                                                    "projects.show",
+                                                                    `${project.slug}`
                                                                 )}
                                                             >
                                                                 Lihat Detail
                                                             </DropdownMobile.Link>
-                                                            {plan.plan_bids_count >
+                                                            {project.project_bids_count >
                                                                 0 && (
-                                                                <DropdownMobile.Link
-                                                                    href={route(
-                                                                        "bidplans.listpenawar",
-                                                                        `${plan.id}`
-                                                                    )}
-                                                                >
-                                                                    Lihat
-                                                                    Penawaran
-                                                                </DropdownMobile.Link>
+                                                                    <></>
+                                                                // <DropdownMobile.Link
+                                                                //     href={route(
+                                                                //         "bidprojects.listpenawar",
+                                                                //         `${project.id}`
+                                                                //     )}
+                                                                // >
+                                                                //     Lihat
+                                                                //     Penawaran
+                                                                // </DropdownMobile.Link>
                                                             )}
-                                                            {plan.plan_bids_sum_is_approved ==
+                                                            {project.project_bids_sum_is_approved ==
                                                                 "1" && (
                                                                 <DropdownMobile.Link
                                                                     href={route(
-                                                                        "plan.tahapan",
-                                                                        `${plan.slug}`
+                                                                        "project.tahapan",
+                                                                        `${project.slug}`
                                                                     )}
                                                                 >
                                                                     Tahapan
-                                                                    Perencanaan
+                                                                    Proyek
                                                                 </DropdownMobile.Link>
                                                             )}
                                                         </DropdownMobile.Content>
@@ -774,8 +775,8 @@ export default function Index(props) {
                                                 <img
                                                     className="object-cover w-12 h-12 border rounded-lg"
                                                     src={
-                                                        plan.media
-                                                            ? plan.media
+                                                        project.media
+                                                            ? project.media
                                                             : "storage/files/default/NoImage.svg"
                                                     }
                                                     alt="0"
@@ -785,15 +786,15 @@ export default function Index(props) {
                                                 <Link
                                                     className="text-base font-semibold"
                                                     href={route(
-                                                        "plans.show",
-                                                        `${plan.slug}`
+                                                        "projects.show",
+                                                        `${project.slug}`
                                                     )}
                                                 >
-                                                    {plan.name}
+                                                    {project.name}
                                                 </Link>
 
                                                 <p className="text-xs font-medium text-gray-500">
-                                                    {plan.plan_bids_count}{" "}
+                                                    {project.project_bids_count}{" "}
                                                     Penawar
                                                 </p>
                                             </div>
@@ -804,18 +805,18 @@ export default function Index(props) {
                                                 <p className="text-sm font-semibold">
                                                     Rp.{" "}
                                                     {numberFormat(
-                                                        plan.anggaran_proyek
+                                                        project.anggaran_proyek
                                                     )}
                                                 </p>
                                             </div>
                                             <div className="col-span-5 col-end-13">
                                                 <div className="flex items-center justify-end col-span-3 col-end-6 ">
-                                                    {plan.plan_bids_sum_is_approved ==
+                                                    {project.project_bids_sum_is_approved ==
                                                     "1" ? (
                                                         <Link
                                                             href={route(
-                                                                "plan.tahapan",
-                                                                `${plan.slug}`
+                                                                "project.tahapan",
+                                                                `${project.slug}`
                                                             )}
                                                             className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
                                                         >
@@ -823,18 +824,19 @@ export default function Index(props) {
                                                         </Link>
                                                     ) : (
                                                         <>
-                                                            {plan.is_approved ==
+                                                            {project.is_approved ==
                                                             1 ? (
-                                                                <Link
-                                                                    href={route(
-                                                                        "bidplans.listpenawar",
-                                                                        `${plan.id}`
-                                                                    )}
-                                                                    className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
-                                                                >
-                                                                    Lihat
-                                                                    Penawaran
-                                                                </Link>
+                                                                <></>
+                                                                // <Link
+                                                                //     href={route(
+                                                                //         "bidprojects.listpenawar",
+                                                                //         `${project.id}`
+                                                                //     )}
+                                                                //     className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                                                // >
+                                                                //     Lihat
+                                                                //     Penawaran
+                                                                // </Link>
                                                             ) : (
                                                                 <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
                                                                     Edit
