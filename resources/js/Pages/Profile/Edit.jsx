@@ -17,8 +17,13 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         <>
             <Head title="Profile" />
             <div className="py-12">
+                
                 <div className="mx-auto space-y-6 sm:px-6 lg:px-8">
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
+                        <div className="p-8 border border-gray-200 rounded-2xl">
+                    <div className="flex justify-center text-lg mb-2">Kode Referral</div>
+                    <div className="flex justify-center text-lg items-center px-2 py-1 font-semibold text-white rounded bg-sky-500">{auth.user.referral}</div>
+                    </div>
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}

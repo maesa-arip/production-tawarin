@@ -46,21 +46,21 @@ export default function Navbar() {
         setState();
         setIsOpenInfoDialog(true);
     };
-    <InfoModal
-        isOpenInfoDialog={isOpenInfoDialog}
-        setIsOpenInfoDialog={setIsOpenInfoDialog}
-        size="2xl"
-        title={"Info"}
-        header={""}
-    >
-        Anda harus login terlebih dahulu untuk menggunakan fitur chat
-    </InfoModal>;
 
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
     return (
         <>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog}
+                setIsOpenInfoDialog={setIsOpenInfoDialog}
+                size="2xl"
+                title={"Info"}
+                header={""}
+            >
+                Anda harus login terlebih dahulu untuk menggunakan fitur chat
+            </InfoModal>
             <Popover className="relative bg-white">
                 <div className="px-4 mx-auto sm:px-6">
                     <div className="flex items-center justify-between py-6 border-b-2 border-gray-100 md:justify-start md:space-x-10">
@@ -244,6 +244,65 @@ export default function Navbar() {
                                                 href={"/plans/create"}
                                             >
                                                 Buat Perencanaan
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route(
+                                                    "planportofolios.index"
+                                                )}
+                                            >
+                                                Portofolio
+                                            </Dropdown.Link>
+                                        </>
+                                    )}
+                                </Dropdown.Content>
+                            </Dropdown>
+
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                        >
+                                            Proyek
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    <Dropdown.Link href={route("plan.list")}>
+                                        Cari Proyek
+                                    </Dropdown.Link>
+                                    {permission_name.indexOf(
+                                        "melakukan penawaran proyek"
+                                    ) > -1 && (
+                                        <Dropdown.Link href={"/planbids"}>
+                                            Penawaran Saya
+                                        </Dropdown.Link>
+                                    )}
+                                    {permission_name.indexOf(
+                                        "lihat menu proyek"
+                                    ) > -1 && (
+                                        <>
+                                            <Dropdown.Link href={"/plans"}>
+                                                Proyek Saya
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={"/projects/create"}
+                                            >
+                                                Buat Proyek
                                             </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route(

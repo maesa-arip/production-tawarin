@@ -36,7 +36,6 @@ class Plan extends Model implements HasMedia, Wallet, Confirmable
         // return $this->hasMany(PlanBid::class);
         return $this->hasOne(PlanBid::class)->where('user_id', auth()->user()->id);
     }
-    
     public function plan_category()
     {
         return $this->belongsTo(PlanCategory::class);

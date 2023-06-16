@@ -167,6 +167,7 @@ Route::middleware('auth','verified')->group(function () {
     Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class,'confirmed'])->name('planadmin.confirmed');
     Route::post('/planadmin/rejected/{id}', [PlanAdminController::class,'rejected'])->name('planadmin.rejected');
     Route::Resource('plans', PlanController::class)->except('show');
+    Route::delete('/image/destroy/{id}', [UploadController::class, 'destroyimage'])->name('media.destroy');
     Route::Resource('planportofolios', PlanPortofolioController::class)->except('show');
     // -- Tahapan Perencanaan
         Route::get('plan/tahapan/{plan}',[PlanController::class,'tahapan'])->name('plan.tahapan');

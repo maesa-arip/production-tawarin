@@ -7,6 +7,7 @@ use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UploadController extends Controller
 {
@@ -225,5 +226,14 @@ class UploadController extends Controller
                 return 'not found';
             }
         }
+    }
+    public function destroyimage($id)
+    {
+        $media = Media::findOrfail($id);
+        $media->delete();
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => 'Media berhasil dihapus',
+        ]);
     }
 }
