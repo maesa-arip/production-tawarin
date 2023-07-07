@@ -282,7 +282,7 @@ export default function Navbar() {
                                 </Dropdown.Trigger>
 
                                 <Dropdown.Content>
-                                    <Dropdown.Link href={route("plan.list")}>
+                                    <Dropdown.Link href={route("project.list")}>
                                         Cari Proyek
                                     </Dropdown.Link>
                                     {permission_name.indexOf(
@@ -913,24 +913,24 @@ export default function Navbar() {
                     isOpenMenuModal={isOpenMenuModal}
                     setIsOpenMenuModal={setIsOpenMenuModal}
                 >
-                    <div className="grid items-center justify-between grid-cols-4 gap-8">
+                    <div className="grid items-center justify-between grid-cols-3 gap-x-12 gap-y-4">
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href={route("funding.list")}
                         >
                             <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Pendanaan
-                            </div>
+                            </p>
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href={route("plan.list")}
                         >
                             <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Perencanaan
-                            </div>
+                            </p>
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
@@ -938,9 +938,9 @@ export default function Navbar() {
                         >
                             <IconBuildingSkyscraper className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Proyek
-                            </div>
+                            </p>
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
@@ -948,9 +948,9 @@ export default function Navbar() {
                         >
                             <IconUserSearch className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Keahlian
-                            </div>
+                            </p>
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
@@ -958,9 +958,9 @@ export default function Navbar() {
                         >
                             <IconBuildingStore className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Toko
-                            </div>
+                            </p>
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
@@ -968,9 +968,9 @@ export default function Navbar() {
                         >
                             <IconTools className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Alat
-                            </div>
+                            </p>
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
@@ -978,9 +978,9 @@ export default function Navbar() {
                         >
                             <IconUsers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                            <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                 Pengguna
-                            </div>
+                            </p>
                         </NavLinkMobile>
                         {auth.user ? (
                             <NavLinkMobile
@@ -988,9 +988,9 @@ export default function Navbar() {
                                 href={route("planportofolios.index")}
                             >
                                 <IconWriting className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                                     Portofolio
-                                </div>
+                                </p>
                             </NavLinkMobile>
                         ) : (
                             <></>
@@ -1004,9 +1004,9 @@ export default function Navbar() {
                             >
                                 <IconBarcode className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                    AdminSaldo
-                                </div>
+                                <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                    Admin Saldo
+                                </p>
                             </NavLinkMobile>
                         )}
                         {permission_name.indexOf("lihat menu admin general") >
@@ -1017,9 +1017,9 @@ export default function Navbar() {
                             >
                                 <IconBrandSupernova className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                    AturPerencanaan
-                                </div>
+                                <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                    Atur Perencanaan
+                                </p>
                             </NavLinkMobile>
                         )}
                         {permission_name.indexOf("atur hak akses") > -1 && (
@@ -1029,9 +1029,9 @@ export default function Navbar() {
                             >
                                 <IconUsers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
-                                <div className="flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                    AdminUser
-                                </div>
+                                <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                    Admin User
+                                </p>
                             </NavLinkMobile>
                         )}
 

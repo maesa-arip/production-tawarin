@@ -133,6 +133,12 @@ Route::get('/chat', [ChatController::class, 'index'])->name('chats.index');
     Route::get('public/fundings/list', [FundingController::class,'list'])->name('funding.list');
     // End Fundings
 //End Public List
+ // Plans
+ Route::get('public/projects/list', [ProjectController::class,'list'])->name('project.list');
+ Route::get('public/projects/{project}', [ProjectController::class,'show'])->name('projects.show');
+//  Route::get('public/planportofolios/{plans}', [PlanPortofolioController::class,'show'])->name('planportofolios.show');
+ // End Plans
+
 
 //Alamat
 Route::get('provinces', [DependantDropdownController::class, 'provinces'])->name('provinces');
@@ -208,6 +214,7 @@ Route::middleware('auth','verified')->group(function () {
     Route::get('plans/choose',[PlanController::class,'choose'])->name('plans.choose');
     Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
     Route::Resource('projects', ProjectController::class);
+
     // End Plans
 
     // Fundings

@@ -26,9 +26,9 @@ return new class extends Migration
             $table->integer('masa_waktu_pemeliharaan');
             $table->integer('anggaran_proyek');
             $table->integer('jaminan_pelaksanaan');
-            $table->integer('desa')->nullable();
-            $table->string('alamat')->nullable();
-            $table->string('maps')->nullable();
+            $table->string('lat');
+            $table->string('lng');
+            $table->string('street')->nullable();
             $table->tinyInteger('is_approved')->default(0);
             $table->timestamps();
         });

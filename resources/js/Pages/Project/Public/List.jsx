@@ -4,7 +4,6 @@ import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import Header from "@/Components/Header";
 import Pagination from "@/Components/Pagination";
-import PlanItem from "@/Components/PlanItem";
 import { IconCirclePlus, IconMapPin, IconUserCircle } from "@tabler/icons";
 import { numberFormat } from "@/Libs/helper";
 import NavLink from "@/Components/NavLink";
@@ -14,7 +13,7 @@ import EmptyCard from "@/Components/EmptyCard";
 import InfoModal from "@/Components/Modal/InfoModal";
 
 export default function List(props) {
-    const { data: plans, meta, links, filtered, attributes } = props.plans;
+    const { data: projects, meta, links, filtered, attributes } = props.projects;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const { permissions } = usePage().props;
@@ -24,7 +23,7 @@ export default function List(props) {
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("plan.list"),
+                route("project.list"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -66,7 +65,7 @@ export default function List(props) {
 
     return (
         <div>
-            <Head title="Plans" />
+            <Head title="projects" />
             <Header
                 title="Perencanaan"
                 description="List perencanaan yang ada di Tawarin."
@@ -93,7 +92,7 @@ export default function List(props) {
                                         className={
                                             "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         }
-                                        href={"/plans/create"}
+                                        href={"/projects/create"}
                                     >
                                         Tambah
                                         {/* <IconCirclePlus className="w-4 h-4"/> */}
@@ -103,7 +102,7 @@ export default function List(props) {
                                         className={
                                             "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         }
-                                        href={route("plans.index")}
+                                        href={route("projects.index")}
                                     >
                                         Perencanaan Saya
                                         {/* <IconUserCircle className="w-4 h-4"/> */}
@@ -125,7 +124,7 @@ export default function List(props) {
                                     className={
                                         "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     }
-                                    href={"/planbids"}
+                                    href={"/projectbids"}
                                 >
                                     Penawaran Saya
                                     {/* <IconCirclePlus className="w-4 h-4"/> */}
@@ -175,15 +174,15 @@ export default function List(props) {
                         </div>
                     </div>
                 </div>
-                {plans.length ? (
+                {projects.length ? (
                     <div className="grid w-full grid-cols-2 gap-1 mt-4 md:gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        {plans.map((plan, index) => (
+                        {projects.map((project, index) => (
                             <div
                                 key={index}
                                 className="relative w-full pb-4 mx-auto"
                             >
                                 <Link
-                                    href={`/public/plans/${plan.slug}`}
+                                    href={`/public/projects/${project.slug}`}
                                     className="relative inline-block w-full transition-transform duration-300 ease-in-out"
                                 >
                                     <div className="p-2 bg-white border rounded-lg">
@@ -193,11 +192,11 @@ export default function List(props) {
                                                     <img
                                                         className="object-cover object-top w-full h-full lg:h-full lg:w-full"
                                                         src={
-                                                            plan.media
-                                                                ? plan.media
+                                                            project.media
+                                                                ? project.media
                                                                 : "/storage/files/default/NoImage.svg"
                                                         }
-                                                        alt={plan.slug}
+                                                        alt={project.slug}
                                                     ></img>
                                                 </div>
                                             </div>
@@ -205,19 +204,19 @@ export default function List(props) {
                                                 <div className="flex px-2 py-1 space-x-1 overflow-hidden bg-white rounded-lg md:px-5 md:space-x-5">
                                                     <p className="flex items-center text-sm font-medium text-gray-800">
                                                         <IconUserCircle className="w-5 h-5 text-gray-800 bg-transparent" />
-                                                        {plan.owner.name}
+                                                        {project.owner.name}
                                                     </p>
                                                 </div>
                                             </div>
-                                            {plan.plan_bids_sum_is_approved ==
+                                            {project.project_bids_sum_is_approved ==
                                             1 ? (
                                                 <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-yellow-500 rounded-lg select-none z-9">
                                                     Pemenang Perencanaan Ini:{" "}
-                                                    {plan.winner.name}
+                                                    {project.winner.name}
                                                 </span>
                                             ) : (
                                                 <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-blue-500 rounded-lg select-none z-9">
-                                                    {plan.until} Hari Lagi
+                                                    {project.until} Hari Lagi
                                                 </span>
                                             )}
                                         </div>
@@ -226,13 +225,13 @@ export default function List(props) {
                                                 className="text-base font-medium text-gray-800 md:text-lg line-clamp-1"
                                                 title="New York"
                                             >
-                                                {plan.name}
+                                                {project.name}
                                             </h2>
                                             <Link
                                                 className="mt-2 text-sm text-gray-800 line-clamp-1"
-                                                href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}
+                                                href={`/public/projects/list?project_category=${project.project_category.slug}`}
                                             >
-                                                {plan.plan_category.name}
+                                                {project.project_category.name}
                                             </Link>
                                         </div>
                                         <div className="flex items-center justify-between my-2 space-x-4">
@@ -243,7 +242,7 @@ export default function List(props) {
                                                 <p className="md:ml-1 text-[9px] md:text-xs">
                                                     Rp{" "}
                                                     {numberFormat(
-                                                        plan.anggaran_proyek
+                                                        project.anggaran_proyek
                                                     )}
                                                 </p>
                                             </span>
@@ -260,12 +259,12 @@ export default function List(props) {
                                                 <p className="justify-end text-[9px] md:text-xs md:flex">
                                                     Rp{" "}
                                                     {numberFormat(
-                                                        plan.dari_anggaran
+                                                        project.dari_anggaran
                                                     )}{" "}
                                                     -{/* <div> */}
                                                     Rp{" "}
                                                     {numberFormat(
-                                                        plan.sampai_anggaran
+                                                        project.sampai_anggaran
                                                     )}
                                                     {/* </div> */}
                                                 </p>
@@ -273,11 +272,11 @@ export default function List(props) {
                                         </div>
                                         <div className="flex items-center justify-between my-2 space-x-4">
                                             <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-yellow-700 bg-yellow-100 rounded-md w-36">
-                                                {plan.jangka_waktu_pelaksanaan}{" "}
+                                                {project.jangka_waktu_pelaksanaan}{" "}
                                                 Hari Pengerjaan
                                             </span>
                                             <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-green-500 rounded-md bg-green-50">
-                                                {plan.plan_bids_count} Penawar
+                                                {project.project_bids_count} Penawar
                                             </span>
                                         </div>
                                     </div>

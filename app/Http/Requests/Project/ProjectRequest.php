@@ -33,6 +33,9 @@ class ProjectRequest extends FormRequest
             'masa_waktu_pemeliharaan' => ['required'],
             'anggaran_proyek' => ['required'],
             'jaminan_pelaksanaan' => ['required'],
+            'lat' => ['required'],
+            'lng' => ['required'],
+            'street' => ['required'],
         ];
     }
 }

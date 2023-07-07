@@ -7,6 +7,7 @@ import { Head } from "@inertiajs/inertia-react";
 import App from "@/Layouts/App";
 import NavLink from "@/Components/NavLink";
 import DangerButton from "@/Components/DangerButton";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
     return (
@@ -22,7 +23,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-8 border border-gray-200 rounded-2xl">
                     <div className="flex justify-center text-lg mb-2">Kode Referral</div>
-                    <div className="flex justify-center text-lg items-center px-2 py-1 font-semibold text-white rounded bg-sky-500">{auth.user.referral}</div>
+                    <div className="flex justify-center text-lg items-center px-2 py-1 font-semibold rounded"><PrimaryButton>{auth.user.referral}</PrimaryButton></div>
                     </div>
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
