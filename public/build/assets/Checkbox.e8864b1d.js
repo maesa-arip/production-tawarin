@@ -1,0 +1,1 @@
+import{a as d}from"./app.c4d8ffef.js";function g({name:r,value:o,handleChange:a}){return d("input",{type:"checkbox",name:r,value:o,className:"text-indigo-600 border-gray-300 rounded shadow-sm dark:bg-gray-900 dark:border-gray-700 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800",onChange:n=>a(n)})}export{g as C};
