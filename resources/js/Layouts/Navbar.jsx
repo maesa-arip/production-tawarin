@@ -916,7 +916,7 @@ export default function Navbar() {
                     <div className="grid items-center justify-between grid-cols-3 gap-x-12 gap-y-4">
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href={route("funding.list")}
+                            href={route("coming")}
                         >
                             <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
@@ -944,7 +944,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href="/projects/choose"
+                            href="/coming"
                         >
                             <IconUserSearch className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
@@ -954,7 +954,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href="/toko/products"
+                            href="/coming"
                         >
                             <IconBuildingStore className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 
@@ -964,7 +964,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href="/projects/choose"
+                            href="/coming"
                         >
                             <IconTools className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 

@@ -1,0 +1,1 @@
+import{j as m}from"./app.e6a62849.js";function l({forInput:r,value:t,className:e,children:a}){return m("label",{htmlFor:r,className:"block font-medium text-sm text-gray-700 dark:text-gray-300 "+e,children:t||a})}export{l as I};

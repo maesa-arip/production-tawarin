@@ -67,6 +67,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/coming', function () {
+    return Inertia::render('ComingSoon');
+})->name('coming');
+
 
 
 Route::middleware('auth','verified')->group(function () {
