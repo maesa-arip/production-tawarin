@@ -17,10 +17,10 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get('register/{referral}', [RegisteredUserController::class, 'create'])
-                ->name('register');
+    Route::get('register/{referral}', [RegisteredUserController::class, 'create2'])
+                ->name('register2');
 
-    Route::post('register/{referral}', [RegisteredUserController::class, 'store']);
+    Route::post('register/{referral}', [RegisteredUserController::class, 'store2']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');

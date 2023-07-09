@@ -28,6 +28,11 @@ class RegisteredUserController extends Controller
         $joinas = JoinAs::get();
         return Inertia::render('Auth/Register', ['joinas'=>$joinas]);
     }
+    public function create2()
+    {
+        $joinas = JoinAs::get();
+        return Inertia::render('Auth/Register', ['joinas'=>$joinas]);
+    }
 
     /**
      * Handle an incoming registration request.
@@ -44,7 +49,7 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'username' => 'required|string|max:255|unique:users',
             'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
+            // 'address' => 'required|string|max:255',
             'join_as_id' => 'required',
             // 'referral' => 'required',
             'from_referral' => 'max:7',
@@ -56,7 +61,55 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'username' => $request->username,
             'phone' => $request->phone,
-            'address' => $request->address,
+            // 'address' => $request->address,
+            'join_as_id' => $request->join_as_id,
+            'referral' => Str::lower(Str::random(6)),
+            'from_referral' => $request->from_referral ? $request->from_referral : 'tawarin',
+            'password' => Hash::make($request->password),
+        ]);
+        $user->createWallet(
+            [
+            'name' => 'Bonus Wallet',
+            'slug' => 'bonus',
+            ]
+        );
+        $user->createWallet(
+            [
+            'name' => 'Default Wallet',
+            'slug' => 'default',
+            ]
+        );
+
+        event(new Registered($user));
+        $admin = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->get();
+        Notification::send($admin, new RegisteredNewUserNotification($user));
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+    }
+    public function store2(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'username' => 'required|string|max:255|unique:users',
+            'phone' => 'required|string|max:255',
+            // 'address' => 'required|string|max:255',
+            'join_as_id' => 'required',
+            // 'referral' => 'required',
+            'from_referral' => 'max:7',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+        // dd($request->all());
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'phone' => $request->phone,
+            // 'address' => $request->address,
             'join_as_id' => $request->join_as_id,
             'referral' => Str::lower(Str::random(6)),
             'from_referral' => $request->from_referral ? $request->from_referral : 'tawarin',

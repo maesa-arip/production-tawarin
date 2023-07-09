@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import App from "@/Layouts/App";
-import { Head, Link } from "@inertiajs/inertia-react";
+import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import FeatureCard from "@/Components/FeatureCard";
 import { debounce, pickBy } from "lodash";
@@ -50,6 +50,7 @@ export default function Dashboard(props) {
     const planRejectCount = props.planRejectCount;
     const permissions = props.permissions;
     const portofolio = props.portofolio;
+    const {auth} = usePage().props;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
 
@@ -76,8 +77,14 @@ export default function Dashboard(props) {
         setIsOpenInfoDialog(true);
     };
 
+    const openInfoDialog2 = () => {
+        setState();
+        setIsOpenInfoDialog2(true);
+    };
+
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
     const [state, setState] = useState([]);
     return (
         <>
@@ -104,19 +111,27 @@ export default function Dashboard(props) {
                 <Link href={"planportofolios/create"}><ThirdButton  className="flex mx-4">Tambah Portofolio</ThirdButton></Link>
                 
             </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog2}
+                setIsOpenInfoDialog={setIsOpenInfoDialog2}
+                size="2xl"
+                title={"Info"}
+                header={""}
+            >
+                Ayo lengkapi profilmu terlebih dahulu
+                <Link href={"/profile"}><ThirdButton  className="flex mx-4">Lengkapi Profil</ThirdButton></Link>
+                
+            </InfoModal>
             <Container>
                 <FeatureCard />
                 {portofolio.length > 0 ? <> </> : useEffect(() => {
                  openInfoDialog()
                 }, [])
                  }
-                {/* <button className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                                            onClick={() =>
-                                                                                openInfoDialog()
-                                                                            }
-                                                                        >
-                                                                            Hapus
-                                                                        </button> */}
+                {auth.user.formattedAddress ? <> </> : useEffect(() => {
+                 openInfoDialog2()
+                }, [])
+                 }
                 {plans.length > 0 ? <div className="mt-4 flex flex-col px-2 py-2 bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                     <div className="">
                         <div className="flex items-center justify-between">

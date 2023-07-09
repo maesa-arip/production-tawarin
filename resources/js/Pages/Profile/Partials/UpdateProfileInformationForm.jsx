@@ -65,7 +65,7 @@ export default function UpdateProfileInformation({
             name: user.name,
             email: user.email,
             phone: user.phone,
-            address: user.address,
+            // address: user.address,
             visi: user.visi,
             misi: user.misi,
             lat: user.lat,
@@ -158,7 +158,7 @@ export default function UpdateProfileInformation({
                                     />
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <InputLabel for="address" value="Address" />
 
                                     <TextInput
@@ -177,7 +177,7 @@ export default function UpdateProfileInformation({
                                         className="mt-2"
                                         message={errors.address}
                                     />
-                                </div>
+                                </div> */}
                                 <div>
                                     <InputLabel for="visi" value="Visi" />
 
@@ -226,6 +226,7 @@ export default function UpdateProfileInformation({
                         <div className="overflow-hidden shadow sm:rounded-md">
                             <div className="p-4 bg-white md:px-6">
                                 <div className="w-full">
+                                <InputLabel for="alamat" value="Alamat" />
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="w-12 h-12 mx-auto text-gray-400 icon icon-tabler icon-tabler-map-2"
@@ -262,7 +263,7 @@ export default function UpdateProfileInformation({
                                                 Lokasi Otomatis
                                             </label>
                                             <div className="flex rounded-md">
-                                                <input
+                                                <textarea
                                                     type="text"
                                                     name="formattedAddress"
                                                     value={locationDetails.formattedAddress ? locationDetails.formattedAddress : data.formattedAddress}

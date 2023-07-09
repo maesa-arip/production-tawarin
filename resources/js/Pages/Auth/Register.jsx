@@ -139,7 +139,7 @@ export default function Register({ joinas }) {
                         required
                     />
                 </div>
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <Label forInput="address" value="Address" />
                     <Input
                         type="text"
@@ -151,7 +151,7 @@ export default function Register({ joinas }) {
                         onChange={onChange}
                         required
                     />
-                </div>
+                </div> */}
 
                 <div className="mt-4">
                     <Label forInput="email" value="Email" />
