@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
     GoogleMap,
     LoadScript,
@@ -47,6 +47,7 @@ const Map = ({ onLocationSelect, lat, lng }) => {
                     const updatedLocationDetails = {
                         formattedAddress,
                         street: "",
+                        route: "",
                         village: "",
                         subdistrict: "",
                         district: "",
@@ -61,7 +62,7 @@ const Map = ({ onLocationSelect, lat, lng }) => {
                         if (types.includes("street_number")) {
                             updatedLocationDetails.street += longName;
                         } else if (types.includes("route")) {
-                            updatedLocationDetails.street += ` ${longName}`;
+                            updatedLocationDetails.route += ` ${longName}`;
                         } else if (
                             types.includes("administrative_area_level_4")
                         ) {

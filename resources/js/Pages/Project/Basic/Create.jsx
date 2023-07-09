@@ -657,8 +657,7 @@ export default function Create({
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
                                                                 >
-                                                                    Lokasi
-                                                                    Otomatis
+                                                                    Lokasi Otomatis
                                                                 </label>
                                                                 <div className="flex rounded-md">
                                                                     <input
@@ -671,7 +670,7 @@ export default function Create({
                                                                             handleInputChange
                                                                         }
                                                                         readOnly
-                                                                        className="block w-full mt-1 mb-4 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                                                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                                                     />
                                                                 </div>
                                                                 {errors && (
@@ -682,12 +681,12 @@ export default function Create({
                                                                     </span>
                                                                 )}
                                                             </div>
-                                                            <div className="col-span-12 md:col-span-6">
+                                                            <div className="col-span-12 md:col-span-6 mt-2">
                                                                 <label
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
                                                                 >
-                                                                    Nama Jalan
+                                                                    Nomor
                                                                 </label>
                                                                 <div className="flex rounded-md">
                                                                     <input
@@ -699,7 +698,8 @@ export default function Create({
                                                                         onChange={
                                                                             handleInputChange
                                                                         }
-                                                                        className="block w-full mt-1 mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                                        readOnly
+                                                                        className="block w-full mt-1 mb-4 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                                                     />
                                                                 </div>
                                                                 {errors && (
@@ -710,12 +710,41 @@ export default function Create({
                                                                     </span>
                                                                 )}
                                                             </div>
+                                                            <div className="col-span-12 md:col-span-6 mt-2">
+                                                                <label
+                                                                    htmlFor="name"
+                                                                    className="block text-sm font-medium text-gray-700"
+                                                                >
+                                                                    Jalan/Gang
+                                                                </label>
+                                                                <div className="flex rounded-md">
+                                                                    <input
+                                                                        type="text"
+                                                                        name="route"
+                                                                        value={
+                                                                            locationDetails.route
+                                                                        }
+                                                                        onChange={
+                                                                            handleInputChange
+                                                                        }
+                                                                        readOnly
+                                                                        className="block w-full mt-1 mb-4 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                                                                    />
+                                                                </div>
+                                                                {errors && (
+                                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                                        {
+                                                                            errors.route
+                                                                        }
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                             <div className="col-span-12 md:col-span-6">
                                                                 <label
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
                                                                 >
-                                                                    Nama Desa
+                                                                    Desa
                                                                 </label>
                                                                 <div className="flex rounded-md">
                                                                     <input
@@ -744,7 +773,6 @@ export default function Create({
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
                                                                 >
-                                                                    Nama
                                                                     Kecamatan
                                                                 </label>
                                                                 <div className="flex rounded-md">
@@ -774,7 +802,6 @@ export default function Create({
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
                                                                 >
-                                                                    Nama
                                                                     Kabupaten/Kota
                                                                 </label>
                                                                 <div className="flex rounded-md">
@@ -804,7 +831,6 @@ export default function Create({
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
                                                                 >
-                                                                    Nama
                                                                     Provinsi
                                                                 </label>
                                                                 <div className="flex rounded-md">
@@ -834,7 +860,7 @@ export default function Create({
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
                                                                 >
-                                                                    Nama Negara
+                                                                    Negara
                                                                 </label>
                                                                 <div className="flex rounded-md">
                                                                     <input

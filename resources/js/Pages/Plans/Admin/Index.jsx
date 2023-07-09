@@ -111,7 +111,7 @@ export default function Index(props) {
                 </Button>
             </DestroyModal>
 
-            <div className="hidden py-12 lg:block">
+            <div className="py-12 lg:block">
                 <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
@@ -394,7 +394,7 @@ export default function Index(props) {
                 </div>
             </div>
 
-            <div className="lg:hidden ">
+            <div className="hidden ">
                 <div className="flex items-center justify-end">
                     <div className="w-full">
                         <div className="flex items-center justify-end mt-2 mb-0 gap-x-2">

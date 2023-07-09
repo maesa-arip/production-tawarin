@@ -60,7 +60,6 @@ const MapShow = ({ lat, lng }) => {
     const getComponentLabel = (type) => {
         return componentLabels[type] || type;
     };
-
     return (
         <LoadScript
             googleMapsApiKey="AIzaSyBNK1CQXADYL_HfPkkPUsiBFsXpscVuf3s"

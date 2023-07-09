@@ -40,8 +40,10 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
-
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.edit')->with([
+            'type' => 'success',
+            'message' => 'Data berhasil disimpan',
+        ]);
     }
 
     /**

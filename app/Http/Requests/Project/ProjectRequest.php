@@ -35,7 +35,7 @@ class ProjectRequest extends FormRequest
             'jaminan_pelaksanaan' => ['required'],
             'lat' => ['required'],
             'lng' => ['required'],
-            'street' => ['required'],
+            'formattedAddress' => ['required'],
         ];
     }
 }

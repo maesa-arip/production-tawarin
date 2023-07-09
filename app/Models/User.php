@@ -40,7 +40,9 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
         'phone',
         'visi',
         'misi',
-        'address'
+        'lat',
+        'lng',
+        'formattedAddress'
     ];
 
     /**

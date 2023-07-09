@@ -17,6 +17,7 @@ export default function List(props) {
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const { permissions } = usePage().props;
+    // console.log(projects)
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
@@ -67,8 +68,8 @@ export default function List(props) {
         <div>
             <Head title="projects" />
             <Header
-                title="Perencanaan"
-                description="List perencanaan yang ada di Tawarin."
+                title="Proyek"
+                description="List proyek yang ada di Tawarin."
             />
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
@@ -78,13 +79,13 @@ export default function List(props) {
                 header={""}
             >
                 Anda harus memiliki akun owner terlebih dahulu sebelum bisa
-                membuat perencanaan
+                membuat proyek
             </InfoModal>
             <Container>
                 <div className="flex items-center justify-end">
                     <div className="w-2/3">
                         <div className="flex items-center justify-start gap-x-2">
-                            {permission_name.indexOf("membuat perencanaan") >
+                            {permission_name.indexOf("membuat proyek") >
                             -1 ? (
                                 <div className="flex items-center justify-start gap-x-2">
                                     <NavLink
@@ -104,7 +105,7 @@ export default function List(props) {
                                         }
                                         href={route("projects.index")}
                                     >
-                                        Perencanaan Saya
+                                        Proyek Saya
                                         {/* <IconUserCircle className="w-4 h-4"/> */}
                                     </NavLink>
                                 </div>
@@ -117,7 +118,7 @@ export default function List(props) {
                                 </button>
                             )}
                             {permission_name.indexOf(
-                                "melakukan penawaran perencanaan"
+                                "melakukan penawaran proyek"
                             ) > -1 ? (
                                 <NavLink
                                     type="button"
@@ -211,7 +212,7 @@ export default function List(props) {
                                             {project.project_bids_sum_is_approved ==
                                             1 ? (
                                                 <span className="absolute top-0 left-0 inline-flex justify-end px-2 py-1 mt-3 ml-3 text-xs font-medium text-white bg-yellow-500 rounded-lg select-none z-9">
-                                                    Pemenang Perencanaan Ini:{" "}
+                                                    Pemenang Proyek Ini:{" "}
                                                     {project.winner.name}
                                                 </span>
                                             ) : (
@@ -251,25 +252,24 @@ export default function List(props) {
                                         {/* <div className="w-full h-2 mt-2 bg-gray-200 rounded-full">
                                             <div className="h-full text-xs text-center text-white bg-blue-500 rounded-full" style={{width: (100)+'%'}}></div>
                                         </div> */}
-                                        <div className="flex items-center justify-between space-x-4">
+                                        {/* <div className="flex items-center justify-between space-x-4">
                                             <span className="items-center w-full px-2 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-md md:flex md:justify-between">
                                                 <p className="text-[10px] md:text-xs">
-                                                    Anggaran Perencanaan
+                                                    Anggaran Proyek
                                                 </p>
                                                 <p className="justify-end text-[9px] md:text-xs md:flex">
                                                     Rp{" "}
                                                     {numberFormat(
                                                         project.dari_anggaran
                                                     )}{" "}
-                                                    -{/* <div> */}
+                                                    -
                                                     Rp{" "}
                                                     {numberFormat(
                                                         project.sampai_anggaran
                                                     )}
-                                                    {/* </div> */}
                                                 </p>
                                             </span>
-                                        </div>
+                                        </div> */}
                                         <div className="flex items-center justify-between my-2 space-x-4">
                                             <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-yellow-700 bg-yellow-100 rounded-md w-36">
                                                 {project.jangka_waktu_pelaksanaan}{" "}

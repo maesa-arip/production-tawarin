@@ -21,6 +21,9 @@ class ProfileUpdateRequest extends FormRequest
             'address' => ['string', 'max:255'],
             'visi' => ['string', 'max:255'],
             'misi' => ['string', 'max:255'],
+            'lat' => ['required'],
+            'lng' => ['required'],
+            'formattedAddress' => ['required'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }

@@ -934,7 +934,7 @@ export default function Navbar() {
                         </NavLinkMobile>
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
-                            href="/projects/choose"
+                            href="/public/projects/list"
                         >
                             <IconBuildingSkyscraper className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
 

@@ -54,7 +54,7 @@ export default function Form({
         <>
             <div className="px-4 py-5 bg-white sm:p-6">
                 <div className="grid grid-cols-12 gap-6">
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                         <InputLabel for="name" value="Nama" />
                         <TextInput
                             id="name"
@@ -68,7 +68,7 @@ export default function Form({
                         />
                         <InputError message={errors.name} className="mt-2" />
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                         <InputLabel for="email" value="Email" />
                         <TextInput
                             id="email"
@@ -89,7 +89,7 @@ export default function Form({
                     </div>
                     {options.map((option) => (
                         <div
-                            className="flex justify-between col-span-4 px-3 py-4 border rounded-md"
+                            className="flex justify-between col-span-12 md:col-span-4 px-3 py-4 border rounded-md"
                             key={option.id}
                         >
                             <InputLabel

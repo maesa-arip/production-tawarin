@@ -19,6 +19,9 @@ export default function App({ auth, header, children }) {
            <Toaster
             position="top-center"
             reverseOrder={false}
+            toastOptions={{
+                duration: 5000,
+              }}
             />
             <main className="pb-20 md:pb-0">{children}</main>
             {/* <HideScrollBar/> */}
