@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 
-export default function InfoModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog, size='6xl'}) {
+export default function InfoModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog, size='max-w-6xl'}) {
   return (
     <div>
       <Transition  appear show={isOpenInfoDialog} as={Fragment}>
@@ -20,7 +20,7 @@ export default function InfoModal({title,children,header, isOpenInfoDialog,setIs
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-full p-4 text-center">
+            <div className="flex items-start justify-center min-h-full p-4 text-center mb-12">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -30,7 +30,8 @@ export default function InfoModal({title,children,header, isOpenInfoDialog,setIs
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className={`relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full max-w-${size}`}>
+                <Dialog.Panel className={`w-full transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all ${size}`}>
+                {/* <Dialog.Panel className={`relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full ${size}`}> */}
                 <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">

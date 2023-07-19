@@ -64,11 +64,11 @@ export default function Create({
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Data Perencanaan
+                                        Data Portofolio
                                     </h3>
 
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Masukan data lengkap perencanaanmu
+                                        Masukan data lengkap portofoliomu
                                         disini.
                                     </p>
                                 </div>
@@ -115,12 +115,12 @@ export default function Create({
                                                     htmlFor="name"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Nama Perencanaan
+                                                    Nama Proyek
                                                 </label>
                                                 <div className="flex mt-1 rounded-md">
                                                     <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
                                                         <div className="inline-flex items-center text-sm text-gray-500 rounded-l-md">
-                                                            Perencanaan
+                                                            Proyek
                                                         </div>
                                                         <input
                                                             type="text"
@@ -328,7 +328,7 @@ defaultValue={""}
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Gambar Perencanaan
+                                        Gambar Proyek
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-600">
                                         Sertakan foto sebelum atau sesudah proyek dikerjakan.

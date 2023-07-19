@@ -617,12 +617,7 @@ export default function Create({
                                     <div className="p-4 bg-white md:px-6">
                                         <div className="grid grid-cols-12 gap-6">
                                             <div className="col-span-12 mt-5 md:mt-0">
-                                                {/* <div className="px-4 py-5 space-y-6 bg-white sm:p-6"> */}
                                                 <div>
-                                                    {/* <label className="block text-sm font-medium text-gray-700">
-                                                        Lokasi Proyek
-                                                    </label> */}
-                                                    {/* <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md"> */}
                                                     <div className="w-full">
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -885,14 +880,8 @@ export default function Create({
                                                                 )}
                                                             </div>
                                                         </div>
-
-                                                        {/* <p className="text-xs text-gray-500">
-                                                                        Alamat proyek akan langsung tampil setelah klik "Pilih Lokasi"
-                                                                    </p> */}
                                                     </div>
-                                                    {/* </div> */}
                                                 </div>
-                                                {/* </div> */}
                                             </div>
                                         </div>
                                     </div>

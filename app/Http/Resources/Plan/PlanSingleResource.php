@@ -27,6 +27,8 @@ class PlanSingleResource extends JsonResource
             'name' => $this->name,
             'is_approved' => $this->is_approved,
             'plan_bids_sum_is_approved' => $this->plan_bids_sum_is_approved,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
             'plan_category' => [
                 'id' => $this->plan_category->id,
                 'name' => $this->plan_category->name,

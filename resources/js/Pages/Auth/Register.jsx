@@ -25,14 +25,24 @@ export default function Register({ joinas }) {
             reset("password", "password_confirmation");
         };
     }, []);
+    const pathArray = window.location.pathname.split("/");
+    const referral = pathArray[2];
+    useEffect(() => {
+        setData((prevData) => ({
+            ...prevData,
+            from_referral: referral ? referral : prevData.from_referral,
+        }));
+    }, [referral]);
 
     const onChange = (event) => {
-        setData(
-            event.target.name,
-            (event.target.type === "checkbox") | (event.target.type === "radio")
-                ? event.target.checked
-                : event.target.value
-        );
+        setData((prevData) => ({
+            ...prevData,
+            [event.target.name]:
+                event.target.type === "checkbox" ||
+                event.target.type === "radio"
+                    ? event.target.checked
+                    : event.target.value,
+        }));
     };
     const [selected, setSelected] = useState();
     const onChangeRadio = (e) => {
@@ -42,8 +52,6 @@ export default function Register({ joinas }) {
         e.preventDefault();
         post(route("register"));
     };
-    const pathArray = window.location.pathname.split("/");
-    const referral = pathArray[2];
 
     return (
         <>
@@ -85,7 +93,8 @@ export default function Register({ joinas }) {
                         type="text"
                         name="from_referral"
                         readOnly={referral ? true : false}
-                        value={referral ? referral : data.from_referral}
+                        defaultValue={referral ? referral : data.from_referral}
+                        // value={referral ? referral : data.from_referral}
                         className={
                             referral
                                 ? "block w-full mt-1 cursor-not-allowed"
@@ -95,36 +104,39 @@ export default function Register({ joinas }) {
                         isFocused={true}
                         onChange={onChange}
                     />
-                    {referral ?  <div className="flex justify-center mt-4 text-sm text-gray-600">
-                        <div className="relative px-3 py-4 text-sm text-gray-500 rounded shadow ">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="absolute justify-center inline mr-3 -mt-1 text-center text-white rounded-full w-7 h-7 -left-3 -top-2 bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
-                                width={24}
-                                height={24}
-                                viewBox="0 0 24 24"
-                                strokeWidth={2}
-                                stroke="currentColor"
-                                fill="none"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path
-                                    stroke="none"
-                                    d="M0 0h24v24H0z"
+                    {referral ? (
+                        <div className="flex justify-center mt-4 text-sm text-gray-600">
+                            <div className="relative px-3 py-4 text-sm text-gray-500 rounded shadow ">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="absolute justify-center inline mr-3 -mt-1 text-center text-white rounded-full w-7 h-7 -left-3 -top-2 bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                    width={24}
+                                    height={24}
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
                                     fill="none"
-                                />
-                                <circle cx={12} cy={12} r={9} />
-                                <line x1={12} y1={8} x2="12.01" y2={8} />
-                                <polyline points="11 12 12 12 12 16 13 16" />
-                            </svg>
-                            <p className="text-justify">
-                                Anda sudah menggunakan referral, kolom ini tidak
-                                bisa dirubah.
-                            </p>
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    />
+                                    <circle cx={12} cy={12} r={9} />
+                                    <line x1={12} y1={8} x2="12.01" y2={8} />
+                                    <polyline points="11 12 12 12 12 16 13 16" />
+                                </svg>
+                                <p className="text-justify">
+                                    Anda sudah menggunakan referral, kolom ini
+                                    tidak bisa dirubah.
+                                </p>
+                            </div>
                         </div>
-                    </div> : ""}
-                   
+                    ) : (
+                        ""
+                    )}
                 </div>
                 <div className="mt-4">
                     <Label forInput="phone" value="Phone" />

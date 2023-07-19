@@ -296,7 +296,7 @@ export default function Navbar() {
                                         "lihat menu proyek"
                                     ) > -1 && (
                                         <>
-                                            <Dropdown.Link href={"/plans"}>
+                                            <Dropdown.Link href={"/projects"}>
                                                 Proyek Saya
                                             </Dropdown.Link>
                                             <Dropdown.Link
@@ -649,6 +649,11 @@ export default function Navbar() {
                                                 href={route("users.profiles")}
                                             >
                                                 Porfolios
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route("portofolios.index")}
+                                            >
+                                                Input Porfolios
                                             </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route("logout")}

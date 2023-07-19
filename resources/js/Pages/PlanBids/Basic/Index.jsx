@@ -47,11 +47,12 @@ export default function Index(props) {
     const { data: plans, meta, filtered, attributes } = props.plans;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
-
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("planbids.index"),
+                route(route().current()),
+                // route("riskRegisterKlinis.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -61,8 +62,13 @@ export default function Index(props) {
         }, 150),
         []
     );
-
-    useEffect(() => reload(params), [params]);
+    useEffect(() => {
+        if (!isInitialRender) {
+            reload(params);
+        } else {
+            setIsInitialRender(false);
+        }
+    }, [params]);
     useEffect(() => {
         let numbers = [];
         for (
@@ -72,11 +78,18 @@ export default function Index(props) {
         ) {
             numbers.push(i);
         }
-        numbers.length === 0 ? setPageNumber([10]) : setPageNumber(numbers);
+        setPageNumber(numbers);
     }, []);
-
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
+    const onChange = (event) => {
+        const updatedParams = {
+            ...params,
+            [event.target.name]: event.target.value,
+            page: 1, // Set page number to 1
+        };
+        setParams(updatedParams);
+    };
+    // const onChange = (event) =>
+    //     setParams({ ...params, [event.target.name]: event.target.value });
     const sort = (item) => {
         setParams({
             ...params,
@@ -108,19 +121,19 @@ export default function Index(props) {
                 description="List Penawaran Perencanaan."
             />
             <Container>
-            <DestroyModal
-                isOpenDestroyDialog={isOpenDestroyDialog}
-                setIsOpenDestroyDialog={setIsOpenDestroyDialog}
-                size="2xl"
-                title={"Hapus Perencanaan"}
-            >
-                <Button color={"pink"} onClick={destroyPlan}>
-                    Hapus
-                </Button>
-            </DestroyModal>
+                <DestroyModal
+                    isOpenDestroyDialog={isOpenDestroyDialog}
+                    setIsOpenDestroyDialog={setIsOpenDestroyDialog}
+                    size="2xl"
+                    title={"Hapus Perencanaan"}
+                >
+                    <Button color={"pink"} onClick={destroyPlan}>
+                        Hapus
+                    </Button>
+                </DestroyModal>
 
-            <div className="hidden lg:block">
-                {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
+                <div className="hidden lg:block">
+                    {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mb-6 gap-x-2">
@@ -199,9 +212,7 @@ export default function Index(props) {
                                                     <div
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
-                                                            sort(
-                                                                "owner"
-                                                            )
+                                                            sort("owner")
                                                         }
                                                     >
                                                         Nama Owner
@@ -330,9 +341,7 @@ export default function Index(props) {
                                                     <div
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
-                                                            sort(
-                                                                "is_approved"
-                                                            )
+                                                            sort("is_approved")
                                                         }
                                                     >
                                                         Status
@@ -392,7 +401,7 @@ export default function Index(props) {
                                                         {meta.from + index}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
-                                                    {plan.owner.name}
+                                                        {plan.owner.name}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {plan.name}
@@ -401,7 +410,9 @@ export default function Index(props) {
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <div className="flex mt-1 rounded-md shadow-sm">
                                                             <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                            {plan.jumlah_revisi}
+                                                                {
+                                                                    plan.jumlah_revisi
+                                                                }
                                                             </div>
                                                             <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
                                                                 Kali
@@ -427,7 +438,9 @@ export default function Index(props) {
                                                             </span>
                                                             <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
                                                                 {numberFormat(
-                                                                    plan.plan_bid.bid_price
+                                                                    plan
+                                                                        .plan_bid
+                                                                        .bid_price
                                                                 )}
                                                             </div>
                                                         </div>
@@ -469,13 +482,11 @@ export default function Index(props) {
                                                         )}
                                                     </td>
 
-                                                    
-
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {plan.created_at}
                                                     </td>
                                                     <td>
-                                                    <Dropdown>
+                                                        <Dropdown>
                                                             <Dropdown.Trigger>
                                                                 <button>
                                                                     <svg
@@ -495,18 +506,27 @@ export default function Index(props) {
                                                                     <></>
                                                                 ) : (
                                                                     <>
-                                                                    {plan.plan_bids_sum_is_approved == 0 && plan.plan_bid.is_approved == 0 ? <Dropdown.Link
-                                                                            as={
-                                                                                "button"
-                                                                            }
-                                                                            href={route(
-                                                                                "plans.edit",
-                                                                                `${plan.slug}`
-                                                                            )}
-                                                                        >
-                                                                            Edit
-                                                                        </Dropdown.Link> : ""}
-                                                                        
+                                                                        {plan.plan_bids_sum_is_approved ==
+                                                                            0 &&
+                                                                        plan
+                                                                            .plan_bid
+                                                                            .is_approved ==
+                                                                            0 ? (
+                                                                            <Dropdown.Link
+                                                                                as={
+                                                                                    "button"
+                                                                                }
+                                                                                href={route(
+                                                                                    "plans.edit",
+                                                                                    `${plan.slug}`
+                                                                                )}
+                                                                            >
+                                                                                Edit
+                                                                            </Dropdown.Link>
+                                                                        ) : (
+                                                                            ""
+                                                                        )}
+
                                                                         <button
                                                                             className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                             onClick={() =>
@@ -587,11 +607,11 @@ export default function Index(props) {
                         ))}
                     </ul>
                 </div>
-            {/* </div> */}
+                {/* </div> */}
 
-            <div className="lg:hidden">
-                <div className="flex items-center justify-between">
-                <div className="w-1/2">
+                <div className="lg:hidden">
+                    <div className="flex items-center justify-between">
+                        <div className="w-1/2">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
                                 <NavLink
                                     type="button"
@@ -600,52 +620,51 @@ export default function Index(props) {
                                     }
                                     href={"plans/create"}
                                 >
-                                    Cari <IconSearch className="w-4 h-4"/>
+                                    Cari <IconSearch className="w-4 h-4" />
                                 </NavLink>
-                                
                             </div>
                         </div>
-                    <div className="w-1/2">
-                        <div className="flex items-center justify-between mt-2 mb-0 gap-x-1">
-                            <select
-                                name="load"
-                                id="load"
-                                onChange={onChange}
-                                value={params.load}
-                                className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
-                            >
-                                {pageNumber.map((page, index) => (
-                                    <option key={index}>{page}</option>
-                                ))}
-                            </select>
-                            <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
-                                <svg
-                                    className="inline w-5 h-5 text-gray-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                    />
-                                </svg>
-                                <input
-                                    type="text"
-                                    autoComplete="off"
-                                    name="q"
-                                    id="q"
+                        <div className="w-1/2">
+                            <div className="flex items-center justify-between mt-2 mb-0 gap-x-1">
+                                <select
+                                    name="load"
+                                    id="load"
                                     onChange={onChange}
-                                    value={params.q}
-                                    className="w-full border-0 focus:ring-0 form-text"
-                                />
+                                    value={params.load}
+                                    className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
+                                >
+                                    {pageNumber.map((page, index) => (
+                                        <option key={index}>{page}</option>
+                                    ))}
+                                </select>
+                                <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
+                                    <svg
+                                        className="inline w-5 h-5 text-gray-500"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        />
+                                    </svg>
+                                    <input
+                                        type="text"
+                                        autoComplete="off"
+                                        name="q"
+                                        id="q"
+                                        onChange={onChange}
+                                        value={params.q}
+                                        className="w-full border-0 focus:ring-0 form-text"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                     <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                         {plans.map((plan, index) => (
                             <div
@@ -664,70 +683,67 @@ export default function Index(props) {
                                                 </p>
                                             </div>
                                             <div className="flex items-center justify-end col-span-6 col-end-12">
-                                            
-                                                        {plan.plan_bids_sum_is_approved ==
-                                                            1 &&
-                                                        plan.plan_bid
-                                                            .is_approved ==
-                                                            1 ? (
-                                                                <p className="px-1 py-1 text-xs font-semibold text-blue-900 rounded bg-sky-200">
-                                                                Pemenang
-                                                            </p>
-                                                        ) : (
-                                                            ""
-                                                        )}
-                                                        {plan.plan_bids_sum_is_approved ==
-                                                            1 &&
-                                                        plan.plan_bid
-                                                            .is_approved ==
-                                                            0 ? (
-                                                            <p className="px-1 py-1 text-xs font-semibold text-pink-900 bg-pink-200 rounded">
-                                                                Gagal
-                                                            </p>
-                                                        ) : (
-                                                            ""
-                                                        )}
-                                                        {plan.plan_bids_sum_is_approved ==
-                                                            0 &&
-                                                        plan.plan_bid
-                                                            .is_approved ==
-                                                            0 ? (
-                                                                <p className="px-1 py-1 text-xs font-semibold text-red-500 bg-yellow-200 rounded">
-                                                                Menunggu
-                                                                Konfirmasi
-                                                            </p>
-                                                        ) : (
-                                                            ""
-                                                        )}
-                                                    
-
-                                                
+                                                {plan.plan_bids_sum_is_approved ==
+                                                    1 &&
+                                                plan.plan_bid.is_approved ==
+                                                    1 ? (
+                                                    <p className="px-1 py-1 text-xs font-semibold text-blue-900 rounded bg-sky-200">
+                                                        Pemenang
+                                                    </p>
+                                                ) : (
+                                                    ""
+                                                )}
+                                                {plan.plan_bids_sum_is_approved ==
+                                                    1 &&
+                                                plan.plan_bid.is_approved ==
+                                                    0 ? (
+                                                    <p className="px-1 py-1 text-xs font-semibold text-pink-900 bg-pink-200 rounded">
+                                                        Gagal
+                                                    </p>
+                                                ) : (
+                                                    ""
+                                                )}
+                                                {plan.plan_bids_sum_is_approved ==
+                                                    0 &&
+                                                plan.plan_bid.is_approved ==
+                                                    0 ? (
+                                                    <p className="px-1 py-1 text-xs font-semibold text-red-500 bg-yellow-200 rounded">
+                                                        Menunggu Konfirmasi
+                                                    </p>
+                                                ) : (
+                                                    ""
+                                                )}
                                             </div>
                                             <div className="flex items-center justify-center col-span-1 col-end-13">
                                                 {/* <IconDotsVertical> */}
                                                 <span className="items-center justify-center px-1 ml-1 text-xs font-thin rounded-lg select-none ">
-
-                                                <DropdownMobile>
-                                                            <DropdownMobile.Trigger>
-                                                                <button>
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        className="w-4 h-4 text-gray-400"
-                                                                        viewBox="0 0 20 20"
-                                                                        fill="currentColor"
-                                                                    >
-                                                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </DropdownMobile.Trigger>
-                                                            <DropdownMobile.Content>
-                                                                {plan.plan_bid
-                                                                    .is_approved ==
-                                                                1 ? (
-                                                                    <></>
-                                                                ) : (
-                                                                    <>
-                                                                    {plan.plan_bids_sum_is_approved == 0 && plan.plan_bid.is_approved == 0 ? <DropdownMobile.Link
+                                                    <DropdownMobile>
+                                                        <DropdownMobile.Trigger>
+                                                            <button>
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    className="w-4 h-4 text-gray-400"
+                                                                    viewBox="0 0 20 20"
+                                                                    fill="currentColor"
+                                                                >
+                                                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                                </svg>
+                                                            </button>
+                                                        </DropdownMobile.Trigger>
+                                                        <DropdownMobile.Content>
+                                                            {plan.plan_bid
+                                                                .is_approved ==
+                                                            1 ? (
+                                                                <></>
+                                                            ) : (
+                                                                <>
+                                                                    {plan.plan_bids_sum_is_approved ==
+                                                                        0 &&
+                                                                    plan
+                                                                        .plan_bid
+                                                                        .is_approved ==
+                                                                        0 ? (
+                                                                        <DropdownMobile.Link
                                                                             as={
                                                                                 "button"
                                                                             }
@@ -737,53 +753,54 @@ export default function Index(props) {
                                                                             )}
                                                                         >
                                                                             Edit
-                                                                        </DropdownMobile.Link> : ""}
-                                                                        
-                                                                        <button
-                                                                            className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                                            onClick={() =>
-                                                                                openDestroyDialog(
-                                                                                    plan
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Hapus
-                                                                        </button>
-                                                                    </>
-                                                                )}
-                                                                <>
+                                                                        </DropdownMobile.Link>
+                                                                    ) : (
+                                                                        ""
+                                                                    )}
+
+                                                                    <button
+                                                                        className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                        onClick={() =>
+                                                                            openDestroyDialog(
+                                                                                plan
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        Hapus
+                                                                    </button>
+                                                                </>
+                                                            )}
+                                                            <>
+                                                                <DropdownMobile.Link
+                                                                    as={
+                                                                        "button"
+                                                                    }
+                                                                    href={route(
+                                                                        "plans.show",
+                                                                        `${plan.slug}`
+                                                                    )}
+                                                                >
+                                                                    Lihat Detail
+                                                                </DropdownMobile.Link>
+                                                                {plan.plan_bid
+                                                                    .is_approved ==
+                                                                    1 && (
                                                                     <DropdownMobile.Link
                                                                         as={
                                                                             "button"
                                                                         }
                                                                         href={route(
-                                                                            "plans.show",
+                                                                            "bidplan.tahapan",
                                                                             `${plan.slug}`
                                                                         )}
                                                                     >
-                                                                        Lihat
-                                                                        Detail
+                                                                        Tahapan
+                                                                        Perencanaan
                                                                     </DropdownMobile.Link>
-                                                                    {plan
-                                                                        .plan_bid
-                                                                        .is_approved ==
-                                                                        1 && (
-                                                                        <DropdownMobile.Link
-                                                                            as={
-                                                                                "button"
-                                                                            }
-                                                                            href={route(
-                                                                                "bidplan.tahapan",
-                                                                                `${plan.slug}`
-                                                                            )}
-                                                                        >
-                                                                            Tahapan
-                                                                            Perencanaan
-                                                                        </DropdownMobile.Link>
-                                                                    )}
-                                                                </>
-                                                            </DropdownMobile.Content>
-                                                        </DropdownMobile>
+                                                                )}
+                                                            </>
+                                                        </DropdownMobile.Content>
+                                                    </DropdownMobile>
                                                 </span>
                                                 {/* </IconDotsVertical> */}
                                             </div>
@@ -811,8 +828,10 @@ export default function Index(props) {
                                                 </Link>
 
                                                 <p className="text-xs font-medium text-gray-500">
-                                                Rp.{" "}
-                                                    {numberFormat(plan.plan_bid.bid_price)}
+                                                    Rp.{" "}
+                                                    {numberFormat(
+                                                        plan.plan_bid.bid_price
+                                                    )}
                                                 </p>
                                             </div>
                                             <div className="col-span-6 col-start-1">
@@ -821,56 +840,55 @@ export default function Index(props) {
                                                 </p>
                                                 <p className="text-sm font-semibold">
                                                     Rp.{" "}
-                                                    {numberFormat(plan.anggaran_proyek)}
+                                                    {numberFormat(
+                                                        plan.anggaran_proyek
+                                                    )}
                                                 </p>
                                             </div>
                                             <div className="col-span-5 col-end-13">
                                                 <div className="flex items-center justify-end col-span-3 col-end-6 ">
-                                                {plan.plan_bids_sum_is_approved ==
-                                                            1 &&
-                                                        plan.plan_bid
-                                                            .is_approved ==
-                                                            1 ? (
-                                                                <Link
-                                                                href={route(
-                                                                    "bidplan.tahapan",
-                                                                    `${plan.slug}`
-                                                                )}
-                                                                className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
-                                                            >
-                                                                Tahapan
-                                                            </Link>
-                                                        ) : (
-                                                            ""
-                                                        )}
-                                                        {plan.plan_bids_sum_is_approved ==
-                                                            1 &&
-                                                        plan.plan_bid
-                                                            .is_approved ==
-                                                            0 ? (
-                                                                <Link
-                                                                href={route(
-                                                                    "plans.show",
-                                                                    `${plan.slug}`
-                                                                )}
-                                                                className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
-                                                            >
-                                                                Lihat Detail
-                                                            </Link>
-                                                        ) : (
-                                                            ""
-                                                        )}
-                                                        {plan.plan_bids_sum_is_approved ==
-                                                            0 &&
-                                                        plan.plan_bid
-                                                            .is_approved ==
-                                                            0 ? (
-                                                                <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
-                                                                Edit
-                                                            </Link>
-                                                        ) : (
-                                                            ""
-                                                        )}
+                                                    {plan.plan_bids_sum_is_approved ==
+                                                        1 &&
+                                                    plan.plan_bid.is_approved ==
+                                                        1 ? (
+                                                        <Link
+                                                            href={route(
+                                                                "bidplan.tahapan",
+                                                                `${plan.slug}`
+                                                            )}
+                                                            className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                                        >
+                                                            Tahapan
+                                                        </Link>
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                    {plan.plan_bids_sum_is_approved ==
+                                                        1 &&
+                                                    plan.plan_bid.is_approved ==
+                                                        0 ? (
+                                                        <Link
+                                                            href={route(
+                                                                "plans.show",
+                                                                `${plan.slug}`
+                                                            )}
+                                                            className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                                        >
+                                                            Lihat Detail
+                                                        </Link>
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                    {plan.plan_bids_sum_is_approved ==
+                                                        0 &&
+                                                    plan.plan_bid.is_approved ==
+                                                        0 ? (
+                                                        <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
+                                                            Edit
+                                                        </Link>
+                                                    ) : (
+                                                        ""
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -902,7 +920,7 @@ export default function Index(props) {
                             </button>
                         ))}
                     </ul>
-            </div>
+                </div>
             </Container>
         </>
     );

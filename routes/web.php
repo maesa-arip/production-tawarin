@@ -25,6 +25,7 @@ use App\Http\Controllers\Plan\PlanPortofolioController;
 use App\Http\Controllers\Plan\PlanResultController;
 use App\Http\Controllers\Plan\PlanRevisionController;
 use App\Http\Controllers\PlanRevisionResultController;
+use App\Http\Controllers\Portofolio\PortofolioController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
@@ -245,6 +246,11 @@ Route::middleware('auth','verified')->group(function () {
     //Notifications
     Route::resource('notifications', NotificationController::class);
     //End Notifications
+
+
+    //Portofolio
+    Route::Resource('portofolios', PortofolioController::class)->except('show');
+    //End Portofolio
 });
 
 Route::controller(InvoiceController::class)->middleware('auth','verified')->group(function () {

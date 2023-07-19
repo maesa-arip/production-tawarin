@@ -52,11 +52,12 @@ export default function Index(props) {
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
 
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("users.index"),
-                // {...pickBy({ search: query, page: query.page })},
+                route(route().current()),
+                // route("riskRegisterKlinis.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -66,8 +67,13 @@ export default function Index(props) {
         }, 150),
         []
     );
-
-    useEffect(() => reload(params), [params]);
+    useEffect(() => {
+        if (!isInitialRender) {
+            reload(params);
+        } else {
+            setIsInitialRender(false);
+        }
+    }, [params]);
     useEffect(() => {
         let numbers = [];
         for (
@@ -77,10 +83,18 @@ export default function Index(props) {
         ) {
             numbers.push(i);
         }
-        numbers.length === 0 ? setPageNumber([10]) : setPageNumber(numbers);
+        setPageNumber(numbers);
     }, []);
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
+    const onChange = (event) => {
+        const updatedParams = {
+            ...params,
+            [event.target.name]: event.target.value,
+            page: 1, // Set page number to 1
+        };
+        setParams(updatedParams);
+    };
+    // const onChange = (event) =>
+    //     setParams({ ...params, [event.target.name]: event.target.value });
     const sort = (item) => {
         setParams({
             ...params,

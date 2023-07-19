@@ -46,11 +46,12 @@ export default function Index(props) {
     const { data: plans, meta, filtered, attributes } = props.plans;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
-    useEffect(() => reload(params), [params]);
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("planportofolios.index"),
+                route(route().current()),
+                // route("riskRegisterKlinis.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -60,8 +61,13 @@ export default function Index(props) {
         }, 150),
         []
     );
-
-    
+    useEffect(() => {
+        if (!isInitialRender) {
+            reload(params);
+        } else {
+            setIsInitialRender(false);
+        }
+    }, [params]);
     useEffect(() => {
         let numbers = [];
         for (
@@ -73,9 +79,16 @@ export default function Index(props) {
         }
         setPageNumber(numbers);
     }, []);
-
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
+    const onChange = (event) => {
+        const updatedParams = {
+            ...params,
+            [event.target.name]: event.target.value,
+            page: 1, // Set page number to 1
+        };
+        setParams(updatedParams);
+    };
+    // const onChange = (event) =>
+    //     setParams({ ...params, [event.target.name]: event.target.value });
     const sort = (item) => {
         setParams({
             ...params,
@@ -102,10 +115,7 @@ export default function Index(props) {
     return (
         <>
             <Head title="Plans" />
-            <Header
-                title="Perencanaan"
-                description="List Perencanaan Saya."
-            />
+            <Header title="Perencanaan" description="List Perencanaan Saya." />
             <Container>
                 <DestroyModal
                     isOpenDestroyDialog={isOpenDestroyDialog}
@@ -349,7 +359,6 @@ export default function Index(props) {
                                                         {plan.name}
                                                     </td>
 
-
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <div className="flex mt-1 rounded-md shadow-sm">
                                                             <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
@@ -385,8 +394,6 @@ export default function Index(props) {
                                                             )}
                                                         </td>
                                                     )}
-
-
 
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         {plan.created_at}

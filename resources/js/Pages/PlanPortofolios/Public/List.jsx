@@ -21,42 +21,56 @@ export default function List(props) {
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
-    const reload = useCallback(
-        debounce((query) => {
-            Inertia.get(
-                route("plan.list"),
-                { ...pickBy(query), page: query.page },
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                }
-            );
-        }, 150),
-        []
-    );
-
-    useEffect(() => reload(params), [params]);
-    useEffect(() => {
-        let numbers = [];
-        for (
-            let i = attributes.per_page;
-            i < attributes.total / attributes.per_page;
-            i = i + attributes.per_page
-        ) {
-            numbers.push(i);
-        }
-        setPageNumber(numbers);
-    }, []);
-
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
-    const sort = (item) => {
-        setParams({
-            ...params,
-            field: item,
-            direction: params.direction == "asc" ? "desc" : "asc",
-        });
-    };
+        const [isInitialRender, setIsInitialRender] = useState(true);
+        const reload = useCallback(
+            debounce((query) => {
+                Inertia.get(
+                    route(route().current()),
+                    // route("riskRegisterKlinis.index"),
+                    { ...pickBy(query), page: query.page },
+                    {
+                        preserveState: true,
+                        preserveScroll: true,
+                    }
+                );
+            }, 150),
+            []
+        );
+        useEffect(() => {
+            if (!isInitialRender) {
+                reload(params);
+            } else {
+                setIsInitialRender(false);
+            }
+        }, [params]);
+        useEffect(() => {
+            let numbers = [];
+            for (
+                let i = attributes.per_page;
+                i < attributes.total / attributes.per_page;
+                i = i + attributes.per_page
+            ) {
+                numbers.push(i);
+            }
+            setPageNumber(numbers);
+        }, []);
+        const onChange = (event) => {
+            const updatedParams = {
+                ...params,
+                [event.target.name]: event.target.value,
+                page: 1, // Set page number to 1
+            };
+            setParams(updatedParams);
+        };
+        // const onChange = (event) =>
+        //     setParams({ ...params, [event.target.name]: event.target.value });
+        const sort = (item) => {
+            setParams({
+                ...params,
+                field: item,
+                direction: params.direction == "asc" ? "desc" : "asc",
+            });
+        };
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [state, setState] = useState([]);
     const openInfoDialog = () => {

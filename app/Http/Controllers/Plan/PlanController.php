@@ -60,7 +60,7 @@ class PlanController extends Controller
         if ($balance == $planbid * 2) {
             $tahap = 5;
         }
-        
+
         $step = PlanStep::where('type', 1)->where('step', $tahap)->first();
 
         return Inertia('Plans/Tahapan/Owner/Index', [
@@ -97,7 +97,7 @@ class PlanController extends Controller
             ->where('user_id', auth()->user()->id)
             ->doesntHave('planReject')
             ->with('media')
-            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'jangka_waktu_pelaksanaan','user_id', 'slug', 'is_approved', 'jumlah_revisi', 'name', 'plan_category_id', 'created_at')
+            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'jangka_waktu_pelaksanaan', 'user_id', 'slug', 'is_approved', 'jumlah_revisi', 'name', 'plan_category_id', 'created_at')
             ->withCount(['plan_bids'])
             ->withSum('plan_bids', 'is_approved');
         if ($request->q) {
@@ -144,10 +144,7 @@ class PlanController extends Controller
     }
 
     public function store(PlanRequest $request)
-    // public function store(Request $request)
     {
-        // dd($request->rooms);
-        
         $atrribute_plans = ([
             'user_id' => auth()->user()->id,
             'name' => $name = 'Perencanaan ' . $request->name,
@@ -162,119 +159,134 @@ class PlanController extends Controller
             'dari_anggaran' => $request->dari_anggaran,
             'sampai_anggaran' => $request->sampai_anggaran,
             'plan_category_id' => $request->plan_category_id,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
         ]);
-        $plan = Plan::create($atrribute_plans);
 
-        $temporaryFolder = Session::get('folder');
-        $namefile = Session::get('filename');
-        if ($temporaryFolder) {
-            for ($i = 0; $i < count($temporaryFolder); $i++) {
-                $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $namefile[$i])->first();
-                if ($temporary) {
-                    $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
-                        ->toMediaCollection('contohgambar');
-                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
-                    if (File::exists($path)) {
-                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
-                        File::delete($path);
-                        rmdir(storage_path('app/files/tmp/' . $temporary->folder));
-                        $temporary->delete();
+        DB::beginTransaction();
+        try {
+            $plan = Plan::create($atrribute_plans);
+
+            $temporaryFolder = Session::get('folder');
+            $namefile = Session::get('filename');
+            if ($temporaryFolder) {
+                for ($i = 0; $i < count($temporaryFolder); $i++) {
+                    $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $namefile[$i])->first();
+                    if ($temporary) {
+                        $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
+                            ->toMediaCollection('contohgambar');
+                        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                        if (File::exists($path)) {
+                            Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                            File::delete($path);
+                            rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                            $temporary->delete();
+                        }
                     }
                 }
             }
-        }
-        Session::remove('folder');
-        Session::remove('filename');
+            Session::remove('folder');
+            Session::remove('filename');
 
-        $temporaryFolderdenahlokasi = Session::get('folderdenahlokasiukuran');
-        $namefiledenahlokasi = Session::get('filenamedenahlokasiukuran');
-        if ($temporaryFolderdenahlokasi) {
-            for ($i = 0; $i < count($temporaryFolderdenahlokasi); $i++) {
-                $temporary = TemporaryFile::where('folder', $temporaryFolderdenahlokasi[$i])->where('filename', $namefiledenahlokasi[$i])->first();
-                if ($temporary) {
-                    $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderdenahlokasi[$i] . '/' . $namefiledenahlokasi[$i]))
-                        ->toMediaCollection('denahlokasiukuran');
-                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
-                    if (File::exists($path)) {
-                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
-                        File::delete($path);
-                        rmdir(storage_path('app/files/tmp/' . $temporary->folder));
-                        $temporary->delete();
+            $temporaryFolderdenahlokasi = Session::get('folderdenahlokasiukuran');
+            $namefiledenahlokasi = Session::get('filenamedenahlokasiukuran');
+            if ($temporaryFolderdenahlokasi) {
+                for ($i = 0; $i < count($temporaryFolderdenahlokasi); $i++) {
+                    $temporary = TemporaryFile::where('folder', $temporaryFolderdenahlokasi[$i])->where('filename', $namefiledenahlokasi[$i])->first();
+                    if ($temporary) {
+                        $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderdenahlokasi[$i] . '/' . $namefiledenahlokasi[$i]))
+                            ->toMediaCollection('denahlokasiukuran');
+                        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                        if (File::exists($path)) {
+                            Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                            File::delete($path);
+                            rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                            $temporary->delete();
+                        }
                     }
                 }
             }
-        }
-        Session::remove('folderdenahlokasiukuran');
-        Session::remove('filenamedenahlokasiukuran');
+            Session::remove('folderdenahlokasiukuran');
+            Session::remove('filenamedenahlokasiukuran');
 
-        $temporaryFolderkondisisaatini = Session::get('folderkondisisaatini');
-        $namefilekondisisaatini = Session::get('filenamekondisisaatini');
-        
-        if ($temporaryFolderkondisisaatini) {
-            for ($i = 0; $i < count($temporaryFolderkondisisaatini); $i++) {
-                $temporary = TemporaryFile::where('folder', $temporaryFolderkondisisaatini[$i])->where('filename', $namefilekondisisaatini[$i])->first();
-                if ($temporary) {
-                    $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderkondisisaatini[$i] . '/' . $namefilekondisisaatini[$i]))
-                        ->toMediaCollection('kondisisaatini');
-                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
-                    if (File::exists($path)) {
-                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
-                        File::delete($path);
-                        rmdir(storage_path('app/files/tmp/' . $temporary->folder));
-                        $temporary->delete();
+
+            $temporaryFolderkondisisaatini = Session::get('folderkondisisaatini');
+            $namefilekondisisaatini = Session::get('filenamekondisisaatini');
+            if ($temporaryFolderkondisisaatini) {
+                for ($i = 0; $i < count($temporaryFolderkondisisaatini); $i++) {
+                    $temporary = TemporaryFile::where('folder', $temporaryFolderkondisisaatini[$i])->where('filename', $namefilekondisisaatini[$i])->first();
+                    if ($temporary) {
+                        $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderkondisisaatini[$i] . '/' . $namefilekondisisaatini[$i]))
+                            ->toMediaCollection('kondisisaatini');
+                        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                        if (File::exists($path)) {
+                            Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                            File::delete($path);
+                            rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                            $temporary->delete();
+                        }
                     }
                 }
             }
-        }
-        Session::remove('folderkondisisaatini');
-        Session::remove('filenamekondisisaatini');
-        
-        $planmasters = PlanMaster::get();
-        foreach ($planmasters as $planmaster) {
-            if ($request->has($planmaster->slug)) {
-                if ($planmaster->slug == 'lainnya') {
-                    PlanDetail::create([
-                        'plan_id' => $plan->id,
-                        'plan_master_id' => $planmaster->id,
-                        'description' => $request->lainnya,
-                    ]);
+            Session::remove('folderkondisisaatini');
+            Session::remove('filenamekondisisaatini');
+
+
+            $planmasters = PlanMaster::get();
+            foreach ($planmasters as $planmaster) {
+                if ($request->has($planmaster->slug)) {
+                    if ($planmaster->slug == 'lainnya') {
+                        PlanDetail::create([
+                            'plan_id' => $plan->id,
+                            'plan_master_id' => $planmaster->id,
+                            'description' => $request->lainnya,
+                        ]);
+                    } else {
+                        PlanDetail::create([
+                            'plan_id' => $plan->id,
+                            'plan_master_id' => $planmaster->id,
+                        ]);
+                    }
                 }
-                else {
-                    PlanDetail::create([
-                        'plan_id' => $plan->id,
-                        'plan_master_id' => $planmaster->id,
-                    ]);
-                }
-                
             }
-        }
-        $planMasterRooms = PlanMasterRoom::get();
-        foreach ($planMasterRooms as $planmasterroom) {
-            if ($request->has($planmasterroom->slug)) {
+            $planMasterRooms = PlanMasterRoom::get();
+            foreach ($planMasterRooms as $planmasterroom) {
+                if ($request->has($planmasterroom->slug)) {
                     PlanRoom::create([
                         'plan_id' => $plan->id,
                         'plan_master_room_id' => $planmasterroom->id,
                         'count' => $request[$planmasterroom->slug],
                     ]);
+                }
             }
-        }
-        foreach ($request->rooms as $rooms) {
-            PlanRoom::create([
-                'plan_id' => $plan->id,
-                'name' => $rooms['name'],
-                'count' => $rooms['count'],
+            foreach ($request->rooms as $rooms) {
+                PlanRoom::create([
+                    'plan_id' => $plan->id,
+                    'name' => $rooms['name'],
+                    'count' => $rooms['count'],
+                ]);
+            }
+
+            $user = User::whereHas('roles', function ($query) {
+                $query->where('name', 'admin');
+            })->get();
+
+            Notification::send($user, new PlanNewNotification($plan));
+            Cache::forget('notifications_count');
+            DB::commit();
+            return redirect('plans')->with([
+                'type' => 'success',
+                'message' => 'Perencanaan berhasil dibuat',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect('plans')->with([
+                'type' => 'error',
+                'message' => 'Perencanaan gagal dibuat',
             ]);
         }
 
-        $user = User::whereHas('roles', function ($query) {
-            $query->where('name', 'admin');
-        })->get();
-        Notification::send($user, new PlanNewNotification($plan));
-        Cache::forget('notifications_count');
-        return redirect('plans')->with([
-            'type' => 'success',
-            'message' => 'Plans was created',
-        ]);
+        
     }
 
     public function show(Plan $plan)
@@ -290,16 +302,16 @@ class PlanController extends Controller
         // $plan_details = $plan->plan_details;
         // $plan_details = $plan->with('plan_details.plan_master')->get();
         $plan_details = $plan->with('plan_details.plan_master')
-        ->select('plans.id', 'plans.name', 'plan_details.id as plan_detail_id', 'plan_details.description','plan_masters.name as plan_master_name')
-        ->join('plan_details', 'plans.id', '=', 'plan_details.plan_id')
-        ->join('plan_masters', 'plan_details.plan_master_id', '=', 'plan_masters.id')
-        ->where('plan_id', $plan->id)
-        ->withCount('plan_details')
-        ->get();
+            ->select('plans.id', 'plans.name', 'plan_details.id as plan_detail_id', 'plan_details.description', 'plan_masters.name as plan_master_name')
+            ->join('plan_details', 'plans.id', '=', 'plan_details.plan_id')
+            ->join('plan_masters', 'plan_details.plan_master_id', '=', 'plan_masters.id')
+            ->where('plan_id', $plan->id)
+            ->withCount('plan_details')
+            ->get();
         // dd($video);
         $persentase = 5;
-        $planRooms = PlanRoom::where('plan_id', $plan->id)->leftjoin('plan_master_rooms', 'plan_master_rooms.id','plan_rooms.plan_master_room_id')->select('plan_master_rooms.name','plan_master_rooms.id','plan_rooms.name as othername','plan_rooms.count')->get();
-        
+        $planRooms = PlanRoom::where('plan_id', $plan->id)->leftjoin('plan_master_rooms', 'plan_master_rooms.id', 'plan_rooms.plan_master_room_id')->select('plan_master_rooms.name', 'plan_master_rooms.id', 'plan_rooms.name as othername', 'plan_rooms.count')->get();
+
 
         return Inertia('Plans/Basic/Show', [
             'plan' => PlanSingleResource::make($plan->load('plan_category')),
@@ -319,17 +331,17 @@ class PlanController extends Controller
     public function edit(Plan $plan)
     {
         $plan_details = $plan->with('plan_details')
-        ->select('plan_details.plan_master_id as id','plan_details.description','plan_masters.name','plan_masters.slug')
-        ->join('plan_details', 'plans.id', '=', 'plan_details.plan_id')
-        ->join('plan_masters', 'plan_details.plan_master_id', '=', 'plan_masters.id')
-        ->where('plan_id', $plan->id)
-        ->get();
+            ->select('plan_details.plan_master_id as id', 'plan_details.description', 'plan_masters.name', 'plan_masters.slug')
+            ->join('plan_details', 'plans.id', '=', 'plan_details.plan_id')
+            ->join('plan_masters', 'plan_details.plan_master_id', '=', 'plan_masters.id')
+            ->where('plan_id', $plan->id)
+            ->get();
         $plan_rooms = $plan->with('plan_rooms')
-        ->select('plan_rooms.plan_master_room_id as id','plan_rooms.name as elsename','plan_rooms.count','plan_master_rooms.name','plan_master_rooms.slug')
-        ->join('plan_rooms', 'plans.id', '=', 'plan_rooms.plan_id')
-        ->join('plan_master_rooms', 'plan_rooms.plan_master_room_id', '=', 'plan_master_rooms.id')
-        ->where('plan_id', $plan->id)
-        ->get();
+            ->select('plan_rooms.plan_master_room_id as id', 'plan_rooms.name as elsename', 'plan_rooms.count', 'plan_master_rooms.name', 'plan_master_rooms.slug')
+            ->join('plan_rooms', 'plans.id', '=', 'plan_rooms.plan_id')
+            ->join('plan_master_rooms', 'plan_rooms.plan_master_room_id', '=', 'plan_master_rooms.id')
+            ->where('plan_id', $plan->id)
+            ->get();
         $plan_categories = PlanCategory::get();
         $plan_master_rooms = PlanMasterRoom::get();
         $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
@@ -372,16 +384,16 @@ class PlanController extends Controller
             ->with('media')
             ->where('is_approved', 1)
             ->when($request->plan_category, fn ($q, $v) => $q->whereBelongsTo(PlanCategory::where('slug', $v)->first()))
-            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran','jangka_waktu_pelaksanaan','jangka_waktu_penawaran' ,'user_id','slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at')
+            ->select('id', 'anggaran_proyek', 'dari_anggaran', 'sampai_anggaran', 'jangka_waktu_pelaksanaan', 'jangka_waktu_penawaran', 'user_id', 'slug', 'jumlah_revisi', 'name', 'is_approved', 'plan_category_id', 'created_at')
             ->withCount(['plan_bids'])
             ->withSum('plan_bids', 'is_approved');
-            // ->addSelect(['winner_name' => function ($query) {
-            //     $query->select('name')
-            //         ->from('users')
-            //         ->whereColumn('winner_id', 'users.id')
-            //         ->limit(1);
-            // }])->get();
-            // dd($plans);
+        // ->addSelect(['winner_name' => function ($query) {
+        //     $query->select('name')
+        //         ->from('users')
+        //         ->whereColumn('winner_id', 'users.id')
+        //         ->limit(1);
+        // }])->get();
+        // dd($plans);
         if ($request->q) {
             $plans->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')

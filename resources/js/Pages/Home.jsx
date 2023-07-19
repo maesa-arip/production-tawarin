@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import App from "@/Layouts/App";
 import { Head, Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
@@ -30,16 +30,33 @@ import {
     IconUserSearch,
 } from "@tabler/icons";
 import EmptyCard from "@/Components/EmptyCard";
-
-
+import InfoModal from "@/Components/Modal/InfoModal";
 
 export default function Home(props) {
     const { data: plans } = props.plans;
 
-
+    const openInfoDialog = () => {
+        setState();
+        setIsOpenInfoDialog(true);
+    };
+    useEffect(() => {
+        openInfoDialog()
+    }, [])
+    
+    const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [state, setState] = useState([]);
 
     return (
         <>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog}
+                setIsOpenInfoDialog={setIsOpenInfoDialog}
+                // size="max-size-4xl"
+                title={"Info"}
+                header={""}
+            > 
+            <p className="text-justify">Selamat datang di tawarin.id, rekan konstruksi yang kreatif yang siap membantu perkembangan ekosistem konstruksi, meningkatkan produktivitas dan efisiensi, juga mewujudkan ide-ide Anda. Coba Tawarin sekarang Karena masih dalam tahap eksperimen awal, saat ini kami ada pada tahap pengumpulan user dimana pada tahap ini kami butuh bantuan rekan konstruksi untuk dapat ikut share dan mengenalkan tawarin.Id ke rekan konstruksi lainnya. Kami mengakui Tawarin.id masih banyak kekurangan dan mungkin tidak selalu benar, tetapi dengan bantuan dan masukan Anda, Tawarin.id akan menjadi lebih baik. Untuk informasi, masukan dan saran rekan konstruksi dapat menghubungi kami di Wa : 081818277844 Fb : tawarin.id Atau chat personal di menu chat pada web tawarin, dengan id : tawarin Terima kasih telah bergabung dalam eksperimen awal penggunaan tawarin.id. SEMUA PASTI BERES</p>
+            </InfoModal>
             <Head>
                 <title>Home</title>
                 <meta
@@ -345,12 +362,14 @@ export default function Home(props) {
                                     </svg>
                                 </div>
                                 <div className="h-auto px-4 -mx-4 sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
-                                <div className="w-full h-auto col-span-2 mx-auto md::w-[700px] lg:w-[400px] lg overflow-hidden shadow rounded-xl">
-                                    <video
-                                        autoPlay muted loop
-                                        src={`storage/files/default/Intro_Tawarin.mp4`}
-                                    ></video>
-                                </div>
+                                    <div className="w-full h-auto col-span-2 mx-auto md::w-[700px] lg:w-[400px] lg overflow-hidden shadow rounded-xl">
+                                        <video
+                                            autoPlay
+                                            muted
+                                            loop
+                                            src={`storage/files/default/Intro_Tawarin.mp4`}
+                                        ></video>
+                                    </div>
                                 </div>
                             </div>
                             {/* <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
@@ -499,7 +518,9 @@ export default function Home(props) {
                                 </Link>
 
                                 <p className="mt-2 text-gray-700">
-                                Mari bersama-sama mendukung proyek hebat dan berikan kontribusi melalui pendanaan Tawarin.
+                                    Mari bersama-sama mendukung proyek hebat dan
+                                    berikan kontribusi melalui pendanaan
+                                    Tawarin.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -510,7 +531,9 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                Tunjukkan rencanamu dan dapatkan dukungan untuk pembangunan masa depan melalui platform Tawarin.
+                                    Tunjukkan rencanamu dan dapatkan dukungan
+                                    untuk pembangunan masa depan melalui
+                                    platform Tawarin.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -521,7 +544,8 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Buat proyekmu di Tawarin, temukan pekerja ahli serta fasilitas lengkap dan mudah.
+                                    Buat proyekmu di Tawarin, temukan pekerja
+                                    ahli serta fasilitas lengkap dan mudah.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -532,7 +556,8 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                Cari pekerja konstruksi yang berkualitas dan terpercaya dengan mudah di Tawarin!
+                                    Cari pekerja konstruksi yang berkualitas dan
+                                    terpercaya dengan mudah di Tawarin!
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -543,7 +568,9 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                Temukan beragam produk konstruksi dan jualanmu sendiri di Tawarin dengan mudah dan aman.
+                                    Temukan beragam produk konstruksi dan
+                                    jualanmu sendiri di Tawarin dengan mudah dan
+                                    aman.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -554,7 +581,9 @@ export default function Home(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                Sewakan alat konstruksi dan industri di Tawarin, kembangkan bisnismu dan jangkau lebih banyak pelanggan.
+                                    Sewakan alat konstruksi dan industri di
+                                    Tawarin, kembangkan bisnismu dan jangkau
+                                    lebih banyak pelanggan.
                                 </p>
                             </li>
                         </ul>
@@ -564,19 +593,18 @@ export default function Home(props) {
                     <section className="w-full h-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="mx-auto mb-6 md:text-center">
                             <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
-                            Perencanaan
+                                Perencanaan
                             </h2>
                             <p className="mt-4 text-lg tracking-tight text-slate-700">
-                            Ini adalah daftar perencanaan di tawarin
+                                Ini adalah daftar perencanaan di tawarin
                             </p>
                         </div>
 
                         <div className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
                             {plans.map ? (
                                 plans.map((plan, index) => (
-                                    
                                     <div
-                                        className="p-4 text-left border border-gray-200 focus:outline-none rounded-2xl" 
+                                        className="p-4 text-left border border-gray-200 focus:outline-none rounded-2xl"
                                         key={index}
                                     >
                                         <Link
@@ -734,12 +762,12 @@ export default function Home(props) {
                 </div>
                 <div className="grid grid-cols-12 mx-auto md:mt-10">
                     <section className="w-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
-                    <div className="mx-auto mb-6 md:text-center">
+                        <div className="mx-auto mb-6 md:text-center">
                             <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
-                            Proyek
+                                Proyek
                             </h2>
                             <p className="mt-4 text-lg tracking-tight text-slate-700">
-                            Ini adalah daftar Proyek di tawarin
+                                Ini adalah daftar Proyek di tawarin
                             </p>
                         </div>
 
@@ -1317,7 +1345,10 @@ export default function Home(props) {
                                             </svg>
                                             <blockquote className="relative">
                                                 <p className="text-lg tracking-tight text-slate-900">
-                                                    Aplikasi sangat membantu, membuat transaksi sangat aman dengan konsultan terpercaya
+                                                    Aplikasi sangat membantu,
+                                                    membuat transaksi sangat
+                                                    aman dengan konsultan
+                                                    terpercaya
                                                 </p>
                                             </blockquote>
                                             <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
@@ -1350,7 +1381,6 @@ export default function Home(props) {
                                             </figcaption>
                                         </figure>
                                     </li>
-                                    
                                 </ul>
                             </li>
                             <li>
@@ -1370,13 +1400,17 @@ export default function Home(props) {
                                             </svg>
                                             <blockquote className="relative">
                                                 <p className="text-lg tracking-tight text-slate-900">
-                                                    Aplikasi ini sangat bagus, dengan sistem saldo yang jelas, tidak perlu takut dalam melakukan transaksi disini.
+                                                    Aplikasi ini sangat bagus,
+                                                    dengan sistem saldo yang
+                                                    jelas, tidak perlu takut
+                                                    dalam melakukan transaksi
+                                                    disini.
                                                 </p>
                                             </blockquote>
                                             <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
                                                 <div>
                                                     <div className="text-base font-display text-slate-900">
-                                                    I Nyoman Wisnu Bawa
+                                                        I Nyoman Wisnu Bawa
                                                     </div>
                                                     <div className="mt-1 text-sm text-slate-500">
                                                         Konsultan
@@ -1403,7 +1437,6 @@ export default function Home(props) {
                                             </figcaption>
                                         </figure>
                                     </li>
-                                   
                                 </ul>
                             </li>
                             <li>
@@ -1423,13 +1456,16 @@ export default function Home(props) {
                                             </svg>
                                             <blockquote className="relative">
                                                 <p className="text-lg tracking-tight text-slate-900">
-                                                Sangat mudah dalam mengoperasikan aplikasi, fitur lengkap dan mudah dalam mencari apapun.
+                                                    Sangat mudah dalam
+                                                    mengoperasikan aplikasi,
+                                                    fitur lengkap dan mudah
+                                                    dalam mencari apapun.
                                                 </p>
                                             </blockquote>
                                             <figcaption className="relative flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
                                                 <div>
                                                     <div className="text-base font-display text-slate-900">
-                                                    Agus Suryawan
+                                                        Agus Suryawan
                                                     </div>
                                                     <div className="mt-1 text-sm text-slate-500">
                                                         Owner
@@ -1456,7 +1492,6 @@ export default function Home(props) {
                                             </figcaption>
                                         </figure>
                                     </li>
-                                    
                                 </ul>
                             </li>
                         </ul>
@@ -1467,7 +1502,6 @@ export default function Home(props) {
                 <HideScrollBar />
             </Container>
             {/* <Marquee/> */}
-            
         </>
     );
 }

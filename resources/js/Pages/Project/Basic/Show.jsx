@@ -240,15 +240,13 @@ export default function Show({
                                                 {denahlokasiukuran.map(
                                                     (project, index) =>
                                                         index < 2 && (
-                                                            <>
+                                                            <div key={index}>
                                                                 {project.mime_type ==
                                                                 "video/mp4" ? (
                                                                     <></>
                                                                 ) : (
                                                                     <div
-                                                                        key={
-                                                                            index
-                                                                        }
+                                                                    key={index}
                                                                         className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
                                                                     >
                                                                         <img
@@ -265,7 +263,7 @@ export default function Show({
                                                                         />
                                                                     </div>
                                                                 )}
-                                                            </>
+                                                            </div>
                                                         )
                                                 )}
 
@@ -483,7 +481,9 @@ export default function Show({
                                                 {kondisisaatini.map(
                                                     (project, index) =>
                                                         index < 2 && (
-                                                            <>
+                                                            <div key={
+                                                                index
+                                                            }>
                                                                 {project.mime_type ==
                                                                 "video/mp4" ? (
                                                                     <></>
@@ -508,7 +508,7 @@ export default function Show({
                                                                         />
                                                                     </div>
                                                                 )}
-                                                            </>
+                                                            </div>
                                                         )
                                                 )}
 
@@ -771,7 +771,9 @@ export default function Show({
                                             {media.map(
                                                 (project, index) =>
                                                     index >= 0 && (
-                                                        <>
+                                                        <div key={
+                                                            index
+                                                        }>
                                                             {project.mime_type ==
                                                             "video/mp4" ? (
                                                                 <div
@@ -795,7 +797,7 @@ export default function Show({
                                                             ) : (
                                                                 ""
                                                             )}
-                                                        </>
+                                                        </div>
                                                     )
                                             )}
                                         </div>
@@ -814,7 +816,9 @@ export default function Show({
                                         {media.map(
                                             (project, index) =>
                                                 index < 2 && (
-                                                    <>
+                                                    <div key={
+                                                        index
+                                                    }>
                                                         {project.mime_type ==
                                                         "video/mp4" ? (
                                                             <></>
@@ -835,14 +839,16 @@ export default function Show({
                                                                 />
                                                             </div>
                                                         )}
-                                                    </>
+                                                    </div>
                                                 )
                                         )}
                                         {media.map(
                                             (project, index) =>
                                                 index > 1 &&
                                                 index < 6 && (
-                                                    <>
+                                                    <div key={
+                                                        index
+                                                    }>
                                                         {project.mime_type ==
                                                         "video/mp4" ? (
                                                             <></>
@@ -863,7 +869,7 @@ export default function Show({
                                                                 />
                                                             </div>
                                                         )}
-                                                    </>
+                                                    </div>
                                                 )
                                         )}
 

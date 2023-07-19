@@ -9,7 +9,7 @@ export default function Profile({
     portofolios,
     count,
     dataplan,
-    referral,
+    // referral,
 }) {
     const { auth } = usePage().props;
     const [open, setOpen] = useState(false);
@@ -19,6 +19,7 @@ export default function Profile({
         setCurrentImage(portofolios);
         setOpen(true);
     };
+    // console.log(referral)
     return (
         <div>
             <Head title="Profil" />
@@ -73,7 +74,7 @@ export default function Profile({
                                 </div>
                             </div>
                         </div>
-                        <div className="p-6 mt-6 bg-white rounded-lg shadow">
+                        {/* <div className="p-6 mt-6 bg-white rounded-lg shadow">
                             <h3 className="mb-4 text-sm font-semibold text-gray-600">
                                 Referral
                             </h3>
@@ -81,7 +82,6 @@ export default function Profile({
                                 {referral.length > 0
                                     ? referral.map((person, index) => (
                                           <li className="flex flex-col items-center space-y-2">
-                                              {/* Ring */}
                                               <Link
                                                   className="block p-1 bg-white rounded-full"
                                                   href={route(
@@ -96,15 +96,7 @@ export default function Profile({
                                                           )[0]
                                                       }
                                                   </div>
-                                                  {/* <img
-                                            className="w-16 rounded-full"
-                                            src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80"
-                                        /> */}
                                               </Link>
-                                              {/* <div className="flex items-center justify-center w-full h-full text-2xl font-semibold bg-indigo-200 rounded-full">
-                                {Array.from(person.name)[0]}
-                            </div> */}
-                                              {/* Username */}
                                               <Link
                                                   href={route(
                                                       "user.detail",
@@ -119,7 +111,7 @@ export default function Profile({
                                       ))
                                     : "Belum Ada Referral"}
                             </ul>
-                        </div>
+                        </div> */}
                         {/* <div className="flex p-2 mt-6 bg-white rounded-lg shadow">
                             <img
                                 src="https://images.unsplash.com/photo-1439130490301-25e322d88054?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80"

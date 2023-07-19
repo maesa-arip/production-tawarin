@@ -10,12 +10,12 @@ export default function List(props) {
     const roles = props.roles;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
-
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("user.list"),
-                // {...pickBy({ search: query, page: query.page })},
+                route(route().current()),
+                // route("riskRegisterKlinis.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -25,8 +25,13 @@ export default function List(props) {
         }, 150),
         []
     );
-
-    useEffect(() => reload(params), [params]);
+    useEffect(() => {
+        if (!isInitialRender) {
+            reload(params);
+        } else {
+            setIsInitialRender(false);
+        }
+    }, [params]);
     useEffect(() => {
         let numbers = [];
         for (
@@ -36,10 +41,18 @@ export default function List(props) {
         ) {
             numbers.push(i);
         }
-        numbers.length === 0 ? setPageNumber([10]) : setPageNumber(numbers);
+        setPageNumber(numbers);
     }, []);
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
+    const onChange = (event) => {
+        const updatedParams = {
+            ...params,
+            [event.target.name]: event.target.value,
+            page: 1, // Set page number to 1
+        };
+        setParams(updatedParams);
+    };
+    // const onChange = (event) =>
+    //     setParams({ ...params, [event.target.name]: event.target.value });
     const sort = (item) => {
         setParams({
             ...params,
@@ -47,6 +60,7 @@ export default function List(props) {
             direction: params.direction == "asc" ? "desc" : "asc",
         });
     };
+
     const [state, setState] = useState([]);
     return (
         <div>
@@ -206,51 +220,43 @@ export default function List(props) {
                                                                 </div>
                                                             )
                                                         )}
-                                                        
                                                     </div>
                                                     {/* <Pagination meta={meta} /> */}
                                                     <ul className="flex items-center w-full px-6 mb-6 gap-x-1 md:w-6/12 lg:w-3/12 sm:px-6 lg:px-4">
-                                                            {meta.links.map(
-                                                                (
-                                                                    item,
-                                                                    index
-                                                                ) => (
-                                                                    <button
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        disabled={
-                                                                            item.url ==
-                                                                            null
-                                                                                ? true
-                                                                                : false
-                                                                        }
-                                                                        className={`${
-                                                                            item.url ==
-                                                                            null
-                                                                                ? "text-gray-500"
-                                                                                : "text-gray-800"
-                                                                        } w-12 h-9 rounded-lg flex items-center justify-center border bg-white`}
-                                                                        onClick={() =>
-                                                                            setParams(
-                                                                                {
-                                                                                    ...params,
-                                                                                    page: new URL(
-                                                                                        item.url
-                                                                                    ).searchParams.get(
-                                                                                        "page"
-                                                                                    ),
-                                                                                }
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            item.label
-                                                                        }
-                                                                    </button>
-                                                                )
-                                                            )}
-                                                        </ul>
+                                                        {meta.links.map(
+                                                            (item, index) => (
+                                                                <button
+                                                                    key={index}
+                                                                    disabled={
+                                                                        item.url ==
+                                                                        null
+                                                                            ? true
+                                                                            : false
+                                                                    }
+                                                                    className={`${
+                                                                        item.url ==
+                                                                        null
+                                                                            ? "text-gray-500"
+                                                                            : "text-gray-800"
+                                                                    } w-12 h-9 rounded-lg flex items-center justify-center border bg-white`}
+                                                                    onClick={() =>
+                                                                        setParams(
+                                                                            {
+                                                                                ...params,
+                                                                                page: new URL(
+                                                                                    item.url
+                                                                                ).searchParams.get(
+                                                                                    "page"
+                                                                                ),
+                                                                            }
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    {item.label}
+                                                                </button>
+                                                            )
+                                                        )}
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
