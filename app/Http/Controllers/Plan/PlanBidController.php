@@ -89,7 +89,7 @@ class PlanBidController extends Controller
             'user_id' => auth()->user()->id,
             'plan_id' => $plan_id,
             'bid_price_user' => $bid_price_user = $request->bid_price_user,
-            'bid_price' => $bid_price_user * 101/100,
+            'bid_price' => $bid_price_user * 105/100,
             'description' => $request->description,
         ]);
         $planbid = PlanBid::create($attribute_planbids);

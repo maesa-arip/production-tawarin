@@ -27,6 +27,8 @@ use App\Http\Controllers\Plan\PlanRevisionController;
 use App\Http\Controllers\PlanRevisionResultController;
 use App\Http\Controllers\Portofolio\PortofolioController;
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Reservation\ReservationController;
+use App\Http\Controllers\Reservation\ReservationCounterController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
 use App\Http\Controllers\Toko\InvoiceController;
@@ -42,6 +44,7 @@ use App\Http\Controllers\Wallet\Admin\WithdrawAdminController;
 use App\Http\Controllers\Wallet\HistoryController as WalletHistoryController;
 use App\Http\Controllers\Wallet\PlanDepositController;
 use App\Http\Controllers\Wallet\WithdrawController;
+use App\Models\Reservation\ReservationCompany;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,12 +75,23 @@ Route::get('/coming', function () {
     return Inertia::render('ComingSoon');
 })->name('coming');
 
+Route::get('/reservasi', function () {
+    return Inertia::render('Reservasi');
+})->name('reservasi');
+
 
 
 Route::middleware('auth','verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware('auth','verified')->group(function () {
+    Route::get('/reservationlist', [ReservationController::class, 'list'])->name('reservation.list');
+    Route::get('/reservationprofile', [ReservationController::class, 'edit'])->name('reservationprofile.edit');
+    Route::patch('/reservationprofile', [ReservationController::class, 'update'])->name('reservationprofile.update');
+    Route::delete('/reservationprofile', [ReservationController::class, 'destroy'])->name('reservationprofile.destroy');
 });
 
 //Example
@@ -223,6 +237,11 @@ Route::middleware('auth','verified')->group(function () {
     Route::Resource('projects', ProjectController::class);
 
     // End Plans
+
+    // Reservasi
+    Route::Resource('reservationCounters', ReservationCounterController::class)->except('show');
+
+    // End Reservasi
 
     // Fundings
     Route::Resource('fundings', FundingController::class);

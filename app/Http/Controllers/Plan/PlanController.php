@@ -163,8 +163,8 @@ class PlanController extends Controller
             'lng' => $request->lng,
         ]);
 
-        DB::beginTransaction();
-        try {
+        // DB::beginTransaction();
+        // try {
             $plan = Plan::create($atrribute_plans);
 
             $temporaryFolder = Session::get('folder');
@@ -278,15 +278,13 @@ class PlanController extends Controller
                 'type' => 'success',
                 'message' => 'Perencanaan berhasil dibuat',
             ]);
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect('plans')->with([
-                'type' => 'error',
-                'message' => 'Perencanaan gagal dibuat',
-            ]);
-        }
-
-        
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return redirect('plans')->with([
+        //         'type' => 'error',
+        //         'message' => 'Perencanaan gagal dibuat',
+        //     ]);
+        // }
     }
 
     public function show(Plan $plan)

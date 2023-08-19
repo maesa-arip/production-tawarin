@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 
-export default function InfoModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog, size='max-w-6xl'}) {
+export default function InfoModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog, size='max-w-2xl'}) {
   return (
     <div>
       <Transition  appear show={isOpenInfoDialog} as={Fragment}>

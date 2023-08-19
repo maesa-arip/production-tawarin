@@ -101,6 +101,25 @@ class ProjectController extends Controller
             }
         }
     }
+    private function saveImage2($projectDetail, $temporaryFolder, $nameFile, $mediaCollection)
+    {
+        if (!is_null($temporaryFolder) && !is_null($nameFile)) {
+            for ($i = 0; $i < count($temporaryFolder); $i++) {
+                $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $nameFile[$i])->first();
+                if ($temporary) {
+                    $projectDetail->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $nameFile[$i]))
+                        ->toMediaCollection($mediaCollection);
+                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                    if (File::exists($path)) {
+                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                        File::delete($path);
+                        rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                        $temporary->delete();
+                    }
+                }
+            }
+        }
+    }
     public function store(ProjectRequest $request)
     {
 
@@ -119,6 +138,20 @@ class ProjectController extends Controller
             'lat' => $request->lat,
             'lng' => $request->lng,
         ]);
+        // $projectMasters = ProjectMaster::get();
+        // foreach ($projectMasters as $projectMaster) {
+        //     if ($request->has($projectMaster->slug)) {
+        //         $projectDetail = ProjectDetail::create([
+        //             'project_id' => 1,
+        //             'project_master_id' => $projectMaster->id,
+        //             'description' => $request[$projectMaster->slug],
+        //         ]);
+        //         // Save image based on slug
+
+        //     }
+        //     $this->saveImage2($projectDetail, Session::get('folder' . $projectMaster->slug), Session::get('filename' . $projectMaster->slug), $projectMaster->slug);
+        //     Session::forget(['folder' . $projectMaster->slug, 'filename' . $projectMaster->slug]);
+        // }
 
         DB::beginTransaction();
         try {
@@ -137,20 +170,23 @@ class ProjectController extends Controller
                         'project_master_id' => $projectMaster->id,
                         'description' => $request[$projectMaster->slug],
                     ]);
-
                     // Save image based on slug
                     $this->saveImage($projectDetail, Session::get('folder' . $projectMaster->slug), Session::get('filename' . $projectMaster->slug), $projectMaster->slug);
                     Session::forget(['folder' . $projectMaster->slug, 'filename' . $projectMaster->slug]);
                 }
             }
             DB::commit();
+            return redirect('projects')->with([
+                'type' => 'success',
+                'message' => 'Proyek berhasil dibuat',
+            ]);
         } catch (\Exception $e) {
             DB::rollback();
+            return redirect('projects')->with([
+                'type' => 'error',
+                'message' => 'Proyek gagal dibuat',
+            ]);
         }
-        return redirect('projects')->with([
-            'type' => 'success',
-            'message' => 'Proyek berhasil dibuat',
-        ]);
     }
 
     public function show(Project $project)

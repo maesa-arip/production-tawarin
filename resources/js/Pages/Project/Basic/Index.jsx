@@ -12,6 +12,7 @@ import Dropdown from "@/Components/Dropdown";
 import DropdownMobile from "@/Components/DropdownMobile";
 import { IconBan, IconCirclePlus, IconDotsVertical } from "@tabler/icons";
 import Header from "@/Components/Header";
+import ThirdButton from "@/Components/ThirdButton";
 
 const UpIcon = () => (
     <svg
@@ -132,24 +133,8 @@ export default function Index(props) {
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mb-6 gap-x-2">
-                                <NavLink
-                                    type="button"
-                                    className={
-                                        "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    }
-                                    href={"projects/create"}
-                                >
-                                    Tambah Proyek
-                                </NavLink>
-                                <NavLink
-                                    type="button"
-                                    className={
-                                        "justify-start px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
-                                    }
-                                    href={"projects/create"}
-                                >
-                                    Proyek ditolak ( {projectRejectCount} )
-                                </NavLink>
+                                <ThirdButton type="button" href={"projects/create"}>Tambah Proyek</ThirdButton>
+                                <ThirdButton type="button" href={"projects/create"} color="red">Proyek ditolak ( {projectRejectCount} )</ThirdButton>
                             </div>
                         </div>
                         <div className="w-1/2">

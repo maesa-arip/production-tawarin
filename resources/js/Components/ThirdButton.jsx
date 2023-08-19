@@ -1,4 +1,6 @@
-export default function ThirdButton({ type = 'submit', className = '', processing, children, onClick, color ='blue' }) {
+import { Link } from "@inertiajs/inertia-react";
+
+export default function ThirdButton({ type = 'submit', className = '',href, processing, children, onClick, color ='blue' }) {
     const colorVariants = {
         blue: 'bg-blue-50 text-blue-500 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100',
         red: 'bg-red-50 text-red-500 hover:bg-red-100 focus:bg-red-100 active:bg-red-100 focus:ring-red-100',
@@ -9,11 +11,13 @@ export default function ThirdButton({ type = 'submit', className = '', processin
         cyan: 'bg-cyan-50 text-cyan-500 hover:bg-cyan-100 focus:bg-cyan-100 active:bg-cyan-100 focus:ring-cyan-100',
         sky: 'bg-sky-50 text-sky-500 hover:bg-sky-100 focus:bg-sky-100 active:bg-sky-100 focus:ring-sky-100',
         gray: 'bg-gray-50 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 focus:ring-gray-100',
+        pink: 'bg-pink-50 text-pink-500 hover:bg-pink-100 focus:bg-pink-100 active:bg-pink-100 focus:ring-pink-100',
       }
     return (
-        <button
+        <Link
             type={type}
             onClick={onClick}
+            href={href}
             className={ 
                 `${colorVariants[color]} inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 ${
                     processing && 'opacity-25'
@@ -22,6 +26,6 @@ export default function ThirdButton({ type = 'submit', className = '', processin
             disabled={processing}
         >
             {children}
-        </button>
+        </Link>
     );
 }

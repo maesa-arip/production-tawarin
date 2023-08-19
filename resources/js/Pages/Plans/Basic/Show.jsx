@@ -249,7 +249,7 @@ export default function Show({
                                                                         key={
                                                                             index
                                                                         }
-                                                                        className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
+                                                                        className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem] cursor-pointer"
                                                                     >
                                                                         <img
                                                                             onClick={() =>
@@ -492,7 +492,7 @@ export default function Show({
                                                                         key={
                                                                             index
                                                                         }
-                                                                        className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
+                                                                        className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem] cursor-pointer"
                                                                     >
                                                                         <img
                                                                             onClick={() =>
@@ -848,7 +848,7 @@ export default function Show({
                                                             "video/mp4" ? (
                                                                 <div
                                                                     key={index}
-                                                                    className="w-auto h-auto col-span-2 overflow-hidden shadow rounded-xl"
+                                                                    className="w-auto h-auto col-span-2 overflow-hidden shadow rounded-xl cursor-pointer"
                                                                 >
                                                                     <div
                                                                         className=""
@@ -882,7 +882,7 @@ export default function Show({
                             <div className="mb-6 bg-white rounded-lg shadow">
                                 <div className="px-2 mx-3 mt-6 text-sm font-medium text-gray-400 mb-7">
                                     Gambar
-                                    <div className="grid grid-cols-6 col-span-2 gap-2 ">
+                                    <div className="grid grid-cols-6 col-span-2 gap-2">
                                         {media.map(
                                             (plan, index) =>
                                                 index < 2 && (
@@ -893,7 +893,7 @@ export default function Show({
                                                         ) : (
                                                             <div
                                                                 key={index}
-                                                                className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
+                                                                className="shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem] cursor-pointer"
                                                             >
                                                                 <img
                                                                     onClick={() =>
@@ -921,7 +921,7 @@ export default function Show({
                                                         ) : (
                                                             <div
                                                                 key={index}
-                                                                className="max-h-[10rem] col-span-2 overflow-hidden shadow rounded-xl"
+                                                                className="max-h-[10rem] col-span-2 overflow-hidden shadow rounded-xl cursor-pointer"
                                                             >
                                                                 <img
                                                                     onClick={() =>

@@ -11,6 +11,8 @@ import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
 import EmptyCard from "@/Components/EmptyCard";
 import InfoModal from "@/Components/Modal/InfoModal";
+import ThirdButton from "@/Components/ThirdButton";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 export default function List(props) {
     const { data: projects, meta, links, filtered, attributes } = props.projects;
@@ -98,48 +100,16 @@ export default function List(props) {
                             {permission_name.indexOf("membuat proyek") >
                             -1 ? (
                                 <div className="flex items-center justify-start gap-x-2">
-                                    <NavLink
-                                        type="button"
-                                        className={
-                                            "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        }
-                                        href={"/projects/create"}
-                                    >
-                                        Tambah
-                                        {/* <IconCirclePlus className="w-4 h-4"/> */}
-                                    </NavLink>
-                                    <NavLink
-                                        type="button"
-                                        className={
-                                            "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        }
-                                        href={route("projects.index")}
-                                    >
-                                        Proyek Saya
-                                        {/* <IconUserCircle className="w-4 h-4"/> */}
-                                    </NavLink>
+                                    <ThirdButton type="button" href={"/projects/create"}>Tambah</ThirdButton>
+                                    <ThirdButton type="button" href={route("projects.index")}>Proyek Saya</ThirdButton>
                                 </div>
                             ) : (
-                                <button
-                                    className="justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    onClick={() => openInfoDialog()}
-                                >
-                                    Tambah
-                                </button>
+                                <ThirdButtonNoLink type="button" onClick={() => openInfoDialog()}></ThirdButtonNoLink>
                             )}
                             {permission_name.indexOf(
                                 "melakukan penawaran proyek"
                             ) > -1 ? (
-                                <NavLink
-                                    type="button"
-                                    className={
-                                        "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    }
-                                    href={"/projectbids"}
-                                >
-                                    Penawaran Saya
-                                    {/* <IconCirclePlus className="w-4 h-4"/> */}
-                                </NavLink>
+                                <ThirdButton type="button" href={"/projectbids"}>Penawaran Saya</ThirdButton>
                             ) : (
                                 ""
                             )}

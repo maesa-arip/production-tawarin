@@ -5,13 +5,15 @@ import Container from "@/Components/Container";
 import Header from "@/Components/Header";
 import Pagination from "@/Components/Pagination";
 import PlanItem from "@/Components/PlanItem";
-import { IconCirclePlus, IconMapPin, IconUserCircle } from "@tabler/icons";
+import { IconCirclePlus, IconCodePlus, IconHomeEdit, IconHomeHand, IconMapPin, IconUserCircle } from "@tabler/icons";
 import { numberFormat } from "@/Libs/helper";
 import NavLink from "@/Components/NavLink";
 import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
 import EmptyCard from "@/Components/EmptyCard";
 import InfoModal from "@/Components/Modal/InfoModal";
+import ThirdButton from "@/Components/ThirdButton";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 export default function List(props) {
     const { data: plans, meta, links, filtered, attributes } = props.plans;
@@ -102,7 +104,9 @@ export default function List(props) {
                             {permission_name.indexOf("membuat perencanaan") >
                             -1 ? (
                                 <div className="flex items-center justify-start gap-x-2">
-                                    <NavLink
+                                    <ThirdButton type="button" href={"/plans/create"}> <p className="hidden md:block">Tambah </p><IconCodePlus className="block md:hidden w-5 h-5"/></ThirdButton>
+                                    <ThirdButton type="button" href={route("plans.index")}><p className="hidden md:block">Perencanaan Saya </p><IconHomeEdit className="block md:hidden w-5 h-5"/></ThirdButton>
+                                    {/* <NavLink
                                         type="button"
                                         className={
                                             "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -110,9 +114,8 @@ export default function List(props) {
                                         href={"/plans/create"}
                                     >
                                         Tambah
-                                        {/* <IconCirclePlus className="w-4 h-4"/> */}
-                                    </NavLink>
-                                    <NavLink
+                                    </NavLink> */}
+                                    {/* <NavLink
                                         type="button"
                                         className={
                                             "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -120,30 +123,31 @@ export default function List(props) {
                                         href={route("plans.index")}
                                     >
                                         Perencanaan Saya
-                                        {/* <IconUserCircle className="w-4 h-4"/> */}
-                                    </NavLink>
+                                    </NavLink> */}
                                 </div>
                             ) : (
-                                <button
-                                    className="justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    onClick={() => openInfoDialog()}
-                                >
-                                    Tambah
-                                </button>
+                                <ThirdButtonNoLink type="button" onClick={() => openInfoDialog()}>Tambah</ThirdButtonNoLink>
+                                // <button
+                                //     className="justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                //     onClick={() => openInfoDialog()}
+                                // >
+                                //     Tambah
+                                // </button>
                             )}
                             {permission_name.indexOf(
                                 "melakukan penawaran perencanaan"
                             ) > -1 ? (
-                                <NavLink
-                                    type="button"
-                                    className={
-                                        "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    }
-                                    href={"/planbids"}
-                                >
-                                    Penawaran Saya
-                                    {/* <IconCirclePlus className="w-4 h-4"/> */}
-                                </NavLink>
+                                <ThirdButton type="button" href={"/planbids"}><p className="hidden md:block">Penawaran Saya </p><IconHomeHand className="block md:hidden w-5 h-5"/></ThirdButton>
+                                // <ThirdButton type="button" href={"/planbids"}>Penawaran Saya</ThirdButton>
+                                // <NavLink
+                                //     type="button"
+                                //     className={
+                                //         "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                //     }
+                                //     href={"/planbids"}
+                                // >
+                                //     Penawaran Saya
+                                // </NavLink>
                             ) : (
                                 ""
                             )}

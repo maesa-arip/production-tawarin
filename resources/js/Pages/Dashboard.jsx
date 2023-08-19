@@ -103,7 +103,7 @@ export default function Dashboard(props) {
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
                 setIsOpenInfoDialog={setIsOpenInfoDialog}
-                size="2xl"
+                size="max-w-2xl"
                 title={"Info"}
                 header={""}
             >
@@ -114,7 +114,7 @@ export default function Dashboard(props) {
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog2}
                 setIsOpenInfoDialog={setIsOpenInfoDialog2}
-                size="2xl"
+                size="max-w-2xl"
                 title={"Info"}
                 header={""}
             >
@@ -137,26 +137,8 @@ export default function Dashboard(props) {
                         <div className="flex items-center justify-between">
                             <div className="w-full">
                                 <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
-                                    <NavLink
-                                        type="button"
-                                        className={
-                                            "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        }
-                                        href={"plans/create"}
-                                    >
-                                        Tambah Perencanaan
-                                        <IconCirclePlus className="w-4 h-4" />
-                                    </NavLink>
-                                    <NavLink
-                                        type="button"
-                                        className={
-                                            "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        }
-                                        href={route('plan.list')}
-                                    >
-                                        Perencanaan Lainnya
-                                        {/* <IconCirclePlus className="w-4 h-4" /> */}
-                                    </NavLink>
+                                    <ThirdButton type="button" href={"plans/create"}>Tambah Perencanaan</ThirdButton>
+                                    <ThirdButton type="button" href={route('plan.list')}>Perencanaan Lainnya</ThirdButton>
                                 </div>
                             </div>
                         </div>

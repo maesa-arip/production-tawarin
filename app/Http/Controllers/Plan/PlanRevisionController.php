@@ -43,7 +43,7 @@ class PlanRevisionController extends Controller
             ->addSelect(['jumlah_pengajuan_revisi' => function (Builder $builder) {
                 $builder->from('plan_revisions')->selectRaw('count(*) as jumlah_pengajuan_revisi')->whereColumn('plan_results.id', 'plan_revisions.plan_result_id');
             }])
-            ->get();
+        ->get();
         $plan_revisions = PlanRevision::has('plan_revision_result')
         ->join('plan_results', 'plan_results.id', 'plan_revisions.plan_result_id')
         ->join('plan_details', 'plan_details.id', 'plan_results.plan_detail_id')

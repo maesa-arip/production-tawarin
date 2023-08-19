@@ -13,6 +13,7 @@ import { IconSearch } from "@tabler/icons";
 import DropdownMobile from "@/Components/DropdownMobile";
 import { IconBan, IconCirclePlus, IconDotsVertical } from "@tabler/icons";
 import Header from "@/Components/Header";
+import ThirdButton from "@/Components/ThirdButton";
 
 const UpIcon = () => (
     <svg
@@ -137,15 +138,7 @@ export default function Index(props) {
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mb-6 gap-x-2">
-                                <NavLink
-                                    type="button"
-                                    className={
-                                        "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    }
-                                    href={route("plan.list")}
-                                >
-                                    Cari Perencanaan
-                                </NavLink>
+                                <ThirdButton type="button" href={route("plan.list")}>Cari Perencanaan</ThirdButton>
                             </div>
                         </div>
                         <div className="w-1/2">
@@ -190,9 +183,9 @@ export default function Index(props) {
                     </div>
 
                     <div className="flex flex-col">
-                        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div className="-my-2 sm:-mx-6 lg:-mx-8">
                             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                                <div className="border-b border-gray-200 shadow sm:rounded-lg">
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead className="bg-gray-50">
                                             <tr>

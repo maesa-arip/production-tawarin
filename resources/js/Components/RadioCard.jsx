@@ -16,7 +16,9 @@ export default function RadioCard({ShouldMap, selected, onChange}) {
             
               <RadioGroup.Option
                 key={item.name}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => onChange(e)}
+
+                // onChange={(e) => handleChange(e)}
                 value={item}
                 className={({ active, checked }) =>
                   `${

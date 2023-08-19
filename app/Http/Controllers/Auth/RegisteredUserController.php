@@ -55,7 +55,7 @@ class RegisteredUserController extends Controller
             'from_referral' => 'max:7',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-        dd($request->all());
+        // dd($request->all());
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
