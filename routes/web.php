@@ -160,6 +160,14 @@ Route::get('/chat', [ChatController::class, 'index'])->name('chats.index');
 //  Route::get('public/planportofolios/{plans}', [PlanPortofolioController::class,'show'])->name('planportofolios.show');
  // End Plans
 
+ // Reservation
+ Route::get('public/reservations/{reservationCompany}', [ReservationController::class,'show'])->name('reservations.show');
+ Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
+
+//  Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
+//  Route::get('public/reservations/{reservationCompany}/{reservationCounter}', [ReservationController::class,'show'])->name('reservations.show');
+ //End Reservation
+
 
 //Alamat
 Route::get('provinces', [DependantDropdownController::class, 'provinces'])->name('provinces');

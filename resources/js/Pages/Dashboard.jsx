@@ -132,7 +132,7 @@ export default function Dashboard(props) {
                  openInfoDialog2()
                 }, [])
                  }
-                {plans.length > 0 ? <div className="mt-4 flex flex-col px-2 py-2 bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                {plans.length > 0 ? <div className="flex flex-col px-2 py-2 mt-4 bg-white border shadow-lg rounded-xl ">
                     <div className="">
                         <div className="flex items-center justify-between">
                             <div className="w-full">
@@ -150,7 +150,7 @@ export default function Dashboard(props) {
                                     key={index}
                                     className="relative w-full mx-auto"
                                 >
-                                    <div className="flex flex-col bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                                    <div className="flex flex-col bg-white border shadow-lg rounded-xl ">
                                         <div className="flex flex-col items-center justify-center flex-auto p-2">
                                             <div className="grid w-full grid-cols-12 gap-1">
                                                 <div className="col-span-4 col-start-1">
@@ -327,6 +327,10 @@ export default function Dashboard(props) {
                                                                         Penawaran
                                                                     </Link>
                                                                 ) : (
+                                                                    // <ThirdButton color="red" href={route(
+                                                                    //     "plans.edit",
+                                                                    //     `${plan.slug}`
+                                                                    // )}>Edit</ThirdButton>
                                                                     <Link
                                                                         href={route(
                                                                             "plans.edit",

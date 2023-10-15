@@ -1,43 +1,76 @@
-import clsx from "clsx";
+import React from "react";
 
-function Table({children}) {
+const Table = ({ children }) => {
     return (
-        <div className="relative bg-white overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 divide-y divide-gray-200">
-               {children}
-            </table>
-        </div>
+        <>
+            <div className="flex flex-col overflow-x-auto">
+                <div className="rounded">
+                    <div className="inline-block min-w-full py-2 align-middle">
+                        <div className="min-w-full border rounded border-slate-300">
+                            <table className="min-w-full border-separate rounded ">
+                                {children}
+                            </table>
+                        </div>
+                        {/* Pagination */}
+                    </div>
+                </div>
+            </div>
+        </>
     );
-}
-
-function Td({ className,children }) {
+};
+const Thead = ({ children }) => {
     return (
-        <td className={clsx('px-4 py-3 whitespace-nowrap',className)}>
-            {children}
-        </td>
+        <>
+            <thead className="bg-gray-50">{children}</thead>
+        </>
     );
-}
-function Th({ className,children }) {
+};
+const Th = ({ children, onClick, className = "text-left" }) => {
     return (
-        <th scope="col" className={clsx('px-4 py-3',className)}>
-            {children}
-        </th>
+        <>
+            <th
+                scope="col"
+                className={
+                    "px-6 py-3 text-xs font-semibold tracking-normal text-gray-800 uppercase border rounded border-slate-300 " +
+                    className
+                }
+            >
+                <div
+                    className="flex items-center cursor-pointer gap-x-1"
+                    onClick={onClick}
+                >
+                    {children}
+                </div>
+            </th>
+        </>
     );
-}
-function Tbody({ children }) {
+};
+const Tbody = ({ children }) => {
     return (
-        <tbody className="divide-y divide-gray-200">
-            {children}
-        </tbody>
+        <>
+            <tbody className="bg-white divide-y divide-gray-200">
+                {children}
+            </tbody>
+        </>
     );
-}
-function Thead({ children }) {
+};
+const Td = ({ children, className = "" }) => {
     return (
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            {children}
-        </thead>
+        <>
+            <td
+                className={
+                    "px-6 py-4 text-sm font-normal tracking-normal whitespace-nowrap border border-slate-300 rounded " +
+                    className
+                }
+            >
+                {children}
+            </td>
+        </>
     );
-}
+};
+const Tr = ({ children }) => {
+    return <tr>{children}</tr>;
+};
 function Empty({ colSpan, message = 'The item is empty' }) {
     return (
         <tr>
@@ -61,5 +94,7 @@ Table.Thead = Thead;
 Table.Th = Th;
 Table.Tbody = Tbody;
 Table.Td = Td;
+Table.Tr = Tr;
 Table.Empty = Empty;
+
 export default Table;

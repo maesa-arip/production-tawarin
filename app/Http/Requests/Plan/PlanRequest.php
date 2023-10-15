@@ -40,6 +40,7 @@ class PlanRequest extends FormRequest
             'dari_anggaran' => ['required'],
             'sampai_anggaran' => ['required'],
             'plan_category_id' => ['required'],
+            'formattedAddress' => ['required'],
         ];
     }
 }

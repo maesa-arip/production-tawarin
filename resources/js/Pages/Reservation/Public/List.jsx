@@ -31,7 +31,9 @@ export default function List(props) {
         filtered,
         attributes,
     } = props.reservations;
+    
     const reservation_categories = props.reservation_categories;
+    const reservationCompany = props.reservationCompany;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -97,7 +99,7 @@ export default function List(props) {
     // const [selectedCategory, setSelectedCategory] = useState(() => {
     //     return reservation_categories.find((x) => x.id === company.reservation_category_id);
     // });
-    const defaultValue = [{ name: "Pilih" }];
+    const defaultValue = [{ name: "Pilih Kategori" }];
     const [selected, setSelected] = useState(defaultValue[0]);
     const onChangeReservationCategoryId = (e) => {
         // setData({ ...data, ["reservation_category_id"]: e.id });
@@ -107,8 +109,8 @@ export default function List(props) {
         <div>
             <Head title="Reservations" />
             <Header
-                title="Perencanaan"
-                description="List perencanaan yang ada di Tawarin."
+                title="Reservasi"
+                description="List reservasi yang ada di Tawarin."
             />
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
@@ -121,16 +123,14 @@ export default function List(props) {
                 membuat perencanaan
             </InfoModal>
             <Container>
-                <div className="flex items-center justify-end">
-                    <div className="w-2/3">
-                        <div className="flex items-center justify-start gap-x-2">
-                        <div className="w-2/3">
-                                <label
-                                    htmlFor="reservation_category_id"
-                                    className="block text-sm font-medium text-gray-700"
-                                >
-                                    Cari Kategori
-                                </label>
+                <ThirdButton href={route("reservationprofile.edit")}>Atur Perusahaan</ThirdButton>
+                <ThirdButton color="teal" className="m-4" href={route("reservationCounters.index")}>Atur Layanan</ThirdButton>
+                <ThirdButton color="yellow" className="mr-4">Atur Jadwal</ThirdButton>
+                <ThirdButton color="red" className="mb-4">Atur Pegawai</ThirdButton>
+                <div className="flex items-center justify-end gap-x-2">
+                    <div className="w-2/3 ">
+                        <div className="flex items-center justify-start  ">
+                       
                                 <ListBoxPage
                                     ShouldMap={reservation_categories}
                                     selected={selected}
@@ -139,7 +139,6 @@ export default function List(props) {
                                         setSelected(e);
                                     }}
                                 />
-                            </div>
                         </div>
                     </div>
                     <div className="w-1/3">
@@ -226,7 +225,7 @@ export default function List(props) {
                                             >
                                                 {reservation.name}
                                             </h2> */}
-                                            <Link
+                                            {/* <Link
                                                 className="mt-2 text-sm text-gray-800 line-clamp-1"
                                                 href={`/public/reservations/list?reservation_category=${reservation.reservation_category.slug}`}
                                             >
@@ -235,7 +234,7 @@ export default function List(props) {
                                                         .reservation_category
                                                         .name
                                                 }
-                                            </Link>
+                                            </Link> */}
                                             <p
                                                 className="mt-2 text-base font-thin text-gray-800 md:text-xs line-clamp-1"
                                                 title="New York"

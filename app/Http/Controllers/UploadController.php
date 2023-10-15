@@ -36,6 +36,11 @@ class UploadController extends Controller
             ]);
             Session::push('folderdenahlokasiukuran', $folder);
             Session::push('filenamedenahlokasiukuran', $filename);
+            return [$folder, $filename, 'folderdenahlokasiukuran', 'filenamedenahlokasiukuran'];
+            // return 'folderdenahlokasiukuran';
+            // return 'filenamedenahlokasiukuran';
+
+
         }
         if ($request->hasFile('kondisisaatini')) {
             $file = $request->file('kondisisaatini');
@@ -48,8 +53,9 @@ class UploadController extends Controller
             ]);
             Session::push('folderkondisisaatini', $folder);
             Session::push('filenamekondisisaatini', $filename);
+            return [$folder, $filename, 'folderkondisisaatini', 'filenamekondisisaatini'];
         }
-        
+
         if ($request->hasFile('document')) {
             $file = $request->file('document');
             $filename = hexdec(uniqid()) . '.' . $file->extension();
@@ -61,10 +67,10 @@ class UploadController extends Controller
             ]);
             Session::push('folder', $folder);
             Session::push('filename', $filename);
-            return 'Success';
+            return [$folder, $filename, 'folder', 'filename'];
         }
 
-        
+
 
 
         // Upload Hasil
@@ -87,7 +93,7 @@ class UploadController extends Controller
         //         Session::push("filename" . $plan_detail->slug, ${"filename" . $plan_detail->slug});
         //     }
         // }
-        
+
 
         if ($request->hasFile('gambar_arsitektur')) {
             $file = $request->file('gambar_arsitektur');
@@ -100,6 +106,7 @@ class UploadController extends Controller
             ]);
             Session::push('foldergambar_arsitektur', $folder);
             Session::push('filenamegambar_arsitektur', $filename);
+            return $filename;
         }
         if ($request->hasFile('gambar_3d_interior')) {
             $file = $request->file('gambar_3d_interior');
@@ -112,6 +119,7 @@ class UploadController extends Controller
             ]);
             Session::push('foldergambar_3d_interior', $folder);
             Session::push('filenamegambar_3d_interior', $filename);
+            return $filename;
         }
         if ($request->hasFile('gambar_3d_exterior')) {
             $file = $request->file('gambar_3d_exterior');
@@ -124,6 +132,7 @@ class UploadController extends Controller
             ]);
             Session::push('foldergambar_3d_exterior', $folder);
             Session::push('filenamegambar_3d_exterior', $filename);
+            return $filename;
         }
         if ($request->hasFile('animasi_3d')) {
             $file = $request->file('animasi_3d');
@@ -136,6 +145,7 @@ class UploadController extends Controller
             ]);
             Session::push('folderanimasi_3d', $folder);
             Session::push('filenameanimasi_3d', $filename);
+            return $filename;
         }
         if ($request->hasFile('gambar_struktur')) {
             $file = $request->file('gambar_struktur');
@@ -148,6 +158,7 @@ class UploadController extends Controller
             ]);
             Session::push('foldergambar_struktur', $folder);
             Session::push('filenamegambar_struktur', $filename);
+            return $filename;
         }
         if ($request->hasFile('gambar_mep')) {
             $file = $request->file('gambar_mep');
@@ -160,6 +171,7 @@ class UploadController extends Controller
             ]);
             Session::push('foldergambar_mep', $folder);
             Session::push('filenamegambar_mep', $filename);
+            return $filename;
         }
         if ($request->hasFile('rab_dan_spesifikasi_teknis')) {
             $file = $request->file('rab_dan_spesifikasi_teknis');
@@ -172,6 +184,7 @@ class UploadController extends Controller
             ]);
             Session::push('folderrab_dan_spesifikasi_teknis', $folder);
             Session::push('filenamerab_dan_spesifikasi_teknis', $filename);
+            return $filename;
         }
         if ($request->hasFile('time_schedule_dan_bobot_pembayaran')) {
             $file = $request->file('time_schedule_dan_bobot_pembayaran');
@@ -184,6 +197,7 @@ class UploadController extends Controller
             ]);
             Session::push('foldertime_schedule_dan_bobot_pembayaran', $folder);
             Session::push('filenametime_schedule_dan_bobot_pembayaran', $filename);
+            return $filename;
         }
         if ($request->hasFile('lainnya')) {
             $file = $request->file('lainnya');
@@ -196,10 +210,11 @@ class UploadController extends Controller
             ]);
             Session::push('folderlainnya', $folder);
             Session::push('filenamelainnya', $filename);
+            return $filename;
         }
         //End Upload Hasil
 
-        
+
 
         return '';
     }
@@ -209,22 +224,37 @@ class UploadController extends Controller
     }
     public function destroy(Request $request)
     {
-        //check data from temporaryImage
         $db = TemporaryFile::where('filename', $request->filename)->first();
         if ($db) {
-            $path = storage_path() . '/app/files/tmp/' . $db->folder . '/' . $db->filename;
+            $path = storage_path() . '/app/public/files/tmp/' . $db->folder . '/' . $db->filename;
             if (File::exists($path)) {
                 File::delete($path);
-                rmdir(storage_path('app/files/tmp/' . $db->folder));
+                rmdir(storage_path('app/public/files/tmp/' . $db->folder));
 
                 //delete record in table temporaryImage
                 TemporaryFile::where([
                     'folder' =>  $db->folder,
                     'filename' => $db->filename
                 ])->delete();
-                return 'deleted';
+
+                //Delete Session
+                $sessfolder = Session::get($request->sessionfolder, []);
+                $index = array_search($request->folder, $sessfolder);
+
+                if ($index !== false) {
+                    array_splice($sessfolder, $index, 1);
+                    Session::put($request->sessionfolder, array_values($sessfolder));
+                }
+
+                $sessfilename = Session::get($request->sessionfilename, []);
+                $index = array_search($request->filename, $sessfilename);
+                if ($index !== false) {
+                    array_splice($sessfilename, $index, 1);
+                    Session::put($request->sessionfilename, array_values($sessfilename));
+                }
+                return response()->json(['message' => 'File deleted'], 200);
             } else {
-                return 'not found';
+                return response()->json(['message' => 'File not found'], 404);
             }
         }
     }

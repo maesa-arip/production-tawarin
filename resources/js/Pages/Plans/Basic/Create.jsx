@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import App from "@/Layouts/App";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import { Head, useForm, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { Switch } from "@headlessui/react";
 import DatePicker from "@/Components/DatePicker/DatePicker";
@@ -20,6 +20,7 @@ export default function Create({
     plan_categories,
     plan_master_rooms,
 }) {
+    const {allSessions} = usePage().props;
     // const [enabled, setEnabled] = useState(false);
     const [anggaran, setAnggaran] = useState("");
     const [acuanAnggaran, setAcuanAnggaran] = useState("");
@@ -31,6 +32,7 @@ export default function Create({
     const [panjang, setPanjang] = useState(0);
     const [lebar, setLebar] = useState(0);
 
+    console.log(allSessions)
     const onChangePanjangBangunanHandler = (e) => {
         setPanjang(e.target.value);
         setData({ ...data, [e.target.id]: e.target.value });
@@ -886,7 +888,7 @@ export default function Create({
                                                                     </span>
                                                                 )}
                                                             </div>
-                                                            <div className="col-span-12 md:col-span-6 mt-2">
+                                                            <div className="col-span-12 mt-2 md:col-span-6">
                                                                 <label
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"
@@ -915,7 +917,7 @@ export default function Create({
                                                                     </span>
                                                                 )}
                                                             </div>
-                                                            <div className="col-span-12 md:col-span-6 mt-2">
+                                                            <div className="col-span-12 mt-2 md:col-span-6">
                                                                 <label
                                                                     htmlFor="name"
                                                                     className="block text-sm font-medium text-gray-700"

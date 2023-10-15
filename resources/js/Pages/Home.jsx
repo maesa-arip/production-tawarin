@@ -51,7 +51,7 @@ export default function Home(props) {
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
                 setIsOpenInfoDialog={setIsOpenInfoDialog}
-                size="max-size-6xl"
+                size="max-w-6xl"
                 title={"Info"}
                 header={""}
             > 

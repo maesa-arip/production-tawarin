@@ -1290,6 +1290,7 @@ export default function Show({
                                                             }
                                                             allowMultiple={true}
                                                             maxFiles={"5"}
+                                                            required={true}
                                                         />
                                                         <div className="flex justify-center text-sm text-gray-600">
                                                             <label

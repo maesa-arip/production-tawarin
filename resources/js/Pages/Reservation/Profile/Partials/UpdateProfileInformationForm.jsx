@@ -74,12 +74,16 @@ export default function UpdateProfileInformation({
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         company ?   useForm({
             name: company.name,
+            open_at: company.open_at,
+            close_at: company.close_at,
             lat: company.lat,
             lng: company.lng,
             reservation_category_id: company.reservation_category_id,
             formattedAddress: company.formattedAddress,
         }) : useForm({
             name: '',
+            open_at: '',
+            close_at: '',
             lat: '',
             lng: '',
             reservation_category_id: '',
@@ -150,6 +154,71 @@ export default function UpdateProfileInformation({
                                                         {
                                                             errors.reservation_category_id
                                                         }
+                                                    </span>
+                                                )}
+                                            </div>
+                                             <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="name"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Jam Buka
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="time"
+                                                            name="open_at"
+                                                            value={
+                                                                data.open_at ??
+                                                                ""
+                                                            }
+                                                            handleChange={(e) =>
+                                                                setData("open_at", e.target.value)
+                                                            }
+                                                            required
+                                                            id="open_at"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.open_at}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="name"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Jam Tutup
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="time"
+                                                            name="close_at"
+                                                            value={
+                                                                data.close_at ??
+                                                                ""
+                                                            }
+                                                            handleChange={(e) =>
+                                                                setData("close_at", e.target.value)
+                                                            }
+                                                            id="close_at"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.close_at}
                                                     </span>
                                                 )}
                                             </div>

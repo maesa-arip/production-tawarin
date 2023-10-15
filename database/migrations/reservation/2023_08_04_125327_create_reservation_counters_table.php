@@ -18,11 +18,12 @@ return new class extends Migration
             $table->foreignId('reservation_company_id')->constrained('reservation_companies');
             $table->foreignId('user_id')->constrained('users');
             $table->string('name');
-            $table->time('open_at');
-            $table->time('close_at');
+            $table->string('slug');
             $table->integer('service_duration');
             $table->boolean('set_dayoff');
             $table->integer('period');
+            $table->integer('price');
+            $table->integer('price_user');
             $table->tinyInteger('need_image_reservation');
             $table->tinyInteger('need_image_before_after');
             $table->boolean('is_active');

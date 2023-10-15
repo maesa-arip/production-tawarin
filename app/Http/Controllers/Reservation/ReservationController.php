@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyProfileUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\Reservation\ReservationCounterResource;
 use App\Http\Resources\Reservation\ReservationResource;
 use App\Models\Reservation\ReservationCategory;
 use App\Models\Reservation\ReservationCompany;
+use App\Models\Reservation\ReservationCounter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +50,41 @@ class ReservationController extends Controller
         ]);
     }
     public $loadDefault = 10;
+    public function show(ReservationCompany $reservationCompany ,Request $request)
+    {
+        // dd($reservationCounter);
+        $reservation_categories = ReservationCategory::get();
+        $reservations = ReservationCounter::query()
+            // ->with('reservation_category')
+            ->where('reservation_counters.is_active', 1)
+            // ->when($request->reservation_category, fn ($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
+            ->select('*');
+        if ($request->q) {
+            $reservations->where('name', 'like', '%' . $request->q . '%')
+                ->orWhere('slug', 'like', '%' . $request->q . '%')
+                ->orWhere('formattedAddress', 'like', '%' . $request->q . '%')
+                ->orWhere('reservation_category_id', 'like', '%' . $request->q . '%');
+        }
+        if ($request->has(['field', 'direction'])) {
+            $reservations->orderBy($request->field, $request->direction);
+        }
+        $reservations = (ReservationCounterResource::collection($reservations->latest()->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => 1100,
+                'per_page' => 10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+            ]
+        ]);
+        return inertia('Reservation/Company/Public/List', ['reservations' => $reservations,'reservationCompany' => $reservationCompany,'reservation_categories' => $reservation_categories]);
+    }
+    
     public function list(Request $request)
     {
         $reservation_categories = ReservationCategory::get();

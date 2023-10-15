@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/inertia-react";
 
-export default function ThirdButtonNoLink({ type = 'submit', className = '',href, processing, children, onClick, color ='blue' }) {
+export default function ThirdButtonNoLink({ type = 'submit', className = '',href, processing, children, onClick, id, color ='blue' }) {
     const colorVariants = {
         blue: 'bg-blue-50 text-blue-500 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100',
         red: 'bg-red-50 text-red-500 hover:bg-red-100 focus:bg-red-100 active:bg-red-100 focus:ring-red-100',
@@ -17,6 +17,7 @@ export default function ThirdButtonNoLink({ type = 'submit', className = '',href
             type={type}
             onClick={onClick}
             href={href}
+            id={id}
             className={ 
                 `${colorVariants[color]} inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 ${
                     processing && 'opacity-25'

@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class ReservationCounter extends Model
 {
     use HasFactory;
+    protected $fillable = ['reservation_company_id','user_id','name','slug','open_at','close_at','service_duration','price','price_user','percent_owner','percent_employe','set_dayoff','period','need_image_reservation','need_image_before_after','is_active'];
+    public function resolveRouteBinding($value, $field = null)
+    {
+        // Assuming 'slug' is the field you want to use for binding
+        return $this->where('slug', $value)->firstOrFail();
+    }
+    public function team()
+    {
+        return $this->hasMany(ReservationTeam::class);
+    }
 }

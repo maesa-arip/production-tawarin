@@ -26,4 +26,9 @@ class ReservationCompany extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+    public function resolveRouteBinding($value, $field = null)
+    {
+        // Assuming 'slug' is the field you want to use for binding
+        return $this->where('slug', $value)->firstOrFail();
+    }
 }

@@ -13,6 +13,8 @@ import DropdownMobile from "@/Components/DropdownMobile";
 import { IconBan, IconCirclePlus, IconDotsVertical } from "@tabler/icons";
 import Header from "@/Components/Header";
 import ThirdButton from "@/Components/ThirdButton";
+import Pagination from "@/Components/Pagination";
+import Table from "@/Components/Table";
 
 const UpIcon = () => (
     <svg
@@ -44,8 +46,13 @@ const DownIcon = () => (
 );
 
 export default function Index(props) {
-    const { data: reservationCounters, meta, filtered, attributes } = props.reservationCounters;
-    const planRejectCount = props.planRejectCount;
+    const {
+        data: reservationCounters,
+        meta,
+        filtered,
+        attributes,
+    } = props.reservationCounters;
+    const reservationCounterRejectCount = props.reservationCounterRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -114,16 +121,16 @@ export default function Index(props) {
     return (
         <>
             <Head title="Reservation Counter" />
-            <Header title="Counter" description="List Counter Saya." />
+            <Header title="Layanan" description="List Layanan Saya." />
             <Container>
                 <DestroyModal
                     isOpenDestroyDialog={isOpenDestroyDialog}
                     setIsOpenDestroyDialog={setIsOpenDestroyDialog}
                     size="2xl"
-                    title={"Hapus Counter"}
+                    title={"Hapus Layanan"}
                 >
                     <Button color={"pink"} onClick={destroyReservationCounter}>
-                        Hapus
+                        Non Aktifkan
                     </Button>
                 </DestroyModal>
                 <div className="hidden lg:block">
@@ -131,7 +138,12 @@ export default function Index(props) {
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mb-6 gap-x-2">
-                                <ThirdButton type="button" href={"reservationCounters/create"}>Tambah Counter</ThirdButton>
+                                <ThirdButton
+                                    type="button"
+                                    href={"reservationCounters/create"}
+                                >
+                                    Tambah Layanan
+                                </ThirdButton>
                             </div>
                         </div>
                         <div className="w-1/2">
@@ -189,8 +201,13 @@ export default function Index(props) {
                                                         #
                                                     </div>
                                                 </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                >
+                                                    <div className="flex items-center cursor-pointer gap-x-2"></div>
+                                                </th>
 
-                                                
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
@@ -201,7 +218,57 @@ export default function Index(props) {
                                                             sort("name")
                                                         }
                                                     >
-                                                        Nama Perencanaan
+                                                        Nama Layanan
+                                                        {params.field ==
+                                                            "name" &&
+                                                            params.direction ==
+                                                                "asc" && (
+                                                                <UpIcon />
+                                                            )}
+                                                        {params.field ==
+                                                            "name" &&
+                                                            params.direction ==
+                                                                "desc" && (
+                                                                <DownIcon />
+                                                            )}
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                >
+                                                    <div
+                                                        className="flex items-center cursor-pointer gap-x-2"
+                                                        onClick={() =>
+                                                            sort("name")
+                                                        }
+                                                    >
+                                                        Harga Tawarin
+                                                        {params.field ==
+                                                            "name" &&
+                                                            params.direction ==
+                                                                "asc" && (
+                                                                <UpIcon />
+                                                            )}
+                                                        {params.field ==
+                                                            "name" &&
+                                                            params.direction ==
+                                                                "desc" && (
+                                                                <DownIcon />
+                                                            )}
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                >
+                                                    <div
+                                                        className="flex items-center cursor-pointer gap-x-2"
+                                                        onClick={() =>
+                                                            sort("name")
+                                                        }
+                                                    >
+                                                        Harga
                                                         {params.field ==
                                                             "name" &&
                                                             params.direction ==
@@ -250,9 +317,7 @@ export default function Index(props) {
                                                     <div
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
-                                                            sort(
-                                                                "period"
-                                                            )
+                                                            sort("period")
                                                         }
                                                     >
                                                         Batas Waktu Reservasi
@@ -270,6 +335,7 @@ export default function Index(props) {
                                                             )}
                                                     </div>
                                                 </th>
+                                                
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
@@ -277,18 +343,18 @@ export default function Index(props) {
                                                     <div
                                                         className="flex items-center cursor-pointer gap-x-2"
                                                         onClick={() =>
-                                                            sort("is_approved")
+                                                            sort("created_at")
                                                         }
                                                     >
-                                                        Status
+                                                        Persentase Owner
                                                         {params.field ==
-                                                            "is_approved" &&
+                                                            "created_at" &&
                                                             params.direction ==
                                                                 "asc" && (
                                                                 <UpIcon />
                                                             )}
                                                         {params.field ==
-                                                            "is_approved" &&
+                                                            "created_at" &&
                                                             params.direction ==
                                                                 "desc" && (
                                                                 <DownIcon />
@@ -305,7 +371,7 @@ export default function Index(props) {
                                                             sort("created_at")
                                                         }
                                                     >
-                                                        Dibuat
+                                                        Persentase Pegawai
                                                         {params.field ==
                                                             "created_at" &&
                                                             params.direction ==
@@ -331,189 +397,207 @@ export default function Index(props) {
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200">
-                                            {reservationCounters.map((reservationCounter, index) => (
-                                                <tr key={reservationCounter.id}>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        {meta.from + index}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <img
-                                                            className="object-cover w-16 h-12 border rounded-lg"
-                                                            src={
-                                                                reservationCounter.media
-                                                                    ? reservationCounter.media
-                                                                    : "storage/files/default/NoImage.svg"
-                                                            }
-                                                            alt={reservationCounter.name}
-                                                        ></img>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        {reservationCounter.name}
-                                                    </td>
-
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex mt-1 rounded-md shadow-sm">
-                                                            <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                                {
-                                                                    reservationCounter.service_duration
-                                                                }
-                                                            </div>
-                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
-                                                                Menit
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex mt-1 rounded-md shadow-sm">
-                                                            <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                                {
-                                                                    reservationCounter.period
-                                                                }
-                                                            </div>
-                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
-                                                                Hari
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    
+                                            {reservationCounters.map(
+                                                (reservationCounter, index) => (
+                                                    <tr
+                                                        key={
+                                                            reservationCounter.id
+                                                        }
+                                                    >
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            {reservationCounter.is_approved ==
-                                                            1 ? (
-                                                                <Button>
-                                                                    Diterima
-                                                                </Button>
-                                                            ) : (
-                                                                <Button color="yellow">
-                                                                    Menunggu
-                                                                    Konfirmasi
-                                                                </Button>
-                                                            )}
+                                                            {meta.from + index}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <img
+                                                                className="object-cover w-16 h-12 border rounded-lg"
+                                                                src={
+                                                                    reservationCounter.media
+                                                                        ? reservationCounter.media
+                                                                        : "storage/files/default/NoImage.svg"
+                                                                }
+                                                                alt={
+                                                                    reservationCounter.name
+                                                                }
+                                                            ></img>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            {
+                                                                reservationCounter.name
+                                                            }
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                        <div className="flex mt-1 rounded-md shadow-sm">
+                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
+                                                                Rp
+                                                            </span>
+                                                            <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                {numberFormat(
+                                                                    reservationCounter.price
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                        <div className="flex mt-1 rounded-md shadow-sm">
+                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
+                                                                Rp
+                                                            </span>
+                                                            <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                {numberFormat(
+                                                                    reservationCounter.price_user
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {
+                                                                        reservationCounter.service_duration
+                                                                    }
+                                                                </div>
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
+                                                                    Menit
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {
+                                                                        reservationCounter.period
+                                                                    }
+                                                                </div>
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
+                                                                    Hari
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {
+                                                                        reservationCounter.percent_owner
+                                                                    }
+                                                                </div>
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
+                                                                    %
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {
+                                                                        reservationCounter.percent_employe
+                                                                    }
+                                                                </div>
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
+                                                                    %
+                                                                </span>
+                                                            </div>
                                                         </td>
 
 
-                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        {/* <td className="px-6 py-4 whitespace-nowrap">
                                                         {reservationCounter.created_at}
-                                                    </td>
-                                                    <td>
-                                                        <Dropdown>
-                                                            <Dropdown.Trigger>
-                                                                <button>
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        className="w-4 h-4 text-gray-400"
-                                                                        viewBox="0 0 20 20"
-                                                                        fill="currentColor"
+                                                    </td> */}
+                                                        <td>
+                                                            <Dropdown>
+                                                                <Dropdown.Trigger>
+                                                                    <button>
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            className="w-4 h-4 text-gray-400"
+                                                                            viewBox="0 0 20 20"
+                                                                            fill="currentColor"
+                                                                        >
+                                                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </Dropdown.Trigger>
+                                                                <Dropdown.Content>
+                                                                    {reservationCounter.is_active ==
+                                                                    1 ? (
+                                                                        ""
+                                                                    ) : (
+                                                                        <>
+                                                                            <Dropdown.Link
+                                                                                href={route(
+                                                                                    "reservationCounters.edit",
+                                                                                    `${reservationCounter.slug}`
+                                                                                )}
+                                                                            >
+                                                                                Edit
+                                                                            </Dropdown.Link>
+                                                                            <button
+                                                                                className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                                onClick={() =>
+                                                                                    openDestroyDialog(
+                                                                                        reservationCounter
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Non
+                                                                                Aktif
+                                                                            </button>
+                                                                        </>
+                                                                    )}
+                                                                    <Dropdown.Link
+                                                                    // href={route(
+                                                                    //     "reservationCounters.show",
+                                                                    //     `${reservationCounter.slug}`
+                                                                    // )}
                                                                     >
-                                                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </Dropdown.Trigger>
-                                                            <Dropdown.Content>
-                                                                {reservationCounter.is_approved ==
-                                                                1 ? (
-                                                                    ""
-                                                                ) : (
-                                                                    <>
-                                                                        <Dropdown.Link
-                                                                            href={route(
-                                                                                "reservationCounters.edit",
-                                                                                `${reservationCounter.slug}`
-                                                                            )}
-                                                                        >
-                                                                            Edit
-                                                                        </Dropdown.Link>
-                                                                        <button
-                                                                            className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                                            onClick={() =>
-                                                                                openDestroyDialog(
-                                                                                    reservationCounter
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Hapus
-                                                                        </button>
-                                                                    </>
-                                                                )}
-
-                                                                <Dropdown.Link
-                                                                    href={route(
-                                                                        "reservationCounters.show",
-                                                                        `${reservationCounter.slug}`
-                                                                    )}
-                                                                >
-                                                                    Lihat Detail
-                                                                </Dropdown.Link>
-                                                                <Dropdown.Link
-                                                                    href={route(
-                                                                        "bidreservationCounters.listpenawar",
-                                                                        `${reservationCounter.id}`
-                                                                    )}
-                                                                >
-                                                                    Lihat
-                                                                    Penawaran
-                                                                </Dropdown.Link>
-                                                               
-                                                                
-                                                            </Dropdown.Content>
-                                                        </Dropdown>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                                                        Setting
+                                                                        Team
+                                                                    </Dropdown.Link>
+                                                                    <Dropdown.Link
+                                                                    // href={route(
+                                                                    //     "reservationCounters.show",
+                                                                    //     `${reservationCounter.slug}`
+                                                                    // )}
+                                                                    >
+                                                                        Lihat
+                                                                        Detail
+                                                                    </Dropdown.Link>
+                                                                    <Dropdown.Link
+                                                                    // href={route(
+                                                                    //     "bidreservationCounters.listpenawar",
+                                                                    //     `${reservationCounter.id}`
+                                                                    // )}
+                                                                    >
+                                                                        Lihat
+                                                                        Penawaran
+                                                                    </Dropdown.Link>
+                                                                </Dropdown.Content>
+                                                            </Dropdown>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    {/* <Pagination meta={meta} /> */}
-                    <ul className="flex items-center mt-10 gap-x-1">
-                        {meta.links.map((item, index) => (
-                            <button
-                                key={index}
-                                disabled={item.url == null ? true : false}
-                                className={`${
-                                    item.url == null
-                                        ? "text-gray-500"
-                                        : "text-gray-800"
-                                } w-12 h-9 rounded-lg flex items-center justify-center border bg-white`}
-                                onClick={() =>
-                                    setParams({
-                                        ...params,
-                                        page: new URL(
-                                            item.url
-                                        ).searchParams.get("page"),
-                                    })
-                                }
-                            >
-                                {item.label}
-                            </button>
-                        ))}
-                    </ul>
+                   
+                    <Pagination meta={meta} />
+                    
                 </div>
                 <div className="lg:hidden">
                     <div className="flex items-center justify-between">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
-                                <NavLink
+                                <ThirdButton
                                     type="button"
-                                    className={
-                                        "justify-start px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    }
                                     href={"reservationCounters/create"}
                                 >
-                                    Tambah{" "}
-                                    <IconCirclePlus className="w-4 h-4" />
-                                </NavLink>
-                                <NavLink
-                                    type="button"
-                                    className={
-                                        "justify-start px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
-                                    }
-                                    href={"reservationCounters/create"}
-                                >
-                                    Ditolak({planRejectCount})
-                                </NavLink>
+                                    Tambah
+                                    <IconCirclePlus className="w-3 h-3" />
+                                </ThirdButton>
+                                {/* <ThirdButton type="button" color="red" href={"#"}>Ditolak({reservationCounterRejectCount})</ThirdButton> */}
                             </div>
                         </div>
                         <div className="w-1/2">
@@ -558,31 +642,34 @@ export default function Index(props) {
                         </div>
                     </div>
                     <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-                        {reservationCounters.map((plan, index) => (
-                            <div
-                                key={index}
-                                className="relative w-full mx-auto"
-                            >
-                                <div className="flex flex-col bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                                    <div className="flex flex-col items-center justify-center flex-auto p-2">
-                                        <div className="grid w-full grid-cols-12 gap-1">
-                                            <div className="col-span-4 col-start-1">
-                                                <p className="text-sm font-semibold">
-                                                    {plan.owner.name}
-                                                </p>
-                                                <p className="text-xs font-medium text-gray-500">
-                                                    {plan.plan_category.name}
-                                                </p>
-                                            </div>
-                                            <div className="flex items-center justify-end col-span-6 col-end-12">
-                                                {plan.plan_bids_sum_is_approved ==
+                        {reservationCounters.map(
+                            (reservationCounter, index) => (
+                                <div
+                                    key={index}
+                                    className="relative w-full mx-auto"
+                                >
+                                    <div className="flex flex-col bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                                        <div className="flex flex-col items-center justify-center flex-auto p-2">
+                                            <div className="grid w-full grid-cols-12 gap-1">
+                                                <div className="col-span-4 col-start-1">
+                                                    <p className="text-sm font-semibold">
+                                                        {
+                                                            reservationCounter.name
+                                                        }
+                                                    </p>
+                                                    <p className="text-xs font-medium text-gray-500">
+                                                        {/* {reservationCounter.reservationCounter_category.name} */}
+                                                    </p>
+                                                </div>
+                                                {/* <div className="flex items-center justify-end col-span-6 col-end-12">
+                                                {reservationCounter.reservationCounter_bids_sum_is_active ==
                                                 "1" ? (
                                                     <p className="px-1 py-1 text-xs font-semibold text-blue-900 rounded bg-sky-200">
                                                         Sudah Memilih Pemenang
                                                     </p>
                                                 ) : (
                                                     <>
-                                                        {plan.is_approved ==
+                                                        {reservationCounter.is_active ==
                                                         1 ? (
                                                             <p className="px-1 py-1 text-xs font-semibold text-blue-900 rounded bg-sky-200">
                                                                 Diterima
@@ -595,160 +682,170 @@ export default function Index(props) {
                                                         )}
                                                     </>
                                                 )}
-                                            </div>
-                                            <div className="flex items-center justify-center col-span-1 col-end-13">
-                                                {/* <IconDotsVertical> */}
-                                                <span className="items-center justify-center px-1 ml-1 text-xs font-thin rounded-lg select-none ">
-                                                    <DropdownMobile>
-                                                        <DropdownMobile.Trigger>
-                                                            <button>
-                                                                <IconDotsVertical />
-                                                            </button>
-                                                        </DropdownMobile.Trigger>
-                                                        <DropdownMobile.Content>
-                                                            {plan.is_approved ==
-                                                            1 ? (
-                                                                ""
-                                                            ) : (
-                                                                <>
-                                                                    <DropdownMobile.Link
-                                                                        href={route(
-                                                                            "reservationCounters.edit",
-                                                                            `${plan.slug}`
-                                                                        )}
-                                                                    >
-                                                                        Edit
-                                                                    </DropdownMobile.Link>
-                                                                    <button
-                                                                        className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                                        onClick={() =>
-                                                                            openDestroyDialog(
-                                                                                plan
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        Hapus
-                                                                    </button>
-                                                                </>
-                                                            )}
-
-                                                            <DropdownMobile.Link
-                                                                href={route(
-                                                                    "reservationCounters.show",
-                                                                    `${plan.slug}`
+                                            </div> */}
+                                                <div className="flex items-center justify-center col-span-1 col-end-13">
+                                                    {/* <IconDotsVertical> */}
+                                                    <span className="items-center justify-center px-1 ml-1 text-xs font-thin rounded-lg select-none ">
+                                                        <DropdownMobile>
+                                                            <DropdownMobile.Trigger>
+                                                                <button>
+                                                                    <IconDotsVertical />
+                                                                </button>
+                                                            </DropdownMobile.Trigger>
+                                                            <DropdownMobile.Content>
+                                                                {reservationCounter.is_active ==
+                                                                0 ? (
+                                                                    ""
+                                                                ) : (
+                                                                    <>
+                                                                        <DropdownMobile.Link
+                                                                            href={route(
+                                                                                "reservationCounters.edit",
+                                                                                `${reservationCounter.slug}`
+                                                                            )}
+                                                                        >
+                                                                            Edit
+                                                                        </DropdownMobile.Link>
+                                                                        <button
+                                                                            className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                            onClick={() =>
+                                                                                openDestroyDialog(
+                                                                                    reservationCounter
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Non
+                                                                            Aktif
+                                                                        </button>
+                                                                    </>
                                                                 )}
-                                                            >
-                                                                Lihat Detail
-                                                            </DropdownMobile.Link>
-                                                            {plan.plan_bids_count >
-                                                                0 && (
-                                                                <DropdownMobile.Link
-                                                                    href={route(
-                                                                        "bidreservationCounters.listpenawar",
-                                                                        `${plan.id}`
-                                                                    )}
-                                                                >
-                                                                    Lihat
-                                                                    Penawaran
-                                                                </DropdownMobile.Link>
-                                                            )}
-                                                            {plan.plan_bids_sum_is_approved ==
-                                                                "1" && (
-                                                                <DropdownMobile.Link
-                                                                    href={route(
-                                                                        "plan.tahapan",
-                                                                        `${plan.slug}`
-                                                                    )}
-                                                                >
-                                                                    Tahapan
-                                                                    Perencanaan
-                                                                </DropdownMobile.Link>
-                                                            )}
-                                                        </DropdownMobile.Content>
-                                                    </DropdownMobile>
-                                                </span>
-                                                {/* </IconDotsVertical> */}
-                                            </div>
-                                            <div className="col-span-12 col-start-1 border-b border-gray-100"></div>
-                                            <div className="flex items-center justify-center col-span-2 col-start-1 mb-2">
-                                                <img
-                                                    className="object-cover w-12 h-12 border rounded-lg"
-                                                    src={
-                                                        plan.media
-                                                            ? plan.media
-                                                            : "storage/files/default/NoImage.svg"
-                                                    }
-                                                    alt="0"
-                                                ></img>
-                                            </div>
-                                            <div className="col-span-10 col-start-3 mb-2">
-                                                <Link
-                                                    className="text-base font-semibold"
-                                                    href={route(
-                                                        "reservationCounters.show",
-                                                        `${plan.slug}`
-                                                    )}
-                                                >
-                                                    {plan.name}
-                                                </Link>
 
-                                                <p className="text-xs font-medium text-gray-500">
-                                                    {plan.plan_bids_count}{" "}
-                                                    Penawar
-                                                </p>
-                                            </div>
-                                            <div className="col-span-6 col-start-1">
-                                                <p className="text-xs font-medium text-gray-500">
-                                                    Total Anggaran
-                                                </p>
-                                                <p className="text-sm font-semibold">
-                                                    Rp.{" "}
-                                                    {numberFormat(
-                                                        plan.anggaran_proyek
-                                                    )}
-                                                </p>
-                                            </div>
-                                            <div className="col-span-5 col-end-13">
-                                                <div className="flex items-center justify-end col-span-3 col-end-6 ">
-                                                    {plan.plan_bids_sum_is_approved ==
-                                                    "1" ? (
-                                                        <Link
-                                                            href={route(
-                                                                "plan.tahapan",
-                                                                `${plan.slug}`
-                                                            )}
-                                                            className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
-                                                        >
-                                                            Tahapan
-                                                        </Link>
-                                                    ) : (
-                                                        <>
-                                                            {plan.is_approved ==
-                                                            1 ? (
-                                                                <Link
-                                                                    href={route(
-                                                                        "bidreservationCounters.listpenawar",
-                                                                        `${plan.id}`
-                                                                    )}
-                                                                    className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                                                <DropdownMobile.Link
+                                                                // href={route(
+                                                                //     "reservationCounters.show",
+                                                                //     `${reservationCounter.slug}`
+                                                                // )}
                                                                 >
-                                                                    Lihat
-                                                                    Penawaran
-                                                                </Link>
-                                                            ) : (
-                                                                <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
-                                                                    Edit
-                                                                </Link>
-                                                            )}
-                                                        </>
-                                                    )}
+                                                                    Lihat Detail
+                                                                </DropdownMobile.Link>
+                                                                {reservationCounter.reservationCounter_bids_count >
+                                                                    0 && (
+                                                                    <DropdownMobile.Link
+                                                                    // href={route(
+                                                                    //     "bidreservationCounters.listpenawar",
+                                                                    //     `${reservationCounter.id}`
+                                                                    // )}
+                                                                    >
+                                                                        Lihat
+                                                                        Penawaran
+                                                                    </DropdownMobile.Link>
+                                                                )}
+                                                                {reservationCounter.reservationCounter_bids_sum_is_active ==
+                                                                    "1" && (
+                                                                    <DropdownMobile.Link
+                                                                    // href={route(
+                                                                    //     "reservationCounter.tahapan",
+                                                                    //     `${reservationCounter.slug}`
+                                                                    // )}
+                                                                    >
+                                                                        Tahapan
+                                                                        Perencanaan
+                                                                    </DropdownMobile.Link>
+                                                                )}
+                                                            </DropdownMobile.Content>
+                                                        </DropdownMobile>
+                                                    </span>
+                                                    {/* </IconDotsVertical> */}
+                                                </div>
+                                                <div className="col-span-12 col-start-1 border-b border-gray-100"></div>
+                                                <div className="flex items-center justify-center col-span-2 col-start-1 mb-2">
+                                                    <img
+                                                        className="object-cover w-12 h-12 border rounded-lg"
+                                                        src={
+                                                            reservationCounter.media
+                                                                ? reservationCounter.media
+                                                                : "storage/files/default/NoImage.svg"
+                                                        }
+                                                        alt="0"
+                                                    ></img>
+                                                </div>
+                                                <div className="col-span-10 col-start-3 mb-2">
+                                                    <Link
+                                                        className="text-base font-semibold"
+                                                        // href={route(
+                                                        //     "reservationCounters.show",
+                                                        //     `${reservationCounter.slug}`
+                                                        // )}
+                                                    >
+                                                        {
+                                                            reservationCounter.name
+                                                        }
+                                                    </Link>
+
+                                                    <p className="text-xs font-medium text-gray-500">
+                                                        Jam Buka{" "}
+                                                        {
+                                                            reservationCounter.open_at
+                                                        }
+                                                        {" - "}
+                                                        {
+                                                            reservationCounter.close_at
+                                                        }
+                                                    </p>
+                                                </div>
+                                                <div className="col-span-6 col-start-1">
+                                                    <p className="text-xs font-medium text-gray-500">
+                                                        Lama Layanan
+                                                    </p>
+                                                    <p className="text-sm font-semibold">
+                                                        {
+                                                            reservationCounter.service_duration
+                                                        }
+                                                        {" Menit"}
+                                                    </p>
+                                                </div>
+                                                <div className="col-span-5 col-end-13">
+                                                    <div className="flex items-center justify-end col-span-3 col-end-6 ">
+                                                        {reservationCounter.reservationCounter_bids_sum_is_active ==
+                                                        "1" ? (
+                                                            <Link
+                                                                // href={route(
+                                                                //     "reservationCounter.tahapan",
+                                                                //     `${reservationCounter.slug}`
+                                                                // )}
+                                                                className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                                            >
+                                                                Tahapan
+                                                            </Link>
+                                                        ) : (
+                                                            <>
+                                                                {reservationCounter.is_active ==
+                                                                1 ? (
+                                                                    <Link
+                                                                        // href={route(
+                                                                        //     "bidreservationCounters.listpenawar",
+                                                                        //     `${reservationCounter.id}`
+                                                                        // )}
+                                                                        className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                                                    >
+                                                                        Non
+                                                                        Aktifkan
+                                                                    </Link>
+                                                                ) : (
+                                                                    <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
+                                                                        Edit
+                                                                    </Link>
+                                                                )}
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        )}
                     </div>
                     <ul className="flex items-center mt-10 gap-x-1">
                         {meta.links.map((item, index) => (

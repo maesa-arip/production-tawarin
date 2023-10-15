@@ -141,6 +141,7 @@ class PlanController extends Controller
             'plan_categories' => PlanCategoryResource::collection($plan_categories),
             'plan_master_rooms' => PlanMasterRoomResource::collection($plan_master_rooms),
         ]);
+        
     }
 
     public function store(PlanRequest $request)
@@ -175,11 +176,13 @@ class PlanController extends Controller
                     if ($temporary) {
                         $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
                             ->toMediaCollection('contohgambar');
-                        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                        // $path = storage_path() . '/app/public/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                        $path = storage_path() . '/app/public/files/tmp/' . $temporary->folder ;
+                        // dd($path);
                         if (File::exists($path)) {
-                            Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                            // Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
                             File::delete($path);
-                            rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                            rmdir(storage_path('app/public/files/tmp/' . $temporary->folder));
                             $temporary->delete();
                         }
                     }
@@ -196,11 +199,11 @@ class PlanController extends Controller
                     if ($temporary) {
                         $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderdenahlokasi[$i] . '/' . $namefiledenahlokasi[$i]))
                             ->toMediaCollection('denahlokasiukuran');
-                        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                        $path = storage_path() . '/app/public/files/tmp/' . $temporary->folder;
                         if (File::exists($path)) {
-                            Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                            // Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
                             File::delete($path);
-                            rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                            rmdir(storage_path('app/public/files/tmp/' . $temporary->folder));
                             $temporary->delete();
                         }
                     }
@@ -218,11 +221,11 @@ class PlanController extends Controller
                     if ($temporary) {
                         $plan->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderkondisisaatini[$i] . '/' . $namefilekondisisaatini[$i]))
                             ->toMediaCollection('kondisisaatini');
-                        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                        $path = storage_path() . '/app/public/files/tmp/' . $temporary->folder ;
                         if (File::exists($path)) {
-                            Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                            // Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
                             File::delete($path);
-                            rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                            rmdir(storage_path('app/public/files/tmp/' . $temporary->folder));
                             $temporary->delete();
                         }
                     }

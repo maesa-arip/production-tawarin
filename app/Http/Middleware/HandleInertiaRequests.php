@@ -6,6 +6,7 @@ use App\Models\Toko\Cart;
 use App\Models\Toko\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -41,6 +42,7 @@ class HandleInertiaRequests extends Middleware
         $notification_count = $request->user() ? Cache::rememberForever('notifications_count',fn()=> auth()->user()->unreadNotifications->count()) : null;
         $roles = $request->user() ? $request->user()->getRoleNames() : null;
         $permissions = $request->user() ? $request->user()->getAllPermissions() : null;
+        $allSessions = Session::all();
         return array_merge(parent::share($request), [
             'users' => fn () => $request->user() ? \App\Models\User::where('id', '!=', $request->user()->id)->get() : null,
             'auth' => [
@@ -63,6 +65,7 @@ class HandleInertiaRequests extends Middleware
             'notifications_count' => $notification_count,
             'permissions' => $permissions,
             'roles' => $roles,
+            'allSessions' => $allSessions,
             'csrf_token' => csrf_token(),
         ]);
     }
