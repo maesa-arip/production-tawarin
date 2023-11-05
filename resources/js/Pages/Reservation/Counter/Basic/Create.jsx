@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import App from "@/Layouts/App";
+import AppReservasi from "@/Layouts/AppReservasi";
 import { Head, useForm } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { Switch } from "@headlessui/react";
@@ -489,4 +489,4 @@ export default function Create({ onOff }) {
     );
 }
 
-Create.layout = (page) => <App children={page}></App>;
+Create.layout = (page) => <AppReservasi children={page}></AppReservasi>;

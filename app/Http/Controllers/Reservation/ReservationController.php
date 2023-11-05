@@ -118,4 +118,9 @@ class ReservationController extends Controller
         ]);
         return inertia('Reservation/Public/List', ['reservations' => $reservations,'reservation_categories' => $reservation_categories]);
     }
+
+    public function store(Request $request) 
+    {
+        dd($request->all());
+    }
 }

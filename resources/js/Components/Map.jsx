@@ -137,7 +137,8 @@ const Map = ({ onLocationSelect, lat, lng }) => {
 
     return (
         <LoadScript
-            googleMapsApiKey="AIzaSyBNK1CQXADYL_HfPkkPUsiBFsXpscVuf3s"
+            // googleMapsApiKey="AIzaSyBNK1CQXADYL_HfPkkPUsiBFsXpscVuf3s"
+            googleMapsApiKey="AIzaSyD567-DpJKRVZMv0uWbHNqj_dp8qlMySSE"
             libraries={libraries}
         >
             <Autocomplete

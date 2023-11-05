@@ -4,7 +4,7 @@ import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/inertia-react";
-import App from "@/Layouts/App";
+import AppReservasi from "@/Layouts/AppReservasi";
 import NavLink from "@/Components/NavLink";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -29,4 +29,4 @@ export default function Edit({ auth, mustVerifyEmail, status, company,reservatio
         </>
     );
 }
-Edit.layout = (page) => <App children={page}></App>;
+Edit.layout = (page) => <AppReservasi children={page}></AppReservasi>;

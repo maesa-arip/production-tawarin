@@ -34,7 +34,7 @@ const MapShow = ({ lat, lng }) => {
         const fetchLocationDetails = async () => {
             try {
                 const response = await fetch(
-                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBNK1CQXADYL_HfPkkPUsiBFsXpscVuf3s`
+                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyD567-DpJKRVZMv0uWbHNqj_dp8qlMySSE`
                 );
                 const data = await response.json();
                 if (data.results.length > 0) {
@@ -62,7 +62,7 @@ const MapShow = ({ lat, lng }) => {
     };
     return (
         <LoadScript
-            googleMapsApiKey="AIzaSyBNK1CQXADYL_HfPkkPUsiBFsXpscVuf3s"
+            googleMapsApiKey="AIzaSyD567-DpJKRVZMv0uWbHNqj_dp8qlMySSE"
             libraries={libraries}
         >
             <GoogleMap

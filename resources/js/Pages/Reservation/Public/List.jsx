@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import App from "@/Layouts/App";
+import AppReservasi from "@/Layouts/AppReservasi";
 import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import Header from "@/Components/Header";
@@ -257,4 +257,4 @@ export default function List(props) {
     );
 }
 
-List.layout = (page) => <App children={page}></App>;
+List.layout = (page) => <AppReservasi children={page}></AppReservasi>;

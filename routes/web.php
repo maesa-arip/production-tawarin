@@ -162,6 +162,7 @@ Route::get('/chat', [ChatController::class, 'index'])->name('chats.index');
 
  // Reservation
  Route::get('public/reservations/{reservationCompany}', [ReservationController::class,'show'])->name('reservations.show');
+ Route::post('public/reservationCounters', [ReservationController::class,'store'])->name('reservationCounters.storecustomer');
  Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
 
 //  Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
@@ -178,7 +179,9 @@ Route::get('villages', [DependantDropdownController::class, 'villages'])->name('
 
 
 Route::get('toko/products/table', [ProductController::class, 'table'])->name('toko.products.table');
-Route::get('/', HomeController::class)->name('home');
+Route::get('/', [HomeController::class,'home'])->name('home');
+Route::get('/homekonstruksi', [HomeController::class,'homekonstruksi'])->name('homekonstruksi');
+Route::get('/homereservasi', [HomeController::class,'homereservasi'])->name('homereservasi');
 Route::get('toko/products/me', [ProductController::class, 'mine'])->middleware('auth')->name('products.mine');
 Route::resource('toko/products', ProductController::class);
 

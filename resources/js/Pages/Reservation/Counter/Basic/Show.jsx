@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import App from "@/Layouts/App";
+import AppReservasi from "@/Layouts/AppReservasi";
 import { Head, Link, useForm, usePage } from "@inertiajs/inertia-react";
 import PlanItem from "@/Components/PlanItem";
 import { numberFormat } from "@/Libs/helper";
@@ -227,4 +227,4 @@ export default function Show({
     );
 }
 
-Show.layout = (page) => <App children={page}></App>;
+Show.layout = (page) => <AppReservasi children={page}></AppReservasi>;

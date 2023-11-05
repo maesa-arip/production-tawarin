@@ -1,15 +1,27 @@
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
+import { useForm } from "@inertiajs/inertia-react";
 import React from "react";
 
 export default function Team({ setIsOpenDialog, model }) {
     // console.log(model)
     const model2 = model.model;
     const handleOnClick = (event) => {
-        // console.log(event.target.id);
-        // console.log(model2)
-        // console.log(model.timeRange);
-        alert("Jadwal Anda Pada Tanggal : " + model2.date + " Untuk Layanan " + model2.reservationCounter.name + " Jam " + model.timeRange.timeRange + " Dengan Tim " + event.target.id)
+        event.preventDefault();
+        console.log()
+        post(route("reservationCounters.storecustomer"), {
+            data,
+            onSuccess: () => {
+                reset();
+            },
+        });
+        alert("Jadwal Anda Pada Tanggal : " + model2.date + " Untuk Layanan " + model2.reservationCounter.name + " Jam " + model.timeRange.timeRange + " Dengan Tim " + event.target.name)
     }
+    const { data, setData, post, processing, reset, errors } = useForm({});
+
+    const onChange = (e) => {
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    
     return (
         <>
             <div className="p-4 mb-4 text-left border rounded-lg">
@@ -28,7 +40,7 @@ export default function Team({ setIsOpenDialog, model }) {
                                  <p>{team.name}</p>
                              </div>
                              <div className="col-span-4 lg:col-span-2">
-                                 <ThirdButtonNoLink onClick={handleOnClick} id={team.id}>Pilih</ThirdButtonNoLink>
+                                 <ThirdButtonNoLink onClick={handleOnClick} id={team.id} name={team.name}>Pilih</ThirdButtonNoLink>
                              </div>
                          </div>
                      </div>
