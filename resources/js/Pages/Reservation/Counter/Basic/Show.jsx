@@ -43,7 +43,8 @@ export default function Show({
         const endDateObj = new Date(endDate);
         const datesArray = [];
         while (currentDate <= endDateObj) {
-            datesArray.push(currentDate.toDateString());
+            const formattedDate = currentDate.toLocaleDateString('en-GB'); // Format as dd/mm/yyyy
+            datesArray.push(formattedDate);
             currentDate.setDate(currentDate.getDate() + 1); // Increment current date by one day
         }
         setDates(datesArray);
@@ -59,36 +60,26 @@ export default function Show({
         setIsOpenTimeDialog(true);
     };
 
-    const formatDate = (dateString) => {
-        // year: "numeric",
-        const options = { month: "short", day: "numeric" };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
     const [selectedDate, setSelectedDate] = useState(new Date()); // Initialize with the current date
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        if (dates.includes(date.toDateString())) {
+        if (dates.includes(date.toLocaleDateString('en-GB'))) {
             // Check if the selected date is in your dates array
             openTimeDialog(
                 reservationCompany,
-                date.toDateString(),
-                reservationCounter, team
+                date.toLocaleDateString('en-GB'),
+                reservationCounter,
+                team
             );
         }
     };
 
-
     // Function to disable dates that are not in the dates array
     const tileDisabled = ({ date }) => {
-        return !dates.includes(date.toDateString());
+        return !dates.includes(date.toLocaleDateString('en-GB'));
     };
 
-    // const tileDisabled = ({ date }) => {
-    //     return dates.includes(date.toDateString())
-    //         ? calendarDateClasses.enabled
-    //         : calendarDateClasses.disabled;
-    // };
 
     return (
         <div>
@@ -135,78 +126,7 @@ export default function Show({
                             </p>
                         </div>
                     </div>
-                    {/* {team.map((reservationCounter, index) => (
-                        <div className="col-span-4">
-                            <p>{reservationCounter.name}</p>
-                        </div>
-                    ))} */}
-                    {/* <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-                        {team.map((date, index) => (
-                            <div
-                                key={index}
-                                className="relative w-full mx-auto"
-                            >
-                                <div className="flex flex-col bg-white border shadow-lg rounded-xl">
-                                    <div className="flex flex-col items-center justify-center flex-auto p-2">
-                                        <div className="grid w-full grid-cols-12 gap-1">
-                                            <div className="col-span-8">
-                                                <p>{date.name}</p>
-                                            </div>
-
-                                            <div className="col-span-4">
-                                                <ThirdButtonNoLink
-                                                    onClick={() =>
-                                                        openTimeDialog(
-                                                            reservationCompany,
-                                                            date,
-                                                            reservationCounter
-                                                        )
-                                                    }
-                                                >
-                                                    Pilih
-                                                </ThirdButtonNoLink>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
-                    {/* <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-                        {dates.map((date, index) => (
-                            <div
-                                key={index}
-                                className="relative w-full mx-auto"
-                            >
-                                <div className="flex flex-col bg-white border shadow-lg rounded-xl">
-                                    <div className="flex flex-col items-center justify-center flex-auto p-2">
-                                        <div className="grid w-full grid-cols-12 gap-1">
-                                            <div className="col-span-8">
-                                                <p>{date}</p>
-                                            </div>
-
-                                            <div className="col-span-4">
-                                                <ThirdButtonNoLink
-                                                    onClick={() =>
-                                                        openTimeDialog(
-                                                            reservationCompany,
-                                                            date,
-                                                            reservationCounter
-                                                        )
-                                                    }
-                                                >
-                                                    Pilih Jam
-                                                </ThirdButtonNoLink>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
                     <div className="flex justify-center w-full my-4 text-center">
-
-
                         <Calendar
                             onChange={handleDateChange}
                             value={selectedDate}
@@ -214,7 +134,7 @@ export default function Show({
                             className={"rounded-lg border-none p-4"}
                             calendarClassName={"bg-red-500"}
                             tileClassName={({ date }) => {
-                                const dateStr = date.toDateString();
+                                const dateStr = date.toDateString('en-US');
                                 return dates.includes(dateStr)
                                     ? "p-2 my-1 text-center border text-blue-500 rounded-full bg-blue-50 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100"
                                     : "p-2 my-1 text-center border text-[#d10000] rounded-full bg-red-50 hover:bg-red-100 focus:bg-red-100 active:bg-red-100 focus:ring-red-100";

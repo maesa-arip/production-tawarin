@@ -26,6 +26,15 @@ class ReservationCompany extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+    /**
+     * Get all of the comments for the ReservationCompany
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function counter()
+    {
+        return $this->hasMany(ReservationCounter::class);
+    }
     public function resolveRouteBinding($value, $field = null)
     {
         // Assuming 'slug' is the field you want to use for binding

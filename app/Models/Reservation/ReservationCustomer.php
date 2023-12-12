@@ -4,8 +4,14 @@ namespace App\Models\Reservation;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Bavix\Wallet\Interfaces\Confirmable;
+use Bavix\Wallet\Interfaces\Wallet;
+use Bavix\Wallet\Traits\CanConfirm;
+use Bavix\Wallet\Traits\HasWallet;
+use Bavix\Wallet\Traits\HasWallets;
 
-class ReservationCustomer extends Model
+class ReservationCustomer extends Model implements Wallet, Confirmable
 {
-    use HasFactory;
+    use HasFactory,HasWallet, HasWallets, CanConfirm;
+    protected $guarded =[];
 }

@@ -16,13 +16,12 @@ use Illuminate\Support\Str;
 
 class ReservationCounterController extends Controller
 {
-    public $loadDefault = 15;
+    public $loadDefault = 10;
     public function index(Request $request)
     {
         $reservationCounters = ReservationCounter::query()
-            // ->with('reservation_company')
-            ->where('user_id', auth()->user()->id)
-            ->select('*');
+            ->with('team')
+            ->where('user_id', auth()->user()->id);
         if ($request->q) {
             $reservationCounters->where('name', 'like', '%' . $request->q . '%');
         }
@@ -60,6 +59,7 @@ class ReservationCounterController extends Controller
             'user_id' => auth()->user()->id,
             'name' => $name = $request->name,
             'slug' => str($name)->slug() . '-' . Str::lower(Str::random(6)),
+            'code' => (Str::random(6)),
             'price_user' => $price_user = $request->price_user,
             'price' => ceil($price_user * 105/100),
             'percent_owner' =>  $request->percent_owner,
@@ -67,10 +67,10 @@ class ReservationCounterController extends Controller
             // 'open_at' => $request->open_at,
             // 'close_at' => $request->close_at,
             'service_duration' => $request->service_duration,
-            'set_dayoff' => $request->set_dayoff,
+            'set_dayoff' => 0,
             'period' => $request->period,
             'need_image_reservation' => $request->need_image_reservation,
-            'need_image_before_after' => $request->need_image_before_after,
+            'need_image_before_after' => 0,
             'is_active' => 1,
         ]);   
         // dd($atrributes);
@@ -84,11 +84,11 @@ class ReservationCounterController extends Controller
     public function show(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter)
     {
         $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)->get();
-        // dd($team);
         $currentDate = Carbon::now(); // Get the current date and time
         $endDate = $currentDate->copy()->addDays($reservationCounter->period); // Add 30 days to the current date
         return inertia('Reservation/Counter/Basic/Show', ['reservationCompany'=> $reservationCompany,'team'=>$team,'reservationCounter'=> $reservationCounter, 'endDate' => $endDate->toDateString()]);
     }
+
 
     public function edit(Plan $plan)
     {
@@ -169,5 +169,18 @@ class ReservationCounterController extends Controller
             ]
         ]);
         return inertia('Reservation/Public/Counter/List', ['reservations' => $reservations,'reservation_categories' => $reservation_categories]);
+    }
+    public function settingteam(ReservationCounter $reservationCounter, ReservationTeam $reservationTeam)
+    {
+        // dd($reservationCounter);
+        $reservationCounter = ReservationCounter::with('team.joincounter')
+        ->where('reservation_counters.id',$reservationCounter->id)
+        ->first();
+        // $team = ReservationCounter::leftjoin('reservation_teams','reservation_teams.reservation_counter_id','reservation_counters.id')
+        // ->where('reservation_counters.id',$reservationCounter->id)
+        // ->select('reservation_counters.*','reservation_teams.name as teamName','reservation_teams.slug as teamSlug')
+        // ->first();
+        // ReservationTeam::where('reservation_counter_id', $reservationCounter->id)->get();
+        return inertia('Reservation/Counter/Basic/SettingTeam', ['reservationTeam'=> $reservationTeam,'reservationCounter'=> $reservationCounter]);
     }
 }

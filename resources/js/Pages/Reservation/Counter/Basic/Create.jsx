@@ -25,11 +25,15 @@ export default function Create({ onOff }) {
         { id: 1, name: "OFF" },
         { id: 2, name: "ON" },
     ];
+    const team = [
+        { id: 1, value:0, name: "Team" },
+        { id: 2, value:1, name: "PerOrangan" },
+    ];
 
-    // console.log(onOff);
-    // console.log(set_dayoff);
+
     const [priceUser, setPriceUser] = useState("");
     const [price, setPrice] = useState("");
+    const [hidePercent, setHidePercent] = useState(false);
     const onChangePriceUserHandler = (e) => {
         setPriceUser(e.target.value);
         setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
@@ -61,6 +65,12 @@ export default function Create({ onOff }) {
         setData({ ...data, ["need_image_reservation"]: e.value });
     };
 
+    const [selectedTeamOrPerson, setSelectedTeamOrPerson] =
+        useState();
+    const onChangeTeamOrPerson = (e) => {
+        setData({ ...data, ["need_team"]: e.value });
+    };
+
     const [selectedNeedImageBeforeAfter, setSelectedNeedImageBeforeAfter] =
         useState();
     const onChangeNeedImageBeforeAfter = (e) => {
@@ -83,9 +93,18 @@ export default function Create({ onOff }) {
     const openKomisiDialog = () => {
         setIsOpenKomisiDialog(true);
     };
+    const noKomisiDialog = () => {
+        setIsOpenKomisiDialog(false);
+        setHidePercent(true);
+        setData({ ...data, ["percent_owner"]: 100, ["percent_employe"]: 0});
+    };
+    const yesKomisiDialog = () => {
+        setIsOpenKomisiDialog(false);
+    };
     useEffect(() => {
         openKomisiDialog();
     }, [])
+    console.log(data)
     return (
         <div>
             <Head title="Plan Create" />
@@ -96,8 +115,22 @@ export default function Create({ onOff }) {
                 title={"Pilih"}
             >
                 Apakah anda akan memberikan komisi kepada pegawai untuk layanan ini ?
-                <ThirdButton color="red">Tidak</ThirdButton>
-                <ThirdButton>Iya</ThirdButton>
+                <button
+                    type="button"
+                    className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-wide text-red-500 uppercase transition duration-150 ease-in-out border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-50 hover:bg-red-100 focus:bg-red-100 active:bg-red-100 focus:ring-red-100"
+                    onClick={noKomisiDialog}
+                  >
+                    Tidak
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-wide text-blue-500 uppercase transition duration-150 ease-in-out border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-50 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100"
+                    onClick={yesKomisiDialog}
+                  >
+                    Ya
+                  </button>
+                {/* <ThirdButton type="button" color="red" onClick={() => setIsOpenKomisiDialog(false)}>Tidak</ThirdButton> */}
+                {/* <ThirdButton type="button">Iya</ThirdButton> */}
             </BaseModal>
             <Container>
                 <form onSubmit={onSubmitHandler}>
@@ -225,6 +258,8 @@ export default function Create({ onOff }) {
                                                 tersebut akan menjadi fee untuk
                                                 Tawarin.
                                             </div>
+                                            {hidePercent == true ? '' : 
+                                            <>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="name"
@@ -284,7 +319,8 @@ export default function Create({ onOff }) {
                                                         {errors.percent_employe}
                                                     </span>
                                                 )}
-                                            </div>
+                                            </div></>}
+                                            
                                             
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
@@ -382,7 +418,7 @@ export default function Create({ onOff }) {
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="col-span-12 mt-6 md:col-span-4">
+                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
                                                 <label className="block text-sm font-medium text-gray-700">
                                                     Apakah Layanan Bisa Setting
                                                     Hari Libur Sendiri ?
@@ -411,7 +447,7 @@ export default function Create({ onOff }) {
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div className="col-span-12 mt-6 md:col-span-4">
                                                 <label className="block text-sm font-medium text-gray-700">
                                                     Perlu Konfirmasi Barang
@@ -444,6 +480,35 @@ export default function Create({ onOff }) {
                                             </div>
                                             <div className="col-span-12 mt-6 md:col-span-4">
                                                 <label className="block text-sm font-medium text-gray-700">
+                                                    Apakah Counter ini Menggunakan Team ?
+                                                </label>
+                                                <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
+                                                    <div className="w-full text-center">
+                                                        <RadioCard2
+                                                            ShouldMap={onOff}
+                                                            selected={
+                                                                selectedTeamOrPerson
+                                                            }
+                                                            onChange={(e) => {
+                                                                onChangeTeamOrPerson(
+                                                                    e
+                                                                );
+                                                                setSelectedTeamOrPerson(
+                                                                    e
+                                                                );
+                                                            }}
+                                                        />
+                                                        <InputError
+                                                            message={
+                                                                errors.need_team
+                                                            }
+                                                            className="mt-2"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
+                                                <label className="block text-sm font-medium text-gray-700">
                                                     Perlu Gambar Sebelum dan
                                                     Sesudah ?
                                                 </label>
@@ -471,7 +536,7 @@ export default function Create({ onOff }) {
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">

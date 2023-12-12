@@ -18,4 +18,13 @@ class ReservationCounter extends Model
     {
         return $this->hasMany(ReservationTeam::class);
     }
+    /**
+     * Get the user that owns the ReservationCounter
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company()
+    {
+        return $this->belongsTo(ReservationCompany::class, 'reservation_company_id');
+    }
 }

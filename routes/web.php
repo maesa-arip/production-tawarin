@@ -89,9 +89,20 @@ Route::middleware('auth','verified')->group(function () {
 
 Route::middleware('auth','verified')->group(function () {
     Route::get('/reservationlist', [ReservationController::class, 'list'])->name('reservation.list');
+    
     Route::get('/reservationprofile', [ReservationController::class, 'edit'])->name('reservationprofile.edit');
     Route::patch('/reservationprofile', [ReservationController::class, 'update'])->name('reservationprofile.update');
     Route::delete('/reservationprofile', [ReservationController::class, 'destroy'])->name('reservationprofile.destroy');
+    Route::get('/myreservations', [ReservationController::class, 'myreservations'])->name('reservation.myreservations');
+    Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
+    Route::get('/reservations/mycustomers', [ReservationController::class, 'mycustomers'])->name('reservation.mycustomers');
+    Route::get('/reservations/mycounters', [ReservationController::class, 'mycounters'])->name('reservation.mycounters');
+    Route::put('/startservice/{id}/edit', [ReservationController::class, 'startservice'])->name('reservation.startservice');
+    Route::put('/finishservice/{id}/edit', [ReservationController::class, 'finishservice'])->name('reservation.finishservice');
+    Route::put('/finishcustomer/{id}/edit', [ReservationController::class, 'finishcustomer'])->name('reservation.finishcustomer');
+    Route::post('/daftarcounter', [ReservationController::class, 'daftarcounter'])->name('reservation.daftarcounter');
+    Route::patch('/joincounter/{id}', [ReservationController::class, 'joincounter'])->name('reservation.joincounter');
+    Route::post('/maketeam/{slug}', [ReservationController::class, 'maketeam'])->name('reservation.maketeam');
 });
 
 //Example
@@ -164,6 +175,7 @@ Route::get('/chat', [ChatController::class, 'index'])->name('chats.index');
  Route::get('public/reservations/{reservationCompany}', [ReservationController::class,'show'])->name('reservations.show');
  Route::post('public/reservationCounters', [ReservationController::class,'store'])->name('reservationCounters.storecustomer');
  Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
+ Route::get('public/reservationCounters/{reservationCounter}', [ReservationCounterController::class,'settingteam'])->name('reservationCounters.settingteam');
 
 //  Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
 //  Route::get('public/reservations/{reservationCompany}/{reservationCounter}', [ReservationController::class,'show'])->name('reservations.show');

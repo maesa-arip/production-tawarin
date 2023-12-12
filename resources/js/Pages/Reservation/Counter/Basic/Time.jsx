@@ -82,17 +82,20 @@ function calculateAvailableTimes(openAt, closeAt, serviceDuration) {
             break; // Exit the loop if endTime exceeds closeTime
         }
 
-        const startTime = currentTime.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
+        // Format time in 24-hour format
+        const startTime = currentTime.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: false,
         });
-        const endTimeFormatted = endTime.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
+        const endTimeFormatted = endTime.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: false,
         });
 
         availableTimes.push(`${startTime} - ${endTimeFormatted}`);
-        
+
         // Move currentTime to the next available slot
         currentTime = endTime;
     }

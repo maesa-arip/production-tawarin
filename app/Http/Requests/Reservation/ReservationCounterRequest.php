@@ -33,10 +33,10 @@ class ReservationCounterRequest extends FormRequest
             'percent_owner' => ['required'],
             'percent_employe' => ['required'],
             'service_duration' => ['required'],
-            'set_dayoff' => ['required'],
+            // 'set_dayoff' => ['required'],
             'period' => ['required'],
             'need_image_reservation' => ['required'],
-            'need_image_before_after' => ['required'],
+            // 'need_image_before_after' => ['required'],
             // 'is_active' => ['required'],
         ];
     }

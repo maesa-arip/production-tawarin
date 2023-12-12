@@ -27,7 +27,7 @@ export default function UpdateProfileInformation({
         regency: "",
         country: "",
     });
-    const lat = company ? parseFloat(company.lat) || -8.670458 : -8.670458 ;
+    const lat = company ? parseFloat(company.lat) || -8.670458 : -8.670458;
     const lng = company ? parseFloat(company.lng) || 115.212629 : 115.212629;
 
     const handleLocationSelect = ({
@@ -63,7 +63,11 @@ export default function UpdateProfileInformation({
         });
     };
     const [selectedCategory, setSelectedCategory] = useState(() => {
-        return company ? reservation_categories.find((x) => x.id === company.reservation_category_id) : '';
+        return company
+            ? reservation_categories.find(
+                  (x) => x.id === company.reservation_category_id
+              )
+            : "";
     });
     const defaultValue = [{ name: "Pilih" }];
     const [selected, setSelected] = useState(defaultValue[0]);
@@ -72,23 +76,25 @@ export default function UpdateProfileInformation({
     };
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
-        company ?   useForm({
-            name: company.name,
-            open_at: company.open_at,
-            close_at: company.close_at,
-            lat: company.lat,
-            lng: company.lng,
-            reservation_category_id: company.reservation_category_id,
-            formattedAddress: company.formattedAddress,
-        }) : useForm({
-            name: '',
-            open_at: '',
-            close_at: '',
-            lat: '',
-            lng: '',
-            reservation_category_id: '',
-            formattedAddress: '',
-        }) ;
+        company
+            ? useForm({
+                  name: company.name,
+                  open_at: company.open_at,
+                  close_at: company.close_at,
+                  lat: company.lat,
+                  lng: company.lng,
+                  reservation_category_id: company.reservation_category_id,
+                  formattedAddress: company.formattedAddress,
+              })
+            : useForm({
+                  name: "",
+                  open_at: "",
+                  close_at: "",
+                  lat: "",
+                  lng: "",
+                  reservation_category_id: "",
+                  formattedAddress: "",
+              });
 
     const submit = (e) => {
         e.preventDefault();
@@ -113,7 +119,6 @@ export default function UpdateProfileInformation({
                             <div className="p-4 mt-6 space-y-6 bg-white md:px-6">
                                 <div>
                                     <InputLabel for="name" value="Nama" />
-
                                     <TextInput
                                         id="name"
                                         type="text"
@@ -133,96 +138,66 @@ export default function UpdateProfileInformation({
                                     />
                                 </div>
                                 <div className="col-span-12 md:col-span-6">
-                                                <label
-                                                    htmlFor="reservation_category_id"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Pilih Kategori
-                                                </label>
-                                                <ListBoxPage
-                                                    ShouldMap={reservation_categories}
-                                                    selected={selectedCategory}
-                                                    onChange={(e) => {
-                                                        onChangeReservationCategoryId(
-                                                            e
-                                                        );
-                                                        setSelectedCategory(e);
-                                                    }}
-                                                />
-                                                {errors && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {
-                                                            errors.reservation_category_id
-                                                        }
-                                                    </span>
-                                                )}
-                                            </div>
-                                             <div className="col-span-12 md:col-span-6">
-                                                <label
-                                                    htmlFor="name"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Jam Buka
-                                                </label>
-                                                <div className="flex mt-1 rounded-md">
-                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
-                                                        <input
-                                                            type="time"
-                                                            name="open_at"
-                                                            value={
-                                                                data.open_at ??
-                                                                ""
-                                                            }
-                                                            handleChange={(e) =>
-                                                                setData("open_at", e.target.value)
-                                                            }
-                                                            required
-                                                            id="open_at"
-                                                            autoComplete="off"
-                                                            className="w-full border-0 focus:ring-0 form-text"
-                                                            placeholder=""
-                                                        />
-                                                    </div>
-                                                </div>
-                                                {errors && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.open_at}
-                                                    </span>
-                                                )}
-                                            </div>
-                                            <div className="col-span-12 md:col-span-6">
-                                                <label
-                                                    htmlFor="name"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Jam Tutup
-                                                </label>
-                                                <div className="flex mt-1 rounded-md">
-                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
-                                                        <input
-                                                            type="time"
-                                                            name="close_at"
-                                                            value={
-                                                                data.close_at ??
-                                                                ""
-                                                            }
-                                                            handleChange={(e) =>
-                                                                setData("close_at", e.target.value)
-                                                            }
-                                                            id="close_at"
-                                                            autoComplete="off"
-                                                            className="w-full border-0 focus:ring-0 form-text"
-                                                            placeholder=""
-                                                        />
-                                                    </div>
-                                                </div>
-                                                {errors && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.close_at}
-                                                    </span>
-                                                )}
-                                            </div>
+                                    <label
+                                        htmlFor="reservation_category_id"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Pilih Kategori
+                                    </label>
+                                    <ListBoxPage
+                                        ShouldMap={reservation_categories}
+                                        selected={selectedCategory}
+                                        onChange={(e) => {
+                                            onChangeReservationCategoryId(e);
+                                            setSelectedCategory(e);
+                                        }}
+                                    />
+                                    {errors && (
+                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                            {errors.reservation_category_id}
+                                        </span>
+                                    )}
+                                </div>
+                                <div>
+                                    <InputLabel for="open_at" value="Jam Buka" />
+                                    <TextInput
+                                        id="open_at"
+                                        type="time"
+                                        className="block w-full mt-1"
+                                        value={data.open_at}
+                                        handleChange={(e) =>
+                                            setData("open_at", e.target.value)
+                                        }
+                                        required
+                                        autofocus
+                                        autocomplete="open_at"
+                                    />
 
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.open_at}
+                                    />
+                                </div>
+                                <div>
+                                    <InputLabel for="close_at" value="Jam Tutup" />
+                                    <TextInput
+                                        id="close_at"
+                                        type="time"
+                                        className="block w-full mt-1"
+                                        value={data.close_at}
+                                        handleChange={(e) =>
+                                            setData("close_at", e.target.value)
+                                        }
+                                        required
+                                        autofocus
+                                        autocomplete="close_at"
+                                    />
+
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.close_at}
+                                    />
+                                </div>
                                 
                             </div>
                         </div>
@@ -232,7 +207,7 @@ export default function UpdateProfileInformation({
                         <div className="overflow-hidden shadow sm:rounded-md">
                             <div className="p-4 bg-white md:px-6">
                                 <div className="w-full">
-                                <InputLabel for="alamat" value="Alamat" />
+                                    <InputLabel for="alamat" value="Alamat" />
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="w-12 h-12 mx-auto text-gray-400 icon icon-tabler icon-tabler-map-2"
@@ -272,7 +247,11 @@ export default function UpdateProfileInformation({
                                                 <textarea
                                                     type="text"
                                                     name="formattedAddress"
-                                                    value={locationDetails.formattedAddress ? locationDetails.formattedAddress : data.formattedAddress}
+                                                    value={
+                                                        locationDetails.formattedAddress
+                                                            ? locationDetails.formattedAddress
+                                                            : data.formattedAddress
+                                                    }
                                                     onChange={handleInputChange}
                                                     readOnly
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
@@ -469,7 +448,6 @@ export default function UpdateProfileInformation({
                         </div>
                     </div>
                 </div>
-
 
                 <div className="flex items-center gap-4">
                     <PrimaryButton processing={processing}>Save</PrimaryButton>

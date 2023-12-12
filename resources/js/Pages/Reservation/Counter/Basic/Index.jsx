@@ -651,14 +651,18 @@ export default function Index(props) {
                                     <div className="flex flex-col bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                                         <div className="flex flex-col items-center justify-center flex-auto p-2">
                                             <div className="grid w-full grid-cols-12 gap-1">
-                                                <div className="col-span-4 col-start-1">
-                                                    <p className="text-sm font-semibold">
+                                                <div className="flex col-span-11 col-start-1">
+                                                    {/* <p className="text-sm font-semibold">
                                                         {
                                                             reservationCounter.name
                                                         }
+                                                    </p> */}
+                                                    <p className="p-1 text-sm font-semibold rounded-full">
+                                                        {reservationCounter.name}
                                                     </p>
-                                                    <p className="text-xs font-medium text-gray-500">
-                                                        {/* {reservationCounter.reservationCounter_category.name} */}
+                                                    
+                                                    <p className="p-1 ml-4 text-sm font-semibold text-white bg-yellow-700 rounded-full">
+                                                        {"Kode : " + reservationCounter.code}
                                                     </p>
                                                 </div>
                                                 {/* <div className="flex items-center justify-end col-span-6 col-end-12">
@@ -721,37 +725,14 @@ export default function Index(props) {
                                                                 )}
 
                                                                 <DropdownMobile.Link
-                                                                // href={route(
-                                                                //     "reservationCounters.show",
-                                                                //     `${reservationCounter.slug}`
-                                                                // )}
+                                                                href={route(
+                                                                    "reservationCounters.settingteam",
+                                                                    `${reservationCounter.slug}`
+                                                                )}
                                                                 >
-                                                                    Lihat Detail
+                                                                    Setting Team
                                                                 </DropdownMobile.Link>
-                                                                {reservationCounter.reservationCounter_bids_count >
-                                                                    0 && (
-                                                                    <DropdownMobile.Link
-                                                                    // href={route(
-                                                                    //     "bidreservationCounters.listpenawar",
-                                                                    //     `${reservationCounter.id}`
-                                                                    // )}
-                                                                    >
-                                                                        Lihat
-                                                                        Penawaran
-                                                                    </DropdownMobile.Link>
-                                                                )}
-                                                                {reservationCounter.reservationCounter_bids_sum_is_active ==
-                                                                    "1" && (
-                                                                    <DropdownMobile.Link
-                                                                    // href={route(
-                                                                    //     "reservationCounter.tahapan",
-                                                                    //     `${reservationCounter.slug}`
-                                                                    // )}
-                                                                    >
-                                                                        Tahapan
-                                                                        Perencanaan
-                                                                    </DropdownMobile.Link>
-                                                                )}
+                                                                
                                                             </DropdownMobile.Content>
                                                         </DropdownMobile>
                                                     </span>

@@ -966,6 +966,7 @@ export default function NavbarReservasi() {
                     setIsOpenMenuModal={setIsOpenMenuModal}
                 >
                     <div className="grid items-center justify-between grid-cols-3 gap-x-12 gap-y-4">
+                    
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href={route("reservationprofile.edit")}
@@ -975,15 +976,7 @@ export default function NavbarReservasi() {
                                 Setting Company
                             </p>
                         </NavLinkMobile>
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("reservation.list")}
-                        >
-                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Cari Reservasi
-                            </p>
-                        </NavLinkMobile>
+                       
                         <NavLinkMobile
                             onClick={() => setIsOpenMenuModal(false)}
                             href={route(
@@ -1005,7 +998,51 @@ export default function NavbarReservasi() {
                                 Setting Jadwal
                             </p>
                         </NavLinkMobile>
-                        
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route("reservation.myreservations")}
+                        >
+                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Reservasi Saya
+                            </p>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route("reservation.myteaminvitations")}
+                        >
+                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Undangan Saya
+                            </p>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route("reservation.mycustomers")}
+                        >
+                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Pelanggan Saya
+                            </p>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route("reservation.list")}
+                        >
+                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Cari Reservasi
+                            </p>
+                        </NavLinkMobile>
+                        <NavLinkMobile
+                            onClick={() => setIsOpenMenuModal(false)}
+                            href={route("reservation.mycounters")}
+                        >
+                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                Counter Saya
+                            </p>
+                        </NavLinkMobile>
                         
 
                         {permission_name.indexOf("lihat menu admin saldo") >

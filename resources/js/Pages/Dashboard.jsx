@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import App from "@/Layouts/App";
+import AppDefault from "@/Layouts/AppDefault";
 import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import FeatureCard from "@/Components/FeatureCard";
@@ -358,4 +358,6 @@ export default function Dashboard(props) {
         </>
     );
 }
-Dashboard.layout = (page) => <App children={page} />;
+
+
+Dashboard.layout = (page) => <AppDefault children={page}></AppDefault>;
