@@ -14,6 +14,7 @@ import Edit from "./Edit";
 import DangerButton from "@/Components/DangerButton";
 import Dropdown from "@/Components/Dropdown";
 import ThirdButton from "@/Components/ThirdButton";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 const UpIcon = () => (
     <svg
@@ -157,12 +158,12 @@ export default function Index(props) {
                 <div className="flex items-center justify-between mb-2">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
-                                <ThirdButton
+                                <ThirdButtonNoLink
                                     type="button"
                                     onClick={openAddDialog}
                                 >
                                     Tambah
-                                </ThirdButton>
+                                </ThirdButtonNoLink>
                             </div>
                         </div>
                         <div className="w-1/2">

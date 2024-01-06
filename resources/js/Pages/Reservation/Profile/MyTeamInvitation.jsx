@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/inertia-react";
-import App from "@/Layouts/App";
+import { Head, useForm } from "@inertiajs/inertia-react";
+import AppReservasi from "@/Layouts/AppReservasi";
 import NavLink from "@/Components/NavLink";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -21,27 +21,41 @@ export default function MyTeamInvitation({
     myInvitations,
 }) {
     const [state, setState] = useState([]);
+    const [isOpenAcceptDialog, setIsOpenAcceptDialog] = useState(false);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
+    const { data, setData, patch,post,put, processing, errors, reset } = useForm({
+    });
     const openInfoDialog = (item) => {
         setState(item);
         setIsOpenInfoDialog(true);
+    };
+    const openAcceptDialog = (item) => {
+        setState(item);
+        setIsOpenAcceptDialog(true);
     };
     const openInfoDialog2 = (item) => {
         setState(item);
         setIsOpenInfoDialog2(true);
     };
     const startService = () => {
-        Inertia.put(route("reservation.startservice", state.id), {
+        put(route("reservation.startservice", state.id), {
             onSuccess: () => setIsOpenInfoDialog(false),
         });
     };
     const finishService = () => {
-        Inertia.put(route("reservation.finishservice", state.id), {
+        put(route("reservation.finishservice", state.id), {
             onSuccess: () => setIsOpenInfoDialog2(false),
         });
     };
-    console.log(myInvitations)
+
+    const acceptInvitation = (e) => {
+        e.preventDefault();
+        put(route("reservation.acceptinvitation", state.id), {
+            onSuccess: () => setIsOpenAcceptDialog(false),
+        });
+    };
+    // console.log(myInvitations)
     return (
         <>
             <InfoModal
@@ -62,6 +76,16 @@ export default function MyTeamInvitation({
             >
                 <ThirdButtonNoLink color="teal" onClick={finishService}>
                     Selesai
+                </ThirdButtonNoLink>
+            </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenAcceptDialog}
+                setIsOpenInfoDialog={setIsOpenAcceptDialog}
+                size="2xl"
+                title={"Yakin Terima ?"}
+            >
+                <ThirdButtonNoLink color="teal" onClick={acceptInvitation}>
+                    Terima
                 </ThirdButtonNoLink>
             </InfoModal>
             <Head title="Profile" />
@@ -135,7 +159,11 @@ export default function MyTeamInvitation({
                                                     <IconChecks className="w-5 h-5 ml-2" />
                                                 </ThirdButtonNoLink> : <><ThirdButtonNoLink
                                                     color="teal"
-                                                    className=""
+                                                    className=""  onClick={() =>
+                                                        openAcceptDialog(
+                                                            item
+                                                        )
+                                                    }
                                                 >
                                                     TERIMA{" "}
                                                     <IconCircleCheck className="w-5 h-5 ml-2" />
@@ -161,4 +189,4 @@ export default function MyTeamInvitation({
         // </AuthenticatedLayout>
     );
 }
-MyTeamInvitation.layout = (page) => <App children={page}></App>;
+MyTeamInvitation.layout = (page) => <AppReservasi children={page}></AppReservasi>;

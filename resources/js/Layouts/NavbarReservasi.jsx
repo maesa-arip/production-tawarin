@@ -132,63 +132,65 @@ export default function NavbarReservasi() {
                                 <NavLink href="/wallets">Saldo</NavLink>
                             )}
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
-                                    <div className="relative ml-3">
-                                        <Dropdown>
-                                            <Dropdown.Trigger>
-                                                <span className="inline-flex rounded-md">
-                                                    <button
-                                                        type="button"
-                                                        className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
-                                                    >
-                                                        Reservasi
-                                                        <svg
-                                                            className="ml-2 -mr-0.5 h-4 w-4"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            viewBox="0 0 20 20"
-                                                            fill="currentColor"
-                                                        >
-                                                            <path
-                                                                fillRule="evenodd"
-                                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                                clipRule="evenodd"
-                                                            />
-                                                        </svg>
-                                                    </button>
-                                                </span>
-                                            </Dropdown.Trigger>
-                                            <Dropdown.Content>
-                                            <Link
-                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                    href={route("reservation.list")}
+                                <div className="relative ml-3">
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <span className="inline-flex rounded-md">
+                                                <button
+                                                    type="button"
+                                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
                                                 >
                                                     Reservasi
-                                                </Link>
-                                                <Link
-                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                    href={route("reservationprofile.edit")}
-                                                >
-                                                    Setting Company
-                                                </Link>
-                                                <Link
-                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                    href={route(
-                                                        "reservationCounters.index"
-                                                    )}
-                                                >
-                                                    Setting Layanan
-                                                </Link>
-                                                <Link
-                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                    href={route(
-                                                        "permissions.index"
-                                                    )}
-                                                >
-                                                    Setting Jadwal
-                                                </Link>
-                                            </Dropdown.Content>
-                                        </Dropdown>
-                                    </div>
+                                                    <svg
+                                                        className="ml-2 -mr-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clipRule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            <Link
+                                                className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                href={route("reservation.list")}
+                                            >
+                                                Reservasi
+                                            </Link>
+                                            <Link
+                                                className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                href={route(
+                                                    "reservationprofile.edit"
+                                                )}
+                                            >
+                                                Setting Company
+                                            </Link>
+                                            <Link
+                                                className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                href={route(
+                                                    "reservationCounters.index"
+                                                )}
+                                            >
+                                                Setting Layanan
+                                            </Link>
+                                            <Link
+                                                className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                href={route(
+                                                    "permissions.index"
+                                                )}
+                                            >
+                                                Setting Jadwal
+                                            </Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
                                 </div>
+                            </div>
 
                             {permission_name.indexOf("atur hak akses") > -1 && (
                                 <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -698,7 +700,9 @@ export default function NavbarReservasi() {
                                                 Porfolios
                                             </Dropdown.Link>
                                             <Dropdown.Link
-                                                href={route("portofolios.index")}
+                                                href={route(
+                                                    "portofolios.index"
+                                                )}
                                             >
                                                 Input Porfolios
                                             </Dropdown.Link>
@@ -966,84 +970,100 @@ export default function NavbarReservasi() {
                     setIsOpenMenuModal={setIsOpenMenuModal}
                 >
                     <div className="grid items-center justify-between grid-cols-3 gap-x-12 gap-y-4">
-                    
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("reservationprofile.edit")}
-                        >
-                            <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Setting Company
-                            </p>
-                        </NavLinkMobile>
-                       
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route(
-                                "reservationCounters.index"
-                            )}
-                        >
-                            <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Setting Layanan
-                            </p>
-                        </NavLinkMobile>
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href="/public/projects/list"
-                        >
-                            <IconBuildingSkyscraper className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                        {permission_name.indexOf("lihat menu owner reservasi") >
+                            -1 && (
+                            <>
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route("reservationprofile.edit")}
+                                >
+                                    <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Setting Company
+                                    </p>
+                                </NavLinkMobile>
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route("reservationCounters.index")}
+                                >
+                                    <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Setting Layanan
+                                    </p>
+                                </NavLinkMobile>
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route("reservationprofile.edit")}
+                                >
+                                    <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Pelanggan Company
+                                    </p>
+                                </NavLinkMobile>
+                            </>
+                        )}
 
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Setting Jadwal
-                            </p>
-                        </NavLinkMobile>
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("reservation.myreservations")}
-                        >
-                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Reservasi Saya
-                            </p>
-                        </NavLinkMobile>
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("reservation.myteaminvitations")}
-                        >
-                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Undangan Saya
-                            </p>
-                        </NavLinkMobile>
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("reservation.mycustomers")}
-                        >
-                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Pelanggan Saya
-                            </p>
-                        </NavLinkMobile>
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("reservation.list")}
-                        >
-                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Cari Reservasi
-                            </p>
-                        </NavLinkMobile>
-                        <NavLinkMobile
-                            onClick={() => setIsOpenMenuModal(false)}
-                            href={route("reservation.mycounters")}
-                        >
-                            <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
-                            <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Counter Saya
-                            </p>
-                        </NavLinkMobile>
-                        
+                        {permission_name.indexOf(
+                            "lihat menu pekerja reservasi"
+                        ) > -1 && (
+                            <>
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route(
+                                        "reservation.myteaminvitations"
+                                    )}
+                                >
+                                    <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Undangan Saya
+                                    </p>
+                                </NavLinkMobile>
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route("reservation.mycustomers")}
+                                >
+                                    <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Pelanggan Saya
+                                    </p>
+                                </NavLinkMobile>
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route("reservation.mycounters")}
+                                >
+                                    <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Counter Saya
+                                    </p>
+                                </NavLinkMobile>
+                            </>
+                        )}
+
+                        {permission_name.indexOf(
+                            "lihat menu customer reservasi"
+                        ) > -1 && (
+                            <>
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route("reservation.myreservations")}
+                                >
+                                    <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Reservasi Saya
+                                    </p>
+                                </NavLinkMobile>
+
+                                <NavLinkMobile
+                                    onClick={() => setIsOpenMenuModal(false)}
+                                    href={route("reservation.list")}
+                                >
+                                    <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
+                                    <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
+                                        Cari Reservasi
+                                    </p>
+                                </NavLinkMobile>
+                            </>
+                        )}
 
                         {permission_name.indexOf("lihat menu admin saldo") >
                             -1 && (

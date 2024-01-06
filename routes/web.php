@@ -101,8 +101,10 @@ Route::middleware('auth','verified')->group(function () {
     Route::put('/finishservice/{id}/edit', [ReservationController::class, 'finishservice'])->name('reservation.finishservice');
     Route::put('/finishcustomer/{id}/edit', [ReservationController::class, 'finishcustomer'])->name('reservation.finishcustomer');
     Route::post('/daftarcounter', [ReservationController::class, 'daftarcounter'])->name('reservation.daftarcounter');
-    Route::patch('/joincounter/{id}', [ReservationController::class, 'joincounter'])->name('reservation.joincounter');
+    Route::patch('/joincounter/{slug}', [ReservationController::class, 'joincounter'])->name('reservation.joincounter');
     Route::post('/maketeam/{slug}', [ReservationController::class, 'maketeam'])->name('reservation.maketeam');
+
+    Route::put('/acceptinvitation/{id}/edit', [ReservationController::class, 'acceptinvitation'])->name('reservation.acceptinvitation');
 });
 
 //Example

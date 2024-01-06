@@ -27,7 +27,7 @@ export default function SettingTeam({ reservationCounter }) {
     });
     const submit = (e) => {
         e.preventDefault();
-        patch(route("reservation.joincounter", state.id), {
+        patch(route("reservation.joincounter",reservationCounter.slug), {
             onSuccess: () => {
                 return Promise.all([setIsOpenJoinDialog(false), reset()]);
             },
@@ -156,11 +156,18 @@ export default function SettingTeam({ reservationCounter }) {
                         </div>
                         <div className="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8">
                             <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                                Team <ThirdButtonNoLink onClick={() =>
+                                {/* Team <ThirdButtonNoLink onClick={() =>
                                                         openTeamDialog()
                                                     }
                                                 >
-                                                    Tambah</ThirdButtonNoLink>
+                                                    Tambah</ThirdButtonNoLink> */}
+                                                    <ThirdButtonNoLink
+                                                    onClick={() =>
+                                                        openJoinDialog()
+                                                    }
+                                                >
+                                                    Undang Karyawan
+                                                </ThirdButtonNoLink>
                             </h2>
                             <div className="w-full">
                                 {reservationCounter.team.map(
@@ -171,7 +178,9 @@ export default function SettingTeam({ reservationCounter }) {
                                         >
                                             <div className="flex justify-between font-semibold text-gray-500">
                                                 <p>{result.name}</p>
-                                                {reservationCounter.need_team == 0 && reservationCounter.team ? <ThirdButtonNoLink color="yellow">
+                                               {/* {result.joincounter.length == 1 ? <ThirdButtonNoLink
+                                                    color="yellow"
+                                                >
                                                     Full
                                                 </ThirdButtonNoLink> : <ThirdButtonNoLink
                                                     onClick={() =>
@@ -179,8 +188,8 @@ export default function SettingTeam({ reservationCounter }) {
                                                     }
                                                 >
                                                     Undang Karyawan
-                                                </ThirdButtonNoLink> }
-                                                
+                                                </ThirdButtonNoLink>} */}
+                                              
                                             </div>
                                             <dl className="grid grid-cols-1 mt-2 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
                                                 <div className="w-full pt-4 border-t border-gray-200">

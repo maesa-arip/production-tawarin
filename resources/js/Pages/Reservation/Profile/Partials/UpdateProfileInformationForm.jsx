@@ -170,6 +170,7 @@ export default function UpdateProfileInformation({
                                         }
                                         required
                                         autofocus
+                                        step="3600"
                                         autocomplete="open_at"
                                     />
 

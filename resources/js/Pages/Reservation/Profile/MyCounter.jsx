@@ -4,7 +4,7 @@ import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
 import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
 import { Head, useForm } from "@inertiajs/inertia-react";
-import App from "@/Layouts/App";
+import AppReservasi from "@/Layouts/AppReservasi";
 import NavLink from "@/Components/NavLink";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -153,4 +153,4 @@ export default function MyCounter({ myCounters }) {
         // </AuthenticatedLayout>
     );
 }
-MyCounter.layout = (page) => <App children={page}></App>;
+MyCounter.layout = (page) => <AppReservasi children={page}></AppReservasi>;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/inertia-react";
-import App from "@/Layouts/App";
+import { Head, useForm } from "@inertiajs/inertia-react";
+import AppReservasi from "@/Layouts/AppReservasi";
 import NavLink from "@/Components/NavLink";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -15,12 +15,14 @@ import { IconChecks } from "@tabler/icons";
 export default function MyReservation({ myReservations }) {
     const [state, setState] = useState([])
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false)
+    const { data, setData, patch,post,put, processing, errors, reset } = useForm({
+    });
     const openInfoDialog = (item) => {
         setState(item);
         setIsOpenInfoDialog(true);
     };
     const finishCustomer = () => {
-        Inertia.put(route("reservation.finishcustomer", state.id), {
+        put(route("reservation.finishcustomer", state.id), {
             onSuccess: () => setIsOpenInfoDialog(false), 
         });
     };
@@ -64,7 +66,7 @@ export default function MyReservation({ myReservations }) {
                                             Kode Bukti
                                         </p>
                                         <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                            23
+                                        {item.code}
                                         </p>
                                     </div>
                                     <div className="flex items-center justify-between px-4 my-4">
@@ -80,12 +82,12 @@ export default function MyReservation({ myReservations }) {
                                             Jam Reservasi
                                         </p>
                                         <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                            1
+                                        {item.time}
                                         </p>
                                     </div>
                                     <div className="flex items-center justify-between px-4 my-4">
                                         <p className="text-sm font-semibold text-gray-500">
-                                            Team
+                                            Pekerja
                                         </p>
                                         <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
                                             {item.name}
@@ -93,12 +95,20 @@ export default function MyReservation({ myReservations }) {
                                     </div>
                                     <div className="flex items-center justify-between px-4 my-4">
                                         <p className="text-sm font-semibold text-gray-500">
+                                            Layanan Ke
+                                        </p>
+                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            {item.layanan_ke}
+                                        </p>
+                                    </div>
+                                    {/* <div className="flex items-center justify-between px-4 my-4">
+                                        <p className="text-sm font-semibold text-gray-500">
                                             Status
                                         </p>
                                         <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
                                         {item.id}
                                         </p>
-                                    </div>
+                                    </div> */}
                                     <div className="flex items-center px-4 my-4 justify-evenly">
                                         {item.selesai_customer == 1 ? (<ThirdButtonNoLink
                                                     color="teal"
@@ -121,4 +131,4 @@ export default function MyReservation({ myReservations }) {
         // </AuthenticatedLayout>
     );
 }
-MyReservation.layout = (page) => <App children={page}></App>;
+MyReservation.layout = (page) => <AppReservasi children={page}></AppReservasi>;

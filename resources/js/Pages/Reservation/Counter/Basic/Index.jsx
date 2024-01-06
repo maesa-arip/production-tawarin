@@ -708,7 +708,7 @@ export default function Index(props) {
                                                                                 `${reservationCounter.slug}`
                                                                             )}
                                                                         >
-                                                                            Edit
+                                                                            EditLayanan
                                                                         </DropdownMobile.Link>
                                                                         <button
                                                                             className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
@@ -803,14 +803,13 @@ export default function Index(props) {
                                                                 {reservationCounter.is_active ==
                                                                 1 ? (
                                                                     <Link
-                                                                        // href={route(
-                                                                        //     "bidreservationCounters.listpenawar",
-                                                                        //     `${reservationCounter.id}`
-                                                                        // )}
+                                                                    href={route(
+                                                                        "reservationCounters.settingteam",
+                                                                        `${reservationCounter.slug}`
+                                                                    )}
                                                                         className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
                                                                     >
-                                                                        Non
-                                                                        Aktifkan
+                                                                        Setting Team
                                                                     </Link>
                                                                 ) : (
                                                                     <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">

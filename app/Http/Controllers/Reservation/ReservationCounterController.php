@@ -69,8 +69,9 @@ class ReservationCounterController extends Controller
             'service_duration' => $request->service_duration,
             'set_dayoff' => 0,
             'period' => $request->period,
-            'need_image_reservation' => $request->need_image_reservation,
+            'need_image_reservation' => 0,
             'need_image_before_after' => 0,
+            'need_team' => 0,
             'is_active' => 1,
         ]);   
         // dd($atrributes);
@@ -90,41 +91,35 @@ class ReservationCounterController extends Controller
     }
 
 
-    public function edit(Plan $plan)
+    public function edit(ReservationCounter $reservationCounter)
     {
-        $plan_details = $plan->with('plan_details')
-            ->select('plan_details.plan_master_id as id', 'plan_details.description', 'plan_masters.name', 'plan_masters.slug')
-            ->join('plan_details', 'plans.id', '=', 'plan_details.plan_id')
-            ->join('plan_masters', 'plan_details.plan_master_id', '=', 'plan_masters.id')
-            ->where('plan_id', $plan->id)
-            ->get();
-        $plan_rooms = $plan->with('plan_rooms')
-            ->select('plan_rooms.plan_master_room_id as id', 'plan_rooms.name as elsename', 'plan_rooms.count', 'plan_master_rooms.name', 'plan_master_rooms.slug')
-            ->join('plan_rooms', 'plans.id', '=', 'plan_rooms.plan_id')
-            ->join('plan_master_rooms', 'plan_rooms.plan_master_room_id', '=', 'plan_master_rooms.id')
-            ->where('plan_id', $plan->id)
-            ->get();
-        $plan_categories = PlanCategory::get();
-        $plan_master_rooms = PlanMasterRoom::get();
-        $plan_master_checkboxs = PlanMaster::where('type', 'checkbox')->get();
-        $plan_master_texts = PlanMaster::where('type', 'text')->get();
-        $media = $plan->getMedia('contohgambar');
-        // dd($media);
-        return inertia('Plans/Basic/Edit', [
-            'plan_master_checkboxs' => PlanMasterResource::collection($plan_master_checkboxs),
-            'plan_master_texts' => PlanMasterResource::collection($plan_master_texts),
-            'plan_categories' => $plan_categories,
-            'plan_master_rooms' => PlanMasterRoomResource::collection($plan_master_rooms),
-            'plan' => $plan,
-            'media' => $media,
-            'plan_rooms' => $plan_rooms,
-            'plan_details' => $plan_details,
+        
+        return inertia('Reservation/Counter/Basic/Edit', [
+            'reservationCounter' => $reservationCounter,
         ]);
     }
 
-    public function update(Request $request, Plan $plan)
+    public function update(ReservationCounterRequest $request, ReservationCounter $reservationCounter)
     {
-        dd("update");
+        // dd($reservationCounter);
+        $atrributes = ([
+            'name' => $name = $request->name,
+            'slug' => str($name)->slug() . '-' . Str::lower(Str::random(6)),
+            'code' => (Str::random(6)),
+            'price_user' => $price_user = $request->price_user,
+            'price' => ceil($price_user * 105/100),
+            'percent_owner' =>  $request->percent_owner,
+            'percent_employe' => $request->percent_employe,
+            'service_duration' => $request->service_duration,
+            'period' => $request->period,
+        ]);  
+ 
+        $reservationCounter->update($atrributes);
+        return redirect('reservationCounters')->with([
+            'type' => 'success',
+            'message' => 'Pelayanan berhasil diubah',
+        ]);
+
     }
 
     public function destroy($id)

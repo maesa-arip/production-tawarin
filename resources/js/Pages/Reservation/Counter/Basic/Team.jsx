@@ -32,7 +32,7 @@ export default function Team({ setIsOpenDialog, model }) {
             },
         });
     };
-    // console.log(data)
+    console.log(data)
     return (
         <>
             <InfoModal

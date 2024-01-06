@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/inertia-react";
-import App from "@/Layouts/App";
+import { Head, useForm } from "@inertiajs/inertia-react";
+import AppReservasi from "@/Layouts/AppReservasi";
 import NavLink from "@/Components/NavLink";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -22,6 +22,8 @@ export default function MyReservation({
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
+    const { data, setData, patch,post,put, processing, errors, reset } = useForm({
+    });
     const openInfoDialog = (item) => {
         setState(item);
         setIsOpenInfoDialog(true);
@@ -31,12 +33,12 @@ export default function MyReservation({
         setIsOpenInfoDialog2(true);
     };
     const startService = () => {
-        Inertia.put(route("reservation.startservice", state.id), {
+        put(route("reservation.startservice", state.id), {
             onSuccess: () => setIsOpenInfoDialog(false),
         });
     };
     const finishService = () => {
-        Inertia.put(route("reservation.finishservice", state.id), {
+        put(route("reservation.finishservice", state.id), {
             onSuccess: () => setIsOpenInfoDialog2(false),
         });
     };
@@ -75,54 +77,46 @@ export default function MyReservation({
                             <div className="py-5" key={index}>
                                 <div className="p-2 duration-150 bg-white rounded-lg shadow cursor-pointer">
                                     <div>
-                                        <div className="flex items-center justify-between px-4 my-6">
-                                            <p className="font-bold text-gray-500">
-                                                Nama Layanan
-                                            </p>
-                                            <p className="rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
-                                                {item.counterName}
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center justify-between px-4 my-4">
-                                            <p className="text-sm font-semibold text-gray-500">
-                                                Kode Bukti
-                                            </p>
-                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                23
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center justify-between px-4 my-4">
-                                            <p className="text-sm font-semibold text-gray-500">
-                                                Tanggal Reservasi
-                                            </p>
-                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                {item.date}
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center justify-between px-4 my-4">
-                                            <p className="text-sm font-semibold text-gray-500">
-                                                Jam Reservasi
-                                            </p>
-                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                1
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center justify-between px-4 my-4">
-                                            <p className="text-sm font-semibold text-gray-500">
-                                                Team
-                                            </p>
-                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                {item.name}
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center justify-between px-4 my-4">
-                                            <p className="text-sm font-semibold text-gray-500">
-                                                Status
-                                            </p>
-                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                {item.id}
-                                            </p>
-                                        </div>
+                                    <div className="flex items-center justify-between px-4 my-6">
+                                        <p className="font-bold text-gray-500">
+                                            Nama Layanan
+                                        </p>
+                                        <p className="rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
+                                            {item.counterName}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center justify-between px-4 my-4">
+                                        <p className="text-sm font-semibold text-gray-500">
+                                            Kode Bukti
+                                        </p>
+                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                        {item.code}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center justify-between px-4 my-4">
+                                        <p className="text-sm font-semibold text-gray-500">
+                                            Tanggal Reservasi
+                                        </p>
+                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            {item.date}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center justify-between px-4 my-4">
+                                        <p className="text-sm font-semibold text-gray-500">
+                                            Jam Reservasi
+                                        </p>
+                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                        {item.time}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center justify-between px-4 my-4">
+                                        <p className="text-sm font-semibold text-gray-500">
+                                            Team
+                                        </p>
+                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            {item.name}
+                                        </p>
+                                    </div>
                                         <div className="flex items-center px-4 my-4 justify-evenly">
                                             {item.selesai_customer == 1 ? (
                                                 <ThirdButtonNoLink
@@ -198,4 +192,4 @@ export default function MyReservation({
         // </AuthenticatedLayout>
     );
 }
-MyReservation.layout = (page) => <App children={page}></App>;
+MyReservation.layout = (page) => <AppReservasi children={page}></AppReservasi>;

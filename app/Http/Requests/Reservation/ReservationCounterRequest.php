@@ -35,7 +35,7 @@ class ReservationCounterRequest extends FormRequest
             'service_duration' => ['required'],
             // 'set_dayoff' => ['required'],
             'period' => ['required'],
-            'need_image_reservation' => ['required'],
+            // 'need_image_reservation' => ['required'],
             // 'need_image_before_after' => ['required'],
             // 'is_active' => ['required'],
         ];

@@ -15,7 +15,9 @@ use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationDaftarCounter;
 use App\Models\Reservation\ReservationJoinCounter;
 use App\Models\Reservation\ReservationTeam;
+use App\Models\Reservation\ReservationTeamDetail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,11 +62,12 @@ class ReservationController extends Controller
     public $loadDefault = 10;
     public function show(ReservationCompany $reservationCompany, Request $request)
     {
-        // dd($reservationCounter);
+        // dd($reservationCompany);
         $reservation_categories = ReservationCategory::get();
         $reservations = ReservationCounter::query()
             // ->with('reservation_category')
             ->where('reservation_counters.is_active', 1)
+            ->where('reservation_company_id',$reservationCompany->id)
             // ->when($request->reservation_category, fn ($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
             ->select('*');
         if ($request->q) {
@@ -95,6 +98,7 @@ class ReservationController extends Controller
 
     public function list(Request $request)
     {
+        // dd($reservationCompany->slug);
         $reservation_categories = ReservationCategory::get();
         $reservations = ReservationCompany::query()
             ->with('reservation_category')
@@ -129,11 +133,15 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        // dd(strtotime($request->date));
+        // dd($request->segment(3));
+        // dd(Carbon::isoFormat('Y-m-d', ($request->date)));
+        $date = Carbon::parse(strtotime($request->date));
+        // dd($date);
         $atrributes = ([
             'reservation_team_id' => $request->reservation_team_id,
             'user_id' => auth()->user()->id,
-            'date' =>  date("Y-m-d", strtotime($request->date)),
+            'date' =>  $date->format('Y-m-d'), 
             'time' =>  $request->time,
             'code' =>  Str::random(8),
         ]);
@@ -147,6 +155,7 @@ class ReservationController extends Controller
             ]);
         }
         $check = ReservationCustomer::where('selesai_team', 0)->where('reservation_team_id', $request->reservation_team_id)->where('date', date("Y-m-d", strtotime($request->date)))->where('time', $request->time)->where('user_id', '<>', auth()->user()->id)->first();
+        // $checkLayananKe = 
         if (!$check) {
             $reservationCounter = ReservationCustomer::updateOrCreate(['user_id' => $request->user_id, 'date' => date("Y-m-d", strtotime($request->date)), 'time' => $request->time, 'reservation_team_id' => $request->reservation_team_id], $atrributes);
             if ($reservationCounter->wasRecentlyCreated) {
@@ -183,7 +192,7 @@ class ReservationController extends Controller
             ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName')->get();
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName')->orderBy('reservation_customers.created_at','DESC')->get();
         return Inertia::render('Reservation/Profile/MyReservation', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -197,7 +206,7 @@ class ReservationController extends Controller
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName')->get();
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName')->orderBy('reservation_customers.created_at','DESC')->get();
         return Inertia::render('Reservation/Profile/MyCustomer', [
             'myCustomers' => $myCustomers,
         ]);
@@ -209,11 +218,13 @@ class ReservationController extends Controller
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
             ->select('reservation_counters.*', 'reservation_teams.name as teamName', 'reservation_companies.name as companyName')
             ->where('reservation_team_details.id', auth()->user()->id)
+            ->orderBy('reservation_counters.created_at','DESC')
             ->get();
         $counterWaitings = ReservationCounter::join('reservation_daftar_counters', 'reservation_daftar_counters.code', 'reservation_counters.code')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
             ->select('reservation_counters.*', 'reservation_teams.name as teamName', 'reservation_companies.name as companyName')
             ->where('reservation_team_details.id', auth()->user()->id)
+            ->orderBy('reservation_counters.created_at','DESC')
             ->get();
         return Inertia::render('Reservation/Profile/MyCounter', [
             'myCounters' => $myCounters,
@@ -221,7 +232,7 @@ class ReservationController extends Controller
     }
     public function myteaminvitations(Request $request)
     {
-        $myInvitations = ReservationJoinCounter::with('team')->with('team.counter')->with('team.counter.company')->where('email',auth()->user()->email)->get();
+        $myInvitations = ReservationJoinCounter::with('team')->with('team.counter')->with('team.counter.company')->where('email',auth()->user()->email)->orderBy('reservation_join_counters.created_at','DESC')->get();
         // dd($myInvitations);
         return Inertia::render('Reservation/Profile/MyTeamInvitation', [
             'myInvitations' => $myInvitations,
@@ -263,12 +274,13 @@ class ReservationController extends Controller
             'message' => 'Team berhasil disimpan',
         ]);
     }
-    public function joincounter(Request $request, $id)
+    public function joincounter(Request $request, $slug)
     {
+        // dd($slug);
         $validated = $request->validate([
             'email' => 'required',
         ]);
-        $validated['reservation_team_id'] = $id;
+        
         $user = User::where('email', $validated['email'])->first();
         if (!$user) {
             return back()->with([
@@ -276,7 +288,13 @@ class ReservationController extends Controller
                 'message' => 'Gagal undang user, user dengan email tersebut tidak ditemukan',
             ]);
         }
-        ReservationJoinCounter::updateOrCreate(['email' => $request->email, 'reservation_team_id' => $id], $validated);
+        $name = User::where('email',$request->email)->first();
+        $validated['slug']= str($name->name)->slug() . '-' . Str::lower(Str::random(6));
+        $validated['code']= Str::random(6);
+        $reservation_counter_id = ReservationCounter::where('slug',$slug)->first();
+        $validated['reservation_counter_id'] = $reservation_counter_id->id;
+        $reservationTeam = ReservationTeam::create(['reservation_counter_id' => $reservation_counter_id->id , 'name' =>$name->name, 'slug'=>$validated['slug'], 'code'=>$validated['code']]);
+        $reservationCounter = ReservationJoinCounter::updateOrCreate(['email' => $request->email, 'reservation_team_id' => $reservationTeam->id], ['reservation_team_id'=>$reservationTeam->id,'email'=>$request->email]);
         return back()->with([
             'type' => 'success',
             'message' => 'Undang user berhasil disimpan',
@@ -286,7 +304,7 @@ class ReservationController extends Controller
     {
         $reservationCustomer = ReservationCustomer::findOrfail($id);
         $reservationCustomer->update(['dikerjakan' => 1]);
-        return redirect('mycustomers')->with([
+        return redirect(route('reservation.mycustomers'))->with([
             'type' => 'success',
             'message' => 'Pelayanan berhasil dimulai',
         ]);
@@ -295,9 +313,20 @@ class ReservationController extends Controller
     {
         $reservationCustomer = ReservationCustomer::findOrfail($id);
         $reservationCustomer->update(['selesai_team' => 1]);
-        return redirect('mycustomers')->with([
+        return redirect(route('reservation.mycustomers'))->with([
             'type' => 'success',
             'message' => 'Pelayanan berhasil diselesaikan',
+        ]);
+    }
+    public function acceptinvitation($id)
+    {
+        $data = ReservationJoinCounter::findOrfail($id);
+        $userId= User::where('email',$data->email)->pluck('id')->first();
+        ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
+        $data->update(['approved'=>1]);
+        return redirect(route('reservation.myteaminvitations'))->with([
+            'type' => 'success',
+            'message' => 'Undangan Telah diterima',
         ]);
     }
     public function finishcustomer($id)
@@ -310,9 +339,8 @@ class ReservationController extends Controller
             ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.percent_owner', 'percent_employe')
             ->where('reservation_customers.id', $id)
             ->first();
-
+        
         $reservationCustomer->update(['selesai_customer' => 1]);
-
         $pemilik = User::find($reservationCounter->pemilik);
         $team = User::find($reservationCounter->team);
         $tawarin = User::find(1);
@@ -325,12 +353,12 @@ class ReservationController extends Controller
         $tfReferral = (5 / 100 * $tfTempTawarin);
         $tfTawarin = $tfTempTawarin - $tfReferral;
 
-        // dd($tfTempTawarin,$tfPemilik,$tfTeam,$tfReferral,$tfTawarin);
+        // dd($tfPemilik,$tfTeam,$tfReferral,$tfTawarin);
 
         $reservationCustomer->transfer($tawarin, $tfTawarin);
         $reservationCustomer->transfer($pemilik, $tfPemilik);
         $reservationCustomer->transfer($team, $tfTeam);
-        $reservationCustomer->transfer($referal, $tfTawarin);
+        $reservationCustomer->transfer($referal, $tfReferral);
 
         return redirect('myreservations')->with([
             'type' => 'success',

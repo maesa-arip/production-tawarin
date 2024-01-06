@@ -54,6 +54,8 @@ export default function Create({ onOff }) {
                     : e.target.value,
         });
     };
+
+    // console.log(data)
     const [selectedSetDayOff, setSelectedSetDayOff] = useState();
     const onChangeSetDayOff = (e) => {
         setData({ ...data, ["set_dayoff"]: e.value });
@@ -104,6 +106,11 @@ export default function Create({ onOff }) {
     useEffect(() => {
         openKomisiDialog();
     }, [])
+    const [percent_owner, setPercent_owner] = useState(0);
+    useEffect(() => {
+        setData({ ...data, ["percent_employe"]: (100 - parseInt(data.percent_owner))});
+    }, [percent_owner,data.percent_owner])
+    
     console.log(data)
     return (
         <div>
@@ -273,8 +280,7 @@ export default function Create({ onOff }) {
                                                             type="text"
                                                             name="percent_owner"
                                                             value={
-                                                                data.percent_owner ??
-                                                                ""
+                                                                data.percent_owner ?? ""
                                                             }
                                                             onChange={onChange}
                                                             id="percent_owner"
@@ -303,9 +309,9 @@ export default function Create({ onOff }) {
                                                             type="text"
                                                             name="percent_employe"
                                                             value={
-                                                                data.percent_employe ??
-                                                                ""
+                                                                data.percent_employe ?? ""
                                                             }
+                                                            readOnly
                                                             onChange={onChange}
                                                             id="percent_employe"
                                                             autoComplete="off"
@@ -448,7 +454,7 @@ export default function Create({ onOff }) {
                                                     </div>
                                                 </div>
                                             </div> */}
-                                            <div className="col-span-12 mt-6 md:col-span-4">
+                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
                                                 <label className="block text-sm font-medium text-gray-700">
                                                     Perlu Konfirmasi Barang
                                                     Bawaan ?
@@ -477,10 +483,10 @@ export default function Create({ onOff }) {
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-span-12 mt-6 md:col-span-4">
+                                            </div> */}
+                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
                                                 <label className="block text-sm font-medium text-gray-700">
-                                                    Apakah Counter ini Menggunakan Team ?
+                                                    Apakah Layanan ini Menggunakan Team ?
                                                 </label>
                                                 <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
                                                     <div className="w-full text-center">
@@ -506,7 +512,7 @@ export default function Create({ onOff }) {
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             {/* <div className="col-span-12 mt-6 md:col-span-4">
                                                 <label className="block text-sm font-medium text-gray-700">
                                                     Perlu Gambar Sebelum dan
