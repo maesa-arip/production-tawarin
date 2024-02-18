@@ -19,10 +19,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEmail
+class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEmail, HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, HasWallets, CanConfirm,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, HasWallets, CanConfirm,HasRoles,InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.

@@ -14,6 +14,19 @@ class ReservationResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'formattedAddress' => $this->formattedAddress,
+            'open_at' => $this->open_at,
+            'close_at' => $this->close_at,
+            'reservationcategory' => [
+                'name' => $this->reservationcategory->name,
+            ],
+            'created_at' => $this->created_at->diffForHumans(),
+            'media'  => $this->getFirstMediaUrl('reservationcompany'),
+            // 'media' => PlanResource::collection($this->whenLoaded('media')),
+        ];
     }
 }

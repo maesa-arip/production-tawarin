@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 
-export default function BaseModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog, size='max-w-2xl'}) {
+export default function BaseModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog,closeButton='true', size='max-w-2xl'}) {
   return (
     <div>
       <Transition  appear show={isOpenInfoDialog} as={Fragment}>
@@ -51,7 +51,7 @@ export default function BaseModal({title,children,header, isOpenInfoDialog,setIs
                   </div>
                   </div>
                 </div>
-                <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                {closeButton == 'false' ? '' : <> <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   {/* {children} */}
                   <button
                     type="button"
@@ -60,7 +60,9 @@ export default function BaseModal({title,children,header, isOpenInfoDialog,setIs
                   >
                     Close
                   </button>
-                </div>
+                </div></>}
+
+                
                 </Dialog.Panel>
               </Transition.Child>
             </div>

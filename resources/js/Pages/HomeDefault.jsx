@@ -40,9 +40,9 @@ export default function HomeDefault(props) {
         setIsOpenInfoDialog(true);
     };
     useEffect(() => {
-        openInfoDialog()
-    }, [])
-    
+        openInfoDialog();
+    }, []);
+
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [state, setState] = useState([]);
 
@@ -54,15 +54,28 @@ export default function HomeDefault(props) {
                 size="max-w-6xl"
                 title={"Info"}
                 header={""}
-            > 
-            <p className="text-justify">Selamat datang di tawarin.id, rekan digital yang kreatif yang siap membantu perkembangan ekosistem digital, meningkatkan produktivitas dan efisiensi, juga mewujudkan ide-ide Anda. Coba Tawarin sekarang Karena masih dalam tahap eksperimen awal, saat ini kami ada pada tahap pengumpulan user dimana pada tahap ini kami butuh bantuan rekan digital untuk dapat ikut share dan mengenalkan tawarin.Id ke rekan lainnya. Kami mengakui Tawarin.id masih banyak kekurangan dan mungkin tidak selalu benar, tetapi dengan bantuan dan masukan Anda, Tawarin.id akan menjadi lebih baik. Untuk informasi, masukan dan saran rekan konstruksi dapat menghubungi kami di Wa : 081818277844 Fb : tawarin.id Atau chat personal di menu chat pada web tawarin, dengan id : tawarin Terima kasih telah bergabung dalam eksperimen awal penggunaan tawarin.id. SEMUA PASTI BERES</p>
+            >
+                <p className="text-justify">
+                    Selamat datang di tawarin.id, rekan digital yang kreatif
+                    yang siap membantu perkembangan ekosistem digital,
+                    meningkatkan produktivitas dan efisiensi, juga mewujudkan
+                    ide-ide Anda. Coba Tawarin sekarang Karena masih dalam tahap
+                    eksperimen awal, saat ini kami ada pada tahap pengumpulan
+                    user dimana pada tahap ini kami butuh bantuan rekan digital
+                    untuk dapat ikut share dan mengenalkan tawarin.Id ke rekan
+                    lainnya. Kami mengakui Tawarin.id masih banyak kekurangan
+                    dan mungkin tidak selalu benar, tetapi dengan bantuan dan
+                    masukan Anda, Tawarin.id akan menjadi lebih baik. Untuk
+                    informasi, masukan dan saran rekan konstruksi dapat
+                    menghubungi kami di Wa : 081818277844 Fb : tawarin.id Atau
+                    chat personal di menu chat pada web tawarin, dengan id :
+                    tawarin Terima kasih telah bergabung dalam eksperimen awal
+                    penggunaan tawarin.id. SEMUA PASTI BERES
+                </p>
             </InfoModal>
             <Head>
                 <title>Home</title>
-                <meta
-                    name="description"
-                    content="Semua pasti beres."
-                />
+                <meta name="description" content="Semua pasti beres." />
             </Head>
             {/* <Head title="Home" /> */}
             <Container>
@@ -370,7 +383,6 @@ export default function HomeDefault(props) {
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -404,8 +416,8 @@ export default function HomeDefault(props) {
 
                                 <p className="mt-2 text-gray-700">
                                     Mari bersama-sama mendukung proyek hebat dan
-                                    berikan kontribusi melalui ekosistem konstruksi
-                                    Tawarin.
+                                    berikan kontribusi melalui ekosistem
+                                    konstruksi Tawarin.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
@@ -416,16 +428,131 @@ export default function HomeDefault(props) {
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Bingung dengan sistem reservasi yang masih berantakan, mari bergabung dengan
-                                    platform Reservasi Tawarin.
+                                    Bingung dengan sistem reservasi yang masih
+                                    berantakan, mari bergabung dengan platform
+                                    Reservasi Tawarin.
                                 </p>
                             </li>
-                            
                         </ul>
                     </div>
                 </section>
-                
 
+                <section className="px-4 mx-auto sm:px-6 lg:px-8">
+                    {/* Grid */}
+                    <div className="grid gap-3 sm:grid-cols-12">
+                        <div className="col-span-12 sm:self-end sm:col-span-7 md:col-span-8 lg:col-span-5 lg:col-start-3">
+                            {/* Card */}
+                            <a
+                                className="relative block overflow-hidden group rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                href="#"
+                            >
+                                <div className="overflow-hidden aspect-w-12 aspect-h-7 sm:aspect-none rounded-xl">
+                                    <img
+                                        className="object-cover w-full transition-transform duration-500 ease-in-out group-hover:scale-105 rounded-xl"
+                                        src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3481&q=80"
+                                        alt="Image Description"
+                                    />
+                                </div>
+                                <div className="absolute bottom-0 p-2 start-0 end-0">
+                                    <div className="p-3 font-semibold text-gray-800 bg-white rounded-lg dark:bg-gray-800 dark:text-gray-200">
+                                        Workplace personalities
+                                    </div>
+                                </div>
+                            </a>
+                            {/* End Card */}
+                        </div>
+                        {/* End Col */}
+                        <div className="col-span-12 sm:self-end sm:col-span-5 md:col-span-4 lg:col-span-3">
+                            {/* Card */}
+                            <a
+                                className="relative block overflow-hidden group rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                href="#"
+                            >
+                                <div className="overflow-hidden aspect-w-12 aspect-h-7 sm:aspect-none rounded-xl">
+                                    <img
+                                        className="object-cover w-full transition-transform duration-500 ease-in-out group-hover:scale-105 rounded-xl"
+                                        src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3481&q=80"
+                                        alt="Image Description"
+                                    />
+                                </div>
+                                <div className="absolute bottom-0 p-2 start-0 end-0">
+                                    <div className="p-3 font-semibold text-gray-800 bg-white rounded-lg dark:bg-gray-800 dark:text-gray-200">
+                                        Women in engineering
+                                    </div>
+                                </div>
+                            </a>
+                            {/* End Card */}
+                        </div>
+                        {/* End Col */}
+                        <div className="col-span-12 md:col-span-4">
+                            {/* Card */}
+                            <a
+                                className="relative block overflow-hidden group rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                href="#"
+                            >
+                                <div className="overflow-hidden aspect-w-12 aspect-h-7 sm:aspect-none rounded-xl">
+                                    <img
+                                        className="object-cover w-full transition-transform duration-500 ease-in-out group-hover:scale-105 rounded-xl"
+                                        src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3481&q=80"
+                                        alt="Image Description"
+                                    />
+                                </div>
+                                <div className="absolute bottom-0 p-2 start-0 end-0">
+                                    <div className="p-3 font-semibold text-gray-800 bg-white rounded-lg dark:bg-gray-800 dark:text-gray-200">
+                                        Pride 2021
+                                    </div>
+                                </div>
+                            </a>
+                            {/* End Card */}
+                        </div>
+                        {/* End Col */}
+                        <div className="col-span-12 sm:col-span-6 md:col-span-4">
+                            {/* Card */}
+                            <a
+                                className="relative block overflow-hidden group rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                href="#"
+                            >
+                                <div className="overflow-hidden aspect-w-12 aspect-h-7 sm:aspect-none rounded-xl">
+                                    <img
+                                        className="object-cover w-full transition-transform duration-500 ease-in-out group-hover:scale-105 rounded-xl"
+                                        src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3481&q=80"
+                                        alt="Image Description"
+                                    />
+                                </div>
+                                <div className="absolute bottom-0 p-2 start-0 end-0">
+                                    <div className="p-3 font-semibold text-gray-800 bg-white rounded-lg dark:bg-gray-800 dark:text-gray-200">
+                                        Data at Preline
+                                    </div>
+                                </div>
+                            </a>
+                            {/* End Card */}
+                        </div>
+                        {/* End Col */}
+                        <div className="col-span-12 sm:col-span-6 md:col-span-4">
+                            {/* Card */}
+                            <a
+                                className="relative block overflow-hidden group rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                href="#"
+                            >
+                                <div className="overflow-hidden aspect-w-12 aspect-h-7 sm:aspect-none rounded-xl">
+                                    <img
+                                        className="object-cover w-full transition-transform duration-500 ease-in-out group-hover:scale-105 rounded-xl"
+                                        src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3481&q=80"
+                                        alt="Image Description"
+                                    />
+                                </div>
+                                <div className="absolute bottom-0 p-2 start-0 end-0">
+                                    <div className="p-3 font-semibold text-gray-800 bg-white rounded-lg dark:bg-gray-800 dark:text-gray-200">
+                                        Empowered management
+                                    </div>
+                                </div>
+                            </a>
+                            {/* End Card */}
+                        </div>
+                        {/* End Col */}
+                    </div>
+                    {/* End Grid */}
+                </section>
                 <section
                     id="testimonials"
                     aria-label="What our customers are saying"

@@ -96,10 +96,12 @@ Route::middleware('auth','verified')->group(function () {
     Route::get('/myreservations', [ReservationController::class, 'myreservations'])->name('reservation.myreservations');
     Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
     Route::get('/reservations/mycustomers', [ReservationController::class, 'mycustomers'])->name('reservation.mycustomers');
+    Route::get('/reservations/mycompanycustomers', [ReservationController::class, 'mycompanycustomers'])->name('reservation.mycompanycustomers');
     Route::get('/reservations/mycounters', [ReservationController::class, 'mycounters'])->name('reservation.mycounters');
     Route::put('/startservice/{id}/edit', [ReservationController::class, 'startservice'])->name('reservation.startservice');
     Route::put('/finishservice/{id}/edit', [ReservationController::class, 'finishservice'])->name('reservation.finishservice');
     Route::put('/finishcustomer/{id}/edit', [ReservationController::class, 'finishcustomer'])->name('reservation.finishcustomer');
+    Route::put('/updatejoinas/{id}/edit', [ReservationController::class, 'updatejoinas'])->name('reservation.updatejoinas');
     Route::post('/daftarcounter', [ReservationController::class, 'daftarcounter'])->name('reservation.daftarcounter');
     Route::patch('/joincounter/{slug}', [ReservationController::class, 'joincounter'])->name('reservation.joincounter');
     Route::post('/maketeam/{slug}', [ReservationController::class, 'maketeam'])->name('reservation.maketeam');

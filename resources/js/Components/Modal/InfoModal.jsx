@@ -2,11 +2,11 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 
-export default function InfoModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog, size='max-w-2xl'}) {
+export default function InfoModal({title,children,header, isOpenInfoDialog,setIsOpenInfoDialog, closeButton='true', size='max-w-2xl'}) {
   return (
     <div>
       <Transition  appear show={isOpenInfoDialog} as={Fragment}>
-        <Dialog as="div" className="relative z-10" open={isOpenInfoDialog} onClose={()=> setIsOpenInfoDialog(false)}>
+        <Dialog as="div" className="relative z-10" open={isOpenInfoDialog} onClose={()=> setIsOpenInfoDialog(true)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -20,7 +20,7 @@ export default function InfoModal({title,children,header, isOpenInfoDialog,setIs
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex items-start justify-center min-h-full p-4 text-center mb-12">
+            <div className="flex items-start justify-center min-h-full p-4 mb-12 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -53,7 +53,7 @@ export default function InfoModal({title,children,header, isOpenInfoDialog,setIs
                   </div>
                   </div>
                 </div>
-                <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                {closeButton == 'false' ? '' : <> <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   {/* {children} */}
                   <button
                     type="button"
@@ -62,7 +62,8 @@ export default function InfoModal({title,children,header, isOpenInfoDialog,setIs
                   >
                     Close
                   </button>
-                </div>
+                </div></>}
+               
                 </Dialog.Panel>
               </Transition.Child>
             </div>

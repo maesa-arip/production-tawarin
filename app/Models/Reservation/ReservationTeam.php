@@ -22,4 +22,13 @@ class ReservationTeam extends Model
     {
         return $this->hasMany(ReservationJoinCounter::class);
     }
+    /**
+     * Get all of the comments for the ReservationTeam
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings()
+    {
+        return $this->hasMany(ReservationRating::class);
+    }
 }

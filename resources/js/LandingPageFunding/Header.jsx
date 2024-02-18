@@ -59,11 +59,11 @@ function Header() {
                             as="nav"
                             className="hidden space-x-10 md:flex"
                         >
-                            <NavLink href="/">Home</NavLink>
-                            <NavLink href="/toko/products">Products</NavLink>
+                            <NavLink href="/">Tawarin Reservasi</NavLink>
+                            <NavLink href="/">Tawarin Konstruksi</NavLink>
                             
 
-                            <DropdownMenu label={"Plan"}>
+                            {/* <DropdownMenu label={"Plan"}>
                                 <DropdownMenu.Link href="/plans">
                                     Index
                                 </DropdownMenu.Link>
@@ -93,7 +93,7 @@ function Header() {
                                 <DropdownMenu.Link href="/dropzone">
                                     Dropzone
                                 </DropdownMenu.Link>
-                            </DropdownMenu>
+                            </DropdownMenu> */}
                            
                         </Popover.Group>
                         
@@ -193,15 +193,19 @@ function Header() {
           <nav className="flex flex-grow">
             <ul className="flex flex-wrap items-center justify-end flex-grow">
               <li>
-                <NavLink href="/login" className="flex items-center px-5 py-3 font-medium text-gray-600 transition duration-150 ease-in-out hover:text-gray-900">Sign in</NavLink>
+              
+
+                <NavLink href="/login" className="flex items-center px-5 py-3 font-medium text-gray-600 transition duration-150 ease-in-out hover:text-gray-900">Masuk</NavLink>
               </li>
               <li>
-                <NavLink href="/register" className="inline-flex items-center justify-center px-4 py-2 ml-3 font-medium leading-snug text-gray-200 transition duration-150 ease-in-out rounded shadow bg-gradient-to-r from-blue-500 to-gray-800 hover:bg-gray-800">
-                  <span>Register</span>
-                  <svg className="flex-shrink-0 w-3 h-3 ml-2 -mr-1 text-gray-400 fill-current" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                  </svg>                  
+              
+                        <NavLink href="/register"
+                    data-aos="flip-up"
+                    className="block px-5 py-3 mx-auto font-medium text-yellow-500 transition duration-300 ease-in-out transform border border-yellow-500 rounded my-14 focus:outline-none hover:scale-110"
+                >
+                    Daftar
                 </NavLink>
+                
               </li>
             </ul>
 

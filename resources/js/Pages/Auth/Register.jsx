@@ -208,22 +208,22 @@ export default function Register({ joinas }) {
                         required
                     />
                 </div>
-                <div className="grid grid-cols-12 gap-2">
+                {/* <div className="grid grid-cols-12 gap-2">
                     <div className="col-span-12 mt-2 mb-2">
                         <p className="text-lg font-semibold text-gray-700">
                             Pilih Roles
                         </p>
                     </div>
-                </div>
+                </div> */}
 
-                <RadioCard
+                {/* <RadioCard
                     ShouldMap={joinas}
                     selected={selected}
                     onChange={(e) => {
                         onChangeRadio(e);
                         setSelected(e);
                     }}
-                />
+                /> */}
 
                 <div className="flex items-center justify-end mt-4">
                     <Link

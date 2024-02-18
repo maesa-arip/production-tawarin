@@ -13,7 +13,7 @@ import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
 import { IconChecks } from "@tabler/icons";
 
-export default function MyReservation({
+export default function MyCustomer({
     auth,
     mustVerifyEmail,
     status,
@@ -42,26 +42,49 @@ export default function MyReservation({
             onSuccess: () => setIsOpenInfoDialog2(false),
         });
     };
+    const closeInfoDialog = () => {
+        setIsOpenInfoDialog(false);
+    };
+    const closeInfoDialog2 = () => {
+        setIsOpenInfoDialog2(false);
+    };
     return (
         <>
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
                 setIsOpenInfoDialog={setIsOpenInfoDialog}
                 size="2xl"
-                title={"Mulai Pelayanan ?"}
+                closeButton="false"
+                title={"Yakin Mulai Pelayanan ?"}
             >
                 <ThirdButtonNoLink onClick={startService}>
                     Mulai
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="gray"
+                    onClick={closeInfoDialog}
+                >
+                    Close
                 </ThirdButtonNoLink>
             </InfoModal>
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog2}
                 setIsOpenInfoDialog={setIsOpenInfoDialog2}
                 size="2xl"
-                title={"Selesaikan Pelayanan ?"}
+                closeButton="false"
+                title={"Yakin Selesaikan Pelayanan ?"}
             >
                 <ThirdButtonNoLink color="teal" onClick={finishService}>
                     Selesai
+                </ThirdButtonNoLink>
+                
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="gray"
+                    onClick={closeInfoDialog2}
+                >
+                    Close
                 </ThirdButtonNoLink>
             </InfoModal>
             <Head title="Profile" />
@@ -192,4 +215,4 @@ export default function MyReservation({
         // </AuthenticatedLayout>
     );
 }
-MyReservation.layout = (page) => <AppReservasi children={page}></AppReservasi>;
+MyCustomer.layout = (page) => <AppReservasi children={page}></AppReservasi>;

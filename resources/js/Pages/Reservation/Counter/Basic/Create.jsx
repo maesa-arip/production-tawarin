@@ -19,6 +19,7 @@ import InputError from "@/Components/InputError";
 import RadioCard2 from "@/Components/RadioCard2";
 import Tooltip from "@/Components/Tooltip";
 import BaseModal from "@/Components/Modal/BaseModal";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 export default function Create({ onOff }) {
     const set_dayoff = [
@@ -34,6 +35,7 @@ export default function Create({ onOff }) {
     const [priceUser, setPriceUser] = useState("");
     const [price, setPrice] = useState("");
     const [hidePercent, setHidePercent] = useState(false);
+    const [hideDiskon, setHideDiskon] = useState(false);
     const onChangePriceUserHandler = (e) => {
         setPriceUser(e.target.value);
         setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
@@ -90,6 +92,7 @@ export default function Create({ onOff }) {
     };
 
     const [isOpenKomisiDialog, setIsOpenKomisiDialog] = useState(false);
+    const [isOpenDiskonDialog, setIsOpenDiskonDialog] = useState(false);
     const [state, setState] = useState([]);
 
     const openKomisiDialog = () => {
@@ -108,10 +111,24 @@ export default function Create({ onOff }) {
     }, [])
     const [percent_owner, setPercent_owner] = useState(0);
     useEffect(() => {
-        setData({ ...data, ["percent_employe"]: (100 - parseInt(data.percent_owner))});
+        setData({ ...data, ["percent_employe"]: (100 - (parseInt(data.percent_owner)|| 100))});
     }, [percent_owner,data.percent_owner])
     
-    console.log(data)
+
+    const openDiskonDialog = () => {
+        setIsOpenDiskonDialog(true);
+    };
+    const noDiskonDialog = () => {
+        setIsOpenDiskonDialog(false);
+        setHideDiskon(true);
+        setData({ ...data,  ["jumlahlayanandiskon"]: 0});
+    };
+    const yesDiskonDialog = () => {
+        setIsOpenDiskonDialog(false);
+    };
+    useEffect(() => {
+        openDiskonDialog();
+    }, [])
     return (
         <div>
             <Head title="Plan Create" />
@@ -120,24 +137,23 @@ export default function Create({ onOff }) {
                 setIsOpenInfoDialog={setIsOpenKomisiDialog}
                 size="max-w-2xl"
                 title={"Pilih"}
+                closeButton="false"
             >
-                Apakah anda akan memberikan komisi kepada pegawai untuk layanan ini ?
-                <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-wide text-red-500 uppercase transition duration-150 ease-in-out border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-50 hover:bg-red-100 focus:bg-red-100 active:bg-red-100 focus:ring-red-100"
-                    onClick={noKomisiDialog}
-                  >
-                    Tidak
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-wide text-blue-500 uppercase transition duration-150 ease-in-out border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-50 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100"
-                    onClick={yesKomisiDialog}
-                  >
-                    Ya
-                  </button>
-                {/* <ThirdButton type="button" color="red" onClick={() => setIsOpenKomisiDialog(false)}>Tidak</ThirdButton> */}
-                {/* <ThirdButton type="button">Iya</ThirdButton> */}
+                <p>Apakah anda akan memberikan komisi kepada pegawai untuk layanan ini ?</p>
+                <ThirdButtonNoLink type="button" color="red" onClick={noKomisiDialog}>Tidak</ThirdButtonNoLink>
+                <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesKomisiDialog}>Iya</ThirdButtonNoLink>
+            </BaseModal>
+            <BaseModal
+                isOpenInfoDialog={isOpenDiskonDialog}
+                setIsOpenInfoDialog={setIsOpenDiskonDialog}
+                size="max-w-2xl"
+                title={"Pilih"}
+                closeButton="false"
+            >
+                <p>Apakah anda akan memberikan diskon kepada pelanggan untuk layanan ini ?</p>
+                
+                <ThirdButtonNoLink type="button" color="red" onClick={noDiskonDialog}>Tidak</ThirdButtonNoLink>
+                <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesDiskonDialog}>Iya</ThirdButtonNoLink>
             </BaseModal>
             <Container>
                 <form onSubmit={onSubmitHandler}>
@@ -146,11 +162,11 @@ export default function Create({ onOff }) {
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                        Data Perencanaan
+                                        Data Layanan
                                     </h3>
 
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Masukan data lengkap perencanaanmu
+                                        Masukan data lengkap Layananmu
                                         disini.
                                     </p>
                                 </div>
@@ -272,12 +288,12 @@ export default function Create({ onOff }) {
                                                     htmlFor="name"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Persentase Owner
+                                                    Persentase untuk Owner
                                                 </label>
                                                 <div className="flex mt-1 rounded-md">
                                                     <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             name="percent_owner"
                                                             value={
                                                                 data.percent_owner ?? ""
@@ -301,12 +317,12 @@ export default function Create({ onOff }) {
                                                     htmlFor="name"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Persentase Employe
+                                                    Persentase untuk Pekerja
                                                 </label>
                                                 <div className="flex mt-1 rounded-md">
                                                     <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             name="percent_employe"
                                                             value={
                                                                 data.percent_employe ?? ""
@@ -326,6 +342,38 @@ export default function Create({ onOff }) {
                                                     </span>
                                                 )}
                                             </div></>}
+                                            {hideDiskon == true ? '' : 
+                                            <>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="name"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Jumlah Layanan untuk Mendapat Layanan Gratis
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="number"
+                                                            name="jumlahlayanandiskon"
+                                                            value={
+                                                                data.jumlahlayanandiskon ?? ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="jumlahlayanandiskon"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.jumlahlayanandiskon}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            </>}
                                             
                                             
                                             <div className="col-span-12 md:col-span-6">
@@ -424,125 +472,106 @@ export default function Create({ onOff }) {
                                                     </span>
                                                 )}
                                             </div>
-                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
-                                                <label className="block text-sm font-medium text-gray-700">
-                                                    Apakah Layanan Bisa Setting
-                                                    Hari Libur Sendiri ?
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="description"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Deskripsi
                                                 </label>
-                                                <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
-                                                    <div className="w-full text-center">
-                                                        <RadioCard2
-                                                            ShouldMap={onOff}
-                                                            selected={
-                                                                selectedSetDayOff
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <textarea
+                                                            type="text"
+                                                            name="description"
+                                                            value={
+                                                                data.description ??
+                                                                ""
                                                             }
-                                                            onChange={(e) => {
-                                                                onChangeSetDayOff(
-                                                                    e
-                                                                );
-                                                                setSelectedSetDayOff(
-                                                                    e
-                                                                );
-                                                            }}
-                                                        />
-                                                        <InputError
-                                                            message={
-                                                                errors.set_dayoff
-                                                            }
-                                                            className="mt-2"
+                                                            rows={3}
+                                                            onChange={onChange}
+                                                            id="description"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
                                                         />
                                                     </div>
                                                 </div>
-                                            </div> */}
-                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
-                                                <label className="block text-sm font-medium text-gray-700">
-                                                    Perlu Konfirmasi Barang
-                                                    Bawaan ?
-                                                </label>
-                                                <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
-                                                    <div className="w-full text-center">
-                                                        <RadioCard2
-                                                            ShouldMap={onOff}
-                                                            selected={
-                                                                selectedNeedImageReservation
-                                                            }
-                                                            onChange={(e) => {
-                                                                onChangeNeedImageReservation(
-                                                                    e
-                                                                );
-                                                                setSelectedNeedImageReservation(
-                                                                    e
-                                                                );
-                                                            }}
-                                                        />
-                                                        <InputError
-                                                            message={
-                                                                errors.need_image_reservation
-                                                            }
-                                                            className="mt-2"
-                                                        />
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {
+                                                            errors.description
+                                                        }
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-12 mt-5 md:mt-0 md:col-span-6">
+                                                <div className="shadow sm:rounded-md sm:overflow-hidden">
+                                                    <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+                                                        <div>
+                                                            <label className="block text-sm font-medium text-gray-700">
+                                                                Gambar Layanan
+                                                            </label>
+                                                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
+                                                                <div className="w-full text-center">
+                                                                    <svg
+                                                                        className="w-12 h-12 mx-auto text-gray-400"
+                                                                        stroke="currentColor"
+                                                                        fill="none"
+                                                                        viewBox="0 0 48 48"
+                                                                        aria-hidden="true"
+                                                                    >
+                                                                        <path
+                                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                                            strokeWidth={
+                                                                                2
+                                                                            }
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                        />
+                                                                    </svg>
+                                                                    <Filepond
+                                                                        inputname={
+                                                                            "reservationcounter"
+                                                                        }
+                                                                        allowMultiple={false}
+                                                                        maxFiles={
+                                                                            "5"
+                                                                        }
+                                                                        // required={
+                                                                        //     true
+                                                                        // }
+                                                                    />
+                                                                    <div className="flex justify-center text-sm text-gray-600">
+                                                                        <label
+                                                                            htmlFor="file-upload"
+                                                                            className="relative font-medium text-indigo-600 bg-white rounded-md hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                                                        >
+                                                                            <span>
+                                                                                Upload
+                                                                                a
+                                                                                file
+                                                                            </span>
+                                                                        </label>
+                                                                        <p className="pl-1">
+                                                                            or
+                                                                            drag
+                                                                            and
+                                                                            drop
+                                                                        </p>
+                                                                    </div>
+                                                                    <p className="text-xs text-gray-500">
+                                                                        PNG,
+                                                                        JPG, GIF
+                                                                        up to
+                                                                        10MB
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div> */}
-                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
-                                                <label className="block text-sm font-medium text-gray-700">
-                                                    Apakah Layanan ini Menggunakan Team ?
-                                                </label>
-                                                <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
-                                                    <div className="w-full text-center">
-                                                        <RadioCard2
-                                                            ShouldMap={onOff}
-                                                            selected={
-                                                                selectedTeamOrPerson
-                                                            }
-                                                            onChange={(e) => {
-                                                                onChangeTeamOrPerson(
-                                                                    e
-                                                                );
-                                                                setSelectedTeamOrPerson(
-                                                                    e
-                                                                );
-                                                            }}
-                                                        />
-                                                        <InputError
-                                                            message={
-                                                                errors.need_team
-                                                            }
-                                                            className="mt-2"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div> */}
-                                            {/* <div className="col-span-12 mt-6 md:col-span-4">
-                                                <label className="block text-sm font-medium text-gray-700">
-                                                    Perlu Gambar Sebelum dan
-                                                    Sesudah ?
-                                                </label>
-                                                <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
-                                                    <div className="w-full text-center">
-                                                        <RadioCard2
-                                                            ShouldMap={onOff}
-                                                            selected={
-                                                                selectedNeedImageBeforeAfter
-                                                            }
-                                                            onChange={(e) => {
-                                                                onChangeNeedImageBeforeAfter(
-                                                                    e
-                                                                );
-                                                                setSelectedNeedImageBeforeAfter(
-                                                                    e
-                                                                );
-                                                            }}
-                                                        />
-                                                        <InputError
-                                                            message={
-                                                                errors.need_image_before_after
-                                                            }
-                                                            className="mt-2"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">

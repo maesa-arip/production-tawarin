@@ -5,6 +5,7 @@ import Container from "@/Components/Container";
 import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
 import { numberFormat } from "@/Libs/helper";
+import { IconCash, IconChecks } from "@tabler/icons";
 
 const UpIcon = () => (
     <svg
@@ -44,11 +45,12 @@ export default function Index(props) {
     } = props.transactions;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
-
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("histories.index"),
+                route(route().current()),
+                // route("riskRegisterKlinis.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -58,8 +60,13 @@ export default function Index(props) {
         }, 150),
         []
     );
-
-    useEffect(() => reload(params), [params]);
+    useEffect(() => {
+        if (!isInitialRender) {
+            reload(params);
+        } else {
+            setIsInitialRender(false);
+        }
+    }, [params]);
     useEffect(() => {
         let numbers = [];
         for (
@@ -80,15 +87,16 @@ export default function Index(props) {
             direction: params.direction == "asc" ? "desc" : "asc",
         });
     };
+    // console.log(transaction)
     return (
         <>
-            <Head title="Deposit" />
-            <Container>Deposit </Container>
+            <Head title="History" />
+            <Container> </Container>
 
             <div className="py-12">
                 <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
                     <div className="flex items-center justify-end">
-                        <div className="w-1/2">
+                        <div className="w-full px-4">
                             <div className="flex items-center justify-end mb-6 gap-x-2">
                                 <select
                                     name="load"
@@ -138,162 +146,71 @@ export default function Index(props) {
                                             <tr>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                    className="text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
                                                 >
                                                     <div className="flex items-center cursor-pointer gap-x-2">
-                                                        #
+                                                        
                                                     </div>
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
-                                                >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        onClick={() =>
-                                                            sort("payable_type")
-                                                        }
-                                                    >
-                                                        Type
-                                                        {params.field ==
-                                                            "payable_type" &&
-                                                            params.direction ==
-                                                                "asc" && (
-                                                                <UpIcon />
-                                                            )}
-                                                        {params.field ==
-                                                            "payable_type" &&
-                                                            params.direction ==
-                                                                "desc" && (
-                                                                <DownIcon />
-                                                            )}
-                                                    </div>
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
-                                                >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        onClick={() =>
-                                                            sort("type")
-                                                        }
-                                                    >
-                                                        Type
-                                                        {params.field ==
-                                                            "type" &&
-                                                            params.direction ==
-                                                                "asc" && (
-                                                                <UpIcon />
-                                                            )}
-                                                        {params.field ==
-                                                            "type" &&
-                                                            params.direction ==
-                                                                "desc" && (
-                                                                <DownIcon />
-                                                            )}
-                                                    </div>
-                                                </th>
-
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
-                                                >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        onClick={() =>
-                                                            sort("amount")
-                                                        }
-                                                    >
-                                                        amount
-                                                        {params.field ==
-                                                            "amount" &&
-                                                            params.direction ==
-                                                                "asc" && (
-                                                                <UpIcon />
-                                                            )}
-                                                        {params.field ==
-                                                            "amount" &&
-                                                            params.direction ==
-                                                                "desc" && (
-                                                                <DownIcon />
-                                                            )}
-                                                    </div>
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
-                                                >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        onClick={() =>
-                                                            sort("confirmed")
-                                                        }
-                                                    >
-                                                        confirmed
-                                                        {params.field ==
-                                                            "confirmed" &&
-                                                            params.direction ==
-                                                                "asc" && (
-                                                                <UpIcon />
-                                                            )}
-                                                        {params.field ==
-                                                            "confirmed" &&
-                                                            params.direction ==
-                                                                "desc" && (
-                                                                <DownIcon />
-                                                            )}
-                                                    </div>
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
-                                                >
-                                                    <div
-                                                        className="flex items-center cursor-pointer gap-x-2"
-                                                        onClick={() =>
-                                                            sort("created_at")
-                                                        }
-                                                    >
-                                                        Created_at
-                                                        {params.field ==
-                                                            "created_at" &&
-                                                            params.direction ==
-                                                                "asc" && (
-                                                                <UpIcon />
-                                                            )}
-                                                        {params.field ==
-                                                            "created_at" &&
-                                                            params.direction ==
-                                                                "desc" && (
-                                                                <DownIcon />
-                                                            )}
-                                                    </div>
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="relative px-6 py-3"
-                                                >
-                                                    <span className="sr-only">
-                                                        Edit
-                                                    </span>
-                                                </th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200">
                                             {transaction.map(
                                                 (transaction, index) => (
                                                     <tr key={transaction.id}>
-                                                        <td className="px-6 py-4 whitespace-nowrap">
-                                                            {meta.from + index}
+                                                        <td className="px-3 py-2 whitespace-nowrap">
+                                                            {/* File Uploading Progress Form */}
+                                                            <div className="px-3 py-2 border rounded-xl">
+                                                                {/* Uploading File Content */}
+                                                                <div className="flex items-center justify-between mb-2">
+                                                                    <div className="flex items-center gap-x-3">
+                                                                        <span className="flex items-center justify-center text-gray-500 border border-gray-200 rounded-lg size-8 dark:border-neutral-700">
+                                                                        <IconCash className="flex-shrink-0 w-6 h-6 text-teal-500"/>
+                                                                        </span>
+                                                                        <div>
+                                                                            <p className="flex-wrap text-sm font-medium text-gray-800 whitespace-break-spaces dark:text-white">
+                                                                                {transaction.meta?.message}
+                                                                            </p>
+                                                                            {transaction.meta?.type == 'uang masuk' ? <><p className="text-xs text-teal-500 dark:text-teal-500">
+                                                                                Rp{" "}
+                                                                                {numberFormat(
+                                                                                    transaction.amount
+                                                                                )}
+                                                                            </p></> :<><p className="text-xs text-gray-500 dark:text-gray-500">
+                                                                                Rp{" "}
+                                                                                {numberFormat(
+                                                                                    transaction.amount
+                                                                                )}
+                                                                            </p></> }
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="inline-flex items-center gap-x-2">
+                                                                        {/* <IconCash className="flex-shrink-0 w-4 h-4 text-teal-500 size-4"/> */}
+                                                                        <div>
+                                                                            <p className="text-xs text-gray-800 dark:text-white">
+                                                                                {transaction.created_at_date}
+                                                                            </p>
+                                                                            <p className="text-xs text-teal-500 dark:text-teal-500">
+                                                                            <IconChecks className="flex-shrink-0 w-4 h-4 text-teal-500 size-4"/>
+                                                                            </p>
+                                                                            
+                                                                        </div>
+                                                                        
+                                                                        </div>
+                                                                </div>
+                                                                {/* End Uploading File Content */}
+                                                            </div>
+                                                            {/* End File Uploading Progress Form */}
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                        {/* <td className="px-6 py-4 whitespace-nowrap">
                                                             {
-                                                                transaction.payable_type
+                                                                transaction.meta?.message
                                                             }
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            {transaction.type}
+                                                            {transaction.meta?.type}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             Rp{" "}
@@ -310,8 +227,8 @@ export default function Index(props) {
                                                             {
                                                                 transaction.created_at
                                                             }
-                                                        </td>
-                                                        <td>
+                                                        </td> */}
+                                                        {/* <td>
                                                             <Link
                                                                 href={`/admindeposits/${transaction.id}`}
                                                             >
@@ -319,7 +236,7 @@ export default function Index(props) {
                                                                     Lihat
                                                                 </div>
                                                             </Link>
-                                                        </td>
+                                                        </td> */}
                                                     </tr>
                                                 )
                                             )}

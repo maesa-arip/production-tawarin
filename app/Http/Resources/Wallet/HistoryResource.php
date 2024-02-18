@@ -20,9 +20,12 @@ class HistoryResource extends JsonResource
             'payable_id' => $this->payable_id,
             'wallet_id' => $this->wallet_id,
             'type' => $this->type,
+            'meta' => $this->meta,
             'amount' => $this->amount,
             'confirmed' => $this->confirmed,
             'created_at' => $this->created_at->diffForHumans(),
+            'created_at_date' => $this->created_at->format('d M Y'),
         ];
+        // return parent::toArray($request);
     }
 }

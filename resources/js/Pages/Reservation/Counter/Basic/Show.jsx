@@ -122,7 +122,7 @@ export default function Show({
                             </p>
                             <p>
                                 Deskripsi :{" "}
-                                {/* {reservationCounter.service_duration} minutes */}
+                                {reservationCounter.description}
                             </p>
                         </div>
                     </div>

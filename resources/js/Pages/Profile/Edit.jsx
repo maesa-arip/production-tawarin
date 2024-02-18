@@ -10,8 +10,9 @@ import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import CopyButton from "@/Components/CopyButton";
 
-export default function Edit({ auth, mustVerifyEmail, status }) {
+export default function Edit({ auth, mustVerifyEmail, status, media }) {
     // const referral = auth.user.referral
+    // console.log(media)
     const textToCopy = "https://tawarin.id/register/" + auth.user.referral;
     return (
         // <AuthenticatedLayout
@@ -24,10 +25,10 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                 <div className="mx-auto space-y-6 sm:px-6 lg:px-8">
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-8 border border-gray-200 rounded-2xl">
-                            <div className="flex justify-center text-lg mb-2">
+                            <div className="flex justify-center mb-2 text-lg">
                                 Kode Referral
                             </div>
-                            <div className="flex justify-center text-lg items-center px-2 py-1 font-semibold rounded">
+                            <div className="flex items-center justify-center px-2 py-1 text-lg font-semibold rounded">
                                 <PrimaryButton>
                                     {auth.user.referral}
                                 </PrimaryButton>
@@ -37,6 +38,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
+                            media={media}
                         />
                     </div>
 

@@ -549,8 +549,7 @@ export default function Index(props) {
                                                                     //     `${reservationCounter.slug}`
                                                                     // )}
                                                                     >
-                                                                        Setting
-                                                                        Team
+                                                                        Atur Tim
                                                                     </Dropdown.Link>
                                                                     <Dropdown.Link
                                                                     // href={route(
@@ -730,7 +729,7 @@ export default function Index(props) {
                                                                     `${reservationCounter.slug}`
                                                                 )}
                                                                 >
-                                                                    Setting Team
+                                                                    Atur Tim
                                                                 </DropdownMobile.Link>
                                                                 
                                                             </DropdownMobile.Content>
@@ -766,11 +765,11 @@ export default function Index(props) {
                                                     <p className="text-xs font-medium text-gray-500">
                                                         Jam Buka{" "}
                                                         {
-                                                            reservationCounter.open_at
+                                                            reservationCounter.company.open_at
                                                         }
                                                         {" - "}
                                                         {
-                                                            reservationCounter.close_at
+                                                            reservationCounter.company.close_at
                                                         }
                                                     </p>
                                                 </div>
@@ -809,7 +808,7 @@ export default function Index(props) {
                                                                     )}
                                                                         className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
                                                                     >
-                                                                        Setting Team
+                                                                        Atur Tim
                                                                     </Link>
                                                                 ) : (
                                                                     <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">

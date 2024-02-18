@@ -979,7 +979,7 @@ export default function NavbarReservasi() {
                                 >
                                     <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                                     <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                        Setting Company
+                                        Atur Perusahaan
                                     </p>
                                 </NavLinkMobile>
                                 <NavLinkMobile
@@ -988,16 +988,16 @@ export default function NavbarReservasi() {
                                 >
                                     <IconHomeEdit className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                                     <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                        Setting Layanan
+                                        Atur Layanan
                                     </p>
                                 </NavLinkMobile>
                                 <NavLinkMobile
                                     onClick={() => setIsOpenMenuModal(false)}
-                                    href={route("reservationprofile.edit")}
+                                    href={route("reservation.mycompanycustomers")}
                                 >
                                     <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                                     <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                        Pelanggan Company
+                                        Pelanggan Perusahaan
                                     </p>
                                 </NavLinkMobile>
                             </>

@@ -10,7 +10,7 @@ import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import CopyButton from "@/Components/CopyButton";
 
-export default function Edit({ auth, mustVerifyEmail, status, company,reservation_categories }) {
+export default function Edit({ auth, mustVerifyEmail, status, company,media,reservation_categories }) {
     return (
         <>
             <Head title="Profile" />
@@ -20,6 +20,7 @@ export default function Edit({ auth, mustVerifyEmail, status, company,reservatio
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
+                            media={media}
                             company={company}
                             reservation_categories={reservation_categories}
                         />

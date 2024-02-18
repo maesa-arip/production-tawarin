@@ -45,7 +45,7 @@ export default function Time({ setIsOpenDialog, model }) {
                 model.reservationCounter.service_duration
             ).map((timeRange, index) => (
                 <div key={index} className="relative w-full mx-auto">
-                    <div className="flex flex-col my-4 bg-white border shadow-lg rounded-xl">
+                    <div className="flex flex-col my-4 bg-white border rounded-lg">
                         <div className="flex flex-col items-center justify-center flex-auto p-2">
                             <div className="grid w-full grid-cols-12 gap-4">
                                 <div className="col-span-8 lg:col-span-10">

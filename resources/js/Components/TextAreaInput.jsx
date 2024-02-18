@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef } from 'react';
 
 export default forwardRef(function TextAreaInput(
-    { type = 'text', rows = 3 ,  name, id, value, className, autoComplete, required, readOnly, isFocused, handleChange },
+    { type = 'text', rows = 3 ,  name, id, value, className, placeholder, autoComplete, required, readOnly, isFocused, handleChange },
     ref
 ) {
     const input = ref ? ref : useRef();
@@ -19,6 +19,7 @@ export default forwardRef(function TextAreaInput(
                 name={name}
                 rows={rows}
                 id={id}
+                placeholder={placeholder}
                 value={value}
                 className={
                     `border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ` +

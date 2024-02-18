@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'phone' => 'required|string|max:255',
             // 'address' => 'required|string|max:255',
-            'join_as_id' => 'required',
+            // 'join_as_id' => 'required',
             // 'referral' => 'required',
             'from_referral' => 'max:7',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],

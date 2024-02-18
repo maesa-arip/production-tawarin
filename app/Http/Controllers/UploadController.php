@@ -69,7 +69,51 @@ class UploadController extends Controller
             Session::push('filename', $filename);
             return [$folder, $filename, 'folder', 'filename'];
         }
+        if ($request->hasFile('reservationcounter')) {
+            $file = $request->file('reservationcounter');
+            $filename = hexdec(uniqid()) . '.' . $file->extension();
+            $folder = uniqid() . '-' . now()->timestamp;
+            $file->storeAs('public/files/tmp/' . $folder, $filename);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename
+            ]);
+            Session::push('foldercounter', $folder);
+            Session::push('filenamecounter', $filename);
+            return [$folder, $filename, 'foldercounter', 'filenamecounter'];
 
+
+        }
+        if ($request->hasFile('profilepicture')) {
+            $file = $request->file('profilepicture');
+            $filename = hexdec(uniqid()) . '.' . $file->extension();
+            $folder = uniqid() . '-' . now()->timestamp;
+            $file->storeAs('public/files/tmp/' . $folder, $filename);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename
+            ]);
+            Session::push('folderprofile', $folder);
+            Session::push('filenameprofile', $filename);
+            return [$folder, $filename, 'folderprofile', 'filenameprofile'];
+
+
+        }
+        if ($request->hasFile('reservationcompany')) {
+            $file = $request->file('reservationcompany');
+            $filename = hexdec(uniqid()) . '.' . $file->extension();
+            $folder = uniqid() . '-' . now()->timestamp;
+            $file->storeAs('public/files/tmp/' . $folder, $filename);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename
+            ]);
+            Session::push('foldercompany', $folder);
+            Session::push('filenamecompany', $filename);
+            return [$folder, $filename, 'foldercompany', 'filenamecompany'];
+
+
+        }
 
 
 

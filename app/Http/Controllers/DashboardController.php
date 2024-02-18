@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Plan\PlanResource;
+use App\Models\Auth\JoinAs;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanCategory;
 use App\Models\User;
@@ -53,9 +54,11 @@ class DashboardController extends Controller
                 'direction' => $request->direction ?? '',
             ]
         ]);
+        $joinas_reservasi = JoinAs::where('name', 'like', '%Reservasi%')->get();
+        $joinas_konstruksi = JoinAs::where('name', 'not like', '%Reservasi%')->get();
        
         $portofolio = User::where('users.id', auth()->user()->id)->join('plan_portofolios', 'plan_portofolios.user_id','users.id')->get();
         
-        return inertia('Dashboard', ['plans' => $plans, 'portofolio'=> $portofolio]);
+        return inertia('Dashboard', ['plans' => $plans, 'portofolio'=> $portofolio, 'joinas_reservasi'=>$joinas_reservasi,'joinas_konstruksi'=>$joinas_konstruksi]);
     }
 }

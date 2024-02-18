@@ -8,10 +8,14 @@ use App\Http\Resources\Reservation\ReservationCounterResource;
 use App\Models\Auth\JoinAs;
 use App\Models\Reservation\ReservationCompany;
 use App\Models\Reservation\ReservationCounter;
+use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationTeam;
 use App\Models\ReservationOnOff;
+use App\Models\TemporaryFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class ReservationCounterController extends Controller
@@ -21,6 +25,8 @@ class ReservationCounterController extends Controller
     {
         $reservationCounters = ReservationCounter::query()
             ->with('team')
+            ->with('media')
+            ->with('company')
             ->where('user_id', auth()->user()->id);
         if ($request->q) {
             $reservationCounters->where('name', 'like', '%' . $request->q . '%');
@@ -62,9 +68,10 @@ class ReservationCounterController extends Controller
             'code' => (Str::random(6)),
             'price_user' => $price_user = $request->price_user,
             'price' => ceil($price_user * 105/100),
+            'description' =>  $request->description,
             'percent_owner' =>  $request->percent_owner,
             'percent_employe' => $request->percent_employe,
-            // 'open_at' => $request->open_at,
+            'jumlahlayanandiskon' => $request->jumlahlayanandiskon,
             // 'close_at' => $request->close_at,
             'service_duration' => $request->service_duration,
             'set_dayoff' => 0,
@@ -76,6 +83,26 @@ class ReservationCounterController extends Controller
         ]);   
         // dd($atrributes);
             $reservationCounter = ReservationCounter::create($atrributes);
+            $temporaryFolderCounter = Session::get('foldercounter');
+            $namefilecounter = Session::get('filenamecounter');
+            if ($temporaryFolderCounter) {
+                for ($i = 0; $i < count($temporaryFolderCounter); $i++) {
+                    $temporary = TemporaryFile::where('folder', $temporaryFolderCounter[$i])->where('filename', $namefilecounter[$i])->first();
+                    if ($temporary) {
+                        $reservationCounter->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderCounter[$i] . '/' . $namefilecounter[$i]))
+                            ->toMediaCollection('reservationcounter');
+                        $path = storage_path() . '/app/public/files/tmp/' . $temporary->folder;
+                        if (File::exists($path)) {
+                            File::delete($path);
+                            rmdir(storage_path('app/public/files/tmp/' . $temporary->folder));
+                            $temporary->delete();
+                        }
+                    }
+                }
+            }
+            Session::remove('foldercounter');
+            Session::remove('filenamecounter');
+
             return redirect('reservationCounters')->with([
                 'type' => 'success',
                 'message' => 'Pelayanan berhasil disimpan',
@@ -84,7 +111,10 @@ class ReservationCounterController extends Controller
 
     public function show(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter)
     {
-        $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)->get();
+        $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
+        ->withAvg('ratings','star_rating')->withCount('ratings')
+        ->orderBy('ratings_avg_star_rating','DESC')->get();
+        
         $currentDate = Carbon::now(); // Get the current date and time
         $endDate = $currentDate->copy()->addDays($reservationCounter->period); // Add 30 days to the current date
         return inertia('Reservation/Counter/Basic/Show', ['reservationCompany'=> $reservationCompany,'team'=>$team,'reservationCounter'=> $reservationCounter, 'endDate' => $endDate->toDateString()]);
@@ -108,6 +138,7 @@ class ReservationCounterController extends Controller
             'code' => (Str::random(6)),
             'price_user' => $price_user = $request->price_user,
             'price' => ceil($price_user * 105/100),
+            'description' =>  $request->description,
             'percent_owner' =>  $request->percent_owner,
             'percent_employe' => $request->percent_employe,
             'service_duration' => $request->service_duration,
