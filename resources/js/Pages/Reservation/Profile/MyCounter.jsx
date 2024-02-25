@@ -73,12 +73,12 @@ export default function MyCounter({ myCounters }) {
                                 Layanan Saya
                             </div>
                         </div>
-                        <ThirdButtonNoLink
+                        {/* <ThirdButtonNoLink
                             onClick={() => openDaftarDialog()}
                             className="mt-4"
                         >
                             Daftar Layanan
-                        </ThirdButtonNoLink>
+                        </ThirdButtonNoLink> */}
                         {myCounters.map((item, index) => (
                             <div className="py-5" key={index}>
                                 <div className="p-2 duration-150 bg-white rounded-lg shadow cursor-pointer">

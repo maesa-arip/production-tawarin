@@ -262,19 +262,19 @@ class ReservationController extends Controller
     }
     public function mycounters(Request $request)
     {
-        $myCounters = ReservationCounter::join('reservation_teams', 'reservation_teams.reservation_counter_id', 'reservation_counters.id')
-            ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
-            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+        $myCounters = ReservationCounter::leftjoin('reservation_teams', 'reservation_teams.reservation_counter_id', 'reservation_counters.id')
+            ->leftjoin('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
+            ->leftjoin('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
             ->select('reservation_counters.*', 'reservation_teams.name as teamName', 'reservation_companies.name as companyName')
             ->where('reservation_team_details.id', auth()->user()->id)
             ->orderBy('reservation_counters.created_at', 'DESC')
             ->get();
-        $counterWaitings = ReservationCounter::join('reservation_daftar_counters', 'reservation_daftar_counters.code', 'reservation_counters.code')
-            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_counters.*', 'reservation_teams.name as teamName', 'reservation_companies.name as companyName')
-            ->where('reservation_team_details.id', auth()->user()->id)
-            ->orderBy('reservation_counters.created_at', 'DESC')
-            ->get();
+        // $counterWaitings = ReservationCounter::join('reservation_daftar_counters', 'reservation_daftar_counters.code', 'reservation_counters.code')
+        //     ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+        //     ->select('reservation_counters.*', 'reservation_teams.name as teamName', 'reservation_companies.name as companyName')
+        //     ->where('reservation_team_details.id', auth()->user()->id)
+        //     ->orderBy('reservation_counters.created_at', 'DESC')
+        //     ->get();
         return Inertia::render('Reservation/Profile/MyCounter', [
             'myCounters' => $myCounters,
         ]);
