@@ -17,7 +17,7 @@ export default function Index({ notifications }) {
             <div className="max-w-full mx-auto">
                 <div className="p-8 mb-5 bg-white rounded-3xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 md:gap-x-20">
-                        <div>
+                        {/* <div>
                             <h2 className="mb-4 text-2xl font-bold">Wallet</h2>
                             <div className="flex flex-col w-full space-y-8">
                                 <div className="w-full h-56 p-6 text-white shadow-md bg-gradient-to-tl from-gray-900 to-gray-800 md:w-96 rounded-xl">
@@ -72,7 +72,6 @@ export default function Index({ notifications }) {
                                             Saldo
                                         </div>
                                         <div className="text-2xl font-semibold">
-                                            {/* Rp {numberFormat(balance.balance)} */}
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +162,7 @@ export default function Index({ notifications }) {
                                     History
                                 </NavLink>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="mt-12 md:mt-0">
                             <h2 className="mb-4 text-2xl font-bold">
                                 Notifications

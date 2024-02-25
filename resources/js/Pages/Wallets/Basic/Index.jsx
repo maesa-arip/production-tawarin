@@ -99,7 +99,7 @@ export default function Index({ balance, bonus, referral }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="relative">
+                                {/* <div className="relative">
                                     <div className="absolute flex items-start px-2 py-3 space-x-2 text-gray-900 bg-white border-gray-200 rounded-lg shadow-2xl -right-4 lg:right-36 -mt-14 md:-mt-16 w-72">
                                         <div className="flex-initial">
                                             <div className="inline-flex items-center justify-center bg-green-300 rounded-lg bg-gradient-tl from-green-400 via-green-400">
@@ -144,7 +144,7 @@ export default function Index({ balance, bonus, referral }) {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="grid w-full grid-cols-4 mt-6 text-white gap-x-1 md:w-96">
                                 <NavLink
@@ -219,7 +219,7 @@ export default function Index({ balance, bonus, referral }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="relative">
+                                {/* <div className="relative">
                                     <div className="absolute flex items-start px-2 py-3 space-x-2 text-gray-900 bg-white border-gray-200 rounded-lg shadow-2xl -right-4 lg:right-36 -mt-14 md:-mt-16 w-72">
                                         <div className="flex-initial">
                                             <div className="inline-flex items-center justify-center bg-green-300 rounded-lg bg-gradient-tl from-green-400 via-green-400">
@@ -264,7 +264,7 @@ export default function Index({ balance, bonus, referral }) {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="grid w-full grid-cols-2 mt-6 text-white gap-x-1 md:w-96">
                                 <div className="grid w-full grid-cols-1">
