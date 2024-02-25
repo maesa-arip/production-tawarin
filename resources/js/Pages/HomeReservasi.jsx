@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import AppReservasi from "@/Layouts/AppReservasi";
 import { Head, Link } from "@inertiajs/inertia-react";
-import Container from "@/Components/Container";
-import RadioCard from "@/Components/RadioCard";
-import Hero from "@/Components/Hero";
-import HideScrollBar from "@/Components/HideScrollBar";
-import Feature from "@/Components/Feature";
-import CTA from "@/Components/CTA";
-import Feature2 from "@/Components/Feature2";
-import SocialShare from "@/Components/SocialShare";
-import Marquee from "@/Components/Marquee";
+
+
+import HeroHome from "../LandingPageFunding/HeroHome";
+import Features from "../LandingPageFunding/Features";
+import DefaultUserImage from "../../img/LandingPageFunding/defaultuser.jpg";
+
+
+
+
+
+
 import Footer from "@/LandingPageFunding/Footer";
 import TrueFalseImage from "../../img/LandingPageFunding/true-false.png";
 import GirlWithBooksImage from "../../img/LandingPageFunding/girl-with-books.png";
@@ -18,19 +20,9 @@ import VCallImage from "../../img/LandingPageFunding/vcall.png";
 import GradeBookImage from "../../img/LandingPageFunding/gradebook.png";
 import DiscussionImage from "../../img/LandingPageFunding/discussion.png";
 import TestimonialImage from "../../img/LandingPageFunding/testimonials.png";
-import DefaultUserImage from "../../img/LandingPageFunding/defaultuser.jpg";
-import Typewriter from "typewriter-effect";
-import Logo from "../../img/Tawarin.png";
-import {
-    IconBuildingSkyscraper,
-    IconBuildingStore,
-    IconCash,
-    IconHomeEdit,
-    IconTools,
-    IconUserSearch,
-} from "@tabler/icons";
-import EmptyCard from "@/Components/EmptyCard";
+
 import InfoModal from "@/Components/Modal/InfoModal";
+import Header from "@/Components/Header";
 
 export default function HomeReservasi(props) {
     const { data: plans } = props.plans;
@@ -39,9 +31,9 @@ export default function HomeReservasi(props) {
         setState();
         setIsOpenInfoDialog(true);
     };
-    useEffect(() => {
-        openInfoDialog()
-    }, [])
+    // useEffect(() => {
+    //     openInfoDialog()
+    // }, [])
     
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [state, setState] = useState([]);
@@ -64,1227 +56,476 @@ export default function HomeReservasi(props) {
                     content="Membuat perencanaan, proyek dan belanja dengan mudah."
                 />
             </Head>
+            <div className="flex flex-col min-h-screen overflow-hidden">
+            {/*  Site header */}
             {/* <Head title="Home" /> */}
-            <Container>
-                {/* <div className="py-20 overflow-hidden sm:py-32 lg:pb-32 xl:pb-36"> */}
-                <div className="py-12 overflow-hidden lg:pb-32 xl:pb-36">
-                    <div className="px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
-                            <div className="relative z-10 mx-auto lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
-                                <h1 className="text-2xl font-medium tracking-tight text-gray-900 md:text-4xl">
-                                    <Typewriter
-                                        options={{
-                                            strings: [
-                                                "Mari bergabung bersama",
-                                                "Ekosistem Konstruksi Digital",
-                                            ],
-                                            autoStart: true,
-                                            loop: true,
-                                        }}
-                                    />
+            {/* <Header /> */}
 
-                                    <span className="block pb-2 -mt-2 text-2xl tracking-tight text-transparent md:text-4xl bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-500 bg-clip-text lg:mt-4">
-                                        <span>Super Ekosistem Tawarin Reservasi.</span>
-                                    </span>
-                                </h1>
-                                <p className="mt-6 text-lg text-gray-600">
-                                    Mari berkembang bersama kami melalui
-                                    ekosistem Tawarin yang luas, amankan
-                                    projekmu, amankan uangmu melalui aplikasi
-                                    kami.
-                                </p>
-                                <div className="flex flex-wrap mt-8 gap-x-6 gap-y-4">
-                                    <a
-                                        aria-label="Download on the Play Store"
-                                        className="text-white transition-colors bg-gray-800 rounded-lg hover:bg-gray-900"
-                                        href="https://play.google.com/store/apps/details?id=com.tawarin.net"
-                                        target="_blank"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-10"
-                                            viewBox="0 0 135 40"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M130 40H5c-2.8 0-5-2.2-5-5V5c0-2.8 2.2-5 5-5h125c2.8 0 5 2.2 5 5v30c0 2.8-2.2 5-5 5z"></path>
-                                            <path
-                                                fill="#a6a6a6"
-                                                d="M130 .8c2.3 0 4.2 1.9 4.2 4.2v30c0 2.3-1.9 4.2-4.2 4.2H5C2.7 39.2.8 37.3.8 35V5C.8 2.7 2.7.8 5 .8h125m0-.8H5C2.2 0 0 2.3 0 5v30c0 2.8 2.2 5 5 5h125c2.8 0 5-2.2 5-5V5c0-2.7-2.2-5-5-5z"
-                                            ></path>
-                                            <path
-                                                fill="#fff"
-                                                stroke="#fff"
-                                                strokeMiterlimit="10"
-                                                strokeWidth="0.2"
-                                                d="M47.4 10.2c0 .8-.2 1.5-.7 2-.6.6-1.3.9-2.2.9-.9 0-1.6-.3-2.2-.9-.6-.6-.9-1.3-.9-2.2 0-.9.3-1.6.9-2.2.6-.6 1.3-.9 2.2-.9.4 0 .8.1 1.2.3.4.2.7.4.9.7l-.5.5c-.4-.5-.9-.7-1.6-.7-.6 0-1.2.2-1.6.7-.5.4-.7 1-.7 1.7s.2 1.3.7 1.7c.5.4 1 .7 1.6.7.7 0 1.2-.2 1.7-.7.3-.3.5-.7.5-1.2h-2.2v-.8h2.9v.4zM52 7.7h-2.7v1.9h2.5v.7h-2.5v1.9H52v.8h-3.5V7H52v.7zm3.3 5.3h-.8V7.7h-1.7V7H57v.7h-1.7V13zm4.6 0V7h.8v6h-.8zm4.2 0h-.8V7.7h-1.7V7h4.1v.7H64V13zm9.5-.8c-.6.6-1.3.9-2.2.9-.9 0-1.6-.3-2.2-.9-.6-.6-.9-1.3-.9-2.2s.3-1.6.9-2.2c.6-.6 1.3-.9 2.2-.9.9 0 1.6.3 2.2.9.6.6.9 1.3.9 2.2 0 .9-.3 1.6-.9 2.2zm-3.8-.5c.4.4 1 .7 1.6.7.6 0 1.2-.2 1.6-.7.4-.4.7-1 .7-1.7s-.2-1.3-.7-1.7c-.4-.4-1-.7-1.6-.7-.6 0-1.2.2-1.6.7-.4.4-.7 1-.7 1.7s.2 1.3.7 1.7zm5.8 1.3V7h.9l2.9 4.7V7h.8v6h-.8l-3.1-4.9V13h-.7z"
-                                            ></path>
-                                            <path
-                                                fill="#fff"
-                                                d="M68.1 21.8c-2.4 0-4.3 1.8-4.3 4.3 0 2.4 1.9 4.3 4.3 4.3s4.3-1.8 4.3-4.3c0-2.6-1.9-4.3-4.3-4.3zm0 6.8c-1.3 0-2.4-1.1-2.4-2.6s1.1-2.6 2.4-2.6c1.3 0 2.4 1 2.4 2.6 0 1.5-1.1 2.6-2.4 2.6zm-9.3-6.8c-2.4 0-4.3 1.8-4.3 4.3 0 2.4 1.9 4.3 4.3 4.3s4.3-1.8 4.3-4.3c0-2.6-1.9-4.3-4.3-4.3zm0 6.8c-1.3 0-2.4-1.1-2.4-2.6s1.1-2.6 2.4-2.6c1.3 0 2.4 1 2.4 2.6 0 1.5-1.1 2.6-2.4 2.6zm-11.1-5.5v1.8H52c-.1 1-.5 1.8-1 2.3-.6.6-1.6 1.3-3.3 1.3-2.7 0-4.7-2.1-4.7-4.8s2.1-4.8 4.7-4.8c1.4 0 2.5.6 3.3 1.3l1.3-1.3c-1.1-1-2.5-1.8-4.5-1.8-3.6 0-6.7 3-6.7 6.6 0 3.6 3.1 6.6 6.7 6.6 2 0 3.4-.6 4.6-1.9 1.2-1.2 1.6-2.9 1.6-4.2 0-.4 0-.8-.1-1.1h-6.2zm45.4 1.4c-.4-1-1.4-2.7-3.6-2.7s-4 1.7-4 4.3c0 2.4 1.8 4.3 4.2 4.3 1.9 0 3.1-1.2 3.5-1.9l-1.4-1c-.5.7-1.1 1.2-2.1 1.2s-1.6-.4-2.1-1.3l5.7-2.4-.2-.5zm-5.8 1.4c0-1.6 1.3-2.5 2.2-2.5.7 0 1.4.4 1.6.9l-3.8 1.6zM82.6 30h1.9V17.5h-1.9V30zm-3-7.3c-.5-.5-1.3-1-2.3-1-2.1 0-4.1 1.9-4.1 4.3s1.9 4.2 4.1 4.2c1 0 1.8-.5 2.2-1h.1v.6c0 1.6-.9 2.5-2.3 2.5-1.1 0-1.9-.8-2.1-1.5l-1.6.7c.5 1.1 1.7 2.5 3.8 2.5 2.2 0 4-1.3 4-4.4V22h-1.8v.7zm-2.2 5.9c-1.3 0-2.4-1.1-2.4-2.6s1.1-2.6 2.4-2.6c1.3 0 2.3 1.1 2.3 2.6s-1 2.6-2.3 2.6zm24.4-11.1h-4.5V30h1.9v-4.7h2.6c2.1 0 4.1-1.5 4.1-3.9s-2-3.9-4.1-3.9zm.1 6h-2.7v-4.3h2.7c1.4 0 2.2 1.2 2.2 2.1-.1 1.1-.9 2.2-2.2 2.2zm11.5-1.8c-1.4 0-2.8.6-3.3 1.9l1.7.7c.4-.7 1-.9 1.7-.9 1 0 1.9.6 2 1.6v.1c-.3-.2-1.1-.5-1.9-.5-1.8 0-3.6 1-3.6 2.8 0 1.7 1.5 2.8 3.1 2.8 1.3 0 1.9-.6 2.4-1.2h.1v1h1.8v-4.8c-.2-2.2-1.9-3.5-4-3.5zm-.2 6.9c-.6 0-1.5-.3-1.5-1.1 0-1 1.1-1.3 2-1.3.8 0 1.2.2 1.7.4-.2 1.2-1.2 2-2.2 2zm10.5-6.6l-2.1 5.4h-.1l-2.2-5.4h-2l3.3 7.6-1.9 4.2h1.9l5.1-11.8h-2zm-16.8 8h1.9V17.5h-1.9V30z"
-                                            ></path>
-                                            <linearGradient
-                                                id="a"
-                                                x1="21.8"
-                                                x2="5.017"
-                                                y1="33.29"
-                                                y2="16.508"
-                                                gradientTransform="matrix(1 0 0 -1 0 42)"
-                                                gradientUnits="userSpaceOnUse"
-                                            >
-                                                <stop
-                                                    offset="0"
-                                                    stopColor="#00a0ff"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.007"
-                                                    stopColor="#00a1ff"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.26"
-                                                    stopColor="#00beff"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.512"
-                                                    stopColor="#00d2ff"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.76"
-                                                    stopColor="#00dfff"
-                                                ></stop>
-                                                <stop
-                                                    offset="1"
-                                                    stopColor="#00e3ff"
-                                                ></stop>
-                                            </linearGradient>
-                                            <path
-                                                fill="url(#a)"
-                                                d="M10.4 7.5c-.3.3-.4.8-.4 1.4V31c0 .6.2 1.1.5 1.4l.1.1L23 20.1v-.2L10.4 7.5z"
-                                            ></path>
-                                            <linearGradient
-                                                id="b"
-                                                x1="33.834"
-                                                x2="9.637"
-                                                y1="21.999"
-                                                y2="21.999"
-                                                gradientTransform="matrix(1 0 0 -1 0 42)"
-                                                gradientUnits="userSpaceOnUse"
-                                            >
-                                                <stop
-                                                    offset="0"
-                                                    stopColor="#ffe000"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.409"
-                                                    stopColor="#ffbd00"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.775"
-                                                    stopColor="orange"
-                                                ></stop>
-                                                <stop
-                                                    offset="1"
-                                                    stopColor="#ff9c00"
-                                                ></stop>
-                                            </linearGradient>
-                                            <path
-                                                fill="url(#b)"
-                                                d="M27 24.3l-4.1-4.1v-.3l4.1-4.1.1.1 4.9 2.8c1.4.8 1.4 2.1 0 2.9l-5 2.7z"
-                                            ></path>
-                                            <linearGradient
-                                                id="c"
-                                                x1="24.827"
-                                                x2="2.069"
-                                                y1="19.704"
-                                                y2="-3.054"
-                                                gradientTransform="matrix(1 0 0 -1 0 42)"
-                                                gradientUnits="userSpaceOnUse"
-                                            >
-                                                <stop
-                                                    offset="0"
-                                                    stopColor="#ff3a44"
-                                                ></stop>
-                                                <stop
-                                                    offset="1"
-                                                    stopColor="#c31162"
-                                                ></stop>
-                                            </linearGradient>
-                                            <path
-                                                fill="url(#c)"
-                                                d="M27.1 24.2L22.9 20 10.4 32.5c.5.5 1.2.5 2.1.1l14.6-8.4"
-                                            ></path>
-                                            <linearGradient
-                                                id="d"
-                                                x1="7.297"
-                                                x2="17.46"
-                                                y1="41.824"
-                                                y2="31.661"
-                                                gradientTransform="matrix(1 0 0 -1 0 42)"
-                                                gradientUnits="userSpaceOnUse"
-                                            >
-                                                <stop
-                                                    offset="0"
-                                                    stopColor="#32a071"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.069"
-                                                    stopColor="#2da771"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.476"
-                                                    stopColor="#15cf74"
-                                                ></stop>
-                                                <stop
-                                                    offset="0.801"
-                                                    stopColor="#06e775"
-                                                ></stop>
-                                                <stop
-                                                    offset="1"
-                                                    stopColor="#00f076"
-                                                ></stop>
-                                            </linearGradient>
-                                            <path
-                                                fill="url(#d)"
-                                                d="M27.1 15.8L12.5 7.5c-.9-.5-1.6-.4-2.1.1L22.9 20l4.2-4.2z"
-                                            ></path>
-                                            <path
-                                                d="M27 24.1l-14.5 8.2c-.8.5-1.5.4-2 0l-.1.1.1.1c.5.4 1.2.5 2 0L27 24.1z"
-                                                opacity="0.2"
-                                            ></path>
-                                            <path
-                                                d="M10.4 32.3c-.3-.3-.4-.8-.4-1.4v.1c0 .6.2 1.1.5 1.4v-.1h-.1zm21.6-11l-5 2.8.1.1 4.9-2.8c.7-.4 1-.9 1-1.4 0 .5-.4.9-1 1.3z"
-                                                opacity="0.12"
-                                            ></path>
-                                            <path
-                                                fill="#fff"
-                                                d="M12.5 7.6L32 18.7c.6.4 1 .8 1 1.3 0-.5-.3-1-1-1.4L12.5 7.5c-1.4-.8-2.5-.2-2.5 1.4V9c0-1.5 1.1-2.2 2.5-1.4z"
-                                                opacity="0.25"
-                                            ></path>
-                                        </svg>
-                                    </a>
-                                    <a
-                                        className="inline-flex justify-center rounded-lg border py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-sm outline-2 outline-offset-2 transition-colors border-gray-300 text-gray-700 hover:border-gray-400 active:bg-gray-100 active:text-gray-700/80"
-                                        target="_blank"
-                                        href="https://www.youtube.com/watch?v=mustJBJfYDw"
-                                    >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            aria-hidden="true"
-                                            className="flex-none w-6 h-6"
-                                        >
-                                            <circle
-                                                cx={12}
-                                                cy={12}
-                                                r="11.5"
-                                                stroke="#D4D4D4"
-                                            />
-                                            <path
-                                                d="M9.5 14.382V9.618a.5.5 0 0 1 .724-.447l4.764 2.382a.5.5 0 0 1 0 .894l-4.764 2.382a.5.5 0 0 1-.724-.447Z"
-                                                fill="#A3A3A3"
-                                                stroke="#A3A3A3"
-                                            />
-                                        </svg>
-                                        <span className="ml-2.5">
-                                            Watch the video
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
-                                <div className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0">
-                                    <svg
-                                        viewBox="0 0 1026 1026"
-                                        fill="none"
-                                        aria-hidden="true"
-                                        className="absolute inset-0 w-full h-full animate-spin-slow"
-                                    >
-                                        <path
-                                            d="M1025 513c0 282.77-229.23 512-512 512S1 795.77 1 513 230.23 1 513 1s512 229.23 512 512Z"
-                                            stroke="#D4D4D4"
-                                            strokeOpacity="0.7"
-                                        />
-                                        <path
-                                            d="M513 1025C230.23 1025 1 795.77 1 513"
-                                            stroke="url(#:R65m:-gradient-1)"
-                                            strokeLinecap="round"
-                                        />
-                                        <defs>
-                                            <linearGradient
-                                                id=":R65m:-gradient-1"
-                                                x1={1}
-                                                y1={513}
-                                                x2={1}
-                                                y2={1025}
-                                                gradientUnits="userSpaceOnUse"
-                                            >
-                                                <stop stopColor="#06b6d4" />
-                                                <stop
-                                                    offset={1}
-                                                    stopColor="#06b6d4"
-                                                    stopOpacity={0}
-                                                />
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-                                    <svg
-                                        viewBox="0 0 1026 1026"
-                                        fill="none"
-                                        aria-hidden="true"
-                                        className="absolute inset-0 w-full h-full animate-spin-reverse-slower"
-                                    >
-                                        <path
-                                            d="M913 513c0 220.914-179.086 400-400 400S113 733.914 113 513s179.086-400 400-400 400 179.086 400 400Z"
-                                            stroke="#D4D4D4"
-                                            strokeOpacity="0.7"
-                                        />
-                                        <path
-                                            d="M913 513c0 220.914-179.086 400-400 400"
-                                            stroke="url(#:R65m:-gradient-2)"
-                                            strokeLinecap="round"
-                                        />
-                                        <defs>
-                                            <linearGradient
-                                                id=":R65m:-gradient-2"
-                                                x1={913}
-                                                y1={513}
-                                                x2={913}
-                                                y2={913}
-                                                gradientUnits="userSpaceOnUse"
-                                            >
-                                                <stop stopColor="#06b6d4" />
-                                                <stop
-                                                    offset={1}
-                                                    stopColor="#06b6d4"
-                                                    stopOpacity={0}
-                                                />
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-                                </div>
-                                <div className="h-auto px-4 -mx-4 sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
-                                    <div className="w-full h-auto col-span-2 mx-auto md::w-[700px] lg:w-[400px] lg overflow-hidden shadow rounded-xl">
-                                        <video
-                                            autoPlay
-                                            muted
-                                            loop
-                                            src={`storage/files/default/Intro_Tawarin.mp4`}
-                                        ></video>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-                                <p className="text-sm font-semibold text-center text-gray-900 lg:text-left">
-                                    As featured in
-                                </p>
-                                <ul
-                                    role="list"
-                                    className="flex flex-wrap justify-center max-w-xl mx-auto mt-8 gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
-                                >
-                                    <li className="flex">
-                                        <img
-                                            alt="Forbes"
-                                            src="/_next/static/media/forbes.c4b4b0dd.svg"
-                                            width={82}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                    <li className="flex">
-                                        <img
-                                            alt="TechCrunch"
-                                            src="/_next/static/media/techcrunch.fe121d74.svg"
-                                            width={181}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                    <li className="flex">
-                                        <img
-                                            alt="Wired"
-                                            src="/_next/static/media/wired.42c588dc.svg"
-                                            width={121}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                    <li className="flex hidden xl:block">
-                                        <img
-                                            alt="CNN"
-                                            src="/_next/static/media/cnn.eaae184a.svg"
-                                            width={68}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                    <li className="flex">
-                                        <img
-                                            alt="BBC"
-                                            src="/_next/static/media/bbc.9cfc75a9.svg"
-                                            width={83}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                    <li className="flex">
-                                        <img
-                                            alt="CBS"
-                                            src="/_next/static/media/cbs.aa596395.svg"
-                                            width={101}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                    <li className="flex">
-                                        <img
-                                            alt="Fast Company"
-                                            src="/_next/static/media/fast-company.8fba32a5.svg"
-                                            width={124}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                    <li className="flex hidden xl:block">
-                                        <img
-                                            alt="HuffPost"
-                                            src="/_next/static/media/huffpost.eeec742f.svg"
-                                            width={142}
-                                            height={32}
-                                            decoding="async"
-                                            data-nimg="future"
-                                            className="h-8"
-                                            loading="lazy"
-                                            style={{ color: "transparent" }}
-                                        />
-                                    </li>
-                                </ul>
-                            </div> */}
+            {/*  Page content */}
+            <main className="flex-grow">
+                {/*  Page sections */}
+                <HeroHome />
+                <Features />
+            </main>
+            {/* <div className="max-w-6xl px-4 mx-auto overflow-x-hidden text-gray-700 lg:px-8">
+                <div
+                    data-aos="flip-up"
+                    className="max-w-xl mx-auto mt-24 text-center"
+                >
+                    <h1 className="my-3 text-2xl font-bold text-darken">
+                        All-In-One{" "}
+                        <span className="text-yellow-500">Place.</span>
+                    </h1>
+                    <p className="leading-relaxed text-gray-500">
+                        We combine all needed, like clinic, garden, recreation place.
+                    </p>
+                </div>
+                <div className="grid mt-20 md:grid-cols-3 gap-14 md:gap-5">
+                    <div
+                        data-aos="fade-up"
+                        className="p-6 text-center bg-white shadow-xl rounded-xl"
+                    >
+                        <div
+                            style={{ background: "#5B72EE" }}
+                            className="flex items-center justify-center w-16 h-16 mx-auto transform -translate-y-12 rounded-full shadow-lg"
+                        >
+                            <svg
+                                className="w-6 h-6 text-white"
+                                viewBox="0 0 33 46"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M24.75 23H8.25V28.75H24.75V23ZM32.3984 9.43359L23.9852 0.628906C23.5984 0.224609 23.0742 0 22.5242 0H22V11.5H33V10.952C33 10.3859 32.7852 9.83789 32.3984 9.43359ZM19.25 12.2188V0H2.0625C0.919531 0 0 0.961328 0 2.15625V43.8438C0 45.0387 0.919531 46 2.0625 46H30.9375C32.0805 46 33 45.0387 33 43.8438V14.375H21.3125C20.1781 14.375 19.25 13.4047 19.25 12.2188ZM5.5 6.46875C5.5 6.07164 5.80766 5.75 6.1875 5.75H13.0625C13.4423 5.75 13.75 6.07164 13.75 6.46875V7.90625C13.75 8.30336 13.4423 8.625 13.0625 8.625H6.1875C5.80766 8.625 5.5 8.30336 5.5 7.90625V6.46875ZM5.5 12.2188C5.5 11.8216 5.80766 11.5 6.1875 11.5H13.0625C13.4423 11.5 13.75 11.8216 13.75 12.2188V13.6562C13.75 14.0534 13.4423 14.375 13.0625 14.375H6.1875C5.80766 14.375 5.5 14.0534 5.5 13.6562V12.2188ZM27.5 39.5312C27.5 39.9284 27.1923 40.25 26.8125 40.25H19.9375C19.5577 40.25 19.25 39.9284 19.25 39.5312V38.0938C19.25 37.6966 19.5577 37.375 19.9375 37.375H26.8125C27.1923 37.375 27.5 37.6966 27.5 38.0938V39.5312ZM27.5 21.5625V30.1875C27.5 30.9817 26.8847 31.625 26.125 31.625H6.875C6.11531 31.625 5.5 30.9817 5.5 30.1875V21.5625C5.5 20.7683 6.11531 20.125 6.875 20.125H26.125C26.8847 20.125 27.5 20.7683 27.5 21.5625Z"
+                                    fill="white"
+                                />
+                            </svg>
                         </div>
+                        <h1 className="mb-3 text-xl font-medium lg:px-14 text-darken">
+                            Just Pay Once & Relax
+                        </h1>
+                        <p className="px-4 text-gray-500">
+                            Just pay once, and you can use all our facilities free
+                            and legal transactions. Send customized
+                            invoices and contracts
+                        </p>
+                    </div>
+                    <div
+                        data-aos="fade-up"
+                        data-aos-delay={150}
+                        className="p-6 text-center bg-white shadow-xl rounded-xl"
+                    >
+                        <div
+                            style={{ background: "#F48C06" }}
+                            className="flex items-center justify-center w-16 h-16 mx-auto transform -translate-y-12 rounded-full shadow-lg"
+                        >
+                            <svg
+                                className="w-6 h-6 text-white"
+                                viewBox="0 0 48 48"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M12 0C11.0532 0 10.2857 0.767511 10.2857 1.71432V5.14285H13.7142V1.71432C13.7142 0.767511 12.9467 0 12 0Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M36 0C35.0532 0 34.2856 0.767511 34.2856 1.71432V5.14285H37.7142V1.71432C37.7143 0.767511 36.9468 0 36 0Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M42.8571 5.14282H37.7143V12C37.7143 12.9468 36.9468 13.7143 36 13.7143C35.0532 13.7143 34.2857 12.9468 34.2857 12V5.14282H13.7142V12C13.7142 12.9468 12.9467 13.7143 11.9999 13.7143C11.0531 13.7143 10.2856 12.9468 10.2856 12V5.14282H5.14285C2.30253 5.14282 0 7.44535 0 10.2857V42.8571C0 45.6974 2.30253 48 5.14285 48H42.8571C45.6975 48 48 45.6974 48 42.8571V10.2857C48 7.44535 45.6975 5.14282 42.8571 5.14282ZM44.5714 42.8571C44.5714 43.8039 43.8039 44.5714 42.857 44.5714H5.14285C4.19605 44.5714 3.42854 43.8039 3.42854 42.8571V20.5714H44.5714V42.8571Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M13.7142 23.9999H10.2857C9.33889 23.9999 8.57138 24.7674 8.57138 25.7142C8.57138 26.661 9.33889 27.4285 10.2857 27.4285H13.7142C14.661 27.4285 15.4285 26.661 15.4285 25.7142C15.4285 24.7674 14.661 23.9999 13.7142 23.9999Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M25.7143 23.9999H22.2857C21.3389 23.9999 20.5714 24.7674 20.5714 25.7142C20.5714 26.661 21.3389 27.4285 22.2857 27.4285H25.7143C26.6611 27.4285 27.4286 26.661 27.4286 25.7142C27.4286 24.7674 26.6611 23.9999 25.7143 23.9999Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M37.7143 23.9999H34.2857C33.3389 23.9999 32.5714 24.7674 32.5714 25.7142C32.5714 26.661 33.3389 27.4285 34.2857 27.4285H37.7143C38.6611 27.4285 39.4286 26.661 39.4286 25.7142C39.4286 24.7674 38.661 23.9999 37.7143 23.9999Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M13.7142 30.8571H10.2857C9.33889 30.8571 8.57138 31.6246 8.57138 32.5714C8.57138 33.5182 9.33889 34.2857 10.2857 34.2857H13.7142C14.661 34.2857 15.4285 33.5182 15.4285 32.5714C15.4285 31.6246 14.661 30.8571 13.7142 30.8571Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M25.7143 30.8571H22.2857C21.3389 30.8571 20.5714 31.6246 20.5714 32.5714C20.5714 33.5182 21.3389 34.2857 22.2857 34.2857H25.7143C26.6611 34.2857 27.4286 33.5182 27.4286 32.5714C27.4286 31.6246 26.6611 30.8571 25.7143 30.8571Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M37.7143 30.8571H34.2857C33.3389 30.8571 32.5714 31.6246 32.5714 32.5714C32.5714 33.5182 33.3389 34.2857 34.2857 34.2857H37.7143C38.6611 34.2857 39.4286 33.5182 39.4286 32.5714C39.4285 31.6246 38.661 30.8571 37.7143 30.8571Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M13.7142 37.7142H10.2857C9.33889 37.7142 8.57138 38.4817 8.57138 39.4286C8.57138 40.3754 9.33889 41.1428 10.2857 41.1428H13.7142C14.661 41.1428 15.4285 40.3753 15.4285 39.4284C15.4285 38.4816 14.661 37.7142 13.7142 37.7142Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M25.7143 37.7142H22.2857C21.3389 37.7142 20.5714 38.4817 20.5714 39.4285C20.5714 40.3754 21.3389 41.1429 22.2857 41.1429H25.7143C26.6611 41.1429 27.4286 40.3754 27.4286 39.4285C27.4286 38.4817 26.6611 37.7142 25.7143 37.7142Z"
+                                    fill="#F5F5FC"
+                                />
+                                <path
+                                    d="M37.7143 37.7142H34.2857C33.3389 37.7142 32.5714 38.4817 32.5714 39.4285C32.5714 40.3754 33.3389 41.1429 34.2857 41.1429H37.7143C38.6611 41.1429 39.4286 40.3754 39.4286 39.4285C39.4286 38.4817 38.661 37.7142 37.7143 37.7142Z"
+                                    fill="#F5F5FC"
+                                />
+                            </svg>
+                        </div>
+                        <h1 className="mb-3 text-xl font-medium lg:px-14 text-darken">
+                            Easy Scheduling &amp; Attendance Tracking
+                        </h1>
+                        <p className="px-4 text-gray-500">
+                            Schedule and reserve room at one building or
+                            multiple buildings.
+                        </p>
+                    </div>
+                    <div
+                        data-aos="fade-up"
+                        data-aos-delay={300}
+                        className="p-6 text-center bg-white shadow-xl rounded-xl"
+                    >
+                        <div
+                            style={{ background: "#29B9E7" }}
+                            className="flex items-center justify-center w-16 h-16 mx-auto transform -translate-y-12 rounded-full shadow-lg"
+                        >
+                            <svg
+                                className="w-6 h-6 text-white"
+                                viewBox="0 0 55 44"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M8.25 19.25C11.2836 19.25 13.75 16.7836 13.75 13.75C13.75 10.7164 11.2836 8.25 8.25 8.25C5.21641 8.25 2.75 10.7164 2.75 13.75C2.75 16.7836 5.21641 19.25 8.25 19.25ZM46.75 19.25C49.7836 19.25 52.25 16.7836 52.25 13.75C52.25 10.7164 49.7836 8.25 46.75 8.25C43.7164 8.25 41.25 10.7164 41.25 13.75C41.25 16.7836 43.7164 19.25 46.75 19.25ZM49.5 22H44C42.4875 22 41.1211 22.6102 40.1242 23.5984C43.5875 25.4977 46.0453 28.9266 46.5781 33H52.25C53.7711 33 55 31.7711 55 30.25V27.5C55 24.4664 52.5336 22 49.5 22ZM27.5 22C32.8195 22 37.125 17.6945 37.125 12.375C37.125 7.05547 32.8195 2.75 27.5 2.75C22.1805 2.75 17.875 7.05547 17.875 12.375C17.875 17.6945 22.1805 22 27.5 22ZM34.1 24.75H33.3867C31.5992 25.6094 29.6141 26.125 27.5 26.125C25.3859 26.125 23.4094 25.6094 21.6133 24.75H20.9C15.4344 24.75 11 29.1844 11 34.65V37.125C11 39.4023 12.8477 41.25 15.125 41.25H39.875C42.1523 41.25 44 39.4023 44 37.125V34.65C44 29.1844 39.5656 24.75 34.1 24.75ZM14.8758 23.5984C13.8789 22.6102 12.5125 22 11 22H5.5C2.46641 22 0 24.4664 0 27.5V30.25C0 31.7711 1.22891 33 2.75 33H8.41328C8.95469 28.9266 11.4125 25.4977 14.8758 23.5984Z"
+                                    fill="white"
+                                />
+                            </svg>
+                        </div>
+                        <h1 className="pt-3 mb-3 text-xl font-medium lg:px-14 text-darken lg:h-14">
+                            Customer Tracking
+                        </h1>
+                        <p className="px-4 text-gray-500">
+                            Automate and track emails to individuals or groups.
+                            Skilline’s built-in system helps organize your
+                            organization{" "}
+                        </p>
                     </div>
                 </div>
 
-                <section
-                    id="secondary-features"
-                    aria-label="Features for building a portfolio"
-                    className=""
-                >
-                    <div className="px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="mx-auto sm:text-center">
-                            <h2 className="text-3xl font-medium tracking-tight text-gray-900">
-                                Mari mulai projekmu disini
-                            </h2>
-                            <p className="mt-2 text-lg text-gray-600">
-                                Ada fitur apa saja di Tawarin, mari lihat fitur
-                                kami satu persatu.
-                            </p>
-                        </div>
-                        <ul
-                            role="list"
-                            className="grid grid-cols-1 gap-6 mx-auto mt-16 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
-                        >
-                            <li className="p-8 border border-gray-200 rounded-2xl">
-                                <IconCash className="w-8 h-8" />
-                                <Link href={route("fundings.choose")}>
-                                    <h3 className="mt-6 font-semibold text-gray-900">
-                                        Pendanaan
-                                    </h3>
-                                </Link>
-
-                                <p className="mt-2 text-gray-700">
-                                    Mari bersama-sama mendukung proyek hebat dan
-                                    berikan kontribusi melalui pendanaan
-                                    Tawarin.
-                                </p>
-                            </li>
-                            <li className="p-8 border border-gray-200 rounded-2xl">
-                                <IconHomeEdit className="w-8 h-8" />
-                                <Link href={route("plans.choose")}>
-                                    <h3 className="mt-6 font-semibold text-gray-900">
-                                        Perencanaan
-                                    </h3>
-                                </Link>
-                                <p className="mt-2 text-gray-700">
-                                    Tunjukkan rencanamu dan dapatkan dukungan
-                                    untuk pembangunan masa depan melalui
-                                    platform Tawarin.
-                                </p>
-                            </li>
-                            <li className="p-8 border border-gray-200 rounded-2xl">
-                                <IconBuildingSkyscraper className="w-8 h-8" />
-                                <Link href={route("projects.choose")}>
-                                    <h3 className="mt-6 font-semibold text-gray-900">
-                                        Proyek
-                                    </h3>
-                                </Link>
-                                <p className="mt-2 text-gray-700">
-                                    Buat proyekmu di Tawarin, temukan pekerja
-                                    ahli serta fasilitas lengkap dan mudah.
-                                </p>
-                            </li>
-                            <li className="p-8 border border-gray-200 rounded-2xl">
-                                <IconUserSearch className="w-8 h-8" />
-                                <Link href={route("projects.choose")}>
-                                    <h3 className="mt-6 font-semibold text-gray-900">
-                                        Keahlian
-                                    </h3>
-                                </Link>
-                                <p className="mt-2 text-gray-700">
-                                    Cari pekerja konstruksi yang berkualitas dan
-                                    terpercaya dengan mudah di Tawarin!
-                                </p>
-                            </li>
-                            <li className="p-8 border border-gray-200 rounded-2xl">
-                                <IconBuildingStore className="w-8 h-8" />
-                                <Link href={route("projects.choose")}>
-                                    <h3 className="mt-6 font-semibold text-gray-900">
-                                        Toko
-                                    </h3>
-                                </Link>
-                                <p className="mt-2 text-gray-700">
-                                    Temukan beragam produk konstruksi dan
-                                    jualanmu sendiri di Tawarin dengan mudah dan
-                                    aman.
-                                </p>
-                            </li>
-                            <li className="p-8 border border-gray-200 rounded-2xl">
-                                <IconTools className="w-8 h-8" />
-                                <Link href={route("projects.choose")}>
-                                    <h3 className="mt-6 font-semibold text-gray-900">
-                                        Alat
-                                    </h3>
-                                </Link>
-                                <p className="mt-2 text-gray-700">
-                                    Sewakan alat konstruksi dan industri di
-                                    Tawarin, kembangkan bisnismu dan jangkau
-                                    lebih banyak pelanggan.
-                                </p>
-                            </li>
-                        </ul>
+                <div className="items-center sm:flex sm:space-x-8 mt-36">
+                    <div data-aos="fade-right" className="relative sm:w-1/2">
+                        <div className="absolute z-0 w-12 h-12 bg-yellow-500 rounded-full -left-4 -top-3 animate-pulse" />
+                        <h1 className="relative z-0 text-2xl font-semibold text-darken lg:pr-10">
+                            Everything you can do in a physical classroom,{" "}
+                            <span className="text-yellow-500">
+                                you can do with Skilline
+                            </span>
+                        </h1>
+                        <p className="py-5 lg:pr-32">
+                            Skilline’s school management software helps
+                            traditional and online schools manage scheduling,
+                            attendance, payments and virtual classrooms all in
+                            one secure cloud-based system.
+                        </p>
+                        <a className="underline">Learn More</a>
                     </div>
-                </section>
-                <div className="grid grid-cols-12 mx-auto my-10">
-                    <section className="w-full h-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="mx-auto mb-6 md:text-center">
-                            <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
-                                Perencanaan
-                            </h2>
-                            <p className="mt-4 text-lg tracking-tight text-slate-700">
-                                Ini adalah daftar perencanaan di tawarin
-                            </p>
-                        </div>
-
-                        <div className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
-                            {plans.map ? (
-                                plans.map((plan, index) => (
-                                    <div
-                                        className="p-4 text-left border border-gray-200 focus:outline-none rounded-2xl"
-                                        key={index}
-                                    >
-                                        <Link
-                                            href={route(
-                                                "plans.show",
-                                                `${plan.slug}`
-                                            )}
-                                        >
-                                            <div className="LazyLoad is-visible">
-                                                <img
-                                                    className="object-cover min-w-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg h-44 max-w-96"
-                                                    src={
-                                                        plan.media
-                                                            ? plan.media
-                                                            : "storage/files/default/NoImage.svg"
-                                                    }
-                                                    alt={plan.slug}
-                                                    style={{
-                                                        opacity: 1,
-                                                        transform: "none",
-                                                    }}
-                                                />
-                                            </div>
-                                        </Link>
-                                        <div className="mt-2.5 lg:mt-3 flex items-center justify-between">
-                                            <div className="flex flex-wrap items-center text-xs font-medium text-blue-600 md:text-sm md:gap-x-3 hover:text-blue-700">
-                                                <Link
-                                                    href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}
-                                                >
-                                                    {plan.plan_category.name}
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <Link
-                                            className="mt-2.5 lg:mt-3 flex gap-x-8 flex-row-reverse justify-between"
-                                            href={route(
-                                                "plans.show",
-                                                `${plan.slug}`
-                                            )}
-                                        >
-                                            <span className="block w-px h-6 bg-orange-500" />
-                                            <div>
-                                                <span className="block leading-tight tracking-tighter">
-                                                    <span className="font-medium text-slate-800">
-                                                        {plan.name}
-                                                    </span>
-                                                </span>
-                                                <span className="flex items-center mt-2 space-x-2 text-xs lg:mt-3 text-slate-500">
-                                                    <span>
-                                                        {
-                                                            plan.jangka_waktu_pelaksanaan
-                                                        }{" "}
-                                                        Hari Pengerjaan
-                                                    </span>
-                                                    <span>
-                                                        {plan.jumlah_revisi}{" "}
-                                                        Kali Revisi
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </Link>
-                                    </div>
-
-                                    // <li className="relative">
-                                    //     <div className="text-left focus:outline-none">
-                                    //         <Link
-                                    //             href={route(
-                                    //                 "plans.show",
-                                    //                 `${plan.slug}`
-                                    //             )}
-                                    //         >
-                                    //             <div className="LazyLoad is-visible">
-                                    //                 <img
-                                    //                     className="object-cover mb-1 transition-shadow duration-500 ease-in-out border rounded-lg shadow-none w-96 h-52"
-                                    //                     src={plan.media}
-                                    //                     alt={plan.slug}
-                                    //                     style={{
-                                    //                         opacity: 1,
-                                    //                         transform: "none",
-                                    //                     }}
-                                    //                 />
-                                    //             </div>
-                                    //         </Link>
-                                    //         <span className="flex items-center justify-between">
-                                    //             <span className="space-x-2 font-medium">
-                                    //                 <Link
-                                    //                     className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 decoration-skip-ink decoration-2"
-                                    //                     href={route(
-                                    //                         "plans.show",
-                                    //                         `${plan.slug}`
-                                    //                     )}
-                                    //                 >
-                                    //                     {plan.name}
-                                    //                 </Link>
-                                    //             </span>
-                                    //             <span className="inline-block w-4 h-1 bg-orange-500 rounded-full" />
-                                    //         </span>
-                                    //         <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                    //             <Link
-                                    //                 className="font-medium text-shark-800 line-clamp-1"
-                                    //                 href={`/public/plans/list?plan_category=${plan.plan_category.slug}`}
-                                    //             >
-                                    //                 {plan.plan_category.name}
-                                    //             </Link>
-                                    //         </span>
-                                    //         <span className="flex items-center justify-between text-xs">
-                                    //             <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                    //                 <span>
-                                    //                     {
-                                    //                         plan.jangka_waktu_pelaksanaan
-                                    //                     }{" "}
-                                    //                     Hari Pengerjaan
-                                    //                 </span>
-                                    //                 <span>
-                                    //                     {plan.jumlah_revisi}{" "}
-                                    //                     Kali Revisi
-                                    //                 </span>
-                                    //             </span>
-                                    //         </span>
-                                    //     </div>
-                                    // </li>
-                                ))
-                            ) : (
-                                <EmptyCard />
-                            )}
-                        </div>
-                        <div className="mt-10 lg:mt-12" />
-                        <div className="flex justify-center md:justify-end">
-                            <Link
-                                color="black"
-                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 to-yellow-600 mb-2"
-                                href="/public/plans/list"
+                    <div
+                        data-aos="fade-left"
+                        className="relative mt-10 sm:w-1/2 sm:mt-0"
+                    >
+                        <div
+                            style={{ background: "#23BDEE" }}
+                            className="absolute z-0 w-24 h-24 rounded-lg floating -top-3 -left-3"
+                        />
+                        <img
+                            className="relative z-0 rounded-xl"
+                            src={TeacherExplainingImage}
+                            alt=""
+                        />
+                        <button className="absolute z-10 flex items-center justify-center transition duration-300 ease-in-out transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-14 h-14 top-1/2 left-1/2 focus:outline-none hover:scale-110">
+                            <svg
+                                className="w-5 h-5 ml-1"
+                                viewBox="0 0 24 28"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                             >
-                                Lihat lebih banyak
+                                <path
+                                    d="M22.5751 12.8097C23.2212 13.1983 23.2212 14.135 22.5751 14.5236L1.51538 27.1891C0.848878 27.5899 5.91205e-07 27.1099 6.25202e-07 26.3321L1.73245e-06 1.00123C1.76645e-06 0.223477 0.848877 -0.256572 1.51538 0.14427L22.5751 12.8097Z"
+                                    fill="#23BDEE"
+                                />
+                            </svg>
+                        </button>
+                        <div className="absolute z-10 w-40 h-40 bg-yellow-500 rounded-lg floating -bottom-3 -right-3" />
+                    </div>
+                </div>
+                <div className="items-start mt-40 md:flex md:space-x-10">
+                    <div data-aos="fade-down" className="relative md:w-7/12">
+                        <div
+                            style={{ background: "#33EFA0" }}
+                            className="absolute z-0 w-32 h-32 rounded-full left-4 -top-12 animate-pulse"
+                        />
+                        <div
+                            style={{ background: "#33D9EF" }}
+                            className="absolute z-0 w-5 h-5 rounded-full left-36 -top-12 animate-ping"
+                        />
+                        <img
+                            className="relative z-0 floating motion-safe:animate-pulse"
+                            src={VCallImage}
+                            alt=""
+                        />
+                        <div
+                            style={{ background: "#5B61EB" }}
+                            className="absolute z-0 rounded-full w-36 h-36 right-16 -bottom-1 animate-pulse"
+                        />
+                        <div
+                            style={{ background: "#F56666" }}
+                            className="absolute z-0 w-5 h-5 rounded-full right-52 bottom-1 animate-ping"
+                        />
+                    </div>
+                    <div
+                        data-aos="fade-down"
+                        className="mt-20 text-gray-500 md:w-5/12 md:mt-0"
+                    >
+                        <h1 className="text-2xl font-semibold text-darken lg:pr-40">
+                            A{" "}
+                            <span className="text-yellow-500">
+                                user interface
+                            </span>{" "}
+                            designed for the classroom
+                        </h1>
+                        <div className="flex items-center my-5 space-x-5">
+                            <div className="flex items-center justify-center flex-shrink p-3 bg-white rounded-full shadow-lg">
                                 <svg
-                                    className="mt-0.5 ml-2 -mr-1 stroke-current stroke-[1.5]"
+                                    className="w-4 h-4"
+                                    viewBox="0 0 27 26"
                                     fill="none"
-                                    width={10}
-                                    height={10}
-                                    viewBox="0 0 10 10"
-                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
                                 >
-                                    <path
-                                        className="transition opacity-0 group-hover:opacity-100"
-                                        d="M0 5h7"
+                                    <rect
+                                        width="11.8182"
+                                        height="11.8182"
+                                        rx={2}
+                                        fill="#2F327D"
                                     />
-                                    <path
-                                        className="transition group-hover:translate-x-[3px]"
-                                        d="M1 1l4 4-4 4"
+                                    <rect
+                                        y="14.1816"
+                                        width="11.8182"
+                                        height="11.8182"
+                                        rx={2}
+                                        fill="#2F327D"
+                                    />
+                                    <rect
+                                        x="14.7727"
+                                        width="11.8182"
+                                        height="11.8182"
+                                        rx={2}
+                                        fill="#2F327D"
+                                    />
+                                    <rect
+                                        x="14.7727"
+                                        y="14.1816"
+                                        width="11.8182"
+                                        height="11.8182"
+                                        rx={2}
+                                        fill="#F48C06"
                                     />
                                 </svg>
-                            </Link>
-                        </div>
-                    </section>
-                </div>
-                <div className="grid grid-cols-12 mx-auto md:mt-10">
-                    <section className="w-full col-span-12 px-4 mx-auto sm:px-6 lg:px-8">
-                        <div className="mx-auto mb-6 md:text-center">
-                            <h2 className="text-3xl tracking-tight font-display text-slate-900 sm:text-4xl">
-                                Proyek
-                            </h2>
-                            <p className="mt-4 text-lg tracking-tight text-slate-700">
-                                Ini adalah daftar Proyek di tawarin
+                            </div>
+                            <p>
+                                Teachers don’t get lost in the grid view and
+                                have a dedicated Podium space.
                             </p>
                         </div>
-
-                        <div className="flex flex-col mt-10 bg-white border shadow-sm rounded-xl">
-                            <div className="flex flex-col items-center justify-center flex-auto p-4 md:p-5">
+                        <div className="flex items-center my-5 space-x-5">
+                            <div className="flex items-center justify-center flex-shrink p-3 bg-white rounded-full shadow-lg">
                                 <svg
-                                    className="max-w-[5rem]"
-                                    viewBox="0 0 375 428"
+                                    className="w-4 h-4"
+                                    viewBox="0 0 28 26"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect
+                                        x={8}
+                                        y={6}
+                                        width={20}
+                                        height={20}
+                                        rx={2}
+                                        fill="#2F327D"
+                                    />
+                                    <rect
+                                        width="21.2245"
+                                        height="21.2245"
+                                        rx={2}
+                                        fill="#F48C06"
+                                    />
+                                </svg>
+                            </div>
+                            <p>
+                                TA’s and presenters can be moved to the front of
+                                the class.
+                            </p>
+                        </div>
+                        <div className="flex items-center my-5 space-x-5">
+                            <div className="flex items-center justify-center flex-shrink p-3 bg-white rounded-full shadow-lg">
+                                <svg
+                                    className="w-4 h-4"
+                                    viewBox="0 0 30 26"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        d="M254.509 253.872L226.509 226.872"
-                                        className="stroke-gray-400"
-                                        stroke="currentColor"
-                                        strokeWidth={7}
-                                        strokeLinecap="round"
-                                    />
-                                    <path
-                                        d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
-                                        className="stroke-gray-400"
-                                        stroke="currentColor"
-                                        strokeWidth={7}
-                                        strokeLinecap="round"
-                                    />
-                                    <rect
-                                        x="270.524"
-                                        y="221.872"
-                                        width="137.404"
-                                        height="73.2425"
-                                        rx="36.6212"
-                                        transform="rotate(40.8596 270.524 221.872)"
-                                        className="fill-gray-400"
-                                        fill="currentColor"
-                                    />
-                                    <ellipse
-                                        cx="133.109"
-                                        cy="404.372"
-                                        rx="121.5"
-                                        ry="23.5"
-                                        className="fill-gray-400"
-                                        fill="currentColor"
-                                    />
-                                    <path
-                                        d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
-                                        className="stroke-gray-400"
-                                        stroke="currentColor"
-                                        strokeWidth={7}
-                                        strokeLinecap="round"
-                                    />
-                                    <ellipse
-                                        cx="96.6084"
-                                        cy="116.872"
-                                        rx={9}
-                                        ry={12}
-                                        className="fill-gray-400"
-                                        fill="currentColor"
-                                    />
-                                    <ellipse
-                                        cx="172.608"
-                                        cy="117.872"
-                                        rx={9}
-                                        ry={12}
-                                        className="fill-gray-400"
-                                        fill="currentColor"
-                                    />
-                                    <path
-                                        d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
-                                        className="fill-gray-400"
-                                        fill="currentColor"
+                                        d="M4.5 11.375C6.15469 11.375 7.5 9.91758 7.5 8.125C7.5 6.33242 6.15469 4.875 4.5 4.875C2.84531 4.875 1.5 6.33242 1.5 8.125C1.5 9.91758 2.84531 11.375 4.5 11.375ZM25.5 11.375C27.1547 11.375 28.5 9.91758 28.5 8.125C28.5 6.33242 27.1547 4.875 25.5 4.875C23.8453 4.875 22.5 6.33242 22.5 8.125C22.5 9.91758 23.8453 11.375 25.5 11.375ZM27 13H24C23.175 13 22.4297 13.3605 21.8859 13.9445C23.775 15.0668 25.1156 17.093 25.4062 19.5H28.5C29.3297 19.5 30 18.7738 30 17.875V16.25C30 14.4574 28.6547 13 27 13ZM15 13C17.9016 13 20.25 10.4559 20.25 7.3125C20.25 4.16914 17.9016 1.625 15 1.625C12.0984 1.625 9.75 4.16914 9.75 7.3125C9.75 10.4559 12.0984 13 15 13ZM18.6 14.625H18.2109C17.2359 15.1328 16.1531 15.4375 15 15.4375C13.8469 15.4375 12.7688 15.1328 11.7891 14.625H11.4C8.41875 14.625 6 17.2453 6 20.475V21.9375C6 23.2832 7.00781 24.375 8.25 24.375H21.75C22.9922 24.375 24 23.2832 24 21.9375V20.475C24 17.2453 21.5812 14.625 18.6 14.625ZM8.11406 13.9445C7.57031 13.3605 6.825 13 6 13H3C1.34531 13 0 14.4574 0 16.25V17.875C0 18.7738 0.670312 19.5 1.5 19.5H4.58906C4.88438 17.093 6.225 15.0668 8.11406 13.9445Z"
+                                        fill="#2F327D"
                                     />
                                 </svg>
-                                <p className="mt-5 text-sm text-gray-500">
-                                    No data to show
-                                </p>
                             </div>
+                            <p>
+                                Teachers can easily see all students and class
+                                data at one time.
+                            </p>
                         </div>
-                        {/* <ul className="grid sm:gap-y-12 lg:grid-cols-4 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 2xl:gap-16 2xl:gap-y-16">
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/belajar-queue-di-laravel-klqu1">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/belajar-queue-di-laravel-klqu1.jpg?tr=n-thumbnail"
-                                                alt="Belajar Laravel Queues"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/queues"
-                                            >
-                                                Queues
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/belajar-queue-di-laravel-klqu1"
-                                        >
-                                            Belajar Laravel Queues
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>12 Episodes</span>
-                                            <span>168 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/amazon-s3-dengan-laravel-odnkg">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/amazon-s3-dengan-laravel-odnkg.jpg?tr=n-thumbnail"
-                                                alt="Amazon S3 Dengan Laravel"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/amazon-s3"
-                                            >
-                                                Amazon S3
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/amazon-s3-dengan-laravel-odnkg"
-                                        >
-                                            Amazon S3 Dengan Laravel
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>7 Episodes</span>
-                                            <span>58 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/tailwind-css-uncovered-drzna">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/tailwind-css-uncovered-drzna.jpg?tr=n-thumbnail"
-                                                alt="Tailwind CSS Uncovered"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/tailwind-css"
-                                            >
-                                                Tailwind CSS
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 bg-orange-500 rounded-full" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/tailwind-css-uncovered-drzna"
-                                        >
-                                            Tailwind CSS Uncovered
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>2 Episodes</span>
-                                            <span>16 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/blog-dengan-inertia-react-ssr-adhfl">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/blog-dengan-inertia-react-ssr-adhfl.jpg?tr=n-thumbnail"
-                                                alt="Blog Dengan Laravel Inertia dan React (SSR)"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/inertia"
-                                            >
-                                                Inertia
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/reactjs"
-                                            >
-                                                React.js
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/tailwind-css"
-                                            >
-                                                Tailwind CSS
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/blog-dengan-inertia-react-ssr-adhfl"
-                                        >
-                                            Blog Dengan Laravel Inertia dan
-                                            React (SSR)
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>28 Episodes</span>
-                                            <span>303 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/membangun-toko-online-dengan-payment-gateway-dtmdj">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/membangun-toko-online-dengan-payment-gateway-dtmdj.jpg?tr=n-thumbnail"
-                                                alt="Membangun Toko Online Dengan Payment Gateway"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel-9"
-                                            >
-                                                Laravel 9
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/inertia"
-                                            >
-                                                Inertia
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/reactjs"
-                                            >
-                                                React.js
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/membangun-toko-online-dengan-payment-gateway-dtmdj"
-                                        >
-                                            Membangun Toko Online Dengan Payment
-                                            Gateway
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>24 Episodes</span>
-                                            <span>246 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/multi-bahasa-dengan-laravel-1i4yb">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/multi-bahasa-dengan-laravel-1i4yb.jpg?tr=n-thumbnail"
-                                                alt="Multi Bahasa Dengan Laravel"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/reactjs"
-                                            >
-                                                React.js
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/js"
-                                            >
-                                                Javascript
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/multi-bahasa-dengan-laravel-1i4yb"
-                                        >
-                                            Multi Bahasa Dengan Laravel
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>4 Episodes</span>
-                                            <span>53 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/new-in-laravel-9-bkygy">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/new-in-laravel-9-bkygy.jpg?tr=n-thumbnail"
-                                                alt="New in Laravel 9"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel"
-                                            >
-                                                Laravel
-                                            </a>
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/laravel-9"
-                                            >
-                                                Laravel 9
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 bg-orange-500 rounded-full" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/new-in-laravel-9-bkygy"
-                                        >
-                                            New in Laravel 9
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>8 Episodes</span>
-                                            <span>64 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="relative">
-                                <div className="text-left focus:outline-none">
-                                    <a href="/series/javascript-dari-awal-bpiyg">
-                                        <div className="LazyLoad is-visible">
-                                            <img
-                                                className="w-full h-full mb-1 transition-shadow duration-500 ease-in-out rounded-lg shadow-none group-hover:shadow-lg"
-                                                src="https://ik.imagekit.io/vpaoovtzwz/images/series/javascript-dari-awal-bpiyg.jpg?tr=n-thumbnail"
-                                                alt="Javascript Dari Awal"
-                                                style={{
-                                                    opacity: 1,
-                                                    transform: "none",
-                                                }}
-                                            />
-                                        </div>
-                                    </a>
-                                    <span className="flex items-center justify-between">
-                                        <span className="space-x-2 font-medium">
-                                            <a
-                                                className="mr-1 text-[12px] font-medium text-primary-500 decoration-primary-500/30 underline-offset-[-1.5px] decoration-skip-ink decoration-2 underline"
-                                                href="/topics/js"
-                                            >
-                                                Javascript
-                                            </a>
-                                        </span>
-                                        <span className="inline-block w-4 h-1 rounded-full bg-emerald-500" />
-                                    </span>
-                                    <span className="block max-w-sm mt-1 mb-2 leading-tight tracking-tighter">
-                                        <a
-                                            className="font-medium text-shark-800 line-clamp-1"
-                                            href="/series/javascript-dari-awal-bpiyg"
-                                        >
-                                            Javascript Dari Awal
-                                        </a>
-                                    </span>
-                                    <span className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center space-x-2 text-shark-600 text-[11px]">
-                                            <span>17 Episodes</span>
-                                            <span>133 mins</span>
-                                        </span>
-                                    </span>
-                                </div>
-                            </li>
-                        </ul> */}
-                        <div className="mt-10 lg:mt-12" />
-                        <div className="flex justify-center md:justify-end">
-                            <Link
-                                color="black"
-                                className="group inline-flex items-center rounded-full px-4 py-1.5 font-medium transition text-white bg-gradient-to-r from-yellow-300 to-yellow-600 mb-2"
-                                href="/public/plans/list"
-                            >
-                                Lihat lebih banyak
+                    </div>
+                </div>
+                <div className="flex flex-col items-center mt-16 md:flex-row md:space-x-10">
+                    <div data-aos="fade-right" className="md:w-1/2 lg:pl-14">
+                        <h1 className="text-3xl font-semibold text-darken lg:pr-56">
+                            <span className="text-yellow-500">Tools</span> For
+                            Teachers And Learners
+                        </h1>
+                        <p className="my-4 text-gray-500 lg:pr-32">
+                            Class has a dynamic set of teaching tools built to
+                            be deployed and used during class. Teachers can
+                            handout assignments in real-time for students to
+                            complete and submit.
+                        </p>
+                    </div>
+                    <img
+                        data-aos="fade-left"
+                        className="md:w-1/2"
+                        src={GirlWithBooksImage}
+                    />
+                </div>
+                <div className="flex flex-col-reverse items-center mt-20 md:flex-row md:space-x-10">
+                    <div data-aos="fade-right" className="md:w-6/12">
+                        <img className="md:w-11/12" src={TrueFalseImage} />
+                    </div>
+                    <div
+                        data-aos="fade-left"
+                        className="md:w-6/12 md:transform md:-translate-y-20"
+                    >
+                        <h1 className="text-3xl font-semibold text-darken lg:pr-64">
+                            Assessments,{" "}
+                            <span className="text-yellow-500">Quizzes</span>,
+                            Tests
+                        </h1>
+                        <p className="my-5 text-gray-500 lg:pr-52">
+                            Easily launch live assignments, quizzes, and tests.
+                            Student results are automatically entered in the
+                            online gradebook.
+                        </p>
+                    </div>
+                </div>
+                <div className="flex flex-col items-center mt-12 md:flex-row">
+                    <div data-aos="fade-right" className="md:w-5/12">
+                        <h1 className="text-3xl font-semibold leading-tight text-darken lg:pr-32">
+                            <span className="text-yellow-500">
+                                Class Management
+                            </span>{" "}
+                            Tools for Educators
+                        </h1>
+                        <p className="my-5 lg:pr-14">
+                            Class provides tools to help run and manage the
+                            class such as Class Roster, Attendance, and more.
+                            With the Gradebook, teachers can review and grade
+                            tests and quizzes in real-time.
+                        </p>
+                    </div>
+                    <img
+                        data-aos="fade-left"
+                        className="md:w-7/12"
+                        src={GradeBookImage}
+                    />
+                </div>
+                <div className="flex flex-col-reverse items-center mt-24 md:flex-row md:space-x-10">
+                    <div data-aos="fade-right" className="md:w-7/12">
+                        <img className="md:w-11/12" src={DiscussionImage} />
+                    </div>
+                    <div
+                        data-aos="fade-left"
+                        className="md:w-5/12 md:transform md:-translate-y-6"
+                    >
+                        <h1 className="text-3xl font-semibold text-darken lg:pr-64">
+                            One-on-One{" "}
+                            <span className="text-yellow-500">Discussions</span>
+                        </h1>
+                        <p className="my-5 text-gray-500 lg:pr-24">
+                            Teachers and teacher assistants can talk with
+                            students privately without leaving the Zoom
+                            environment.
+                        </p>
+                    </div>
+                </div>
+                <button
+                    data-aos="flip-up"
+                    className="block px-5 py-3 mx-auto font-medium text-yellow-500 transition duration-300 ease-in-out transform border border-yellow-500 rounded-full my-14 focus:outline-none hover:scale-110"
+                >
+                    See more features
+                </button>
+
+                <div className="flex flex-col-reverse items-start mt-24 md:flex-row md:space-x-10">
+                    <div data-aos="zoom-in-right" className="md:w-5/12">
+                        <div className="flex items-center mb-5 space-x-20">
+                            <span className="absolute border border-gray-300 w-14" />
+                            <h1 className="text-sm tracking-widest text-gray-400">
+                                TESTIMONIAL
+                            </h1>
+                        </div>
+                        <h1 className="text-2xl font-semibold text-darken lg:pr-40">
+                            What They Say?
+                        </h1>
+                        <p className="my-5 text-gray-500 lg:pr-36">
+                            Skilline has got more than 100k positive ratings
+                            from our users around the world.
+                        </p>
+                        <p className="my-5 text-gray-500 lg:pr-36">
+                            Some of the students and teachers were greatly
+                            helped by the Skilline.
+                        </p>
+                        <p className="my-5 text-gray-500 lg:pr-36">
+                            Are you too? Please give your assessment
+                        </p>
+                        <button className="flex items-center pl-3 my-4 space-x-3 font-medium text-yellow-500 transition duration-300 ease-in-out transform border-t border-b border-l border-yellow-500 rounded-full focus:outline-none hover:scale-110">
+                            <span>Write your assessment</span>
+                            <div className="flex items-center justify-center border border-yellow-500 rounded-full h-14 w-14">
                                 <svg
-                                    className="mt-0.5 ml-2 -mr-1 stroke-current stroke-[1.5]"
+                                    className="w-5 h-5"
+                                    viewBox="0 0 26 16"
                                     fill="none"
-                                    width={10}
-                                    height={10}
-                                    viewBox="0 0 10 10"
-                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        className="transition opacity-0 group-hover:opacity-100"
-                                        d="M0 5h7"
-                                    />
-                                    <path
-                                        className="transition group-hover:translate-x-[3px]"
-                                        d="M1 1l4 4-4 4"
+                                        d="M25.7071 8.70711C26.0976 8.31658 26.0976 7.68342 25.7071 7.2929L19.3431 0.928934C18.9526 0.538409 18.3195 0.538409 17.9289 0.928934C17.5384 1.31946 17.5384 1.95262 17.9289 2.34315L23.5858 8L17.9289 13.6569C17.5384 14.0474 17.5384 14.6805 17.9289 15.0711C18.3195 15.4616 18.9526 15.4616 19.3431 15.0711L25.7071 8.70711ZM-8.74228e-08 9L25 9L25 7L8.74228e-08 7L-8.74228e-08 9Z"
+                                        fill="#F48C06"
                                     />
                                 </svg>
-                            </Link>
-                        </div>
-                    </section>
+                            </div>
+                        </button>
+                    </div>
+                    <div data-aos="zoom-in-left" className="md:w-7/12">
+                        <img
+                            className="mx-auto md:w-10/12"
+                            src={TestimonialImage}
+                        />
+                    </div>
                 </div>
-
-                <section
+            </div> */}
+            <section
                     id="testimonials"
                     aria-label="What our customers are saying"
-                    className="relative py-20 sm:py-32"
+                    className="relative"
                 >
                     <div className="absolute inset-x-0 bottom-0 top-1/2 text-slate-900/10 [mask-image:linear-gradient(transparent,white)]">
                         <svg
@@ -1498,10 +739,11 @@ export default function HomeReservasi(props) {
                     </div>
                 </section>
 
-                <Footer />
-                <HideScrollBar />
-            </Container>
-            {/* <Marquee/> */}
+            {/*  Site footer */}
+            <Footer />
+            
+          {/* <Parsinta/> */}
+        </div>
         </>
     );
 }

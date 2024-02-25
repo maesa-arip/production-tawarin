@@ -39,9 +39,9 @@ export default function Home(props) {
         setState();
         setIsOpenInfoDialog(true);
     };
-    useEffect(() => {
-        openInfoDialog()
-    }, [])
+    // useEffect(() => {
+    //     openInfoDialog()
+    // }, [])
     
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [state, setState] = useState([]);

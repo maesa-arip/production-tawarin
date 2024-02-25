@@ -33,8 +33,8 @@ function Features() {
 
           {/* Section header */}
           <div className="max-w-3xl pb-12 mx-auto text-center md:pb-16">
-            <h1 className="mb-4 text-4xl font-semibold">Explore the solutions</h1>
-            <p className="text-xl text-gray-600">We provides residential facilities, bedrooms with en-suite bathrooms, daily meals and snack, routine wellness monitoring and safe environment</p>
+            <h1 className="mb-4 text-4xl font-semibold">Temukan solusi reservasimu</h1>
+            <p className="text-xl text-gray-600">Aplikasi Tawarin Reservasi memudahkanmu untuk menemukan dan memesan tempat favorit dengan cepat dan aman. Nikmati pengalaman reservasi yang lancar tanpa ribet!</p>
           </div>
 
           {/* Section content */}
@@ -43,8 +43,8 @@ function Features() {
             {/* Content */}
             <div className="max-w-xl mx-auto md:max-w-none md:w-full md:col-span-7 lg:col-span-6 md:mt-6" data-aos="fade-right">
               <div className="mb-8 md:pr-4 lg:pr-12 xl:pr-16">
-                <h3 className="mb-3 text-4xl font-semibold">Powerful Facilities</h3>
-                <p className="text-xl text-gray-600">We welcomes Elderly who wants to stay temporarily or permanent whilst enjoying the activities with all our facilities. </p>
+                <h3 className="mb-3 text-4xl font-semibold">Dompet Digital</h3>
+                <p className="text-xl text-gray-600">Nikmati kemudahan pembayaran dengan sekali klik menggunakan dompet digital Tawarin. </p>
               </div>
               {/* Tabs buttons */}
               <div className="mb-8 md:mb-0">
@@ -54,8 +54,8 @@ function Features() {
                   onClick={(e) => { e.preventDefault(); setTab(1); }}
                 >
                   <div>
-                    <div className="mb-1 font-bold leading-snug tracking-tight">Building the Simple ecosystem</div>
-                    <div className="text-gray-600">We not just make a building, but we make home for Elderly</div>
+                    <div className="mb-1 font-bold leading-snug tracking-tight">Cari dan Pesan</div>
+                    <div className="text-gray-600">Cari dan pesan tempat reservasimu</div>
                   </div>
                   <div className="flex items-center justify-center flex-shrink-0 w-8 h-8 ml-3 bg-white rounded-full shadow">
                     <svg className="w-3 h-3 fill-current" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
@@ -69,8 +69,8 @@ function Features() {
                   onClick={(e) => { e.preventDefault(); setTab(2); }}
                 >
                   <div>
-                    <div className="mb-1 font-bold leading-snug tracking-tight">24/7 Doctors</div>
-                    <div className="text-gray-600">Every resident's health is monitored by our doctors who are stand-by for health consultations.</div>
+                    <div className="mb-1 font-bold leading-snug tracking-tight">Pilih tempat favorit</div>
+                    <div className="text-gray-600">Pilih tempat favoritmu dan mulai reservasi online.</div>
                   </div>
                   <div className="flex items-center justify-center flex-shrink-0 w-8 h-8 ml-3 bg-white rounded-full shadow">
                     <svg className="w-3 h-3 fill-current" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
@@ -84,8 +84,8 @@ function Features() {
                   onClick={(e) => { e.preventDefault(); setTab(3); }}
                 >
                   <div>
-                    <div className="mb-1 font-bold leading-snug tracking-tight">Activities</div>
-                    <div className="text-gray-600">We arranges various activities to help the residents be healthy, active, and productive.</div>
+                    <div className="mb-1 font-bold leading-snug tracking-tight">Pembayaran Mudah</div>
+                    <div className="text-gray-600">Pembayaran yang sangat mudah dengan dompet digital Tawarin.</div>
                   </div>
                   <div className="flex items-center justify-center flex-shrink-0 w-8 h-8 ml-3 bg-white rounded-full shadow">
                     <svg className="w-3 h-3 fill-current" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">

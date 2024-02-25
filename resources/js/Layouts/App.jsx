@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import toast, { Toaster } from 'react-hot-toast'
 import { usePage } from '@inertiajs/inertia-react'
 import HideScrollBar from '@/Components/HideScrollBar';
+import NavbarDefault2 from './NavbarDefault2';
 
 export default function App({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -15,7 +16,7 @@ export default function App({ auth, header, children }) {
     })
     return (
         <div className="min-h-screen">
-           <Navbar/>
+           <NavbarDefault2/>
            <Toaster
             position="top-center"
             reverseOrder={false}

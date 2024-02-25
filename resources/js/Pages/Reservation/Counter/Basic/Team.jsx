@@ -8,7 +8,7 @@ export default function Team({ setIsOpenDialog, model }) {
     const { auth } = usePage().props;
     const [state, setState] = useState({});
     const model2 = model.model;
-    // console.log(model)
+    console.log(model2)
     const { data, setData, post, processing, reset, errors } = useForm({});
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isDescription, setIsDescription] = useState("");
@@ -130,18 +130,24 @@ export default function Team({ setIsOpenDialog, model }) {
                                             </div>
                                         ))}
                                     </div>
-                                    <span class="flex text-slate-400 font-medium text-xs">
+                                    <span className="flex items-start text-xs font-medium text-left text-slate-400">
                                         {team.ratings_avg_star_rating
                                             ? Math.round(
                                                   team.ratings_avg_star_rating *
                                                       10
                                               ) / 10
                                             : 0}{" "}
-                                        out of 5 stars (
+                                        out of 5 stars 
+                                        <br />
+                                        (
                                         {team.ratings_count
                                             ? team.ratings_count
                                             : 0}{" "}
-                                        reviews)
+                                        Reviews dari{" "}
+                                        {team.customers_count
+                                            ? team.customers_count
+                                            : 0}{" "}
+                                        Customer)
                                     </span>
 
                                     {/* <span class="flex text-slate-400 font-medium text-xs">
@@ -151,7 +157,8 @@ export default function Team({ setIsOpenDialog, model }) {
                                 <div className="col-span-3">
                                     <img
                                         className="flex-shrink-0 inline-block rounded-full"
-                                        src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                        src={`/storage/${team.media_id}/${team.file_name}`}
+                                        // src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                         alt="Image Description"
                                     />
                                 </div>

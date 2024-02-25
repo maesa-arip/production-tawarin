@@ -76,7 +76,7 @@ const DropdownLink = ({ href, method, as, children }) => {
             href={href}
             method={method}
             as={as}
-            className="block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800"
+            className="block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out dark:text-gray-300 hover:bg-yellow-500 dark:hover:bg-yellow-500 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800"
         >
             {children}
         </Link>

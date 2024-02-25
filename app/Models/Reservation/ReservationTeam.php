@@ -18,6 +18,10 @@ class ReservationTeam extends Model
     {
         return $this->hasMany(ReservationTeamDetail::class);
     }
+    public function customers()
+    {
+        return $this->hasMany(ReservationCustomer::class);
+    }
     public function joincounter()
     {
         return $this->hasMany(ReservationJoinCounter::class);

@@ -4,6 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { usePage } from '@inertiajs/inertia-react'
 import HideScrollBar from '@/Components/HideScrollBar';
 import NavbarDefault from './NavbarDefault';
+import NavbarDefault2 from './NavbarDefault2';
 
 export default function App({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);

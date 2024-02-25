@@ -14,4 +14,13 @@ class ReservationCustomer extends Model implements Wallet, Confirmable
 {
     use HasFactory,HasWallet, HasWallets, CanConfirm;
     protected $guarded =[];
+    /**
+     * Get the user that owns the ReservationCustomer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function team()
+    {
+        return $this->belongsTo(ReservationTeam::class);
+    }
 }

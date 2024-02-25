@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import HeroImage from '../../img/LandingPageFunding/hero-image.png';
 import Typewriter from "typewriter-effect";
+import { Link } from '@inertiajs/inertia-react';
 
 function HeroHome() {
 
@@ -33,26 +34,26 @@ function HeroHome() {
 
           {/* Section header */}
           <div className="pb-12 text-center md:pb-16">
-            <h1 className="font-inter mb-4 text-[40px] font-extrabold -tracking-[0.32px] md:text-[88px] leading-[1.125]" data-aos="zoom-y-out">
+            <h1 className="font-inter mb-4 text-[30px] font-extrabold -tracking-[0.32px] md:text-[88px] leading-[1.125]" data-aos="zoom-y-out">
               {/* Make your website  */}
               <Typewriter
                     options={{
-                        strings: ["Nursing Home", "Loves Your Parents"],
+                        strings: ["Reservasi Online"],
                         autoStart: true,
                         loop: true,
                     }}
                 />
-            <span className="text-transparent font-inter bg-clip-text bg-gradient-to-r from-blue-500 to-yellow-400">TAWARIN</span></h1>
+            <span className="text-transparent font-inter bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">TAWARIN</span></h1>
             
             <div className="max-w-3xl mx-auto">
-              <p className="mb-8 text-xl text-gray-600" data-aos="zoom-y-out" data-aos-delay="150">Every Elderly hopes to enjoy their life happily, healthily and well being. This hope becomes the mission of Panti Jompo Tawarin.</p>
+              <p className="mb-8 text-xl text-gray-600" data-aos="zoom-y-out" data-aos-delay="150">Kembangkan bisnismu, jangkau pelanggan lebih banyak, dapatkan growth dan profit lebih tinggi</p>
               <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
                 <div>
-                  <a className="inline-flex items-center justify-center w-full px-8 py-3 mb-4 font-medium leading-snug text-white transition duration-150 ease-in-out rounded shadow-lg bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 sm:w-auto sm:mb-0" href="#0">Start Invest</a>
+                  <Link className="inline-flex items-center justify-center w-full px-8 py-3 mb-4 font-medium leading-snug text-white transition duration-150 ease-in-out rounded shadow-lg bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 sm:w-auto sm:mb-0" href={route("reservation.list")}>Mulai Reservasi</Link>
                 </div>
-                <div>
-                  <a className="inline-flex items-center justify-center w-full px-8 py-3 font-medium leading-snug text-white transition duration-150 ease-in-out rounded shadow-lg bg-gradient-to-r from-blue-500 to-gray-800 sm:w-auto sm:ml-4" href="#0">Leran More</a>
-                </div>
+                {/* <div>
+                  <a className="inline-flex items-center justify-center w-full px-8 py-3 font-medium leading-snug text-white transition duration-150 ease-in-out rounded shadow-lg bg-gradient-to-r from-blue-500 to-gray-800 sm:w-auto sm:ml-4" href="#0">Pelajari Lebih Lengkap</a>
+                </div> */}
               </div>
             </div>
           </div>

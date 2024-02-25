@@ -112,7 +112,13 @@ class ReservationCounterController extends Controller
     public function show(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter)
     {
         $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
-        ->withAvg('ratings','star_rating')->withCount('ratings')
+        ->withAvg('ratings','star_rating')->withCount('ratings')->withCount('customers')->with('teamdetail')
+        ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', 'reservation_teams.id')
+        ->leftJoin('media', function ($join) {
+            $join->on('media.model_id', '=', 'reservation_team_details.user_id')
+                ->where('media.model_type', '=', 'App\Models\User');
+        })
+        ->addSelect('media.file_name','media.id as media_id')
         ->orderBy('ratings_avg_star_rating','DESC')->get();
         
         $currentDate = Carbon::now(); // Get the current date and time

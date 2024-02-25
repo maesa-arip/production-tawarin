@@ -12,7 +12,7 @@ function Link({ href, children, ...props }) {
                     {...props}
                     className={clsx(
                         active && "font-semibold text-gray-900",
-                        "flex items-start p-3 -m-3 rounded-lg hover:bg-gray-50"
+                        "flex items-start p-3 -m-3 rounded-lg hover:bg-yellow-500"
                     )}
                     href={href}
                 >
