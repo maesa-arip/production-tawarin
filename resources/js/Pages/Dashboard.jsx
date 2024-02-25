@@ -169,11 +169,9 @@ export default function Dashboard(props) {
                 header={""}
             >
                 Ayo lengkapi profilmu terlebih dahulu
-                <Link href={"/profile"}>
-                    <ThirdButton className="flex mx-4">
+                    <ThirdButton href={"/profile"} className="flex mx-4">
                         Lengkapi Profil
                     </ThirdButton>
-                </Link>
             </InfoModal>
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialogReservasi}
