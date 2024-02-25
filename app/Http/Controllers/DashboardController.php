@@ -56,9 +56,14 @@ class DashboardController extends Controller
         ]);
         $joinas_reservasi = JoinAs::where('name', 'like', '%Reservasi%')->get();
         $joinas_konstruksi = JoinAs::where('name', 'not like', '%Reservasi%')->get();
-       
+        $user = User::where('id',auth()->user()->id)->first();
+        $referral = User::where('from_referral', $user->referral)->count();
+        $balance = auth()->user()->balance;
+        $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;
         $portofolio = User::where('users.id', auth()->user()->id)->join('plan_portofolios', 'plan_portofolios.user_id','users.id')->get();
         
-        return inertia('Dashboard', ['plans' => $plans, 'portofolio'=> $portofolio, 'joinas_reservasi'=>$joinas_reservasi,'joinas_konstruksi'=>$joinas_konstruksi]);
+        return inertia('Dashboard', ['plans' => $plans, 'portofolio'=> $portofolio, 'joinas_reservasi'=>$joinas_reservasi,'joinas_konstruksi'=>$joinas_konstruksi,'balance' => $balance,
+        'bonus' => $bonus,
+        'referral' => $referral,]);
     }
 }

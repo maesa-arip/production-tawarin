@@ -428,8 +428,7 @@ export default function Index(props) {
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <span className="px-2 py-1 mx-1 text-xs text-blue-500 uppercase rounded-full bg-blue-50">
                                                             {
-                                                                person.join_as
-                                                                    .name
+                                                                person.join_as?.name
                                                             }
                                                         </span>
                                                     </td>

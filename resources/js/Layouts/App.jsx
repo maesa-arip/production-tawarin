@@ -16,7 +16,7 @@ export default function App({ auth, header, children }) {
     })
     return (
         <div className="min-h-screen">
-           <NavbarDefault2/>
+           <Navbar/>
            <Toaster
             position="top-center"
             reverseOrder={false}

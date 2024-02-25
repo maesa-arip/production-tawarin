@@ -61,6 +61,9 @@ export default function Dashboard(props) {
     const joinas_reservasi = props.joinas_reservasi;
     const joinas_konstruksi = props.joinas_konstruksi;
     const portofolio = props.portofolio;
+    const balance = props.balance;
+    const referral = props.referral;
+    const bonus = props.bonus;
     const { auth } = usePage().props;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -144,7 +147,7 @@ export default function Dashboard(props) {
                     Hapus
                 </Button>
             </DestroyModal>
-            <InfoModal
+            {/* <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
                 setIsOpenInfoDialog={setIsOpenInfoDialog}
                 size="max-w-2xl"
@@ -157,7 +160,7 @@ export default function Dashboard(props) {
                         Tambah Portofolio
                     </ThirdButton>
                 </Link>
-            </InfoModal>
+            </InfoModal> */}
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog2}
                 setIsOpenInfoDialog={setIsOpenInfoDialog2}
@@ -250,7 +253,7 @@ export default function Dashboard(props) {
                 </div>
             </InfoModal>
             <Container>
-                <FeatureCard />
+                <FeatureCard balance={balance} bonus={bonus} referral={referral}  />
                 {portofolio.length > 0 ? (
                     <> </>
                 ) : (

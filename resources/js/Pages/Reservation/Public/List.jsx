@@ -123,13 +123,13 @@ export default function List(props) {
                 membuat perencanaan
             </InfoModal>
             <Container>
-                <ThirdButton href={route("reservationprofile.edit")}>Atur Perusahaan</ThirdButton>
+                {/* <ThirdButton href={route("reservationprofile.edit")}>Atur Perusahaan</ThirdButton>
                 <ThirdButton color="teal" className="m-4" href={route("reservationCounters.index")}>Atur Layanan</ThirdButton>
                 <ThirdButton color="yellow" className="mr-4">Atur Jadwal</ThirdButton>
-                <ThirdButton color="red" className="mb-4">Atur Pegawai</ThirdButton>
+                <ThirdButton color="red" className="mb-4">Atur Pegawai</ThirdButton> */}
                 <div className="flex items-center justify-end gap-x-2">
                     <div className="w-2/3 ">
-                        <div className="flex items-center justify-start  ">
+                        <div className="flex items-center justify-start ">
                        
                                 <ListBoxPage
                                     ShouldMap={reservation_categories}

@@ -1039,10 +1039,7 @@ export default function NavbarReservasi() {
                             </>
                         )}
 
-                        {permission_name.indexOf(
-                            "lihat menu customer reservasi"
-                        ) > -1 && (
-                            <>
+                       
                                 <NavLinkMobile
                                     onClick={() => setIsOpenMenuModal(false)}
                                     href={route("reservation.myreservations")}
@@ -1062,8 +1059,7 @@ export default function NavbarReservasi() {
                                         Cari Reservasi
                                     </p>
                                 </NavLinkMobile>
-                            </>
-                        )}
+                            
 
                         {permission_name.indexOf("lihat menu admin saldo") >
                             -1 && (

@@ -1,6 +1,7 @@
+import { numberFormat } from "@/Libs/helper";
 import React from "react";
 
-export default function FeatureCard() {
+export default function FeatureCard({balance, bonus, referral}) {
     return (
         <div className="flex flex-col">
             <h2 className="mb-4 text-2xl font-bold">{/* Feature Cards */}</h2>
@@ -24,7 +25,7 @@ export default function FeatureCard() {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <h2 className="mt-3 font-semibold">0 Saldo</h2>
+                        <p className="mt-3 text-xs font-semibold">Rp {numberFormat(balance)} Saldo</p>
                         {/* <p className="mt-2 text-sm text-gray-500">Last opened 4 days ago</p> */}
                     </div>
                 </div>
@@ -49,7 +50,7 @@ export default function FeatureCard() {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <h2 className="mt-3 font-semibold">0 Bonus</h2>
+                        <h2 className="mt-3 text-xs font-semibold">Rp {numberFormat(bonus)} Bonus</h2>
                         {/* <p className="mt-2 text-sm text-gray-500">Last checked 3 days ago</p> */}
                     </div>
                 </div>
@@ -72,7 +73,7 @@ export default function FeatureCard() {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <h2 className="mt-3 font-semibold">0 Referal</h2>
+                        <h2 className="mt-3 text-xs font-semibold">{referral} Referal</h2>
                         {/* <p className="mt-2 text-sm text-gray-500">Last authored 1 day ago</p> */}
                     </div>
                 </div>
@@ -102,7 +103,7 @@ export default function FeatureCard() {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <h2 className="mt-3 font-semibold">0 Proyek</h2>
+                        <h2 className="mt-3 text-xs font-semibold">0 Proyek</h2>
                         {/* <p className="mt-2 text-sm text-gray-500">Last commented 8 days ago</p> */}
                     </div>
                 </div>
