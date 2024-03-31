@@ -1,9 +1,13 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import AppChat from "@/Layouts/AppChat";
+import Aside from "@/Layouts/Aside";
+import Header from "@/Layouts/Header";
 import Navbar from "@/Layouts/Navbar";
 import NavbarDefault2 from "@/Layouts/NavbarDefault2";
 import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import React from "react";
+import "../../../css/static/style.css";
+import "../../../css/static/index_responsive.css";
 
 export default function Index(props) {
     const { users, auth, roles } = usePage().props;
@@ -11,7 +15,9 @@ export default function Index(props) {
         <>
             <div className="w-full h-full overflow-x-hidden">
                 <Head title={"Chat"} />
-                <NavbarDefault2/>
+                {/* <NavbarDefault2/> */}
+                <Header/>
+            <Aside/>
                 <div className="flex-col flex-shrink-0 w-full px-8 py-8 bg-white">
                     <div className="flex flex-row items-center justify-center w-full h-12">
                         {/* <div className="flex items-center justify-center w-10 h-10 text-indigo-700 bg-indigo-100 rounded-2xl">
@@ -24,14 +30,14 @@ export default function Index(props) {
                             Chat
                         </Link>
                     </div>
-                    <div className="flex flex-col items-center w-full px-4 py-6 mt-4 bg-indigo-100 border border-gray-200 rounded-lg">
-                        <div className="w-20 h-20 overflow-hidden border rounded-full">
+                    <div className="flex flex-col items-center w-full px-4 py-6 mt-4 rounded-lg bg-amber-500">
+                        <div className="w-20 h-20 overflow-hidden rounded-full">
                             {/* <img
                                 src="https://avatars3.githubusercontent.com/u/2763884?s=128"
                                 alt="Avatar"
                                 className="w-full h-full"
                             /> */}
-                            <div className="flex items-center justify-center w-full h-full text-2xl font-semibold bg-indigo-200 rounded-full">
+                            <div className="flex items-center justify-center w-full h-full text-2xl font-semibold rounded-full bg-amber-200">
                                 {Array.from(auth.user.name)[0]}
                             </div>
                         </div>

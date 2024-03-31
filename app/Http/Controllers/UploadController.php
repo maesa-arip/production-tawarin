@@ -118,25 +118,25 @@ class UploadController extends Controller
 
 
         // Upload Hasil
-        // $plan_details = Plan::join('plan_details', 'plan_details.plan_id', 'plans.id')
-        //     ->join('plan_masters', 'plan_masters.id', 'plan_details.plan_master_id')
-        //     ->select('plan_masters.name', 'plans.jumlah_revisi', 'plan_masters.slug', 'plan_details.id')
-        //     ->get();
+        $plan_details = Plan::join('plan_details', 'plan_details.plan_id', 'plans.id')
+            ->join('plan_masters', 'plan_masters.id', 'plan_details.plan_master_id')
+            ->select('plan_masters.name', 'plans.jumlah_revisi', 'plan_masters.slug', 'plan_details.id')
+            ->get();
 
-        // foreach ($plan_details as $plan_detail) {
-        //     if ($request->hasFile($plan_detail->slug)) {
-        //         $file = $request->file($plan_detail->slug);
-        //         ${"folder" . $plan_detail->slug} = uniqid() . '-' . now()->timestamp;
-        //         ${"filename" . $plan_detail->slug} = hexdec(uniqid()) . '.' . $file->extension();
-        //         $file->storeAs('public/files/tmp/' . ${"folder" . $plan_detail->slug}, ${"filename" . $plan_detail->slug});
-        //         TemporaryFile::create([
-        //             'folder' => ${"folder" . $plan_detail->slug},
-        //             'filename' => ${"filename" . $plan_detail->slug}
-        //         ]);
-        //         Session::push("folder" . $plan_detail->slug, ${"folder" . $plan_detail->slug});
-        //         Session::push("filename" . $plan_detail->slug, ${"filename" . $plan_detail->slug});
-        //     }
-        // }
+        foreach ($plan_details as $plan_detail) {
+            if ($request->hasFile($plan_detail->slug)) {
+                $file = $request->file($plan_detail->slug);
+                ${"folder" . $plan_detail->slug} = uniqid() . '-' . now()->timestamp;
+                ${"filename" . $plan_detail->slug} = hexdec(uniqid()) . '.' . $file->extension();
+                $file->storeAs('public/files/tmp/' . ${"folder" . $plan_detail->slug}, ${"filename" . $plan_detail->slug});
+                TemporaryFile::create([
+                    'folder' => ${"folder" . $plan_detail->slug},
+                    'filename' => ${"filename" . $plan_detail->slug}
+                ]);
+                Session::push("folder" . $plan_detail->slug, ${"folder" . $plan_detail->slug});
+                Session::push("filename" . $plan_detail->slug, ${"filename" . $plan_detail->slug});
+            }
+        }
 
 
         if ($request->hasFile('gambar_arsitektur')) {

@@ -192,6 +192,15 @@ export default function Index({ plan, balance, tahap, step }) {
                                             bisa ditarik oleh konsultan sebelum
                                             disetujui oleh owner.
                                         </p>
+                                        <NavLink
+                                    type="button"
+                                    className={
+                                        "inline-flex items-center justify-center my-2 px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                    }
+                                    href={route("plan.deposit", plan.slug)}
+                                >
+                                    Masukan Saldo 50%
+                                </NavLink>
                                     </div>
                                 </div>
                                 <div className="relative flex pb-12">

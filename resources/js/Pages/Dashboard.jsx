@@ -168,8 +168,8 @@ export default function Dashboard(props) {
                 title={"Info"}
                 header={""}
             >
-                Ayo lengkapi profilmu terlebih dahulu
-                    <ThirdButton href={"/profile"} className="flex mx-4">
+                <p>Ayo lengkapi profilmu terlebih dahulu</p>
+                    <ThirdButton href={"/profile"} className="block mx-4 ">
                         Lengkapi Profil
                     </ThirdButton>
             </InfoModal>
@@ -266,7 +266,27 @@ export default function Dashboard(props) {
                         openInfoDialog2();
                     }, [])
                 )}
-                {plans.length > 0 ? (
+                <div className="flex flex-col px-6 py-6 mt-4 bg-white border shadow-lg rounded-xl ">
+                        <div className="">
+                            <div className="flex items-center justify-between">
+                                <div className="w-full">
+                                    <div className="flex items-center mb-0 justify-evenly gap-x-1">
+                                        <ThirdButton
+                                            type="button"
+                                            href={"/myreservations"}
+                                        >
+                                            History Reservasi
+                                        </ThirdButton>
+                                        <ThirdButton
+                                            type="button"
+                                            href={route("plan.list")}
+                                        >
+                                            History Konstruksi
+                                        </ThirdButton>
+                                    </div>
+                                </div>
+                            </div></div></div>
+                {/* {plans.length > 0 ? (
                     <div className="flex flex-col px-2 py-2 mt-4 bg-white border shadow-lg rounded-xl ">
                         <div className="">
                             <div className="flex items-center justify-between">
@@ -333,7 +353,6 @@ export default function Dashboard(props) {
                                                         )}
                                                     </div>
                                                     <div className="flex items-center justify-center col-span-1 col-end-13">
-                                                        {/* <IconDotsVertical> */}
                                                         <span className="items-center justify-center px-1 ml-1 text-xs font-thin rounded-lg select-none ">
                                                             <DropdownMobile>
                                                                 <DropdownMobile.Trigger>
@@ -404,7 +423,6 @@ export default function Dashboard(props) {
                                                                 </DropdownMobile.Content>
                                                             </DropdownMobile>
                                                         </span>
-                                                        {/* </IconDotsVertical> */}
                                                     </div>
                                                     <div className="col-span-12 col-start-1 border-b border-gray-100"></div>
                                                     <div className="flex items-center justify-center col-span-2 col-start-1 mb-2">
@@ -475,10 +493,6 @@ export default function Dashboard(props) {
                                                                             Penawaran
                                                                         </Link>
                                                                     ) : (
-                                                                        // <ThirdButton color="red" href={route(
-                                                                        //     "plans.edit",
-                                                                        //     `${plan.slug}`
-                                                                        // )}>Edit</ThirdButton>
                                                                         <Link
                                                                             href={route(
                                                                                 "plans.edit",
@@ -503,7 +517,7 @@ export default function Dashboard(props) {
                     </div>
                 ) : (
                     <></>
-                )}
+                )} */}
             </Container>
         </>
     );

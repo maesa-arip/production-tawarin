@@ -79,6 +79,6 @@ class HomeController extends Controller
             $plans->orderBy($request->field, $request->direction);
         }
         $plans = (PlanResource::collection($plans->latest()->fastPaginate(8)->withQueryString()));
-        return inertia('HomeReservasi', ['plans' => $plans]);
+        return inertia('HomeReservasi2', ['plans' => $plans]);
     }
 }

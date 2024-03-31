@@ -15,6 +15,7 @@ import Header from "@/Components/Header";
 import ThirdButton from "@/Components/ThirdButton";
 import Pagination from "@/Components/Pagination";
 import Table from "@/Components/Table";
+import ThirdButtonSmall from "@/Components/ThirdButtonSmall";
 
 const UpIcon = () => (
     <svg
@@ -594,7 +595,7 @@ export default function Index(props) {
                                     href={"reservationCounters/create"}
                                 >
                                     Tambah
-                                    <IconCirclePlus className="w-3 h-3" />
+                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
                                 </ThirdButton>
                                 {/* <ThirdButton type="button" color="red" href={"#"}>Ditolak({reservationCounterRejectCount})</ThirdButton> */}
                             </div>
@@ -660,9 +661,9 @@ export default function Index(props) {
                                                         {reservationCounter.name}
                                                     </p>
                                                     
-                                                    <p className="p-1 ml-4 text-sm font-semibold text-white bg-yellow-700 rounded-full">
+                                                    {/* <p className="p-1 ml-4 text-sm font-semibold text-white bg-yellow-700 rounded-full">
                                                         {"Kode : " + reservationCounter.code}
-                                                    </p>
+                                                    </p> */}
                                                 </div>
                                                 {/* <div className="flex items-center justify-end col-span-6 col-end-12">
                                                 {reservationCounter.reservationCounter_bids_sum_is_active ==
@@ -801,15 +802,19 @@ export default function Index(props) {
                                                             <>
                                                                 {reservationCounter.is_active ==
                                                                 1 ? (
-                                                                    <Link
-                                                                    href={route(
+                                                                    <ThirdButtonSmall href={route(
                                                                         "reservationCounters.settingteam",
                                                                         `${reservationCounter.slug}`
-                                                                    )}
-                                                                        className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
-                                                                    >
-                                                                        Atur Tim
-                                                                    </Link>
+                                                                    )}>Atur Tim</ThirdButtonSmall>
+                                                                    // <Link
+                                                                    // href={route(
+                                                                    //     "reservationCounters.settingteam",
+                                                                    //     `${reservationCounter.slug}`
+                                                                    // )}
+                                                                    //     className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
+                                                                    // >
+                                                                    //     Atur Tim
+                                                                    // </Link>
                                                                 ) : (
                                                                     <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
                                                                         Edit

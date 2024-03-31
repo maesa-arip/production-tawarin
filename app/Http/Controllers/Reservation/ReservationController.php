@@ -404,7 +404,7 @@ class ReservationController extends Controller
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.percent_owner', 'percent_employe','reservation_companies.name as CompanyName','reservation_counters.name as CounterName')
+            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.percent_owner', 'percent_employe','deposit','reservation_companies.name as CompanyName','reservation_counters.name as CounterName')
             ->where('reservation_customers.id', $id)
             ->first();
         // dd($reservationCounter);
@@ -418,9 +418,17 @@ class ReservationController extends Controller
 
         $tfTempTawarin = $reservationCounter->price - $reservationCounter->price_user;
         $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->price_user;
-        $tfTeam = $reservationCounter->percent_employe / 100 * $reservationCounter->price_user;
+        
         $tfReferral = (5 / 100 * $tfTempTawarin);
         $tfTawarin = $tfTempTawarin - $tfReferral;
+
+        if ($reservationCounter->deposit > 0) {
+            $tfTeam = $reservationCounter->deposit/100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->price_user);
+            $tfDeposit = (100 - $reservationCounter->deposit)/100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->price_user);
+        }
+        else {
+            $tfTeam = $reservationCounter->percent_employe / 100 * $reservationCounter->price_user;
+        }
 
         if ($tip) {
             // $customer->transfer($team, $tip->tip);
@@ -453,6 +461,12 @@ class ReservationController extends Controller
             deposit: ['message' => 'Referal dari '.$customer->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type'=>'uang masuk'],
             withdraw: new Option(meta: ['message' => 'Referal ke '.$customer->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type' => 'uang keluar'], confirmed: true)
         ));
+        if ($reservationCounter->deposit > 0) {
+            $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
+                deposit: ['message' => 'Deposit dari '.$team->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type'=>'uang masuk'],
+                withdraw: new Option(meta: ['message' => 'Pembayaran Deposit ke '.$pemilik->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type' => 'uang keluar'], confirmed: true)
+            ));
+        }
         
         
         return redirect('myreservations')->with([

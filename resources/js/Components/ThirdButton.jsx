@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/inertia-react";
 
-export default function ThirdButton({ type = 'submit', className = '',href, processing, children, onClick, color ='blue' }) {
+export default function ThirdButton({ type = 'submit', className = '',href, processing, children, onClick, color ='tawarin' }) {
     const colorVariants = {
         blue: 'bg-blue-50 text-blue-500 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100',
         red: 'bg-red-50 text-red-500 hover:bg-red-100 focus:bg-red-100 active:bg-red-100 focus:ring-red-100',
@@ -12,6 +12,11 @@ export default function ThirdButton({ type = 'submit', className = '',href, proc
         sky: 'bg-sky-50 text-sky-500 hover:bg-sky-100 focus:bg-sky-100 active:bg-sky-100 focus:ring-sky-100',
         gray: 'bg-gray-50 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 focus:ring-gray-100',
         pink: 'bg-pink-50 text-pink-500 hover:bg-pink-100 focus:bg-pink-100 active:bg-pink-100 focus:ring-pink-100',
+        tawarin: 'bg-amber-500 text-white hover:bg-amber-500 focus:bg-amber-600 active:bg-amber-600 focus:ring-amber-600',
+        primary: 'inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm',
+        secondary: 'inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 false ',
+
+       
       }
     return (
         <Link

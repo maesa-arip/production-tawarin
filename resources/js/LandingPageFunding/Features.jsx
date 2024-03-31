@@ -34,7 +34,7 @@ function Features() {
           {/* Section header */}
           <div className="max-w-3xl pb-12 mx-auto text-center md:pb-16">
             <h1 className="mb-4 text-4xl font-semibold">Temukan solusi reservasimu</h1>
-            <p className="text-xl text-gray-600">Aplikasi Tawarin Reservasi memudahkanmu untuk menemukan dan memesan tempat favorit dengan cepat dan aman. Nikmati pengalaman reservasi yang lancar tanpa ribet!</p>
+            <p className="text-xl text-gray-600">Lebih efesien tanpa antri, memudahkan pelanggan dan tingkatkan omset usahamu.</p>
           </div>
 
           {/* Section content */}
@@ -42,10 +42,10 @@ function Features() {
 
             {/* Content */}
             <div className="max-w-xl mx-auto md:max-w-none md:w-full md:col-span-7 lg:col-span-6 md:mt-6" data-aos="fade-right">
-              <div className="mb-8 md:pr-4 lg:pr-12 xl:pr-16">
+              {/* <div className="mb-8 md:pr-4 lg:pr-12 xl:pr-16">
                 <h3 className="mb-3 text-4xl font-semibold">Dompet Digital</h3>
                 <p className="text-xl text-gray-600">Nikmati kemudahan pembayaran dengan sekali klik menggunakan dompet digital Tawarin. </p>
-              </div>
+              </div> */}
               {/* Tabs buttons */}
               <div className="mb-8 md:mb-0">
                 <a

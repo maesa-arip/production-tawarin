@@ -28,6 +28,7 @@ import {
 } from "@tabler/icons";
 import Dropdown from "@/Components/Dropdown";
 import MenuLogo from "@/Components/MenuLogo";
+import Aside from "./Aside";
 
 export default function Navbar() {
     const {
@@ -408,46 +409,7 @@ export default function Navbar() {
                                     </Dropdown.Content>
                                 </Dropdown>
                             )}
-                            {/* <NavLink href="/toko/products">Toko</NavLink> */}
-                            {/* <NavLink href="/projects/choose">Proyek</NavLink>
-                            <NavLink href="/">Keahlian</NavLink>
-                            <NavLink href="/toko/products">Toko</NavLink>
-                            <NavLink href="/toko/products">Alat</NavLink> */}
-                            {/* <DropdownMenu label={"Pendanaan"}>
-                                <DropdownMenu.Link href="/fundings">
-                                    Pendanaan Saya
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/public/fundings/list">
-                                    Cari Pendanaan
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/fundings/create">
-                                    Buat Pendanaan
-                                </DropdownMenu.Link>
-                            </DropdownMenu> */}
-
-                            {/* <DropdownMenu label={"Categories"}>
-                                {categories_global.map((category) => (
-                                    <DropdownMenu.Link
-                                        key={category.slug}
-                                        href={`/toko/products?category=${category.slug}`}
-                                    >
-                                        <div className="ml-4">
-                                            <p className="text-base font-medium text-gray-900">
-                                                {category.name}
-                                            </p>
-                                        </div>
-                                    </DropdownMenu.Link>
-                                ))}
-                            </DropdownMenu> */}
-
-                            {/* <DropdownMenu label={"Admin"}>
-                                <DropdownMenu.Link href="/admindeposits">
-                                    Deposit
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/adminwithdraws">
-                                    Withdraw
-                                </DropdownMenu.Link>
-                            </DropdownMenu> */}
+                            
                             {permission_name.indexOf("lihat menu admin saldo") >
                                 -1 && (
                                 <Dropdown>
@@ -518,146 +480,10 @@ export default function Navbar() {
                                     </Dropdown.Content>
                                 </Dropdown>
                             )}
-                            {/* <DropdownMenu label={"Hak Akses"}>
-                                <DropdownMenu.Link href="/role-and-permission/roles">
-                                    Roles
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/role-and-permission/permissions">
-                                    Permissions
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/role-and-permission/assignable">
-                                    Assign Permissions to Roles
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/role-and-permission/assign/user">
-                                    Assign Roles to User
-                                </DropdownMenu.Link>
-                            </DropdownMenu> */}
-
-                            {/* <Dropdown>
-                                <Dropdown.Trigger>
-                                    <span className="inline-flex rounded-md">
-                                        <button
-                                            type="button"
-                                            className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:bg-gray-800 hover:text-yellow-500 dark:hover:text-gray-300 focus:outline-none"
-                                        >
-                                            Hak Akses
-                                            <svg
-                                                className="ml-2 -mr-0.5 h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </Dropdown.Trigger>
-
-                                <Dropdown.Content>
-                                    <Dropdown.Link
-                                        href={"/role-and-permission/roles"}
-                                    >
-                                        Roles
-                                    </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href={
-                                            "/role-and-permission/permissions"
-                                        }
-                                    >
-                                        Permissions
-                                    </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href={
-                                            "/role-and-permission/permission-to-role"
-                                        }
-                                    >
-                                        Assign Permissions to Roles
-                                    </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href={
-                                            "/role-and-permission/role-to-user"
-                                        }
-                                    >
-                                        Assign Roles to User
-                                    </Dropdown.Link>
-                                </Dropdown.Content>
-                            </Dropdown> */}
-
-                            {/* <DropdownMenu label={"Example"}>
-                                <DropdownMenu.Link href="/example/homefunding">
-                                    Landing Page Funding
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/example/form">
-                                    Form
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/example/funding">
-                                    Funding
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/example/descriptionlist">
-                                    Decription List
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/filepond">
-                                    Filepond
-                                </DropdownMenu.Link>
-                                <DropdownMenu.Link href="/dropzone">
-                                    Dropzone
-                                </DropdownMenu.Link>
-                            </DropdownMenu> */}
+                            
                             {auth.user ? (
                                 <>
-                                    {/* <DropdownMenu label={auth.user.name}>
-                                        <DropdownMenu.Link href="/dashboard">
-                                            Dashboard
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/profile">
-                                            Profile
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/profile">
-                                            Perencanaan Saya
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/profile">
-                                            Proyek Saya
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/profile">
-                                            Pendanaan Saya
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/profile">
-                                            Keahlian Saya
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/profile">
-                                            Toko Saya
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/profile">
-                                            Alat Saya
-                                        </DropdownMenu.Link>
-
-                                        <DropdownMenu.Link href="/toko/carts">
-                                            Your Cart
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/toko/products/me">
-                                            Your Products
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/toko/history">
-                                            Your History
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/users">
-                                            Users
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link href="/toko/products/table">
-                                            Table Products
-                                        </DropdownMenu.Link>
-                                        <DropdownMenu.Link
-                                            href="/logout"
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Logout
-                                        </DropdownMenu.Link>
-                                    </DropdownMenu> */}
+                                   
                                     <Dropdown>
                                         <Dropdown.Trigger>
                                             <span className="inline-flex rounded-md">
@@ -1013,7 +839,7 @@ export default function Navbar() {
                         >
                             <IconCash className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                             <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
-                                Pendanaan
+                                Pendanaan.
                             </p>
                         </NavLinkMobile>
 
@@ -1412,6 +1238,7 @@ export default function Navbar() {
                         </>
                     )}
                 </div>
+                <Aside/>
             </section>
         </>
     );

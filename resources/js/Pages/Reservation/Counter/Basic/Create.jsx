@@ -140,7 +140,7 @@ export default function Create({ onOff }) {
                 closeButton="false"
             >
                 <p>Apakah anda akan memberikan komisi kepada pegawai untuk layanan ini ?</p>
-                <ThirdButtonNoLink type="button" color="red" onClick={noKomisiDialog}>Tidak</ThirdButtonNoLink>
+                <ThirdButtonNoLink type="button" color="secondary" onClick={noKomisiDialog}>Tidak</ThirdButtonNoLink>
                 <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesKomisiDialog}>Iya</ThirdButtonNoLink>
             </BaseModal>
             <BaseModal
@@ -152,7 +152,7 @@ export default function Create({ onOff }) {
             >
                 <p>Apakah anda akan memberikan diskon kepada pelanggan untuk layanan ini ?</p>
                 
-                <ThirdButtonNoLink type="button" color="red" onClick={noDiskonDialog}>Tidak</ThirdButtonNoLink>
+                <ThirdButtonNoLink type="button" color="secondary" onClick={noDiskonDialog}>Tidak</ThirdButtonNoLink>
                 <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesDiskonDialog}>Iya</ThirdButtonNoLink>
             </BaseModal>
             <Container>
@@ -341,7 +341,71 @@ export default function Create({ onOff }) {
                                                         {errors.percent_employe}
                                                     </span>
                                                 )}
-                                            </div></>}
+                                            </div>
+                                            <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                                    width={24}
+                                                    height={24}
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth={2}
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                >
+                                                    <path
+                                                        stroke="none"
+                                                        d="M0 0h24v24H0z"
+                                                        fill="none"
+                                                    />
+                                                    <circle
+                                                        cx={12}
+                                                        cy={12}
+                                                        r={9}
+                                                    />
+                                                    <line
+                                                        x1={12}
+                                                        y1={8}
+                                                        x2="12.01"
+                                                        y2={8}
+                                                    />
+                                                    <polyline points="11 12 12 12 12 16 13 16" />
+                                                </svg>
+                                                Deposit akan dipotong dari Persentase Untuk Pekerja 
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="name"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Persentase untuk Deposit
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="number"
+                                                            name="deposit"
+                                                            value={
+                                                                data.deposit ?? ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="deposit"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.deposit}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            </>}
+                                            
                                             {hideDiskon == true ? '' : 
                                             <>
                                             <div className="col-span-12 md:col-span-6">
@@ -575,9 +639,12 @@ export default function Create({ onOff }) {
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                        <Button processing={processing}>
+                                        <ThirdButtonNoLink processing={processing}>
                                             Simpan
-                                        </Button>
+                                        </ThirdButtonNoLink>
+                                        {/* <Button className="" processing={processing}>
+                                            Simpan
+                                        </Button> */}
                                     </div>
                                 </div>
                             </div>

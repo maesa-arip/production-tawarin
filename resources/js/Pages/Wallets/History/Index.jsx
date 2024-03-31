@@ -165,19 +165,19 @@ export default function Index(props) {
                                                                 {/* Uploading File Content */}
                                                                 <div className="flex items-center justify-between mb-2">
                                                                     <div className="flex items-center gap-x-3">
-                                                                        <span className="flex items-center justify-center text-gray-500 border border-gray-200 rounded-lg size-8 dark:border-neutral-700">
+                                                                        <span className="flex items-center justify-center text-gray-500 border border-gray-200 rounded-lg size-8 ">
                                                                         <IconCash className="flex-shrink-0 w-6 h-6 text-teal-500"/>
                                                                         </span>
                                                                         <div>
-                                                                            <p className="flex-wrap text-sm font-medium text-gray-800 whitespace-break-spaces dark:text-white">
+                                                                            <p className="flex-wrap text-sm font-medium text-gray-800 whitespace-break-spaces ">
                                                                                 {transaction.meta?.message}
                                                                             </p>
-                                                                            {transaction.meta?.type == 'uang masuk' ? <><p className="text-xs text-teal-500 dark:text-teal-500">
+                                                                            {transaction.meta?.type == 'uang masuk' ? <><p className="text-xs text-teal-500 ">
                                                                                 Rp{" "}
                                                                                 {numberFormat(
                                                                                     transaction.amount
                                                                                 )}
-                                                                            </p></> :<><p className="text-xs text-gray-500 dark:text-gray-500">
+                                                                            </p></> :<><p className="text-xs text-gray-500 ">
                                                                                 Rp{" "}
                                                                                 {numberFormat(
                                                                                     transaction.amount
@@ -189,10 +189,10 @@ export default function Index(props) {
                                                                     <div className="inline-flex items-center gap-x-2">
                                                                         {/* <IconCash className="flex-shrink-0 w-4 h-4 text-teal-500 size-4"/> */}
                                                                         <div>
-                                                                            <p className="text-xs text-gray-800 dark:text-white">
+                                                                            <p className="text-xs text-gray-800 ">
                                                                                 {transaction.created_at_date}
                                                                             </p>
-                                                                            <p className="text-xs text-teal-500 dark:text-teal-500">
+                                                                            <p className="text-xs text-teal-500 ">
                                                                             <IconChecks className="flex-shrink-0 w-4 h-4 text-teal-500 size-4"/>
                                                                             </p>
                                                                             

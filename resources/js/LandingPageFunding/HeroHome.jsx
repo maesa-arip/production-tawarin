@@ -46,7 +46,7 @@ function HeroHome() {
             <span className="text-transparent font-inter bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">TAWARIN</span></h1>
             
             <div className="max-w-3xl mx-auto">
-              <p className="mb-8 text-xl text-gray-600" data-aos="zoom-y-out" data-aos-delay="150">Kembangkan bisnismu, jangkau pelanggan lebih banyak, dapatkan growth dan profit lebih tinggi</p>
+              <p className="mb-8 text-xl text-gray-600" data-aos="zoom-y-out" data-aos-delay="150">Kembangkan bisnismu, mari berkolaborasi untuk market yang lebih luas lagi</p>
               <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
                 <div>
                   <Link className="inline-flex items-center justify-center w-full px-8 py-3 mb-4 font-medium leading-snug text-white transition duration-150 ease-in-out rounded shadow-lg bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 sm:w-auto sm:mb-0" href={route("reservation.list")}>Mulai Reservasi</Link>

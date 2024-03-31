@@ -334,7 +334,37 @@ export default function Edit({ reservationCounter }) {
                                                         {errors.percent_employe}
                                                     </span>
                                                 )}
-                                            </div></>}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="name"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Persentase Untuk Deposit
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="text"
+                                                            name="deposit"
+                                                            value={
+                                                                data.deposit ?? ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="deposit"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.deposit}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            </>}
                                             
                                             
                                             <div className="col-span-12 md:col-span-6">

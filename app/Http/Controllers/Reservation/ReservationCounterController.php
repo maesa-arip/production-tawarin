@@ -71,6 +71,7 @@ class ReservationCounterController extends Controller
             'description' =>  $request->description,
             'percent_owner' =>  $request->percent_owner,
             'percent_employe' => $request->percent_employe,
+            'deposit' => $request->deposit,
             'jumlahlayanandiskon' => $request->jumlahlayanandiskon,
             // 'close_at' => $request->close_at,
             'service_duration' => $request->service_duration,
@@ -147,6 +148,7 @@ class ReservationCounterController extends Controller
             'description' =>  $request->description,
             'percent_owner' =>  $request->percent_owner,
             'percent_employe' => $request->percent_employe,
+            'deposit' => $request->deposit,
             'service_duration' => $request->service_duration,
             'period' => $request->period,
         ]);  

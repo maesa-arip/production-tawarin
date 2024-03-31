@@ -241,7 +241,7 @@ export default function MyReservation({ myReservations,tips }) {
                                             <p className="font-bold text-gray-500">
                                                 Nama Layanan
                                             </p>
-                                            <p className="rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
+                                            <p className="rounded-full bg-amber-500 px-2 py-0.5 text-xs font-semibold text-white">
                                                 {item.counterName}
                                             </p>
                                         </div>

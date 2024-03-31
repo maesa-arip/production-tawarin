@@ -25,7 +25,10 @@ import {
     IconBuildingSkyscraper,
     IconBuildingStore,
     IconCash,
+    IconClock,
+    IconHandFinger,
     IconHomeEdit,
+    IconShare,
     IconTools,
     IconUserSearch,
 } from "@tabler/icons";
@@ -88,7 +91,7 @@ export default function HomeDefault(props) {
                                     <Typewriter
                                         options={{
                                             strings: [
-                                                "Mari bergabung bersama",
+                                                "Ayo bergabung bersama",
                                                 "Ekosistem Digital",
                                             ],
                                             autoStart: true,
@@ -101,8 +104,7 @@ export default function HomeDefault(props) {
                                     </span>
                                 </h1>
                                 <p className="mt-6 text-lg text-gray-600">
-                                    Mari berkembang bersama kami melalui
-                                    ekosistem Tawarin yang luas.
+                                Kembangkan bisnismu, mari berkolaborasi untuk market yang lebih luas
                                 </p>
                                 <div className="flex flex-wrap mt-8 gap-x-6 gap-y-4">
                                     <a
@@ -375,6 +377,7 @@ export default function HomeDefault(props) {
                                 <div className="h-auto px-4 -mx-4 sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
                                     <div className="w-full h-auto col-span-2 mx-auto md::w-[700px] lg:w-[400px] lg overflow-hidden shadow rounded-xl">
                                         <video
+                                        className="w-full"
                                             autoPlay
                                             muted
                                             loop
@@ -395,7 +398,74 @@ export default function HomeDefault(props) {
                     <div className="px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="mx-auto sm:text-center">
                             <h2 className="text-3xl font-medium tracking-tight text-gray-900">
-                                Mari mulai projek dan usahamu disini
+                                Aplikasi Unggulan Tawarin
+                            </h2>
+                            <p className="mt-2 text-lg text-gray-600">
+                                Ada aplikasi apa saja di Tawarin, mari lihat aplikasi
+                                kami satu persatu.
+                            </p>
+                        </div>
+                        <ul
+                            role="list"
+                            className="grid grid-cols-1 gap-6 mx-auto mt-16 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
+                        >
+                            <li className="p-8 border border-gray-200 rounded-2xl">
+                                <IconHomeEdit className="w-8 h-8" />
+                                <Link href={route("fundings.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Konstruksi
+                                    </h3>
+                                </Link>
+
+                                <p className="mt-2 text-gray-700">
+                                    Semua kebutuhan jasa konstruksi dalam satu aplikasi. Perluas jagkauan marketmu dan dapatkan hasil yang terbaik.
+                                </p>
+                            </li>
+                            <li className="p-8 border border-gray-200 rounded-2xl">
+                                <IconClock className="w-8 h-8" />
+                                <Link href={route("plans.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Reservasi
+                                    </h3>
+                                </Link>
+                                <p className="mt-2 text-gray-700">
+                                    Lebih efesien tanpa antri. Memudahkan pelanggan dan tingkatkan omzet usahamu.
+                                </p>
+                            </li>
+                            {/* <li className="p-8 border border-gray-200 rounded-2xl">
+                                <IconCash className="w-8 h-8" />
+                                <Link href={route("plans.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Wallet
+                                    </h3>
+                                </Link>
+                                <p className="mt-2 text-gray-700">
+                                    Ga perlu bawa uang cash lagi, semua beres hanya dengan satu aplikasi.
+                                </p>
+                            </li>
+                            <li className="p-8 border border-gray-200 rounded-2xl">
+                                <IconHomeEdit className="w-8 h-8" />
+                                <Link href={route("plans.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Affiliasi
+                                    </h3>
+                                </Link>
+                                <p className="mt-2 text-gray-700">
+                                    Dapatkan tambahan penghasilan, daftarkan usaha dan orang di sekitarmu dengan kode referal khusus akunmu.
+                                </p>
+                            </li> */}
+                        </ul>
+                    </div>
+                </section>
+                <section
+                    id="secondary-features"
+                    aria-label="Features for building a portfolio"
+                    className="mt-12"
+                >
+                    <div className="px-4 mx-auto sm:px-6 lg:px-8">
+                        <div className="mx-auto sm:text-center">
+                            <h2 className="text-3xl font-medium tracking-tight text-gray-900">
+                                Fitur Unggulan Tawarin
                             </h2>
                             <p className="mt-2 text-lg text-gray-600">
                                 Ada fitur apa saja di Tawarin, mari lihat fitur
@@ -410,29 +480,47 @@ export default function HomeDefault(props) {
                                 <IconCash className="w-8 h-8" />
                                 <Link href={route("fundings.choose")}>
                                     <h3 className="mt-6 font-semibold text-gray-900">
-                                        Konstruksi
+                                        Tawarin Wallet
                                     </h3>
                                 </Link>
 
                                 <p className="mt-2 text-gray-700">
-                                    Mari bersama-sama mendukung proyek hebat dan
-                                    berikan kontribusi melalui ekosistem
-                                    konstruksi Tawarin.
+                                    Semua kebutuhan jasa konstruksi dalam satu aplikasi. Perluas jagkauan marketmu dan dapatkan hasil yang terbaik.
+                                </p>
+                            </li>
+                            <li className="p-8 border border-gray-200 rounded-2xl">
+                                <IconShare className="w-8 h-8" />
+                                <Link href={route("plans.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Tawarin Affiliasi
+                                    </h3>
+                                </Link>
+                                <p className="mt-2 text-gray-700">
+                                    Lebih efesien tanpa antri. Memudahkan pelanggan dan tingkatkan omzet usahamu.
+                                </p>
+                            </li>
+                            {/* <li className="p-8 border border-gray-200 rounded-2xl">
+                                <IconCash className="w-8 h-8" />
+                                <Link href={route("plans.choose")}>
+                                    <h3 className="mt-6 font-semibold text-gray-900">
+                                        Wallet
+                                    </h3>
+                                </Link>
+                                <p className="mt-2 text-gray-700">
+                                    Ga perlu bawa uang cash lagi, semua beres hanya dengan satu aplikasi.
                                 </p>
                             </li>
                             <li className="p-8 border border-gray-200 rounded-2xl">
                                 <IconHomeEdit className="w-8 h-8" />
                                 <Link href={route("plans.choose")}>
                                     <h3 className="mt-6 font-semibold text-gray-900">
-                                        Reservasi
+                                        Affiliasi
                                     </h3>
                                 </Link>
                                 <p className="mt-2 text-gray-700">
-                                    Bingung dengan sistem reservasi yang masih
-                                    berantakan, mari bergabung dengan platform
-                                    Reservasi Tawarin.
+                                    Dapatkan tambahan penghasilan, daftarkan usaha dan orang di sekitarmu dengan kode referal khusus akunmu.
                                 </p>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </section>

@@ -44,7 +44,9 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
         'misi',
         'lat',
         'lng',
-        'formattedAddress'
+        'formattedAddress',
+        'email_verified_at',
+        'avatar',
     ];
 
     /**
@@ -89,5 +91,8 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
     {
         return $this->hasMany(Chat::class, 'sender_id');
     }
-    
+    public function socialAccounts()
+{
+  return $this->hasMany(SocialAccount::class);
+}
 }

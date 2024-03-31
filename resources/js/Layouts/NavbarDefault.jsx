@@ -28,6 +28,7 @@ import {
 } from "@tabler/icons";
 import Dropdown from "@/Components/Dropdown";
 import MenuLogo from "@/Components/MenuLogo";
+import Aside from "./Aside";
 
 export default function NavbarDefault() {
     const {

@@ -3,10 +3,10 @@ import React from "react";
 
 export default function FeatureCard({balance, bonus, referral}) {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col px-2 pb-6 mt-4 bg-white border shadow-lg rounded-xl ">
             <h2 className="mb-4 text-2xl font-bold">{/* Feature Cards */}</h2>
             <div className="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <div className="flex items-start p-4 bg-white shadow-lg rounded-xl">
+                <div className="flex items-start p-4 bg-white border rounded-xl">
                     <div className="flex items-center justify-center w-12 h-12 border border-blue-100 rounded-full bg-blue-50">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ export default function FeatureCard({balance, bonus, referral}) {
                         {/* <p className="mt-2 text-sm text-gray-500">Last opened 4 days ago</p> */}
                     </div>
                 </div>
-                <div className="flex items-start p-4 bg-white shadow-lg rounded-xl">
+                <div className="flex items-start p-4 bg-white border rounded-xl">
                     <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ export default function FeatureCard({balance, bonus, referral}) {
                         {/* <p className="mt-2 text-sm text-gray-500">Last checked 3 days ago</p> */}
                     </div>
                 </div>
-                <div className="flex items-start p-4 bg-white shadow-lg rounded-xl">
+                <div className="flex items-start p-4 bg-white border rounded-xl">
                     <div className="flex items-center justify-center w-12 h-12 border border-red-100 rounded-full bg-red-50">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ export default function FeatureCard({balance, bonus, referral}) {
                         {/* <p className="mt-2 text-sm text-gray-500">Last authored 1 day ago</p> */}
                     </div>
                 </div>
-                <div className="flex items-start p-4 bg-white shadow-lg rounded-xl">
+                <div className="flex items-start p-4 bg-white border rounded-xl">
                     <div className="flex items-center justify-center w-12 h-12 border border-indigo-100 rounded-full bg-indigo-50">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

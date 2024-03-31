@@ -364,6 +364,7 @@ export default function Home(props) {
                                 <div className="h-auto px-4 -mx-4 sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
                                     <div className="w-full h-auto col-span-2 mx-auto md::w-[700px] lg:w-[400px] lg overflow-hidden shadow rounded-xl">
                                         <video
+                                        className="w-full"
                                             autoPlay
                                             muted
                                             loop

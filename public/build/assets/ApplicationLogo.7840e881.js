@@ -1,1 +1,0 @@
-import{j as o,L as a}from"./app.d3793d70.js";import{L as r}from"./Tawarin.08057ae7.js";function e({className:s}){return o(a,{href:"/",children:o("img",{className:"w-8 h-8",alt:"logo","aria-label":"applogo",src:r})})}export{e as A};

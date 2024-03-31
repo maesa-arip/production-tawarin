@@ -12,12 +12,15 @@ import EditeRevision from "@/Components/PlanRevision/EditRevision";
 import EditRevision from "@/Components/PlanRevision/EditRevision";
 import { Inertia } from "@inertiajs/inertia";
 import { result } from "lodash";
+import InfoModal from "@/Components/Modal/InfoModal";
 
 export default function ShowResult({
     plan,
     dataplan,
     plan_master,
     plan_details,
+    datarevisionresult,
+    datadescriptionrevisionresult,
 }) {
     const openAddDialog = (result) => {
         setState(result);
@@ -31,7 +34,12 @@ export default function ShowResult({
         setState(result);
         setIsOpenDestroyDialog(true);
     };
-
+    const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const openInfoDialog = (result) => {
+        setState(result);
+        console.log(result);
+        setIsOpenInfoDialog(true);
+    };
     // const submit = (e) => {
     //     e.preventDefault();
     //     post(route('chirps.store'), { onSuccess: () => reset() });
@@ -81,7 +89,6 @@ export default function ShowResult({
             },
         });
     };
-
     const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
@@ -121,6 +128,58 @@ export default function ShowResult({
             >
                 <Button onClick={finishRevision}>Selesai</Button>
             </DestroyModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog}
+                setIsOpenInfoDialog={setIsOpenInfoDialog}
+                size="6xl"
+                title={
+                    "Hasil Revisi Ke-" +
+                    state.jumlah_pengajuan_revisi +
+                    " dari " +
+                    state.name
+                }
+                header={""}
+            >
+                {datadescriptionrevisionresult[state.revision_id] ? (
+                    <div className="mt-1">
+                        <textarea
+                            rows={3}
+                            className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                            placeholder=""
+                            disabled
+                            defaultValue={
+                                datadescriptionrevisionresult[state.revision_id]
+                            }
+                        />
+                    </div>
+                ) : (
+                    ""
+                )}
+                {datarevisionresult[state.revision_id] ? (
+                    <>
+                        <div className="relative flex justify-center px-6 pt-5 pb-6 mt-1 overflow-hidden border-2 border-gray-300 border-dashed rounded-md">
+                            <div className="w-full text-center">
+                                {datarevisionresult[state.revision_id].map(
+                                    (result, index) => (
+                                        <div
+                                            key={{ state }}
+                                            className=" shadow overflow-hidden rounded-xl col-span-3 max-h-[14rem]"
+                                        >
+                                            <img
+                                                className="object-cover w-full h-full "
+                                                src={`/storage/${result.id}/${result.file_name}`}
+                                                alt={index}
+                                            />
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    ""
+                )}
+            </InfoModal>
             <div className="bg-white">
                 <div className="grid items-start max-w-2xl grid-cols-1 px-4 py-4 mx-auto gap-y-8 gap-x-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
                     {plan_details.map((result, index) => (
@@ -136,6 +195,21 @@ export default function ShowResult({
                                                             <label className="block text-sm font-medium text-gray-700">
                                                                 {result.name}
                                                             </label>
+                                                            <div className="py-3 sm:flex sm:flex-row-reverse">
+                                                                <button
+                                                                    onClick={() =>
+                                                                        openInfoDialog(
+                                                                            result
+                                                                        )
+                                                                    }
+                                                                    type="submit"
+                                                                    className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-pink-900 transition duration-150 ease-in-out bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 active:bg-pink-300 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    tabIndex={0}
+                                                                >
+                                                                    Lihat
+                                                                    Revisi
+                                                                </button>
+                                                            </div>
 
                                                             <div className="relative flex justify-center px-6 pt-5 pb-6 mt-1 overflow-hidden border-2 border-gray-300 border-dashed rounded-md">
                                                                 {result.is_finish ==
@@ -156,8 +230,7 @@ export default function ShowResult({
                                                                             result,
                                                                             index
                                                                         ) =>
-                                                                            index <
-                                                                                2 && (
+                                                                            index == 0 && (
                                                                                 <div
                                                                                     key={
                                                                                         result.id
@@ -174,7 +247,7 @@ export default function ShowResult({
                                                                                 </div>
                                                                             )
                                                                     )}
-                                                                    {dataplan[
+                                                                    {/* {dataplan[
                                                                         result
                                                                             .slug
                                                                     ].map(
@@ -201,7 +274,7 @@ export default function ShowResult({
                                                                                     />
                                                                                 </div>
                                                                             )
-                                                                    )}
+                                                                    )} */}
                                                                 </div>
                                                             </div>
                                                             <div className="mt-1">
