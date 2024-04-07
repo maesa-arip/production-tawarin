@@ -34,17 +34,44 @@ export default function Create() {
             <Container>
                 <form onSubmit={onSubmitHandler}>
                     <div className="mt-10 sm:mt-0">
+                        <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                width={24}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                fill="none"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                />
+                                <circle cx={12} cy={12} r={9} />
+                                <line x1={12} y1={8} x2="12.01" y2={8} />
+                                <polyline points="11 12 12 12 12 16 13 16" />
+                            </svg>
+                            BCA<p className="ml-9">6115100533</p><p className="ml-9">PUTU AGUS SURYAWAN</p>
+                            <br />
+                            <p className="ml-9">MANDIRI</p><p className="ml-9">9000033914509</p><p className="ml-9">PUTU AGUS SURYAWAN</p>
+                            
+                        </div>
                         <div className="md:grid md:grid-cols-3 md:gap-6">
                             <div className="md:col-span-1">
                                 <div className="px-4 sm:px-0">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                                         Data Top Up
                                     </h3>
-                                    
-                                    <p className="mt-1 text-sm text-gray-600">
+
+                                    {/* <p className="mt-1 text-sm text-gray-600">
                                         Use a permanent address where you can
                                         receive mail.
-                                    </p>
+                                    </p> */}
                                 </div>
                             </div>
                             <div className="mt-5 md:mt-0 md:col-span-2">
@@ -108,10 +135,10 @@ export default function Create() {
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                                         Bukti Transfer
                                     </h3>
-                                    <p className="mt-1 text-sm text-gray-600">
+                                    {/* <p className="mt-1 text-sm text-gray-600">
                                         This information will be displayed
                                         publicly so be careful what you share.
-                                    </p>
+                                    </p> */}
                                 </div>
                             </div>
                             <div className="mt-5 md:mt-0 md:col-span-2">
@@ -162,8 +189,9 @@ export default function Create() {
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                        
-                                        <Button processing={processing}>Save</Button>
+                                        <Button processing={processing}>
+                                            Save
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

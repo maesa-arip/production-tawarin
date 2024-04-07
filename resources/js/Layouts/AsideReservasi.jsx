@@ -36,7 +36,7 @@ export default function AsideReservasi() {
                                             <h3 className="">
                                                 <Disclosure.Button className="flex items-center justify-between w-full">
                                                     <span className="text-xl header-menu-text">
-                                                        Reservasi
+                                                        Pengaturan
                                                     </span>
                                                     <span className="flex items-center ">
                                                         {open ? (
@@ -151,6 +151,43 @@ export default function AsideReservasi() {
                                                             </Link>
                                                         </>
                                                     )}
+                                                    
+                                                </div>
+                                            </Disclosure.Panel>
+                                        </>
+                                    )}
+                                </Disclosure>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="registration-box row">
+                                <Disclosure as="div" className="">
+                                    {({ open }) => (
+                                        <>
+                                            <h3 className="">
+                                                <Disclosure.Button className="flex items-center justify-between w-full">
+                                                    <span className="text-xl header-menu-text">
+                                                        Pemesanan
+                                                    </span>
+                                                    <span className="flex items-center ">
+                                                        {open ? (
+                                                            <MinusIcon
+                                                                className="w-5 h-5 text-white"
+                                                                aria-hidden="true"
+                                                            />
+                                                        ) : (
+                                                            <PlusIcon
+                                                                className="w-5 h-5 text-white"
+                                                                aria-hidden="true"
+                                                            />
+                                                        )}
+                                                    </span>
+                                                </Disclosure.Button>
+                                            </h3>
+
+                                            <Disclosure.Panel className="">
+                                                <div className="">
+                                                    
                                                     <Link
                                                         onClick={toggleClass}
                                                         href={route(
@@ -256,6 +293,9 @@ export default function AsideReservasi() {
                                 <li>
                                     <div className="registration-box row">
                                         <Link
+                                        onClick={
+                                            toggleClass
+                                        }
                                             href="/login"
                                             className="header-menu-text"
                                             style={{
@@ -269,6 +309,9 @@ export default function AsideReservasi() {
                                 <li>
                                     <div className="registration-box">
                                         <Link
+                                        onClick={
+                                            toggleClass
+                                        }
                                             href="/register"
                                             className="header-menu-text"
                                             style={{

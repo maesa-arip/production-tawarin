@@ -292,6 +292,9 @@ export default function AsideKonstruksi() {
                                 <li>
                                     <div className="registration-box row">
                                         <Link
+                                        onClick={
+                                            toggleClass
+                                        }
                                             href="/login"
                                             className="header-menu-text"
                                             style={{
@@ -305,6 +308,9 @@ export default function AsideKonstruksi() {
                                 <li>
                                     <div className="registration-box">
                                         <Link
+                                        onClick={
+                                            toggleClass
+                                        }
                                             href="/register"
                                             className="header-menu-text"
                                             style={{

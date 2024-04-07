@@ -19,6 +19,7 @@ import InputError from "@/Components/InputError";
 import RadioCard2 from "@/Components/RadioCard2";
 import Tooltip from "@/Components/Tooltip";
 import BaseModal from "@/Components/Modal/BaseModal";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 export default function Edit({ reservationCounter }) {
     const set_dayoff = [
@@ -34,6 +35,7 @@ export default function Edit({ reservationCounter }) {
     const [priceUser, setPriceUser] = useState("");
     const [price, setPrice] = useState("");
     const [hidePercent, setHidePercent] = useState(false);
+    const [hideDiskon, setHideDiskon] = useState(false);
     const onChangePriceUserHandler = (e) => {
         setPriceUser(e.target.value);
         setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
@@ -97,6 +99,7 @@ export default function Edit({ reservationCounter }) {
     };
 
     const [isOpenKomisiDialog, setIsOpenKomisiDialog] = useState(false);
+    const [isOpenDiskonDialog, setIsOpenDiskonDialog] = useState(false);
     const [state, setState] = useState([]);
 
     const openKomisiDialog = () => {
@@ -113,17 +116,31 @@ export default function Edit({ reservationCounter }) {
     useEffect(() => {
         openKomisiDialog();
     }, [])
+    const openDiskonDialog = () => {
+        setIsOpenDiskonDialog(true);
+    };
+    const noDiskonDialog = () => {
+        setIsOpenDiskonDialog(false);
+        setHideDiskon(true);
+        setData({ ...data,  ["jumlahlayanandiskon"]: 0});
+    };
+    const yesDiskonDialog = () => {
+        setIsOpenDiskonDialog(false);
+    };
+    useEffect(() => {
+        openDiskonDialog();
+    }, [])
     const [percent_owner, setPercent_owner] = useState(0);
     useEffect(() => {
         setData({ ...data, ["percent_employe"]: (100 - parseInt(data.percent_owner))});
     }, [percent_owner,data.percent_owner])
     
     // console.log(data)
-    console.log(reservationCounter)
+    // console.log(reservationCounter)
     return (
         <div>
             <Head title="Plan Create" />
-            <BaseModal
+            {/* <BaseModal
                 isOpenInfoDialog={isOpenKomisiDialog}
                 setIsOpenInfoDialog={setIsOpenKomisiDialog}
                 size="max-w-2xl"
@@ -144,8 +161,29 @@ export default function Edit({ reservationCounter }) {
                   >
                     Ya
                   </button>
-                {/* <ThirdButton type="button" color="red" onClick={() => setIsOpenKomisiDialog(false)}>Tidak</ThirdButton> */}
-                {/* <ThirdButton type="button">Iya</ThirdButton> */}
+            </BaseModal> */}
+            <BaseModal
+                isOpenInfoDialog={isOpenKomisiDialog}
+                setIsOpenInfoDialog={setIsOpenKomisiDialog}
+                size="max-w-2xl"
+                title={"Pilih"}
+                closeButton="false"
+            >
+                <p>Apakah anda akan memberikan komisi kepada pegawai untuk layanan ini ?</p>
+                <ThirdButtonNoLink type="button" color="secondary" onClick={noKomisiDialog}>Tidak</ThirdButtonNoLink>
+                <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesKomisiDialog}>Iya</ThirdButtonNoLink>
+            </BaseModal>
+            <BaseModal
+                isOpenInfoDialog={isOpenDiskonDialog}
+                setIsOpenInfoDialog={setIsOpenDiskonDialog}
+                size="max-w-2xl"
+                title={"Pilih"}
+                closeButton="false"
+            >
+                <p>Apakah anda akan memberikan diskon kepada pelanggan untuk layanan ini ?</p>
+                
+                <ThirdButtonNoLink type="button" color="secondary" onClick={noDiskonDialog}>Tidak</ThirdButtonNoLink>
+                <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesDiskonDialog}>Iya</ThirdButtonNoLink>
             </BaseModal>
             <Container>
                 <form onSubmit={onSubmitHandler}>
@@ -334,6 +372,39 @@ export default function Edit({ reservationCounter }) {
                                                         {errors.percent_employe}
                                                     </span>
                                                 )}
+                                            </div>
+                                            <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                                    width={24}
+                                                    height={24}
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth={2}
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                >
+                                                    <path
+                                                        stroke="none"
+                                                        d="M0 0h24v24H0z"
+                                                        fill="none"
+                                                    />
+                                                    <circle
+                                                        cx={12}
+                                                        cy={12}
+                                                        r={9}
+                                                    />
+                                                    <line
+                                                        x1={12}
+                                                        y1={8}
+                                                        x2="12.01"
+                                                        y2={8}
+                                                    />
+                                                    <polyline points="11 12 12 12 12 16 13 16" />
+                                                </svg>
+                                                Deposit akan dipotong dari Persentase Untuk Pekerja 
                                             </div>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
