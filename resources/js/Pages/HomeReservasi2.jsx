@@ -149,9 +149,9 @@ export default function HomeReservasi(props) {
                                     </p>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 gap-8 our-product-wrapper md:grid-cols-2 lg:grid-cols-4">
+                            <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
                                 <div className="our-product-box">
-                                    <div className="our-product-content-left">
+                                    <div className="">
                                         <b className="our-product-content-title">
                                             Reservasi
                                         </b>
@@ -173,10 +173,10 @@ export default function HomeReservasi(props) {
                                             More &gt;
                                         </a>
                                     </div>
-                                    <div className="our-product-content-right">
+                                    <div className="">
                                         <img
                                             src={mockup_laptop}
-                                            className="our-product-content-image"
+                                            className=""
                                         />
                                     </div>
                                 </div>
@@ -203,10 +203,10 @@ export default function HomeReservasi(props) {
                                             More &gt;
                                         </a>
                                     </div>
-                                    <div className="our-product-content-right">
+                                    <div className="">
                                         <img
                                             src={mockup_phone}
-                                            className="our-product-content-image"
+                                            className=""
                                         />
                                     </div>
                                 </div>
