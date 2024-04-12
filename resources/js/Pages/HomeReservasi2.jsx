@@ -12,6 +12,7 @@ import Typewriter from "typewriter-effect";
 import NavLink from "@/Components/NavLink";
 import Logo from "../../img/Tawarin.png";
 import mockup_laptop from "../../img/mockup_laptop.png";
+import banner_horizontal from "../../img/banner_horizontal.png";
 import mockup_pc from "../../img/mockup_pc.png";
 import mockup_phone from "../../img/mockup_phone.png";
 import mockup_tablet from "../../img/mockup_tablet.png";
@@ -120,14 +121,15 @@ export default function HomeReservasi(props) {
                                     </div>
                                 </div>
                                 <div className="w-full text-right rounded lg:w-1/2">
-                                    <video className="rounded"
+                                    <img src={banner_horizontal} alt="" />
+                                    {/* <video className="rounded"
                                         controls
                                         style={{ margin: "0 auto" }}
                                         autoPlay
                                         muted
                                         loop
                                         src={`storage/files/default/Intro_Tawarin.mp4`}
-                                    ></video>
+                                    ></video> */}
                                 </div>
                             </div>
                         </div>

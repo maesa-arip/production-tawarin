@@ -1,1 +1,0 @@
-import{j as i}from"./app.3b91ec0c.js";function t({name:o,value:e,handleChange:n}){return i("input",{type:"checkbox",name:o,value:e,className:"text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500 ",onChange:r=>n(r)})}export{t as C};
