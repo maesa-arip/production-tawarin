@@ -32,8 +32,10 @@ export default function Create({ onOff }) {
     ];
 
 
-    const [priceUser, setPriceUser] = useState("");
-    const [price, setPrice] = useState("");
+    const [priceUser, setPriceUser] = useState(0);
+    const [bhp, setBhp] = useState(0);
+    const [jasa, setJasa] = useState(0);
+    const [price, setPrice] = useState(0);
     const [hidePercent, setHidePercent] = useState(false);
     const [hideDiskon, setHideDiskon] = useState(false);
     const onChangePriceUserHandler = (e) => {
@@ -41,10 +43,25 @@ export default function Create({ onOff }) {
         setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
         setData({ ...data, [e.target.id]: e.target.value });
     };
-    const formatRupiahHarga = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-    }).format(Math.ceil((priceUser * (100 + 5)) / 100));
+    const onChangeBHPHandler = (e) => {
+        setBhp(e.target.value);
+        // setPriceUser(bhp+jasa);
+        // setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    const onChangeJasaHandler = (e) => {
+        setJasa(e.target.value);
+        // setPriceUser(bhp+jasa);
+        // setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    
+    
+
+    // const formatRupiahAcuanAnggaran = new Intl.NumberFormat("id-ID", {
+    //     style: "currency",
+    //     currency: "IDR",
+    // }).format(acuanAnggaran);
 
     const { data, setData, post, processing, reset, errors } = useForm({});
     const onChange = (e) => {
@@ -115,6 +132,23 @@ export default function Create({ onOff }) {
     }, [percent_owner,data.percent_owner])
     
 
+    // const onChangePriceUserHandler = (e) => {
+    //     setPriceUser(e.target.value);
+    //     setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
+    //     setData({ ...data, [e.target.id]: e.target.value });
+    // };
+    const [price_user, setPrice_user] = useState(0);
+    useEffect(() => {
+        setData({ ...data, ["price_user"]: (parseInt(data.bhp)+(parseInt(data.jasa)))});
+        setPriceUser(data.price_user);
+        // setPriceUser(data.price_user);
+        setPrice(Math.ceil((data.price_user * (100 + 5)) / 100));
+    }, [bhp,data.bhp,jasa,data.jasa])
+    const formatRupiahHarga = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(Math.ceil((data.price_user * (100 + 5)) / 100));
+    console.log(data)
     const openDiskonDialog = () => {
         setIsOpenDiskonDialog(true);
     };
@@ -206,6 +240,82 @@ export default function Create({ onOff }) {
                                             </div>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
+                                                    htmlFor="bhp"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Bahan Habis Pakai
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="bhp"
+                                                    id="bhp"
+                                                    onChange={
+                                                        onChangeBHPHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.bhp && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.bhp}
+                                                    </span>
+                                                )}
+                                                {/* <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {bhp &&
+                                                        formatRupiahHarga}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {bhp &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    price
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div> */}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="jasa"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Jasa
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="jasa"
+                                                    id="jasa"
+                                                    onChange={
+                                                        onChangeJasaHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.jasa && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.jasa}
+                                                    </span>
+                                                )}
+                                                {/* <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {jasa &&
+                                                        formatRupiahHarga}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {jasa &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    price
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div> */}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
                                                     htmlFor="price_user"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
@@ -215,9 +325,10 @@ export default function Create({ onOff }) {
                                                     type="number"
                                                     name="price_user"
                                                     id="price_user"
-                                                    onChange={
-                                                        onChangePriceUserHandler
+                                                    value={
+                                                        data.price_user ?? ""
                                                     }
+                                                    readOnly
                                                     onWheel={(e) =>
                                                         e.target.blur()
                                                     }

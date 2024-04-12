@@ -62,7 +62,7 @@ export default function Team({ setIsOpenDialog, model }) {
                         {isDescription}
                     </p>
                 </div>
-                <ThirdButtonNoLink onClick={pilihLayanan}>
+                <ThirdButtonNoLink processing={processing} onClick={pilihLayanan}>
                     Simpan
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink

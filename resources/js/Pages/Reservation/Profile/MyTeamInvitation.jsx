@@ -64,7 +64,7 @@ export default function MyTeamInvitation({
                 size="2xl"
                 title={"Mulai Pelayanan ?"}
             >
-                <ThirdButtonNoLink onClick={startService}>
+                <ThirdButtonNoLink processing={processing} onClick={startService}>
                     Mulai
                 </ThirdButtonNoLink>
             </InfoModal>

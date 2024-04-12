@@ -210,14 +210,14 @@ export default function MyReservation({ myReservations,tips }) {
                 
                 <ThirdButtonNoLink
                     className="mt-2"
-                    color="teal"
+                    processing={processing}
                     onClick={finishCustomer}
                 >
                     Selesai
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink
                     className="mx-2 mt-2"
-                    color="gray"
+                    color="secondary"
                     onClick={closeInfoDialog}
                 >
                     Close

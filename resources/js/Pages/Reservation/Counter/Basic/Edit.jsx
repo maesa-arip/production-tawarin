@@ -32,8 +32,11 @@ export default function Edit({ reservationCounter }) {
     ];
 
 
-    const [priceUser, setPriceUser] = useState("");
-    const [price, setPrice] = useState("");
+    const [priceUser, setPriceUser] = useState(0);
+    const [bhp, setBhp] = useState(0);
+    const [jasa, setJasa] = useState(0);
+    const [price, setPrice] = useState(0);
+   
     const [hidePercent, setHidePercent] = useState(false);
     const [hideDiskon, setHideDiskon] = useState(false);
     const onChangePriceUserHandler = (e) => {
@@ -41,10 +44,10 @@ export default function Edit({ reservationCounter }) {
         setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
         setData({ ...data, [e.target.id]: e.target.value });
     };
-    const formatRupiahHarga = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-    }).format(Math.ceil((priceUser * (100 + 5)) / 100));
+    // const formatRupiahHarga = new Intl.NumberFormat("id-ID", {
+    //     style: "currency",
+    //     currency: "IDR",
+    // }).format(Math.ceil((priceUser * (100 + 5)) / 100));
 
     const { data, setData, patch, processing, reset, errors } = useForm({
         // data : reservationCounter,
@@ -54,6 +57,9 @@ export default function Edit({ reservationCounter }) {
         percent_employe: reservationCounter.percent_employe,
         service_duration: reservationCounter.service_duration,
         period: reservationCounter.period,
+        deposit: reservationCounter.deposit,
+        bhp: reservationCounter.bhp,
+        jasa: reservationCounter.jasa,
         
     });
     // const { data, setData, post, processing, reset, errors } = useForm({});
@@ -134,9 +140,31 @@ export default function Edit({ reservationCounter }) {
     useEffect(() => {
         setData({ ...data, ["percent_employe"]: (100 - parseInt(data.percent_owner))});
     }, [percent_owner,data.percent_owner])
-    
-    // console.log(data)
-    // console.log(reservationCounter)
+    const onChangeBHPHandler = (e) => {
+        setBhp(e.target.value);
+        // setPriceUser(bhp+jasa);
+        // setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    const onChangeJasaHandler = (e) => {
+        setJasa(e.target.value);
+        // setPriceUser(bhp+jasa);
+        // setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    const [price_user, setPrice_user] = useState(0);
+    useEffect(() => {
+        setData({ ...data, ["price_user"]: (parseInt(data.bhp)+(parseInt(data.jasa)))});
+        setPriceUser(data.price_user);
+        // setPriceUser(data.price_user);
+        setPrice(Math.ceil((data.price_user * (100 + 5)) / 100));
+    }, [bhp,data.bhp,jasa,data.jasa])
+    const formatRupiahHarga = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(Math.ceil((data.price_user * (100 + 5)) / 100));
+    console.log(data)
+    console.log(reservationCounter)
     return (
         <div>
             <Head title="Plan Create" />
@@ -234,6 +262,85 @@ export default function Edit({ reservationCounter }) {
                                                     </span>
                                                 )}
                                             </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="bhp"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Bahan Habis Pakai
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="bhp"
+                                                    id="bhp"
+                                                    value={data.bhp ?? ""}
+                                                    onChange={
+                                                        onChangePriceUserHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.bhp && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.bhp}
+                                                    </span>
+                                                )}
+                                                {/* <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {priceUser &&
+                                                        formatRupiahHarga}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {priceUser &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    price
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div> */}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="jasa"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Jasa
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="jasa"
+                                                    id="jasa"
+                                                    value={data.jasa ?? ""}
+                                                    onChange={
+                                                        onChangePriceUserHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.jasa && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.jasa}
+                                                    </span>
+                                                )}
+                                                {/* <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {priceUser &&
+                                                        formatRupiahHarga}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {priceUser &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    price
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div> */}
+                                            </div>
+                                            
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="price_user"
@@ -656,9 +763,12 @@ export default function Edit({ reservationCounter }) {
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                        <Button processing={processing}>
+                                    <ThirdButtonNoLink processing={processing}>
                                             Simpan
-                                        </Button>
+                                        </ThirdButtonNoLink>
+                                        {/* <Button processing={processing}>
+                                            Simpan
+                                        </Button> */}
                                     </div>
                                 </div>
                             </div>

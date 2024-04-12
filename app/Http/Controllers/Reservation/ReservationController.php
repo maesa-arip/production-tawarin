@@ -404,10 +404,14 @@ class ReservationController extends Controller
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.percent_owner', 'percent_employe','deposit','reservation_companies.name as CompanyName','reservation_counters.name as CounterName')
+            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user','reservation_counters.jasa', 'reservation_counters.percent_owner', 'percent_employe','deposit','reservation_companies.name as CompanyName','reservation_counters.name as CounterName')
             ->where('reservation_customers.id', $id)
             ->first();
         // dd($reservationCounter);
+        // if ($reservationCounter->deposit > 0) {
+        //     dd("deposit");
+        // }
+        // dd($reservationCounter->deposit);
         $reservationCustomer->update(['selesai_customer' => 1]);
         $reservationCustomer->update(['layanan_ke' => $layananKe+1]);
         $pemilik = User::find($reservationCounter->pemilik);
@@ -417,18 +421,19 @@ class ReservationController extends Controller
         $referal = User::where('referral', $customer->from_referral)->first();
 
         $tfTempTawarin = $reservationCounter->price - $reservationCounter->price_user;
-        $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->price_user;
+        $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->jasa;
         
         $tfReferral = (5 / 100 * $tfTempTawarin);
         $tfTawarin = $tfTempTawarin - $tfReferral;
+        $tfTeam = $reservationCounter->percent_employe / 100 * $reservationCounter->jasa;
 
         if ($reservationCounter->deposit > 0) {
-            $tfTeam = $reservationCounter->deposit/100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->price_user);
-            $tfDeposit = (100 - $reservationCounter->deposit)/100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->price_user);
+            // $tfTeam = $reservationCounter->deposit/100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->jasa);
+            $tfDeposit = (100 - $reservationCounter->deposit)/100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->jasa);
         }
-        else {
-            $tfTeam = $reservationCounter->percent_employe / 100 * $reservationCounter->price_user;
-        }
+        // else {
+        //     $tfTeam = $reservationCounter->percent_employe / 100 * $reservationCounter->jasa;
+        // }
 
         if ($tip) {
             // $customer->transfer($team, $tip->tip);
@@ -462,10 +467,26 @@ class ReservationController extends Controller
             withdraw: new Option(meta: ['message' => 'Referal ke '.$customer->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type' => 'uang keluar'], confirmed: true)
         ));
         if ($reservationCounter->deposit > 0) {
-            $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
-                deposit: ['message' => 'Deposit dari '.$team->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type'=>'uang masuk'],
-                withdraw: new Option(meta: ['message' => 'Pembayaran Deposit ke '.$pemilik->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type' => 'uang keluar'], confirmed: true)
+            // if(!$team->hasWallet('deposit')) {
+            //     $depositpekerja = $team->createWallet([
+            //         'name' => 'deposit',
+            //         'slug' => 'deposit',
+            //     ]);
+            // }
+            if($pemilik->hasWallet('deposit')) {
+                $depositpemilik = $pemilik->getWallet('deposit');
+            }
+            else {
+                $depositpemilik = $pemilik->createWallet([
+                    'name' => 'deposit',
+                    'slug' => 'deposit',
+                ]);
+            }
+            $team->transfer($depositpemilik, $tfDeposit, new Extra(
+                deposit: ['message' => 'Deposit dari '.$team->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type'=>'deposit'],
+                withdraw: new Option(meta: ['message' => 'Pembayaran Deposit ke '.$pemilik->name .' untuk ' .$reservationCounter->CompanyName . ' Layanan ' .$reservationCounter->CounterName,'type' => 'deposit'], confirmed: true)
             ));
+
         }
         
         

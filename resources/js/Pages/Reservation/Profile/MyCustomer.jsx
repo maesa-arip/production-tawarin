@@ -57,12 +57,12 @@ export default function MyCustomer({
                 closeButton="false"
                 title={"Yakin Mulai Pelayanan ?"}
             >
-                <ThirdButtonNoLink onClick={startService}>
+                <ThirdButtonNoLink processing={processing} onClick={startService}>
                     Mulai
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink
                     className="mx-2 mt-2"
-                    color="gray"
+                    color="secondary"
                     onClick={closeInfoDialog}
                 >
                     Close
@@ -75,13 +75,13 @@ export default function MyCustomer({
                 closeButton="false"
                 title={"Yakin Selesaikan Pelayanan ?"}
             >
-                <ThirdButtonNoLink color="teal" onClick={finishService}>
+                <ThirdButtonNoLink processing={processing} onClick={finishService}>
                     Selesai
                 </ThirdButtonNoLink>
                 
                 <ThirdButtonNoLink
                     className="mx-2 mt-2"
-                    color="gray"
+                    color="secondary"
                     onClick={closeInfoDialog2}
                 >
                     Close

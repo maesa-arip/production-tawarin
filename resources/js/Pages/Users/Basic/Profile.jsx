@@ -675,10 +675,10 @@ export default function Profile({
                                                                                         className="absolute z-30 flex items-center justify-between cursor-pointer bottom-4 right-1/2 group focus:outline-none"
                                                                                         data-carousel-prev
                                                                                     >
-                                                                                        <span className="inline-flex items-center justify-center w-5 h-5 bg-pink-200 rounded-full sm:w-10 sm:h-10 dark:bg-gray-800/30 group-hover:bg-pink-300 dark:group-hover:bg-gray-800/60 ring-4 ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                                                                        <span className="inline-flex items-center justify-center w-5 h-5 bg-pink-200 rounded-full sm:w-10 sm:h-10 group-hover:bg-pink-300 ring-4 ring-white group-focus:outline-none">
                                                                                             <svg
                                                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                                                className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800 icon icon-tabler icon-tabler-x"
+                                                                                                className="w-5 h-5 text-white sm:w-6 sm:h-6 icon icon-tabler icon-tabler-x"
                                                                                                 width={
                                                                                                     24
                                                                                                 }
