@@ -115,6 +115,21 @@ class UploadController extends Controller
 
         }
 
+        if ($request->hasFile('reservationcounter')) {
+            $file = $request->file('reservationcounter');
+            $filename = hexdec(uniqid()) . '.' . $file->extension();
+            $folder = uniqid() . '-' . now()->timestamp;
+            $file->storeAs('public/files/tmp/' . $folder, $filename);
+            TemporaryFile::create([
+                'folder' => $folder,
+                'filename' => $filename
+            ]);
+            Session::push('foldercounter', $folder);
+            Session::push('filenamecounter', $filename);
+            return [$folder, $filename, 'foldercounter', 'filenamecounter'];
+
+
+        }
 
 
         // Upload Hasil

@@ -132,9 +132,10 @@ class ReservationCounterController extends Controller
 
     public function edit(ReservationCounter $reservationCounter)
     {
-        
+        $media = $reservationCounter->getMedia('reservationcounter');
         return inertia('Reservation/Counter/Basic/Edit', [
             'reservationCounter' => $reservationCounter,
+            'media' => $media,
         ]);
     }
 
@@ -158,6 +159,25 @@ class ReservationCounterController extends Controller
         ]);  
  
         $reservationCounter->update($atrributes);
+        $temporaryFolderCounter = Session::get('foldercounter');
+            $namefilecounter = Session::get('filenamecounter');
+            if ($temporaryFolderCounter) {
+                for ($i = 0; $i < count($temporaryFolderCounter); $i++) {
+                    $temporary = TemporaryFile::where('folder', $temporaryFolderCounter[$i])->where('filename', $namefilecounter[$i])->first();
+                    if ($temporary) {
+                        $reservationCounter->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolderCounter[$i] . '/' . $namefilecounter[$i]))
+                            ->toMediaCollection('reservationcounter');
+                        $path = storage_path() . '/app/public/files/tmp/' . $temporary->folder;
+                        if (File::exists($path)) {
+                            File::delete($path);
+                            rmdir(storage_path('app/public/files/tmp/' . $temporary->folder));
+                            $temporary->delete();
+                        }
+                    }
+                }
+            }
+            Session::remove('foldercounter');
+            Session::remove('filenamecounter');
         return redirect('reservationCounters')->with([
             'type' => 'success',
             'message' => 'Pelayanan berhasil diubah',
