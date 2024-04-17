@@ -5,12 +5,13 @@ import { useForm, usePage } from "@inertiajs/inertia-react";
 import React, { useEffect, useState } from "react";
 
 export default function Team({ setIsOpenDialog, model }) {
-    const { auth } = usePage().props;
+    const { auth,flash_simple } = usePage().props;
     const [state, setState] = useState({});
     const model2 = model.model;
     console.log(model2)
     const { data, setData, post, processing, reset, errors } = useForm({});
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
     const [isDescription, setIsDescription] = useState("");
     const [isIDTeam, setIsIDTeam] = useState("");
     const openInfoDialog = (team) => {
@@ -46,6 +47,22 @@ export default function Team({ setIsOpenDialog, model }) {
     const closeInfoDialog = () => {
         setIsOpenInfoDialog(false);
     };
+    const openInfoDialog2 = () => {
+        setIsOpenInfoDialog2(true);
+    };
+    const closeInfoDialog2 = () => {
+        setIsOpenInfoDialog2(false);
+    };
+
+    useEffect(() => {
+        if (flash_simple.type_simple === 'error_saldo_kurang') {
+            openInfoDialog2();
+            closeInfoDialog();
+        }
+    
+     
+    }, [flash_simple.type_simple])
+    
     const [rating, setRating] = useState(5);
     return (
         <>
@@ -73,6 +90,30 @@ export default function Team({ setIsOpenDialog, model }) {
                     Close
                 </ThirdButtonNoLink>
             </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog2}
+                setIsOpenInfoDialog={setIsOpenInfoDialog2}
+                size="2xl"
+                closeButton="false"
+                title={"Saldo Tidak Mencukupi, Silakan Lakukan Top Up Saldo"}
+            >
+                {" "}
+                <div className="p-4 mb-4 text-left border rounded-lg">
+                    <p className="mb-2 text-lg font-medium text-left">
+                        {/* {isDescription} */}
+                    </p>
+                </div>
+                <ThirdButtonNoLink processing={processing} href={"/wallet/transfers"}>
+                    Top Up
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="gray"
+                    onClick={closeInfoDialog2}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
             <div className="p-4 mb-4 text-left border rounded-lg">
                 <h2>Team: {model2.reservationCounter.name}</h2>
                 <p>Tanggal: {model2.date}</p>
@@ -82,6 +123,7 @@ export default function Team({ setIsOpenDialog, model }) {
                     {model2.reservationCounter.service_duration} minutes
                 </p>
             </div>
+            
             <p>Team Tersedia:</p>
             {model2.team.map((team, index) => (
                 <div key={index} className="relative w-full mx-auto">

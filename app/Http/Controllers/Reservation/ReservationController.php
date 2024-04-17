@@ -182,9 +182,10 @@ class ReservationController extends Controller
         $pelanggan = User::find(auth()->user()->id);
         if ($pelanggan->balance < $harga[0]) {
             return redirect()->back()->with([
-                'type' => 'error',
-                'message' => 'Reservasi gagal, saldo tidak mencukupi',
+                'type_simple' => 'error_saldo_kurang',
+                'message_simple' => 'Reservasi gagal, saldo tidak mencukupi123',
             ]);
+            // return redirect()->back()->withErrors(['msg' => 'The Message']);
         }
         $check = ReservationCustomer::where('selesai_team', 0)->where('reservation_team_id', $request->reservation_team_id)->where('date', date("Y-m-d", strtotime($request->date)))->where('time', $request->time)->where('user_id', '<>', auth()->user()->id)->first();
         // $checkLayananKe = 

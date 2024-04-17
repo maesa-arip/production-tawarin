@@ -23,6 +23,7 @@ export default function App({ auth, header, children }) {
            {/* <NavbarDefault2/> */}
            <Header/>
             <Aside/>
+                
            <Toaster
             position="top-center"
             reverseOrder={false}
