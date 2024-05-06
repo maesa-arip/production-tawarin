@@ -790,7 +790,7 @@ export default function MyDayOffBreak(props) {
                     <div className="flex items-center justify-between">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
-                                <ThirdButtonNoLink
+                                {reservationEmployee ? <><ThirdButtonNoLink
                                     onClick={() => openJoinDialog()}
                                 >
                                     Libur <IconCirclePlus className="w-4 h-4" />
@@ -800,7 +800,12 @@ export default function MyDayOffBreak(props) {
                                 >
                                     Istirahat{" "}
                                     <IconCirclePlus className="w-4 h-4" />
-                                </ThirdButtonNoLink>
+                                </ThirdButtonNoLink></> : <ThirdButtonSmallNoLink
+                                    color="secondary"
+                                >
+                                    Belum Menjadi Karyawan
+                                </ThirdButtonSmallNoLink> }
+                                
                             </div>
                         </div>
                         <div className="w-1/2">

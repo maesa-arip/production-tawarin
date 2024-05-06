@@ -136,7 +136,7 @@ export default function Team({ setIsOpenDialog, model }) {
                         {/* {isDescription} */}
                     </p>
                 </div>
-                <ThirdButton processing={processing} href={"/wallet/transfers"}>
+                <ThirdButton processing={processing} href={"/deposits/create"}>
                     Top Up
                 </ThirdButton>
                 <ThirdButtonNoLink
