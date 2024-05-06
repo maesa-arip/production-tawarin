@@ -118,7 +118,7 @@ export default function MyDayOffBreak(props) {
         useForm({});
     // console.log(reservationEmployee.company.id)
     useEffect(() => {
-        const company_id = reservationEmployee.company.id;
+        const company_id = reservationEmployee?.company.id;
         setData("reservation_company_id", company_id);
     }, [data.reason,data.start,data.end]);
 
