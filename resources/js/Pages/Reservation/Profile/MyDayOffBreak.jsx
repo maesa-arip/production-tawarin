@@ -57,6 +57,7 @@ export default function MyDayOffBreak(props) {
         attributes,
     } = props.reservationEmployeeDayOff;
     const reservationEmployeeBreak = props.reservationEmployeeBreak;
+    const reservationEmployee = props.reservationEmployee;
     // console.log(reservationEmployeeBreak)
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -115,8 +116,9 @@ export default function MyDayOffBreak(props) {
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
     const { data, setData, patch, post, put, processing, errors, reset } =
         useForm({});
+    // console.log(reservationEmployee.company.id)
     useEffect(() => {
-        const company_id = reservationEmployeeDayOff[0].company.id;
+        const company_id = reservationEmployee.company.id;
         setData("reservation_company_id", company_id);
     }, [data.reason,data.start,data.end]);
 

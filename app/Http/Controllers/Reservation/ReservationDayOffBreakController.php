@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reservation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Reservation\ReservationEmployeeResource;
+use App\Models\Reservation\ReservationEmployee;
 use App\Models\Reservation\ReservationEmployeeBreak;
 use App\Models\Reservation\ReservationEmployeeDayOff;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ class ReservationDayOffBreakController extends Controller
             ->with('company')->with('user')->where('user_id',auth()->user()->id);
         $reservationEmployeeBreak = ReservationEmployeeBreak::query()
             ->with('company')->with('user')->where('user_id',auth()->user()->id)->get();
+        $reservationEmployee = ReservationEmployee::query()
+            ->with('company')->with('user')->where('user_id',auth()->user()->id)->first();
         if ($request->q) {
             $reservationEmployeeDayOff->where('name', 'like', '%' . $request->q . '%');
         }
@@ -37,7 +40,7 @@ class ReservationDayOffBreakController extends Controller
                 'direction' => $request->direction ?? '',
             ]
         ]);
-        return inertia('Reservation/Profile/MyDayOffBreak', ['reservationEmployeeDayOff' => $reservationEmployeeDayOff,'reservationEmployeeBreak' => $reservationEmployeeBreak]);
+        return inertia('Reservation/Profile/MyDayOffBreak', ['reservationEmployeeDayOff' => $reservationEmployeeDayOff,'reservationEmployeeBreak' => $reservationEmployeeBreak,'reservationEmployee' => $reservationEmployee]);
     }
 
     public function store(Request $request)
