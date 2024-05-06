@@ -13,7 +13,7 @@ export default function ThirdButtonSmallNoLink({ type = 'submit', className = ''
         gray: 'bg-gray-50 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 focus:ring-gray-100',
         tawarin: 'bg-amber-500 text-white hover:bg-amber-500 focus:bg-amber-600 active:bg-amber-600 focus:ring-amber-600',
         primary: 'inline-flex justify-center w-full mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none sm:w-auto sm:text-sm',
-        secondary: 'inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white  uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none transition ease-in-out duration-150 false ',
+        secondary: 'inline-flex items-center bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white  uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none transition ease-in-out duration-150 false ',
       }
     return (
         <button

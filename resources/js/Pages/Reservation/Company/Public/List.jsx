@@ -190,7 +190,7 @@ export default function List(props) {
                                             <div className="w-full transition-transform duration-500 ease-in-out">
                                                 <div className="absolute inset-0 ">
                                                     <img
-                                                        className="object-cover object-top w-full h-full lg:h-full lg:w-full"
+                                                        className="object-contain object-top w-full h-full lg:h-full lg:w-full"
                                                         src={
                                                             reservation.media
                                                                 ? reservation.media

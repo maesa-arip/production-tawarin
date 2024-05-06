@@ -8,8 +8,10 @@ import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { IconChecks, IconLoader } from "@tabler/icons";
+import Dropdown from "@/Components/Dropdown";
+import ThirdButtonSmallNoLink from "@/Components/ThirdButtonSmallNoLink";
 
-export default function SettingTeam({ reservationCounter }) {
+export default function SettingTeam({ reservationCounter, employees }) {
     // console.log(reservationCounter);
     const [state, setState] = useState([]);
     const [isOpenJoinDialog, setIsOpenJoinDialog] = useState(false);
@@ -17,17 +19,27 @@ export default function SettingTeam({ reservationCounter }) {
     const openJoinDialog = (result) => {
         setState(result);
         setIsOpenJoinDialog(true);
+        // console.log(state);
     };
     const openTeamDialog = (result) => {
         setState(result);
         setIsOpenTeamDialog(true);
     };
-    const { data, setData, patch,post, processing, errors, reset } = useForm({
+    const { data, setData, patch, post, processing, errors, reset } = useForm({
         // email: "",
     });
     const submit = (e) => {
         e.preventDefault();
-        patch(route("reservation.joincounter",reservationCounter.slug), {
+        patch(route("reservation.joincounter", reservationCounter.slug), {
+            onSuccess: () => {
+                return Promise.all([setIsOpenJoinDialog(false), reset()]);
+            },
+        });
+    };
+    const selectEmployee = (result) => {
+        // e.preventDefault();
+        // console.log(reservationCounter.slug)
+        post(route("reservation.selectemployee", {id:result.id,slug:reservationCounter.slug}), {
             onSuccess: () => {
                 return Promise.all([setIsOpenJoinDialog(false), reset()]);
             },
@@ -35,36 +47,78 @@ export default function SettingTeam({ reservationCounter }) {
     };
     const submitTeam = (e) => {
         e.preventDefault();
-        post(route("reservation.maketeam",reservationCounter.slug), {
+        post(route("reservation.maketeam", reservationCounter.slug), {
             onSuccess: () => {
                 return Promise.all([setIsOpenTeamDialog(false), reset()]);
             },
         });
     };
-    // console.log(reservationCounter)
+console.log(employees)
     return (
         <div>
             <EditModal
                 isOpenEditDialog={isOpenJoinDialog}
                 setIsOpenEditDialog={setIsOpenJoinDialog}
                 size="2xl"
-                title={"Masukan Email Karyawan"}
+                title={"Pilih Karyawan"}
             >
-                <form onSubmit={submit}>
-                    <Input
-                        type="text"
-                        name="email"
-                        value={data.email}
-                        className="block w-full mt-1"
-                        autoComplete="email"
-                        isFocused={true}
-                        onChange={(e) => setData("email", e.target.value)}
-                    />
-                    <InputError message={errors.email} className="mt-2" />
-                    <ThirdButtonNoLink className="mt-4" disabled={processing}>
-                        Undang
-                    </ThirdButtonNoLink>
-                </form>
+                {state.map((employee, index) => (
+                    <div key={index}>
+                        <div  className="relative w-full mx-auto">
+                            <div className="flex flex-col my-4 bg-white border rounded-lg">
+                                <div className="flex flex-col items-center justify-center flex-auto p-2">
+                                    <div className="grid w-full grid-cols-12 gap-4">
+                                        <div
+                                            
+                                            className="flex items-center col-span-9 lg:col-span-10"
+                                        >
+                                            <img
+                                                className="object-cover w-16 h-12 border rounded-lg"
+                                                src={
+                                                    employee.media
+                                                        ? employee.media
+                                                        : "/storage/files/default/NoImage.svg"
+                                                }
+                                                alt={employee.name}
+                                            ></img>
+                                            <p className="ml-2">
+                                                {employee.user.name}{employee.team}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center justify-end col-span-3 lg:col-span-2">
+                                            <ThirdButtonSmallNoLink processing={processing} onClick={() =>
+                                                        selectEmployee(employee)
+                                                    }>
+                                                Pilih
+                                            </ThirdButtonSmallNoLink>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                {/* <div className="px-4 py-2 bg-white border rounded-lg">
+                    <p className="mt-2">Atau Silakan Masukan Email</p>
+                    <form onSubmit={submit}>
+                        <Input
+                            type="text"
+                            name="email"
+                            value={data.email}
+                            className="block w-full mt-1"
+                            autoComplete="email"
+                            isFocused={true}
+                            onChange={(e) => setData("email", e.target.value)}
+                        />
+                        <InputError message={errors.email} className="mt-2" />
+                        <ThirdButtonNoLink
+                            className="mt-4"
+                            disabled={processing}
+                        >
+                            Undang
+                        </ThirdButtonNoLink>
+                    </form>
+                </div> */}
             </EditModal>
             <EditModal
                 isOpenEditDialog={isOpenTeamDialog}
@@ -156,18 +210,11 @@ export default function SettingTeam({ reservationCounter }) {
                         </div>
                         <div className="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8">
                             <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                                {/* Team <ThirdButtonNoLink onClick={() =>
-                                                        openTeamDialog()
-                                                    }
-                                                >
-                                                    Tambah</ThirdButtonNoLink> */}
-                                                    <ThirdButtonNoLink
-                                                    onClick={() =>
-                                                        openJoinDialog()
-                                                    }
-                                                >
-                                                    Undang Karyawan
-                                                </ThirdButtonNoLink>
+                                <ThirdButtonNoLink
+                                    onClick={() => openJoinDialog(employees)}
+                                >
+                                    Undang Karyawan
+                                </ThirdButtonNoLink>
                             </h2>
                             <div className="w-full">
                                 {reservationCounter.team.map(
@@ -178,7 +225,7 @@ export default function SettingTeam({ reservationCounter }) {
                                         >
                                             <div className="flex justify-between font-semibold text-gray-500">
                                                 <p>{result.name}</p>
-                                               {/* {result.joincounter.length == 1 ? <ThirdButtonNoLink
+                                                {/* {result.joincounter.length == 1 ? <ThirdButtonNoLink
                                                     color="yellow"
                                                 >
                                                     Full
@@ -189,7 +236,6 @@ export default function SettingTeam({ reservationCounter }) {
                                                 >
                                                     Undang Karyawan
                                                 </ThirdButtonNoLink>} */}
-                                              
                                             </div>
                                             <dl className="grid grid-cols-1 mt-2 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
                                                 <div className="w-full pt-4 border-t border-gray-200">
@@ -205,7 +251,18 @@ export default function SettingTeam({ reservationCounter }) {
                                                                     }
                                                                 </dt>
                                                                 <dd className="col-span-3 text-xs text-gray-500">
-                                                                    {detail.approved ==1 ? (<div className="flex">Team <IconChecks className="w-4 h-4 ml-auto text-blue-400" /></div>) : (<div className="flex">Menunggu <IconLoader className="w-4 h-4 ml-auto text-yellow-400" /></div>)}
+                                                                    {detail.approved ==
+                                                                    1 ? (
+                                                                        <div className="flex">
+                                                                            Team{" "}
+                                                                            <IconChecks className="w-4 h-4 ml-auto text-blue-400" />
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="flex">
+                                                                            Menunggu{" "}
+                                                                            <IconLoader className="w-4 h-4 ml-auto text-yellow-400" />
+                                                                        </div>
+                                                                    )}
                                                                 </dd>
                                                             </div>
                                                         )

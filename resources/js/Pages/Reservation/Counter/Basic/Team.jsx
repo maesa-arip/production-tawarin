@@ -1,14 +1,15 @@
 import Input from "@/Components/Input";
 import InfoModal from "@/Components/Modal/InfoModal";
+import ThirdButton from "@/Components/ThirdButton";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { useForm, usePage } from "@inertiajs/inertia-react";
 import React, { useEffect, useState } from "react";
 
 export default function Team({ setIsOpenDialog, model }) {
-    const { auth,flash_simple } = usePage().props;
+    const { auth, flash_simple } = usePage().props;
     const [state, setState] = useState({});
     const model2 = model.model;
-    console.log(model2)
+    // console.log(model.timeRange.timeRange);
     const { data, setData, post, processing, reset, errors } = useForm({});
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
@@ -55,15 +56,44 @@ export default function Team({ setIsOpenDialog, model }) {
     };
 
     useEffect(() => {
-        if (flash_simple.type_simple === 'error_saldo_kurang') {
+        if (flash_simple.type_simple === "error_saldo_kurang") {
             openInfoDialog2();
             closeInfoDialog();
         }
-    
-     
-    }, [flash_simple.type_simple])
-    
+    }, [flash_simple.type_simple]);
+
     const [rating, setRating] = useState(5);
+
+    const parseDate = (dateString) => {
+        if (typeof dateString !== "string") {
+            // console.error("Invalid date string:", dateString);
+            return null;
+        }
+        const parts = dateString.split("/");
+        if (parts.length !== 3) {
+            // console.error("Invalid date format:", dateString);
+            return null;
+        }
+        const year = parts[2];
+        const month = parts[1];
+        const day = parts[0];
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    };
+    const dateMatches = (dateString1, dateString2) => {
+        const formattedDate1 = parseDate(dateString1);
+        const formattedDate2 = parseDate(dateString2);
+        return formattedDate1 === formattedDate2;
+    };
+    const userMatches = (user, userArray) => {
+        return userArray.some((userObj) => userObj.user_id === user);
+    };
+    const isDateMatched = model2.offDay.some((date) =>
+        dateMatches(date.date, model2.date)
+    );
+    const isUserMatched = model2.offDay.some((data) =>
+        dateMatches(data.user_id, model2.user_id)
+    );
+
     return (
         <>
             <InfoModal
@@ -79,7 +109,10 @@ export default function Team({ setIsOpenDialog, model }) {
                         {isDescription}
                     </p>
                 </div>
-                <ThirdButtonNoLink processing={processing} onClick={pilihLayanan}>
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={pilihLayanan}
+                >
                     Simpan
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink
@@ -103,9 +136,9 @@ export default function Team({ setIsOpenDialog, model }) {
                         {/* {isDescription} */}
                     </p>
                 </div>
-                <ThirdButtonNoLink processing={processing} href={"/wallet/transfers"}>
+                <ThirdButton processing={processing} href={"/wallet/transfers"}>
                     Top Up
-                </ThirdButtonNoLink>
+                </ThirdButton>
                 <ThirdButtonNoLink
                     className="mx-2 mt-2"
                     color="gray"
@@ -123,16 +156,16 @@ export default function Team({ setIsOpenDialog, model }) {
                     {model2.reservationCounter.service_duration} minutes
                 </p>
             </div>
-            
+
             <p>Team Tersedia:</p>
-            {model2.team.map((team, index) => (
+            {model2.team.map((resultteam, index) => (
                 <div key={index} className="relative w-full mx-auto">
                     <div className="flex flex-col my-4 bg-white border rounded-lg">
                         <div className="flex flex-col items-center justify-center flex-auto p-2">
                             <div className="grid w-full grid-cols-12 gap-2">
                                 <div className="col-span-12 mx-2">
                                     <p className="flex items-start">
-                                        {team.name}
+                                        {resultteam.name}
                                     </p>
                                 </div>
                                 <div className="col-span-9 mx-2">
@@ -143,7 +176,7 @@ export default function Team({ setIsOpenDialog, model }) {
                                                 className={`w-5 h-5 relative`}
                                             >
                                                 {index <=
-                                                team.ratings_avg_star_rating ? (
+                                                resultteam.ratings_avg_star_rating ? (
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="w-5 h-auto text-yellow-500 fill-current"
@@ -152,7 +185,7 @@ export default function Team({ setIsOpenDialog, model }) {
                                                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                                                     </svg>
                                                 ) : index - 0.95 <
-                                                  team.ratings_avg_star_rating ? (
+                                                  resultteam.ratings_avg_star_rating ? (
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="w-5 h-auto text-yellow-500 fill-current"
@@ -173,53 +206,103 @@ export default function Team({ setIsOpenDialog, model }) {
                                         ))}
                                     </div>
                                     <span className="flex items-start text-xs font-medium text-left text-slate-400">
-                                        {team.ratings_avg_star_rating
+                                        {resultteam.ratings_avg_star_rating
                                             ? Math.round(
-                                                  team.ratings_avg_star_rating *
+                                                  resultteam.ratings_avg_star_rating *
                                                       10
                                               ) / 10
                                             : 0}{" "}
-                                        out of 5 stars 
-                                        <br />
-                                        (
-                                        {team.ratings_count
-                                            ? team.ratings_count
+                                        out of 5 stars
+                                        <br />(
+                                        {resultteam.ratings_count
+                                            ? resultteam.ratings_count
                                             : 0}{" "}
                                         Reviews dari{" "}
-                                        {team.customers_count
-                                            ? team.customers_count
+                                        {resultteam.customers_count
+                                            ? resultteam.customers_count
                                             : 0}{" "}
                                         Customer)
                                     </span>
-
-                                    {/* <span class="flex text-slate-400 font-medium text-xs">
-                            ({team.ratings_count ? team.ratings_count : 0} reviews)
-                        </span> */}
                                 </div>
                                 <div className="col-span-3">
                                     <img
                                         className="flex-shrink-0 inline-block rounded-full"
-                                        src={`/storage/${team.media_id}/${team.file_name}`}
-                                        // src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                        src={
+                                            resultteam.media_id
+                                                ? `/storage/${resultteam.media_id}/${resultteam.file_name}`
+                                                : "/storage/files/default/NoImage.svg"
+                                        }
                                         alt="Image Description"
                                     />
                                 </div>
                                 <div className="col-span-12">
-                                    <ThirdButtonNoLink
-                                        onClick={() => openInfoDialog(team)}
-                                        // onClick={() => handleOnClick(team)}
-                                    >
-                                        Pilih
-                                    </ThirdButtonNoLink>
-                                </div>
+                                    {isDateMatched &&
+                                    userMatches(
+                                        resultteam.user_id,
+                                        model2.offDay
+                                    ) ? (
+                                        <div className="col-span-12">
+                                            <ThirdButtonNoLink color="secondary">
+                                                Libur
+                                            </ThirdButtonNoLink>
+                                        </div>
+                                    ) : // Check if the team member is on break
+                                    model2.workBreak &&
+                                      model2.workBreak.some((breakItem) => {
+                                          if (
+                                              typeof model.timeRange
+                                                  .timeRange === "string"
+                                          ) {
+                                              const [startRange, endRange] =
+                                                  model.timeRange.timeRange.split(
+                                                      " - "
+                                                  );
+                                              const startTime = new Date(
+                                                  `2000-01-01T${startRange}:00`
+                                              );
+                                              const endTime = new Date(
+                                                  `2000-01-01T${endRange}:00`
+                                              );
 
-                                {/* </div> */}
+                                              // Convert break start and end times to Date objects
+                                              const breakStartTime = new Date(
+                                                  `2000-01-01T${breakItem.start}`
+                                              );
+                                              const breakEndTime = new Date(
+                                                  `2000-01-01T${breakItem.end}`
+                                              );
+                                              
+                                              return (
+                                                startTime < breakEndTime && // Start of selected range is before end of break
+                                                endTime > breakStartTime && // End of selected range is after start of break
+                                                userMatches(resultteam.user_id, model2.workBreak)
+                                            );
+                                          }
+                                          return false;
+                                      }) ? (
+                                        <div className="col-span-12">
+                                            <ThirdButtonNoLink color="secondary">
+                                                Istirahat
+                                            </ThirdButtonNoLink>
+                                        </div>
+                                    ) : (
+                                        // If not on off day or break, render the "Pilih" button
+                                        <div className="col-span-12">
+                                            <ThirdButtonNoLink
+                                                onClick={() =>
+                                                    openInfoDialog(resultteam)
+                                                }
+                                            >
+                                                Pilih
+                                            </ThirdButtonNoLink>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             ))}
-
             <hr />
         </>
     );

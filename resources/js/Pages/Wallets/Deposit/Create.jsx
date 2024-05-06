@@ -56,9 +56,9 @@ export default function Create() {
                                 <line x1={12} y1={8} x2="12.01" y2={8} />
                                 <polyline points="11 12 12 12 12 16 13 16" />
                             </svg>
-                            BCA<p className="ml-9">6115100533</p><p className="ml-9">PUTU AGUS SURYAWAN</p>
+                            BANK JAGO<p className="ml-9">107805955845</p><p className="ml-9">PUTU AGUS SURYAWAN</p>
                             <br />
-                            <p className="ml-9">MANDIRI</p><p className="ml-9">9000033914509</p><p className="ml-9">PUTU AGUS SURYAWAN</p>
+                            {/* <p className="ml-9">MANDIRI</p><p className="ml-9">9000033914509</p><p className="ml-9">PUTU AGUS SURYAWAN</p> */}
                             
                         </div>
                         <div className="md:grid md:grid-cols-3 md:gap-6">

@@ -14,6 +14,8 @@ use App\Models\Reservation\ReservationCompany;
 use App\Models\Reservation\ReservationCounter;
 use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationDaftarCounter;
+use App\Models\Reservation\ReservationEmployee;
+use App\Models\Reservation\ReservationEmployeeDayOff;
 use App\Models\Reservation\ReservationJoinCounter;
 use App\Models\Reservation\ReservationRating;
 use App\Models\Reservation\ReservationTeam;
@@ -261,6 +263,19 @@ class ReservationController extends Controller
             'myCustomers' => $myCustomers,
         ]);
     }
+    public function myemployees(Request $request)
+    {
+        $myEmployees = ReservationEmployee::with('user')->get();
+        return Inertia::render('Reservation/Profile/MyEmployee', [
+            'myEmployees' => $myEmployees,
+        ]);
+        // $myEmployees = ReservationEmployee::join('users','users.id','reservation_employees.user_id')
+        // ->join('reservation_team_details', 'reservation_team_details.user_id','users.id')
+        // ->join('reservation_teams', 'reservation_teams.id','reservation_team_details.reservation_team_id')
+        // ->join('reservation_companies', 'reservation_companies.id','reservation_employee.reservation_company_id')
+        // ->leftjoin('reservation_join_counters','reservation_join_counters.reservation_team_id','reservation_teams.id')
+        // ->where('reservation_companies.user_id',auth()->user()->id)->get();
+    }
     public function mycounters(Request $request)
     {
         $myCounters = ReservationCounter::leftjoin('reservation_teams', 'reservation_teams.reservation_counter_id', 'reservation_counters.id')
@@ -282,10 +297,27 @@ class ReservationController extends Controller
     }
     public function myteaminvitations(Request $request)
     {
-        $myInvitations = ReservationJoinCounter::with('team')->with('team.counter')->with('team.counter.company')->where('email', auth()->user()->email)->orderBy('reservation_join_counters.created_at', 'DESC')->get();
-        // dd($myInvitations);
-        return Inertia::render('Reservation/Profile/MyTeamInvitation', [
+        // $myInvitations = ReservationJoinCounter::with('team')->with('team.counter')->with('team.counter.company')->where('email', auth()->user()->email)->orderBy('reservation_join_counters.created_at', 'DESC')->get();
+        $myInvitations = ReservationEmployee::with('company')->where('user_id',auth()->user()->id)->get();
+        // dd( $myInvitations);
+        return Inertia::render('Reservation/Profile/MyEmployeeInvitation', [
             'myInvitations' => $myInvitations,
+        ]);
+    }
+    public function myemployeerequestoff(Request $request)
+    {
+        // $myInvitations = ReservationJoinCounter::with('team')->with('team.counter')->with('team.counter.company')->where('email', auth()->user()->email)->orderBy('reservation_join_counters.created_at', 'DESC')->get();
+        // $myEmployeeRequestOff = ReservationEmployeeDayOff::with('company')->where('company.user_id',auth()->user()->id)->get();
+
+        // $myEmployeeRequestOff = ReservationEmployeeDayOff::with('company', function ($query) {
+        //     return $query->where('user_id', auth()->user()->id);
+        // })->get();
+        $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->with(["company" => function($q){
+            $q->where('user_id', auth()->user()->id);
+        }])->get();
+        // dd( $myEmployeeRequestOff);
+        return Inertia::render('Reservation/Profile/MyEmployeeRequestOff', [
+            'myEmployeeRequestOff' => $myEmployeeRequestOff,
         ]);
     }
     public function daftarcounter(Request $request)
@@ -326,7 +358,6 @@ class ReservationController extends Controller
     }
     public function joincounter(Request $request, $slug)
     {
-        // dd($slug);
         $validated = $request->validate([
             'email' => 'required',
         ]);

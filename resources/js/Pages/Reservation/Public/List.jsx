@@ -31,7 +31,7 @@ export default function List(props) {
         filtered,
         attributes,
     } = props.reservations;
-    
+
     const reservation_categories = props.reservation_categories;
     const reservationCompany = props.reservationCompany;
     const [pageNumber, setPageNumber] = useState([]);
@@ -130,15 +130,14 @@ export default function List(props) {
                 <div className="flex items-center justify-end gap-x-2">
                     <div className="w-2/3 ">
                         <div className="flex items-center justify-start ">
-                       
-                                <ListBoxPage
-                                    ShouldMap={reservation_categories}
-                                    selected={selected}
-                                    onChange={(e) => {
-                                        onChangeReservationCategoryId(e);
-                                        setSelected(e);
-                                    }}
-                                />
+                            <ListBoxPage
+                                ShouldMap={reservation_categories}
+                                selected={selected}
+                                onChange={(e) => {
+                                    onChangeReservationCategoryId(e);
+                                    setSelected(e);
+                                }}
+                            />
                         </div>
                     </div>
                     <div className="w-1/3">
@@ -154,7 +153,7 @@ export default function List(props) {
                                     <option key={index}>{page}</option>
                                 ))}
                             </select>
-                            
+
                             <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
                                 <svg
                                     className="inline w-5 h-5 text-gray-500"
@@ -208,39 +207,20 @@ export default function List(props) {
                                                     ></img>
                                                 </div>
                                             </div>
-                                            <div className="absolute bottom-0 flex justify-center mb-3">
-                                                <div className="flex px-2 py-1 space-x-1 overflow-hidden bg-white rounded-lg md:px-5 md:space-x-5">
-                                                    <p className="flex items-center text-sm font-medium text-gray-800">
-                                                        <IconUserCircle className="w-5 h-5 text-gray-800 bg-transparent" />
-                                                        {reservation.name}
-                                                        {/* {reservation.owner.name} */}
-                                                    </p>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div className="mt-4">
-                                            {/* <h2
+                                            <h2
                                                 className="text-base font-medium text-gray-800 md:text-lg line-clamp-1"
                                                 title="New York"
                                             >
                                                 {reservation.name}
-                                            </h2> */}
-                                            {/* <Link
-                                                className="mt-2 text-sm text-gray-800 line-clamp-1"
-                                                href={`/public/reservations/list?reservation_category=${reservation.reservation_category.slug}`}
-                                            >
-                                                {
-                                                    reservation
-                                                        .reservation_category
-                                                        .name
-                                                }
-                                            </Link> */}
-                                            <p
-                                                className="mt-2 text-base font-thin text-gray-800 md:text-xs line-clamp-1"
-                                                title="New York"
+                                            </h2>
+                                            <Link
+                                                className="mt-2 text-sm text-gray-800 line-clamp-2"
+                                                href={``}
                                             >
                                                 {reservation.formattedAddress}
-                                            </p>
+                                            </Link>
                                         </div>
                                     </div>
                                 </Link>

@@ -124,9 +124,11 @@ export default function Dashboard(props) {
             onSuccess: () => {
                 return Promise.all([setIsOpenInfoDialog3(false),setIsOpenInfoDialogReservasi(false),setIsOpenInfoDialogKonstruksi(false), reset()]);
             },
-            // onSuccess: () => setIsOpenInfoDialog3(false),
         });
     };
+    const closeOpenDialog2 = () => {
+        setIsOpenInfoDialog2(false);
+    }
     
     useEffect(() => {
         if (!auth.user.join_as_id) {
@@ -167,11 +169,20 @@ export default function Dashboard(props) {
                 size="max-w-2xl"
                 title={"Info"}
                 header={""}
+                closeButton="false"
             >
                 <p>Ayo lengkapi profilmu terlebih dahulu</p>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeOpenDialog2}
+                >
+                    Close
+                </ThirdButtonNoLink>
                     <ThirdButton href={"/profile"} className="block mx-4 ">
                         Lengkapi Profil
                     </ThirdButton>
+                    
             </InfoModal>
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialogReservasi}

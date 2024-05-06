@@ -14,7 +14,8 @@ class ChatController extends Controller
 {
     public function index()
     {
-        return inertia('Chats/Index');
+        $contacts = User::join('contacts', 'users.id', '=', 'contacts.contact_id')->where('user_id',auth()->user()->id)->get();
+        return inertia('Chats/Index', ['contacts'=>$contacts]);
     }
 
     public function show(User $user){

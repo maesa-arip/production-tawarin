@@ -30,6 +30,7 @@ export default function Show(props) {
     const scrollRef = useRef(null);
     const messageRef = useRef(null);
     const { user, chats } = props;
+    // console.log(user.name);
     const { data, setData, reset, errors, post } = useForm({ message: "" });
     const submitHandler = (event) => {
         event.preventDefault();
@@ -75,11 +76,11 @@ export default function Show(props) {
             <Head title={`Chat with ${user.name}`} />
             <div className="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 rounded-2xl">
                 <div className="p-4 border-b">
-                    <div className="md:hidden">
+                    {/* <div className="md:hidden">
                         <ApplicationLogo />
-                    </div>
-                    <div className="items-center hidden md:flex">
-                    <div className="flex items-center justify-center w-10 h-10 mx-4 text-2xl font-semibold bg-indigo-200 rounded-full">
+                    </div> */}
+                    <div className="items-cente md:flex">
+                    <div className="flex items-center justify-center w-10 h-10 text-2xl font-semibold bg-indigo-200 rounded-full">
                                 {Array.from(user.name)[0]}
                             </div>
                     <h1 className="font-semibold">{user.name}</h1>
@@ -94,7 +95,7 @@ export default function Show(props) {
                 <div className="flex flex-col h-full mb-4 overflow-x-auto">
                     <div className="flex flex-col h-full">
                         <div
-                            className="grid grid-cols-12 overflow-y-auto gap-y-2"
+                            className="grid grid-cols-12 mt-2 overflow-y-auto gap-y-2"
                             ref={scrollRef}
                         >
                             {/* <div className="grid grid-cols-12 gap-y-2" ref={scrollRef}> */}

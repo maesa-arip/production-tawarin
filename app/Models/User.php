@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Models\Auth\JoinAs;
 use App\Models\Plan\Plan;
+use App\Models\Reservation\ReservationEmployee;
+use App\Models\Reservation\ReservationEmployeeBreak;
+use App\Models\Reservation\ReservationEmployeeDayOff;
 use App\Models\Toko\Invoice;
 use App\Models\Toko\Product;
 use App\Traits\HasManyCarts;
@@ -24,7 +27,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEmail, HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, HasWallets, CanConfirm,HasRoles,InteractsWithMedia;
+    use HasApiTokens, HasFactory, Notifiable, HasManyCarts, HasWallet, HasWallets, CanConfirm, HasRoles, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -84,7 +87,7 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
     }
     public function products()
     {
-        return $this->belongsToMany(Product::class,'user_product');
+        return $this->belongsToMany(Product::class, 'user_product');
     }
 
     public function chats()
@@ -92,7 +95,21 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
         return $this->hasMany(Chat::class, 'sender_id');
     }
     public function socialAccounts()
-{
-  return $this->hasMany(SocialAccount::class);
-}
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
+    public function employess()
+    {
+        return $this->hasMany(ReservationEmployee::class);
+    }
+
+    public function dayoffs()
+    {
+        return $this->hasMany(ReservationEmployeeDayOff::class);
+    }
+    public function employeebreaks()
+    {
+        return $this->hasMany(ReservationEmployeeBreak::class);
+    }
 }

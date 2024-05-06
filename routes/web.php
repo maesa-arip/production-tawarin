@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\ChooseController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Inertia\Inertia;
@@ -30,6 +31,8 @@ use App\Http\Controllers\Portofolio\PortofolioController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Reservation\ReservationController;
 use App\Http\Controllers\Reservation\ReservationCounterController;
+use App\Http\Controllers\Reservation\ReservationDayOffBreakController;
+use App\Http\Controllers\Reservation\ReservationEmployeeController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
 use App\Http\Controllers\Toko\InvoiceController;
@@ -91,13 +94,19 @@ Route::middleware('auth','verified')->group(function () {
 Route::get('/reservationlist', [ReservationController::class, 'list'])->name('reservation.list');
 Route::middleware('auth','verified')->group(function () {
     
-    
+    Route::Resource('contacts', ContactController::class);
+    Route::Resource('reservationemployees', ReservationEmployeeController::class);
+    Route::Resource('reservationemployeedayoff', ReservationDayOffBreakController::class);
+    Route::post('reservationemployeebreak', [ReservationDayOffBreakController::class,'store_break'])->name('reservationemployeebreak.store_break');
     Route::get('/reservationprofile', [ReservationController::class, 'edit'])->name('reservationprofile.edit');
     Route::patch('/reservationprofile', [ReservationController::class, 'update'])->name('reservationprofile.update');
     Route::delete('/reservationprofile', [ReservationController::class, 'destroy'])->name('reservationprofile.destroy');
     Route::get('/myreservations', [ReservationController::class, 'myreservations'])->name('reservation.myreservations');
     Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
+    Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
+    Route::get('/myemployeerequestoff', [ReservationController::class, 'myemployeerequestoff'])->name('reservation.myemployeerequestoff');
     Route::get('/reservations/mycustomers', [ReservationController::class, 'mycustomers'])->name('reservation.mycustomers');
+    // Route::get('/reservations/myemployees', [ReservationController::class, 'myemployees'])->name('reservation.myemployees');
     Route::get('/reservations/mycompanycustomers', [ReservationController::class, 'mycompanycustomers'])->name('reservation.mycompanycustomers');
     Route::get('/reservations/mycounters', [ReservationController::class, 'mycounters'])->name('reservation.mycounters');
     Route::put('/startservice/{id}/edit', [ReservationController::class, 'startservice'])->name('reservation.startservice');
@@ -106,9 +115,10 @@ Route::middleware('auth','verified')->group(function () {
     Route::put('/updatejoinas/{id}/edit', [ReservationController::class, 'updatejoinas'])->name('reservation.updatejoinas');
     Route::post('/daftarcounter', [ReservationController::class, 'daftarcounter'])->name('reservation.daftarcounter');
     Route::patch('/joincounter/{slug}', [ReservationController::class, 'joincounter'])->name('reservation.joincounter');
+    Route::post('/selectemployee/{id}/{slug}', [ReservationEmployeeController::class, 'selectemployee'])->name('reservation.selectemployee');
     Route::post('/maketeam/{slug}', [ReservationController::class, 'maketeam'])->name('reservation.maketeam');
 
-    Route::put('/acceptinvitation/{id}/edit', [ReservationController::class, 'acceptinvitation'])->name('reservation.acceptinvitation');
+    Route::put('/acceptdayoff/{id}/edit', [ReservationEmployeeController::class, 'acceptdayoff'])->name('reservation.acceptdayoff');
 });
 
 //Example

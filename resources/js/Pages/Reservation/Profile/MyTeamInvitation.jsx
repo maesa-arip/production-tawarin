@@ -94,7 +94,7 @@ export default function MyTeamInvitation({
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-8 border border-gray-200 rounded-2xl">
                             <div className="flex justify-center mb-2 text-lg">
-                                Undangan Team
+                                Undangan Karyawan
                             </div>
                         </div>
                         {myInvitations.map((item, index) => (

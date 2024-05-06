@@ -42,4 +42,8 @@ class ReservationCompany extends Model implements HasMedia
         // Assuming 'slug' is the field you want to use for binding
         return $this->where('slug', $value)->firstOrFail();
     }
+    public function employees()
+    {
+        return $this->hasMany(ReservationEmployee::class);
+    }
 }

@@ -79,6 +79,33 @@ export default function AsideReservasi() {
                                                                     toggleClass
                                                                 }
                                                                 href={route(
+                                                                    "reservationemployees.index"
+                                                                )}
+                                                                className="relative flex-row items-center w-full header-menu-text "
+                                                            >
+                                                                <span className="flex ml-2 text-lg header-menu-text">
+                                                                    Atur
+                                                                    Karyawan
+                                                                </span>
+                                                            </Link>
+                                                            <Link
+                                                                onClick={
+                                                                    toggleClass
+                                                                }
+                                                                href={route(
+                                                                    "reservation.myemployeerequestoff"
+                                                                )}
+                                                                className="relative flex-row items-center w-full header-menu-text "
+                                                            >
+                                                                <span className="flex ml-2 text-lg header-menu-text">
+                                                                    Permintaan Libur
+                                                                </span>
+                                                            </Link>
+                                                            <Link
+                                                                onClick={
+                                                                    toggleClass
+                                                                }
+                                                                href={route(
                                                                     "reservationCounters.index"
                                                                 )}
                                                                 className="relative flex-row items-center w-full header-menu-text "
@@ -107,6 +134,19 @@ export default function AsideReservasi() {
                                                         "lihat menu pekerja reservasi"
                                                     ) > -1 && (
                                                         <>
+                                                        <Link
+                                                                onClick={
+                                                                    toggleClass
+                                                                }
+                                                                href={route(
+                                                                    "reservationemployeedayoff.index"
+                                                                )}
+                                                                className="relative flex-row items-center w-full header-menu-text "
+                                                            >
+                                                                <span className="flex ml-2 text-lg header-menu-text">
+                                                                    Atur Hari Libur dan Istirahat
+                                                                </span>
+                                                            </Link>
                                                             <Link
                                                                 onClick={
                                                                     toggleClass

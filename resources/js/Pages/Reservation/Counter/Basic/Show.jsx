@@ -28,6 +28,8 @@ export default function Show({
     reservationCompany,
     reservationCounter,
     team,
+    offDay,
+    workBreak,
     endDate,
 }) {
     const { data, setData, post, patch, processing, reset, errors } = useForm(
@@ -56,7 +58,7 @@ export default function Show({
     const [isOpenTimeDialog, setIsOpenTimeDialog] = useState(false);
     const [state, setState] = useState([]);
     const openTimeDialog = (reservationCompany, date) => {
-        setState({ reservationCompany, date, reservationCounter,team });
+        setState({ reservationCompany, date, reservationCounter,team,offDay,workBreak });
         setIsOpenTimeDialog(true);
     };
 
@@ -70,7 +72,7 @@ export default function Show({
                 reservationCompany,
                 date.toLocaleDateString('en-GB'),
                 reservationCounter,
-                team
+                team,offDay,workBreak
             );
         }
     };
@@ -137,7 +139,7 @@ export default function Show({
                                 const dateStr = date.toDateString('en-US');
                                 return dates.includes(dateStr)
                                     ? "p-2 my-1 text-center border text-blue-500 rounded-full bg-blue-50 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100"
-                                    : "p-2 my-1 text-center border text-[#d10000] rounded-full bg-red-50 hover:bg-red-100 focus:bg-red-100 active:bg-red-100 focus:ring-red-100";
+                                    : "p-2 my-1 text-center border text-blue-500 rounded-full bg-blue-50 hover:bg-blue-100 focus:bg-blue-100 active:bg-blue-100 focus:ring-blue-100";
                             }}
                         />
                     </div>
