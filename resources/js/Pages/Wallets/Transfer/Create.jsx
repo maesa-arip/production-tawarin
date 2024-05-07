@@ -38,7 +38,7 @@ export default function Create({ users }) {
     const [selected, setSelected] = useState(defaultValue[0]);
 
     const onContactChange = (e) => {
-        setData({ ...data, ["id"]: e.id });
+        setData({ ...data, ["transfer_id"]: e.id });
     };
 
     const onSubmitHandler = (e) => {
@@ -64,6 +64,7 @@ export default function Create({ users }) {
             },
         });
     };
+    console.log(users)
     return (
         <div>
             <EditModal
