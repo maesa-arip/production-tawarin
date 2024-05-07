@@ -90,48 +90,47 @@ export default function Create({ users }) {
             </EditModal>
             <Head title="Transfer" />
             <Container>
-            
-                
-                    <div className="mt-10 sm:mt-0">
-                        <div className="md:grid md:grid-cols-3 md:gap-6">
-                            <div className="md:col-span-1">
-                                <div className="px-4 sm:px-0">
-                                    <div className="flex justify-between ">
+            <form onSubmit={onSubmitHandler}>
+                <div className="mt-10 sm:mt-0">
+                    <div className="md:grid md:grid-cols-3 md:gap-6">
+                        <div className="md:col-span-1">
+                            <div className="px-4 sm:px-0">
+                                <div className="flex justify-between ">
                                     <h3 className="flex items-center text-lg font-medium leading-6 text-gray-900 ">
                                         Data Transfer
                                     </h3>
-                                    <button onClick={() =>
-                                                        openJoinDialog()
-                                                    } className="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full">
-                                <IconPlus className="w-6 h-6 m-2"/>
-                            </button>
-                            </div>
-                                    <p className="mt-1 text-sm text-gray-600">
-                                        Pastikan sudah memilih kontak dengan benar.
-                                    </p>
-                                    
+                                    <button
+                                        onClick={() => openJoinDialog()}
+                                        className="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full"
+                                    >
+                                        <IconPlus className="w-6 h-6 m-2" />
+                                    </button>
                                 </div>
+                                <p className="mt-1 text-sm text-gray-600">
+                                    Pastikan sudah memilih kontak dengan benar.
+                                </p>
                             </div>
-                            <div className="mt-5 md:mt-0 md:col-span-2">
-                                <div className="overflow-hidden shadow sm:rounded-md">
-                                    <div className="px-4 py-5 bg-white sm:p-6">
-                                        <div className="grid grid-cols-6 gap-6">
-                                            <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                                                <label
-                                                    htmlFor="id"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Pilih Kontak
-                                                </label>
-                                                <ListBoxPage
-                                                    ShouldMap={users}
-                                                    selected={selected}
-                                                    onChange={(e) => {
-                                                        onContactChange(e);
-                                                        setSelected(e);
-                                                    }}
-                                                />
-                                                {/* <ComboboxMultipleSelect
+                        </div>
+                        <div className="mt-5 md:mt-0 md:col-span-2">
+                            <div className="overflow-hidden shadow sm:rounded-md">
+                                <div className="px-4 py-5 bg-white sm:p-6">
+                                    <div className="grid grid-cols-6 gap-6">
+                                        <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                            <label
+                                                htmlFor="id"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                Pilih Kontak
+                                            </label>
+                                            <ListBoxPage
+                                                ShouldMap={users}
+                                                selected={selected}
+                                                onChange={(e) => {
+                                                    onContactChange(e);
+                                                    setSelected(e);
+                                                }}
+                                            />
+                                            {/* <ComboboxMultipleSelect
                                                     ShouldMap={users}
                                                     name={"pic_id"}
                                                     // onChange={(e) => {
@@ -151,52 +150,45 @@ export default function Create({ users }) {
                                                     // defaultValues={defaultPicIdStrings}
                                                 /> */}
 
-                                                {errors && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.id}
-                                                    </span>
-                                                )}
-                                            </div>
+                                            {errors && (
+                                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                    {errors.id}
+                                                </span>
+                                            )}
+                                        </div>
 
-                                            <div className="col-span-6 sm:col-span-3">
-                                                <label
-                                                    htmlFor="amount"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Amount
-                                                </label>
-                                                <input
-                                                    type="number"
-                                                    name="amount"
-                                                    id="amount"
-                                                    onChange={
-                                                        onChangeAmountHandler
-                                                    }
-                                                    onWheel={(e) =>
-                                                        e.target.blur()
-                                                    }
-                                                    autoComplete="off"
-                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                                {errors.amount && (
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
-                                                        {errors.amount}
-                                                    </span>
-                                                )}
-                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                        <div className="col-span-6 sm:col-span-3">
+                                            <label
+                                                htmlFor="amount"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                Amount
+                                            </label>
+                                            <input
+                                                type="number"
+                                                name="amount"
+                                                id="amount"
+                                                onChange={onChangeAmountHandler}
+                                                onWheel={(e) => e.target.blur()}
+                                                autoComplete="off"
+                                                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+                                            {errors.amount && (
+                                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                    {errors.amount}
+                                                </span>
+                                            )}
+                                            <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                {amount && formatRupiahAmount}{" "}
+                                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
                                                     {amount &&
-                                                        formatRupiahAmount}{" "}
-                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
-                                                        {amount &&
-                                                            "(" +
-                                                                Terbilang(
-                                                                    amount
-                                                                ) +
-                                                                " Rupiah)"}
-                                                    </span>
-                                                </div>
+                                                        "(" +
+                                                            Terbilang(amount) +
+                                                            " Rupiah)"}
+                                                </span>
                                             </div>
-                                            {/* <div className="col-span-6 sm:col-span-6 lg:col-span-5">
+                                        </div>
+                                        {/* <div className="col-span-6 sm:col-span-6 lg:col-span-5">
                                                 <label
                                                     htmlFor="berita"
                                                     className="block text-sm font-medium text-gray-700"
@@ -219,19 +211,19 @@ export default function Create({ users }) {
                                                     Bisnis Anda
                                                 </p>
                                             </div> */}
-                                        </div>
                                     </div>
-                                    <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                        <Button processing={processing}>
-                                            Transfer
-                                        </Button>
-                                    </div>
+                                </div>
+                                <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
+                                    <Button processing={processing}>
+                                        Transfer
+                                    </Button>
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
-                    <form onSubmit={onSubmitHandler}>
+                </div>
+                </form>
+                <form onSubmit={onSubmitHandler}>
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">
                             <div className="border-t border-gray-200" />

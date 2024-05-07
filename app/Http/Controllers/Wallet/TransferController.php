@@ -22,7 +22,7 @@ class TransferController extends Controller
     {
         $from = User::find(auth()->user()->id);
         $to = User::find($request->id);
-        dd($request->all());
+        // dd($request->all());
         // $from->transfer($to, $request->amount); 
         $transfer = $from->transfer($to, $request->amount, new Extra(
             deposit: ['message' => 'Terima dari '.$to->name,'type'=>'uang masuk'],
