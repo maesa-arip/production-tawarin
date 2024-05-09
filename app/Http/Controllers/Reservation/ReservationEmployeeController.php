@@ -156,6 +156,7 @@ class ReservationEmployeeController extends Controller
     {
         $data = ReservationEmployee::findOrfail($id);
         $userId = User::where('email', $data->email)->pluck('id')->first();
+        // dd($data);
         // ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
         $data->update(['approved' => 1]);
         return redirect(route('reservation.myteaminvitations'))->with([

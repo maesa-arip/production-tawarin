@@ -96,7 +96,7 @@ export default function Edit({ reservationCounter,media }) {
     const onChangeNeedImageBeforeAfter = (e) => {
         setData({ ...data, ["need_image_before_after"]: e.value });
     };
-    console.log(reservationCounter.slug)
+    // console.log(reservationCounter.slug)
     const onSubmitHandler = (e) => {
         e.preventDefault();
         patch(route("reservationCounters.update",reservationCounter.slug), {
@@ -249,8 +249,7 @@ export default function Edit({ reservationCounter,media }) {
                                     </h3>
 
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Masukan data lengkap perencanaanmu
-                                        disini.
+                                        Masukan data lengkap layananmu disini.
                                     </p>
                                 </div>
                             </div>
@@ -568,7 +567,38 @@ export default function Edit({ reservationCounter,media }) {
                                                 )}
                                             </div>
                                             </>}
-                                            
+                                            {hideDiskon == true ? '' : 
+                                            <>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="name"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Jumlah Layanan untuk Mendapat Layanan Gratis
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <input
+                                                            type="number"
+                                                            name="jumlahlayanandiskon"
+                                                            value={
+                                                                data.jumlahlayanandiskon ?? ""
+                                                            }
+                                                            onChange={onChange}
+                                                            id="jumlahlayanandiskon"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.jumlahlayanandiskon}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            </>}
                                             
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
@@ -663,6 +693,39 @@ export default function Edit({ reservationCounter,media }) {
                                                 {errors && (
                                                     <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
                                                         {errors.period}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="description"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Deskripsi
+                                                </label>
+                                                <div className="flex mt-1 rounded-md">
+                                                    <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">
+                                                        <textarea
+                                                            type="text"
+                                                            name="description"
+                                                            value={
+                                                                data.description ??
+                                                                ""
+                                                            }
+                                                            rows={3}
+                                                            onChange={onChange}
+                                                            id="description"
+                                                            autoComplete="off"
+                                                            className="w-full border-0 focus:ring-0 form-text"
+                                                            placeholder=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {errors && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {
+                                                            errors.description
+                                                        }
                                                     </span>
                                                 )}
                                             </div>

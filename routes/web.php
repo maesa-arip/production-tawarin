@@ -103,7 +103,7 @@ Route::middleware('auth','verified')->group(function () {
     Route::delete('/reservationprofile', [ReservationController::class, 'destroy'])->name('reservationprofile.destroy');
     Route::get('/myreservations', [ReservationController::class, 'myreservations'])->name('reservation.myreservations');
     Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
-    Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
+    // Route::put('/acceptinvitation/{id}', [ReservationController::class, 'acceptinvitation'])->name('reservation.acceptinvitation');
     Route::get('/myemployeerequestoff', [ReservationController::class, 'myemployeerequestoff'])->name('reservation.myemployeerequestoff');
     Route::get('/reservations/mycustomers', [ReservationController::class, 'mycustomers'])->name('reservation.mycustomers');
     // Route::get('/reservations/myemployees', [ReservationController::class, 'myemployees'])->name('reservation.myemployees');
@@ -119,6 +119,7 @@ Route::middleware('auth','verified')->group(function () {
     Route::post('/maketeam/{slug}', [ReservationController::class, 'maketeam'])->name('reservation.maketeam');
 
     Route::put('/acceptdayoff/{id}/edit', [ReservationEmployeeController::class, 'acceptdayoff'])->name('reservation.acceptdayoff');
+    Route::put('/acceptinvitation/{id}/edit', [ReservationEmployeeController::class, 'acceptinvitation'])->name('reservation.acceptinvitation');
 });
 
 //Example
