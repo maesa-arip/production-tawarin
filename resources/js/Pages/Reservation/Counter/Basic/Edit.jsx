@@ -54,14 +54,18 @@ export default function Edit({ reservationCounter,media }) {
     const { data, setData, patch, processing, reset, errors } = useForm({
         // data : reservationCounter,
         name: reservationCounter.name,
+        description: reservationCounter.description,
+        price: reservationCounter.price,
         price_user: reservationCounter.price_user,
-        percent_owner: reservationCounter.percent_owner,
-        percent_employe: reservationCounter.percent_employe,
-        service_duration: reservationCounter.service_duration,
-        period: reservationCounter.period,
-        deposit: reservationCounter.deposit,
         bhp: reservationCounter.bhp,
         jasa: reservationCounter.jasa,
+        jumlahlayanandiskon: reservationCounter.jumlahlayanandiskon,
+        percent_owner: reservationCounter.percent_owner,
+        percent_employe: reservationCounter.percent_employe,
+        deposit: reservationCounter.deposit,
+        service_duration: reservationCounter.service_duration,
+        period: reservationCounter.period,
+        
         
     });
     // const { data, setData, post, processing, reset, errors } = useForm({});
@@ -1000,7 +1004,7 @@ export default function Edit({ reservationCounter,media }) {
                                                         inputname={"reservationcounter"}
                                                         allowMultiple={false}
                                                         maxFiles={"5"}
-                                                        required={true}
+                                                        required={false}
                                                     />
                                                     <div className="flex justify-center text-sm text-gray-600">
                                                         <label

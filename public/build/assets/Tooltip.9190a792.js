@@ -1,0 +1,1 @@
+import{a as s,j as t}from"./app.f981a017.js";function o({message:e,children:a}){return s("div",{className:"relative flex group",children:[a,t("span",{className:"absolute p-2 text-xs text-white transition-all scale-0 bg-gray-800 rounded top-10 group-hover:scale-100",children:e})]})}export{o as T};

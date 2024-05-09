@@ -139,6 +139,7 @@ class ReservationCounterController extends Controller
     public function edit(ReservationCounter $reservationCounter)
     {
         $media = $reservationCounter->getMedia('reservationcounter');
+        // dd($reservationCounter);
         return inertia('Reservation/Counter/Basic/Edit', [
             'reservationCounter' => $reservationCounter,
             'media' => $media,

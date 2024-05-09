@@ -32,7 +32,7 @@ export default function Create({
     const [panjang, setPanjang] = useState(0);
     const [lebar, setLebar] = useState(0);
 
-    console.log(allSessions)
+    // console.log(allSessions)
     const onChangePanjangBangunanHandler = (e) => {
         setPanjang(e.target.value);
         setData({ ...data, [e.target.id]: e.target.value });

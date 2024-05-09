@@ -86,7 +86,7 @@ export default function Show({
     };
     const lat = parseFloat(plan.lat);
     const lng = parseFloat(plan.lng);
-    console.log(plan.lat,plan.lng);
+    // console.log(plan.lat,plan.lng);
     return (
         <div>
             <Head title="Plans" />

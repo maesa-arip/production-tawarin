@@ -64,7 +64,7 @@ export default function Create({ users }) {
             },
         });
     };
-    console.log(users)
+    // console.log(users)
     return (
         <div>
             <EditModal

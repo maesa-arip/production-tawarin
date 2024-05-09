@@ -167,7 +167,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                     }
                                     href={"/wallet/transfers"}
                                 >
-                                    Transfer
+                                    Kirim
                                 </NavLink>
                                 <NavLink
                                     type="button"
@@ -275,7 +275,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                     <NavLink
                                         type="button"
                                         className={
-                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            "inline-flex text-center items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
                                         href={"/wallet/transfers"}
                                     >

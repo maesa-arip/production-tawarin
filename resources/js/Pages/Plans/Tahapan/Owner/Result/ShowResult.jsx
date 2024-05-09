@@ -37,7 +37,7 @@ export default function ShowResult({
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const openInfoDialog = (result) => {
         setState(result);
-        console.log(result);
+        // console.log(result);
         setIsOpenInfoDialog(true);
     };
     // const submit = (e) => {

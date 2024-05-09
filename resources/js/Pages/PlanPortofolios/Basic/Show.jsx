@@ -76,12 +76,12 @@ export default function Show({
     const [open, setOpen] = useState(false);
     const [currentImage, setCurrentImage] = useState(null);
 
-    console.log(planRooms);
+    // console.log(planRooms);
     const handleClick = (plan) => {
         setCurrentImage(plan);
         setOpen(true);
     };
-    console.log(currentImage);
+    // console.log(currentImage);
     return (
         <div>
             <Head title="Plans" />
