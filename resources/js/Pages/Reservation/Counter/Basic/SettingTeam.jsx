@@ -75,10 +75,15 @@ console.log(employees)
                                             <img
                                                 className="object-cover w-16 h-12 border rounded-lg"
                                                 src={
-                                                    employee.media
-                                                        ? employee.media
+                                                    employee.media_id
+                                                        ? `/storage/${employee.media_id}/${employee.file_name}`
                                                         : "/storage/files/default/NoImage.svg"
                                                 }
+                                                // src={
+                                                //     employee.media
+                                                //         ? employee.media
+                                                //         : "/storage/files/default/NoImage.svg"
+                                                // }
                                                 alt={employee.name}
                                             ></img>
                                             <p className="ml-2">

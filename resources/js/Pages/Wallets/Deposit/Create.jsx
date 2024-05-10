@@ -167,6 +167,7 @@ export default function Create() {
                                                     <Filepond
                                                         inputname={"document"}
                                                         allowMultiple={false}
+                                                        required={true}
                                                     />
                                                     <div className="flex justify-center text-sm text-gray-600">
                                                         <label

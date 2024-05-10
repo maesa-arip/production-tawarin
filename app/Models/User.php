@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Auth\JoinAs;
 use App\Models\Plan\Plan;
+use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationEmployee;
 use App\Models\Reservation\ReservationEmployeeBreak;
 use App\Models\Reservation\ReservationEmployeeDayOff;
@@ -111,5 +112,9 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
     public function employeebreaks()
     {
         return $this->hasMany(ReservationEmployeeBreak::class);
+    }
+    public function customers()
+    {
+        return $this->hasMany(ReservationCustomer::class);
     }
 }

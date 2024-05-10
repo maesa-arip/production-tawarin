@@ -247,7 +247,7 @@ export default function Header() {
                                 <span className="sr-only">Open menu</span>
                                 <MenuIcon
                                     className="w-6 h-6"
-                                    aria-hidden="true"
+                                    // aria-hidden="true"
                                 />
                             </Popover.Button>
                         </div>
@@ -779,7 +779,7 @@ export default function Header() {
                                             </span>
                                             <XIcon
                                                 className="w-6 h-6"
-                                                aria-hidden="true"
+                                                // aria-hidden="true"
                                             />
                                         </Popover.Button>
                                     </div>

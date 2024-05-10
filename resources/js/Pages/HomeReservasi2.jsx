@@ -86,7 +86,7 @@ export default function HomeReservasi(props) {
                         <div className="container mx-auto">
                             <div className="flex flex-wrap items-center">
                                 <div className="w-full text-left lg:w-1/2 title-col-1">
-                                    <p className="title-text">
+                                    <div className="title-text">
                                         <Typewriter
                                             options={{
                                                 strings: [
@@ -97,7 +97,7 @@ export default function HomeReservasi(props) {
                                                 loop: true,
                                             }}
                                         />
-                                    </p>
+                                    </div>
                                     <p className="title-text text-yellow-gradient">
                                         Super Ekosistem Tawarin.
                                     </p>
@@ -151,7 +151,7 @@ export default function HomeReservasi(props) {
                             </div>
                             <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
                                 <div className="our-product-box">
-                                    <div className="">
+                                    
                                         <b className="our-product-content-title">
                                             Reservasi
                                         </b>
@@ -172,13 +172,13 @@ export default function HomeReservasi(props) {
                                         >
                                             More &gt;
                                         </a>
-                                    </div>
-                                    <div className="">
+                                    
+                                   
                                         <img
                                             src={mockup_laptop}
-                                            className=""
+                                            
                                         />
-                                    </div>
+                                    
                                 </div>
                                 <div className="our-product-box">
                                     <div className="our-product-content-left">
@@ -203,17 +203,17 @@ export default function HomeReservasi(props) {
                                             More &gt;
                                         </a>
                                     </div>
-                                    <div className="">
+                                    
                                         <img
                                             src={mockup_phone}
-                                            className=""
+                                            
                                         />
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
                     </section>
-                    <section id="benefit" className>
+                    <section id="benefit">
                         <div className="feature-extended-wrapper">
                             <div className="container mx-auto">
                                 <div className="flex justify-center">
@@ -299,7 +299,7 @@ export default function HomeReservasi(props) {
                                                 05 <br /> Nov
                                             </span>
                                         </div>
-                                        <a href>
+                                        <a>
                                             <h5>Lorem Ipsum is simply dummy</h5>
                                         </a>
                                         <p>
@@ -330,7 +330,7 @@ export default function HomeReservasi(props) {
                                                 19 <br /> Dec
                                             </span>
                                         </div>
-                                        <a href>
+                                        <a >
                                             <h5>Lorem Ipsum is simply dummy</h5>
                                         </a>
                                         <p>
@@ -361,7 +361,7 @@ export default function HomeReservasi(props) {
                                                 25 <br /> Dec
                                             </span>
                                         </div>
-                                        <a href>
+                                        <a>
                                             <h5>Lorem Ipsum is simply dummy</h5>
                                         </a>
                                         <p>

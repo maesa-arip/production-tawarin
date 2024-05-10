@@ -237,7 +237,11 @@ class ReservationCounterController extends Controller
     public function settingteam(ReservationCounter $reservationCounter, ReservationTeam $reservationTeam)
     {
         
-        $employees = ReservationEmployee::with('user')->where('reservation_company_id',$reservationCounter->reservation_company_id)->get();
+        $employees = ReservationEmployee::with('user')->leftJoin('media', function ($join) {
+            $join->on('media.model_id', '=', 'reservation_employees.user_id')
+                ->where('media.model_type', '=', 'App\Models\User');
+        })
+        ->addSelect('media.file_name', 'media.id as media_id','reservation_employees.user_id')->where('reservation_company_id',$reservationCounter->reservation_company_id)->get();
         // // dd($employees);
         // $employees = ReservationEmployee::join('reservation_companies', 'reservation_companies.id','reservation_employees.reservation_company_id')
         // ->join('reservation_team_details', 'reservation_team_details.user_id','users.id')

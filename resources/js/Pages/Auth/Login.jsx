@@ -107,20 +107,14 @@ export default function Login({ status, canResetPassword }) {
                     
                 </div>
             </form>
-            <div class="flex items-center justify-center mt-4">
+            <div className="flex items-center justify-center mt-4">
                 {/* <ThirdButton href="/auth/google">Login Google</ThirdButton> */}
                         <a
                             href="/auth/google"
-                            class="mr-2 inline-block items-center px-4 py-2 bg-amber-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-amber-300 focus:outline-none   disabled:opacity-25 transition ease-in-out duration-150"
+                            className="mr-2 inline-block items-center px-4 py-2 bg-amber-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-amber-300 focus:outline-none   disabled:opacity-25 transition ease-in-out duration-150"
                         >
                             Login Google
                         </a>
-                        {/* <a
-                            href="/auth/github"
-                            class="px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-500"
-                        >
-                            Login GitHub
-                        </a> */}
                     </div>
         </GuestLayout>
     );

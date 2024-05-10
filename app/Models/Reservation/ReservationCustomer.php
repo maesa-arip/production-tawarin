@@ -2,6 +2,7 @@
 
 namespace App\Models\Reservation;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Bavix\Wallet\Interfaces\Confirmable;
@@ -22,5 +23,10 @@ class ReservationCustomer extends Model implements Wallet, Confirmable
     public function team()
     {
         return $this->belongsTo(ReservationTeam::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

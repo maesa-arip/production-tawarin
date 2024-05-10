@@ -64,6 +64,7 @@ class SocialiteController extends Controller
                     'email_verified_at' => Carbon::now(),
                     'avatar' => $socialUser->user['picture'],
                     'referral' => Str::lower(Str::random(6)),
+                    'from_referral' => 'tawarin',
                 ]);
             }
 

@@ -30,10 +30,10 @@ export default function AsideReservasi() {
                     <ul style={{ color: "white !important" }}>
                         <li>
                             <div className="registration-box row">
-                                <Disclosure as="div" className="">
+                                <Disclosure as="div" >
                                     {({ open }) => (
                                         <>
-                                            <h3 className="">
+                                            <h3 >
                                                 <Disclosure.Button className="flex items-center justify-between w-full">
                                                     <span className="text-xl header-menu-text">
                                                         Pengaturan
@@ -42,20 +42,20 @@ export default function AsideReservasi() {
                                                         {open ? (
                                                             <MinusIcon
                                                                 className="w-5 h-5 text-white"
-                                                                aria-hidden="true"
+                                                                // aria-hidden="true"
                                                             />
                                                         ) : (
                                                             <PlusIcon
                                                                 className="w-5 h-5 text-white"
-                                                                aria-hidden="true"
+                                                                // aria-hidden="true"
                                                             />
                                                         )}
                                                     </span>
                                                 </Disclosure.Button>
                                             </h3>
 
-                                            <Disclosure.Panel className="">
-                                                <div className="">
+                                            <Disclosure.Panel >
+                                                <div >
                                                     {permission_name.indexOf(
                                                         "lihat menu owner reservasi"
                                                     ) > -1 && (
@@ -201,10 +201,10 @@ export default function AsideReservasi() {
                         </li>
                         <li>
                             <div className="registration-box row">
-                                <Disclosure as="div" className="">
+                                <Disclosure as="div" >
                                     {({ open }) => (
                                         <>
-                                            <h3 className="">
+                                            <h3 >
                                                 <Disclosure.Button className="flex items-center justify-between w-full">
                                                     <span className="text-xl header-menu-text">
                                                         Pemesanan
@@ -213,20 +213,20 @@ export default function AsideReservasi() {
                                                         {open ? (
                                                             <MinusIcon
                                                                 className="w-5 h-5 text-white"
-                                                                aria-hidden="true"
+                                                                // aria-hidden="true"
                                                             />
                                                         ) : (
                                                             <PlusIcon
                                                                 className="w-5 h-5 text-white"
-                                                                aria-hidden="true"
+                                                                // aria-hidden="true"
                                                             />
                                                         )}
                                                     </span>
                                                 </Disclosure.Button>
                                             </h3>
 
-                                            <Disclosure.Panel className="">
-                                                <div className="">
+                                            <Disclosure.Panel >
+                                                <div >
                                                     
                                                     <Link
                                                         onClick={toggleClass}
