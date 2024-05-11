@@ -443,7 +443,7 @@ class ReservationController extends Controller
         }
         DB::beginTransaction();
         try {
-            dd($tfTempTawarin,$tfPemilik,$tfReferral,$tfTawarin,$tfTeam,$tfDeposit);
+            // dd($tfTempTawarin,$tfPemilik,$tfReferral,$tfTawarin,$tfTeam,$tfDeposit);
             $reservationCustomer->update(['selesai_customer' => 1]);
             $reservationCustomer->update(['layanan_ke' => $layananKe + 1]);
             if ($tip) {
