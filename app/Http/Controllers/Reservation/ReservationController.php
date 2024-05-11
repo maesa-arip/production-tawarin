@@ -431,7 +431,11 @@ class ReservationController extends Controller
         $tawarin = User::find(1);
         $customer = User::find(auth()->user()->id);
         $referal = User::where('referral', $customer->from_referral)->first();
-        $walletBonusReferral = $referal->getWallet('Bonus Wallet');
+        $walletBonusReferral = $referal->getWallet('bonus');
+
+        if (!$walletBonusReferral) {
+            $walletBonusReferral = $referal->createWallet(['name' => 'Bonus Wallet','slug' => 'bonus']);
+        };
 
         $tfTempTawarin = $reservationCounter->price - $reservationCounter->price_user;
         $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->jasa;
@@ -443,6 +447,8 @@ class ReservationController extends Controller
         }
         DB::beginTransaction();
         try {
+            // dd($customer,$referal,$walletBonusReferral);
+            // dd($tawarin,$pemilik,$team,$walletBonusReferral,$referal);
             // dd($tfTempTawarin,$tfPemilik,$tfReferral,$tfTawarin,$tfTeam,$tfDeposit);
             $reservationCustomer->update(['selesai_customer' => 1]);
             $reservationCustomer->update(['layanan_ke' => $layananKe + 1]);

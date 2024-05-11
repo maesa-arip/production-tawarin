@@ -38,7 +38,7 @@ export default function MyReservation({ myReservations,tips }) {
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
-    console.log(data)
+    // console.log(data)
     return (
         <>
             <InfoModal
