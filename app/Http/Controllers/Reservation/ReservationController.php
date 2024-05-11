@@ -431,17 +431,19 @@ class ReservationController extends Controller
         $tawarin = User::find(1);
         $customer = User::find(auth()->user()->id);
         $referal = User::where('referral', $customer->from_referral)->first();
+        $walletBonusReferral = $referal->getWallet('Bonus Wallet');
+
         $tfTempTawarin = $reservationCounter->price - $reservationCounter->price_user;
         $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->jasa;
-
         $tfReferral = (5 / 100 * $tfTempTawarin);
         $tfTawarin = $tfTempTawarin - $tfReferral;
         $tfTeam = $reservationCounter->percent_employe / 100 * $reservationCounter->jasa;
         if ($reservationCounter->deposit > 0) {
-            $tfDeposit = (100 - $reservationCounter->deposit) / 100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->jasa);
+            $tfDeposit = ($reservationCounter->deposit) / 100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->jasa);
         }
         DB::beginTransaction();
         try {
+            dd($tfTempTawarin,$tfPemilik,$tfReferral,$tfTawarin,$tfTeam,$tfDeposit);
             $reservationCustomer->update(['selesai_customer' => 1]);
             $reservationCustomer->update(['layanan_ke' => $layananKe + 1]);
             if ($tip) {
@@ -463,7 +465,7 @@ class ReservationController extends Controller
                 deposit: ['message' => 'Pembayaran dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
                 withdraw: new Option(meta: ['message' => 'Pembayaran ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
             ));
-            $reservationCustomer->transfer($referal, $tfReferral, new Extra(
+            $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
                 deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
                 withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang keluar'], confirmed: true)
             ));
