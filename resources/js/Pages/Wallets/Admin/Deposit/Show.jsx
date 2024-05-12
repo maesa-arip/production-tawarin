@@ -5,6 +5,7 @@ import { numberFormat } from "@/Libs/helper";
 import Container from "@/Components/Container";
 import Button from "@/Components/Button";
 import { Inertia } from "@inertiajs/inertia";
+import ThirdButtonSmallNoLink from "@/Components/ThirdButtonSmallNoLink";
 
 export default function Show({ transaction, media }) {
     const { data, setData, patch, clearErrors, reset, errors } = useForm({
@@ -13,6 +14,7 @@ export default function Show({ transaction, media }) {
         e.preventDefault();
         patch(route('admindeposit.confirmed', transaction.id));
     };
+    // console.log(transaction)
     return (
         <div>
             <Head title="Transactions" />
@@ -32,15 +34,15 @@ export default function Show({ transaction, media }) {
                                         Jenis
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
-                                        {transaction.payable_type}
+                                        {transaction.type}
                                     </dd>
                                 </div>
                                 <div className="pt-4 border-t border-gray-200">
                                     <dt className="font-medium text-gray-900">
-                                        Tipe
+                                        Nama
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
-                                        {transaction.type}
+                                        {transaction.holder_name}
                                     </dd>
                                 </div>
                                 <div className="pt-4 border-t border-gray-200">
@@ -48,7 +50,15 @@ export default function Show({ transaction, media }) {
                                         Status
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
-                                        {transaction.confirmed}
+                                    {transaction.confirmed == 1 ? (
+                                                    <ThirdButtonSmallNoLink color="teal">
+                                                        Diterima
+                                                    </ThirdButtonSmallNoLink>
+                                                ) : (
+                                                    <ThirdButtonSmallNoLink color="secondary">
+                                                        Menunggu Konfirmasi
+                                                    </ThirdButtonSmallNoLink>
+                                                )}
                                     </dd>
                                 </div>
                                 <div className="pt-4 border-t border-gray-200">

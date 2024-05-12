@@ -55,11 +55,12 @@ export default function Index(props) {
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
 
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("admindeposits.index"),
-                // {...pickBy({ search: query, page: query.page })},
+                route(route().current()),
+                // route("riskRegisterKlinis.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -69,8 +70,13 @@ export default function Index(props) {
         }, 150),
         []
     );
-
-    useEffect(() => reload(params), [params]);
+    useEffect(() => {
+        if (!isInitialRender) {
+            reload(params);
+        } else {
+            setIsInitialRender(false);
+        }
+    }, [params]);
     useEffect(() => {
         let numbers = [];
         for (
@@ -82,8 +88,16 @@ export default function Index(props) {
         }
         setPageNumber(numbers);
     }, []);
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
+    const onChange = (event) => {
+        const updatedParams = {
+            ...params,
+            [event.target.name]: event.target.value,
+            page: 1, // Set page number to 1
+        };
+        setParams(updatedParams);
+    };
+    // const onChange = (event) =>
+    //     setParams({ ...params, [event.target.name]: event.target.value });
     const sort = (item) => {
         setParams({
             ...params,
@@ -91,6 +105,7 @@ export default function Index(props) {
             direction: params.direction == "asc" ? "desc" : "asc",
         });
     };
+    // console.log(transaction)
     return (
         <>
             <Head title="Deposit" />
@@ -365,15 +380,15 @@ export default function Index(props) {
                                 <div className="flex flex-col bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                                     <div className="flex flex-col items-center justify-center flex-auto p-2">
                                         <div className="grid w-full grid-cols-12 gap-1">
-                                            <div className="col-span-4 col-start-1">
+                                            <div className="col-span-6 col-start-1">
                                                 <p className="text-base font-semibold">
-                                                    {transaction.type}
+                                                    {transaction.type} dari {transaction.holder_name}
                                                 </p>
                                                 <p className="text-xs font-medium text-gray-500">
-                                                    {transaction.confirmed}
+                                                    {/* {transaction.wallet.holder.name} */}
                                                 </p>
                                             </div>
-                                            <div className="flex items-center justify-end col-span-8 col-end-13">
+                                            <div className="flex items-center justify-end col-span-6 col-end-13">
                                                 {transaction.confirmed == 1 ? (
                                                     <ThirdButtonSmallNoLink color="teal">
                                                         Diterima

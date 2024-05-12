@@ -21,6 +21,7 @@ class TransactionSingleResource extends JsonResource
             'wallet_id' => $this->wallet_id,
             'type' => $this->type,
             'amount' => $this->amount,
+            'holder_name' => $this->wallet->holder->name,
             'confirmed' => $this->confirmed,
         ];
     }

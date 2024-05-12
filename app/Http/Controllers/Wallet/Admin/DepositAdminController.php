@@ -19,7 +19,7 @@ class DepositAdminController extends Controller
     {
         $query = Transaction::query()->where('type','deposit')
         ->where('meta', NULL)
-        ->with('wallet');
+        ->with('wallet')->with('wallet.holder');
         
         // ->join('wallets', 'wallets.id', '=', 'transactions.wallet_id')
         // ->join('users', 'users.id', '=', 'wallets.holder_id');
