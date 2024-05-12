@@ -23,6 +23,7 @@ use App\Models\Reservation\ReservationTeamDetail;
 use App\Models\TemporaryFile;
 use App\Models\Tip;
 use App\Models\User;
+use App\Notifications\Reservation\ReservationNotification;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Bavix\Wallet\External\Dto\Extra;
 use Bavix\Wallet\External\Dto\Option;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
@@ -177,9 +179,11 @@ class ReservationController extends Controller
             'time' =>  $request->time,
             'code' =>  Str::random(8),
         ]);
-        $harga = ReservationTeam::join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')->where('reservation_teams.id', $request->reservation_team_id)->pluck('price');
+        $harga = ReservationTeam::join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')->where('reservation_teams.id', $request->reservation_team_id)->pluck('price')->first();
+        $reservationTeam = ReservationTeam::join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')->where('reservation_teams.id', $request->reservation_team_id)->first();
+        // dd($reservationTeam);
         $pelanggan = User::find(auth()->user()->id);
-        if ($pelanggan->balance < $harga[0]) {
+        if ($pelanggan->balance < $harga) {
             return redirect()->back()->with([
                 'type_simple' => 'error_saldo_kurang',
                 'message_simple' => 'Reservasi gagal, saldo tidak mencukupi',
@@ -187,19 +191,24 @@ class ReservationController extends Controller
         }
         $check = ReservationCustomer::where('selesai_team', 0)->where('reservation_team_id', $request->reservation_team_id)->where('date', date("Y-m-d", strtotime($request->date)))->where('time', $request->time)->where('user_id', '<>', auth()->user()->id)->first();
         if (!$check) {
-            $reservationCounter = ReservationCustomer::updateOrCreate(['user_id' => $request->user_id, 'date' => date("Y-m-d", strtotime($request->date)), 'time' => $request->time, 'reservation_team_id' => $request->reservation_team_id], $atrributes);
-            if ($reservationCounter->wasRecentlyCreated) {
-                $reservationCounter->createWallet(
+            $reservation = ReservationCustomer::updateOrCreate(['user_id' => $request->user_id, 'date' => date("Y-m-d", strtotime($request->date)), 'time' => $request->time, 'reservation_team_id' => $request->reservation_team_id], $atrributes);
+            if ($reservation->wasRecentlyCreated) {
+                $reservation->createWallet(
                     [
                         'name' => 'Default Wallet',
                         'slug' => 'default',
                     ]
                 );
                 $user = User::find(auth()->user()->id);
-                $user->transfer($reservationCounter, $harga[0], new Extra(
-                    deposit: ['message' => 'Pembayaran untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                    withdraw: new Option(meta: ['message' => 'Pembayaran untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang keluar'], confirmed: true)
+                $user->transfer($reservation, $harga, new Extra(
+                    deposit: ['message' => 'Pembayaran untuk ' . $reservation->CompanyName . ' Layanan ' . $reservation->CounterName, 'type' => 'uang masuk'],
+                    withdraw: new Option(meta: ['message' => 'Pembayaran untuk ' . $reservation->CompanyName . ' Layanan ' . $reservation->CounterName, 'type' => 'uang keluar'], confirmed: true)
                 ));
+                //Email
+                $reservationTeamDetail = ReservationTeamDetail::where('reservation_team_id',$request->reservation_team_id)->first();
+                $pekerja = User::find($reservationTeamDetail->user_id);
+                $pekerja->notify(new ReservationNotification($reservation,$user,$reservationTeam));
+                Cache::forget('notifications_count');
                 return redirect('myreservations')->with([
                     'type' => 'success',
                     'message' => 'Reservasi berhasil disimpan',

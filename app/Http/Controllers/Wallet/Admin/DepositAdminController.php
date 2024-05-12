@@ -18,7 +18,7 @@ class DepositAdminController extends Controller
     public function index(Request $request)
     {
         $query = Transaction::query()->where('type','deposit')
-        // ->where('confirmed','<>',1)
+        ->where('meta', NULL)
         ->with('wallet');
         
         // ->join('wallets', 'wallets.id', '=', 'transactions.wallet_id')

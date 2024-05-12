@@ -91,7 +91,7 @@ export default function Create({ users }) {
             </EditModal>
             <Head title="Transfer" />
             <Container>
-            <form onSubmit={onSubmitHandler}>
+            
                 <div className="mt-10 sm:mt-0">
                     <div className="md:grid md:grid-cols-3 md:gap-6">
                         <div className="md:col-span-1">
@@ -112,6 +112,7 @@ export default function Create({ users }) {
                                 </p>
                             </div>
                         </div>
+                        <form onSubmit={onSubmitHandler}>
                         <div className="mt-5 md:mt-0 md:col-span-2">
                             <div className="overflow-hidden shadow sm:rounded-md">
                                 <div className="px-4 py-5 bg-white sm:p-6">
@@ -221,9 +222,10 @@ export default function Create({ users }) {
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
-                </form>
+               
                 <form onSubmit={onSubmitHandler}>
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">

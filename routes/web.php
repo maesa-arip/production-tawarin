@@ -86,18 +86,18 @@ Route::get('/reservasi', function () {
 
 Route::get('/auth/{provider}', [SocialiteController::class, 'redirectToProvider']);
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);
-Route::middleware('auth','verified')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/reservationlist', [ReservationController::class, 'list'])->name('reservation.list');
-Route::middleware('auth','verified')->group(function () {
-    
+Route::middleware('auth', 'verified')->group(function () {
+
     Route::Resource('contacts', ContactController::class);
     Route::Resource('reservationemployees', ReservationEmployeeController::class);
     Route::Resource('reservationemployeedayoff', ReservationDayOffBreakController::class);
-    Route::post('reservationemployeebreak', [ReservationDayOffBreakController::class,'store_break'])->name('reservationemployeebreak.store_break');
+    Route::post('reservationemployeebreak', [ReservationDayOffBreakController::class, 'store_break'])->name('reservationemployeebreak.store_break');
     Route::get('/reservationprofile', [ReservationController::class, 'edit'])->name('reservationprofile.edit');
     Route::patch('/reservationprofile', [ReservationController::class, 'update'])->name('reservationprofile.update');
     Route::delete('/reservationprofile', [ReservationController::class, 'destroy'])->name('reservationprofile.destroy');
@@ -171,32 +171,36 @@ Route::get('/chat', [ChatController::class, 'index'])->name('chats.index');
 
 
 //Public List
-    // Plans
-    Route::get('public/plans/list', [PlanController::class,'list'])->name('plan.list');
-    Route::get('public/plans/{plan}', [PlanController::class,'show'])->name('plans.show');
-    Route::get('public/planportofolios/{plans}', [PlanPortofolioController::class,'show'])->name('planportofolios.show');
-    // End Plans
+// Plans
+Route::get('public/plans/list', [PlanController::class, 'list'])->name('plan.list');
+Route::get('public/plans/{plan}', [PlanController::class, 'show'])->name('plans.show');
+Route::get('public/planportofolios/{plans}', [PlanPortofolioController::class, 'show'])->name('planportofolios.show');
+// End Plans
 
-    // Fundings
-    // Route::Resource('fundings', FundingController::class)->only('show');
-    Route::get('public/fundings/list', [FundingController::class,'list'])->name('funding.list');
-    // End Fundings
+// Fundings
+// Route::Resource('fundings', FundingController::class)->only('show');
+Route::get('public/fundings/list', [FundingController::class, 'list'])->name('funding.list');
+// End Fundings
 //End Public List
- // Plans
- Route::get('public/projects/list', [ProjectController::class,'list'])->name('project.list');
- Route::get('public/projects/{project}', [ProjectController::class,'show'])->name('projects.show');
+// Plans
+Route::get('public/projects/list', [ProjectController::class, 'list'])->name('project.list');
+Route::get('public/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 //  Route::get('public/planportofolios/{plans}', [PlanPortofolioController::class,'show'])->name('planportofolios.show');
- // End Plans
+// End Plans
 
- // Reservation
- Route::get('public/reservations/{reservationCompany}', [ReservationController::class,'show'])->name('reservations.show');
- Route::post('public/reservationCounters', [ReservationController::class,'store'])->name('reservationCounters.storecustomer');
- Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
- Route::get('public/reservationCounters/{reservationCounter}', [ReservationCounterController::class,'settingteam'])->name('reservationCounters.settingteam');
+// Reservation
+Route::get('public/reservations/{reservationCompany}', [ReservationController::class, 'show'])->name('reservations.show');
+Route::post('public/reservationCounters', [ReservationController::class, 'store'])->name('reservationCounters.storecustomer');
+Route::get('public/reservationCounters/{reservationCounter}', [ReservationCounterController::class, 'settingteam'])->name('reservationCounters.settingteam');
+
+Route::middleware('auth', 'verified')->group(function () {
+    Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class, 'show'])->name('reservationCounters.show');
+});
+
 
 //  Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class,'show'])->name('reservationCounters.show');
 //  Route::get('public/reservations/{reservationCompany}/{reservationCounter}', [ReservationController::class,'show'])->name('reservations.show');
- //End Reservation
+//End Reservation
 
 
 //Alamat
@@ -208,9 +212,9 @@ Route::get('villages', [DependantDropdownController::class, 'villages'])->name('
 
 
 Route::get('toko/products/table', [ProductController::class, 'table'])->name('toko.products.table');
-Route::get('/', [HomeController::class,'home'])->name('home');
-Route::get('/homekonstruksi', [HomeController::class,'homekonstruksi'])->name('homekonstruksi');
-Route::get('/homereservasi', [HomeController::class,'homereservasi'])->name('homereservasi');
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/homekonstruksi', [HomeController::class, 'homekonstruksi'])->name('homekonstruksi');
+Route::get('/homereservasi', [HomeController::class, 'homereservasi'])->name('homereservasi');
 Route::get('toko/products/me', [ProductController::class, 'mine'])->middleware('auth')->name('products.mine');
 Route::resource('toko/products', ProductController::class);
 
@@ -221,59 +225,59 @@ Route::group(['middleware' => ['permission:atur hak akses user']], function () {
     Route::apiResource('permissions', PermissionController::class);
 });
 
-Route::get('/user/list', [UserController::class,'list'])->name('user.list');
-Route::get('/user/detail/{username}', [UserController::class,'detail'])->name('user.detail');
+Route::get('/user/list', [UserController::class, 'list'])->name('user.list');
+Route::get('/user/detail/{username}', [UserController::class, 'detail'])->name('user.detail');
 
-Route::middleware('auth','verified')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
-    Route::get('/profiles', [UserController::class,'profile'])->name('users.profiles');
-   
+    Route::get('/profiles', [UserController::class, 'profile'])->name('users.profiles');
+
     // Plans
     Route::Resource('adminplans', PlanAdminController::class);
-    Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class,'confirmed'])->name('planadmin.confirmed');
-    Route::post('/planadmin/rejected/{id}', [PlanAdminController::class,'rejected'])->name('planadmin.rejected');
+    Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class, 'confirmed'])->name('planadmin.confirmed');
+    Route::post('/planadmin/rejected/{id}', [PlanAdminController::class, 'rejected'])->name('planadmin.rejected');
     Route::Resource('plans', PlanController::class)->except('show');
     Route::delete('/image/destroy/{id}', [UploadController::class, 'destroyimage'])->name('media.destroy');
     Route::Resource('planportofolios', PlanPortofolioController::class)->except('show');
     // -- Tahapan Perencanaan
-        Route::get('plan/tahapan/{plan}',[PlanController::class,'tahapan'])->name('plan.tahapan');
-        Route::get('bidplan/tahapan/{plan}',[BidPlanController::class,'tahapan'])->name('bidplan.tahapan');
+    Route::get('plan/tahapan/{plan}', [PlanController::class, 'tahapan'])->name('plan.tahapan');
+    Route::get('bidplan/tahapan/{plan}', [BidPlanController::class, 'tahapan'])->name('bidplan.tahapan');
 
-        Route::get('plan/hasil/{plan}',[PlanController::class,'hasil'])->name('plan.hasil');
-        Route::get('bidplan/hasil/{plan}',[BidPlanController::class,'hasil'])->name('bidplan.hasil');
+    Route::get('plan/hasil/{plan}', [PlanController::class, 'hasil'])->name('plan.hasil');
+    Route::get('bidplan/hasil/{plan}', [BidPlanController::class, 'hasil'])->name('bidplan.hasil');
 
-        //Hasil Perencanaan
-            Route::get('plan/uploadresult/{plan}',[PlanResultController::class,'UploadResult'])->name('plan.uploadhasil');
-            Route::post('plan/uploadresult/{plan}',[PlanResultController::class,'StoreUploadResult'])->name('plan.simpanhasil');
-            Route::get('plan/showresult/{plan}',[PlanResultController::class,'ShowResult'])->name('plan.lihathasil');
-            Route::put('plan/finishresult/{planresult}',[PlanResultController::class,'FinishResult'])->name('planresult.finish');
-        //End Hasil Perencanaan
+    //Hasil Perencanaan
+    Route::get('plan/uploadresult/{plan}', [PlanResultController::class, 'UploadResult'])->name('plan.uploadhasil');
+    Route::post('plan/uploadresult/{plan}', [PlanResultController::class, 'StoreUploadResult'])->name('plan.simpanhasil');
+    Route::get('plan/showresult/{plan}', [PlanResultController::class, 'ShowResult'])->name('plan.lihathasil');
+    Route::put('plan/finishresult/{planresult}', [PlanResultController::class, 'FinishResult'])->name('planresult.finish');
+    //End Hasil Perencanaan
 
-        //Revisi
-            Route::get('plan/showrevision/{plan}',[PlanRevisionController::class,'ShowRevision'])->name('plan.lihatrevisi');
-            Route::post('plan/uploadrevision/{planrevision}',[PlanRevisionController::class,'StoreRevision'])->name('plan.simpanrevisi');
-        //End Revisi
+    //Revisi
+    Route::get('plan/showrevision/{plan}', [PlanRevisionController::class, 'ShowRevision'])->name('plan.lihatrevisi');
+    Route::post('plan/uploadrevision/{planrevision}', [PlanRevisionController::class, 'StoreRevision'])->name('plan.simpanrevisi');
+    //End Revisi
 
-        //Revisi Result
-        Route::post('plan/uploadrevisionresult/{planrevisionresult}',[PlanRevisionResultController::class,'StoreRevisionResult'])->name('plan.simpanrevisionresult');
-        //End Revisi Result
-        
-        
+    //Revisi Result
+    Route::post('plan/uploadrevisionresult/{planrevisionresult}', [PlanRevisionResultController::class, 'StoreRevisionResult'])->name('plan.simpanrevisionresult');
+    //End Revisi Result
+
+
 
 
     // -- End Tahapan Perencanaan
     Route::Resource('planbids', PlanBidController::class);
-    Route::get('bidplans/{id}', [BidPlanController::class,'listpenawar'])->name('bidplans.listpenawar');
-    Route::get('bidplans/selectwinnerplan/{id}', [BidPlanController::class,'selectwinnerplan'])->name('bidplans.selectwinnerplan');
+    Route::get('bidplans/{id}', [BidPlanController::class, 'listpenawar'])->name('bidplans.listpenawar');
+    Route::get('bidplans/selectwinnerplan/{id}', [BidPlanController::class, 'selectwinnerplan'])->name('bidplans.selectwinnerplan');
     Route::Resource('bidplans', PlanBidController::class);
     // End Plans
 
     // Plans
-    Route::get('pilar/choose',[ChooseController::class,'pilar'])->name('choose.pilar');
-    Route::get('fundings/choose',[FundingController::class,'choose'])->name('fundings.choose');
-    Route::get('plans/choose',[PlanController::class,'choose'])->name('plans.choose');
-    Route::get('projects/choose',[ProjectController::class,'choose'])->name('projects.choose');
+    Route::get('pilar/choose', [ChooseController::class, 'pilar'])->name('choose.pilar');
+    Route::get('fundings/choose', [FundingController::class, 'choose'])->name('fundings.choose');
+    Route::get('plans/choose', [PlanController::class, 'choose'])->name('plans.choose');
+    Route::get('projects/choose', [ProjectController::class, 'choose'])->name('projects.choose');
     Route::Resource('projects', ProjectController::class);
 
     // End Plans
@@ -288,18 +292,18 @@ Route::middleware('auth','verified')->group(function () {
     // End Fundings
 
     // Wallets
-    Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class,'confirmed'])->name('admindeposit.confirmed');
-    Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class,'confirmed'])->name('adminwithdraw.confirmed');
+    Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class, 'confirmed'])->name('admindeposit.confirmed');
+    Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class, 'confirmed'])->name('adminwithdraw.confirmed');
     Route::Resource('admindeposits', DepositAdminController::class);
     Route::Resource('adminwithdraws', WithdrawAdminController::class);
     Route::Resource('wallets', WalletController::class);
     Route::Resource('deposits', DepositController::class);
     Route::Resource('withdraws', WithdrawController::class);
     Route::Resource('histories', WalletHistoryController::class);
-    Route::get('wallet/transfers', [TransferController::class,'transfer'])->name('wallet.transfer');
-    Route::post('wallet/transfers', [TransferController::class,'transferstore'])->name('wallet.transferstore');
-    Route::get('plan/deposit/{plan}',[PlanDepositController::class,'plandeposit'])->name('plan.deposit');
-    Route::post('plan/deposit/{plan}',[PlanDepositController::class,'plandepositstore'])->name('plan.depositstore');
+    Route::get('wallet/transfers', [TransferController::class, 'transfer'])->name('wallet.transfer');
+    Route::post('wallet/transfers', [TransferController::class, 'transferstore'])->name('wallet.transferstore');
+    Route::get('plan/deposit/{plan}', [PlanDepositController::class, 'plandeposit'])->name('plan.deposit');
+    Route::post('plan/deposit/{plan}', [PlanDepositController::class, 'plandepositstore'])->name('plan.depositstore');
     // End Wallets
 
     //Notifications
@@ -312,12 +316,12 @@ Route::middleware('auth','verified')->group(function () {
     //End Portofolio
 });
 
-Route::controller(InvoiceController::class)->middleware('auth','verified')->group(function () {
+Route::controller(InvoiceController::class)->middleware('auth', 'verified')->group(function () {
     Route::post('toko/invoice', 'store');
     Route::get('toko/invoice/{invoice:order_id}', 'show')->name('tokoinvoice.show');
 });
 
-Route::controller(CartController::class)->middleware('auth','verified')->group(function () {
+Route::controller(CartController::class)->middleware('auth', 'verified')->group(function () {
     Route::get('toko/carts', 'index');
     Route::delete('toko/carts/delete/{cart}', 'destroy')->name('tokocart.delete');
     Route::post('toko/carts/add-to-cart/{product:slug}',  'store')->name('tokocart.store');
@@ -326,4 +330,4 @@ Route::controller(CartController::class)->middleware('auth','verified')->group(f
 Route::post('api/notification/handling', [PaymentNotificationController::class, 'hit']);
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -9,6 +9,7 @@ export default function Team({ setIsOpenDialog, model }) {
     const { auth, flash_simple } = usePage().props;
     const [state, setState] = useState({});
     const model2 = model.model;
+    // console.log(model2);
     // console.log(model.timeRange.timeRange);
     const { data, setData, post, processing, reset, errors } = useForm({});
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
@@ -40,11 +41,15 @@ export default function Team({ setIsOpenDialog, model }) {
     const pilihLayanan = () => {
         post(route("reservationCounters.storecustomer"), {
             onSuccess: () => {
-                reset();
+                // reset();
+                if (flash_simple.type_simple === "error_saldo_kurang") {
+                    openInfoDialog2();
+                    closeInfoDialog();
+                }
             },
         });
     };
-    // console.log(data)
+    console.log(data)
     const closeInfoDialog = () => {
         setIsOpenInfoDialog(false);
     };
@@ -55,12 +60,12 @@ export default function Team({ setIsOpenDialog, model }) {
         setIsOpenInfoDialog2(false);
     };
 
-    useEffect(() => {
-        if (flash_simple.type_simple === "error_saldo_kurang") {
-            openInfoDialog2();
-            closeInfoDialog();
-        }
-    }, [flash_simple.type_simple]);
+    // useEffect(() => {
+    //     if (flash_simple.type_simple === "error_saldo_kurang") {
+    //         openInfoDialog2();
+    //         closeInfoDialog();
+    //     }
+    // }, [flash_simple.type_simple]);
 
     const [rating, setRating] = useState(5);
 
