@@ -127,6 +127,9 @@ class ReservationCounterController extends Controller
             })
             ->addSelect('media.file_name', 'media.id as media_id','reservation_team_details.user_id')
             ->orderBy('ratings_avg_star_rating', 'DESC')->get();
+
+        
+            // dd($team);
         $offDay = ReservationEmployeeDayOff::where('reservation_company_id',$reservationCompany->id)->get();
         $workBreak = ReservationEmployeeBreak::where('reservation_company_id',$reservationCompany->id)->get();
         // dd($workBreak);
@@ -241,7 +244,7 @@ class ReservationCounterController extends Controller
             $join->on('media.model_id', '=', 'reservation_employees.user_id')
                 ->where('media.model_type', '=', 'App\Models\User');
         })
-        ->addSelect('media.file_name', 'media.id as media_id','reservation_employees.user_id')->where('reservation_company_id',$reservationCounter->reservation_company_id)->get();
+        ->addSelect('reservation_employees.id','media.file_name', 'media.id as media_id','reservation_employees.user_id')->where('reservation_company_id',$reservationCounter->reservation_company_id)->get();
         // // dd($employees);
         // $employees = ReservationEmployee::join('reservation_companies', 'reservation_companies.id','reservation_employees.reservation_company_id')
         // ->join('reservation_team_details', 'reservation_team_details.user_id','users.id')

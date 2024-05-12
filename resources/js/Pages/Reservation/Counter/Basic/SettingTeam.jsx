@@ -39,6 +39,7 @@ export default function SettingTeam({ reservationCounter, employees }) {
     const selectEmployee = (result) => {
         // e.preventDefault();
         // console.log(reservationCounter.slug)
+        // console.log(result.id)
         post(route("reservation.selectemployee", {id:result.id,slug:reservationCounter.slug}), {
             onSuccess: () => {
                 return Promise.all([setIsOpenJoinDialog(false), reset()]);

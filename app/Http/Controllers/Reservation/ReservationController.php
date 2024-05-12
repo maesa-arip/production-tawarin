@@ -439,13 +439,12 @@ class ReservationController extends Controller
         $team = User::find($reservationCounter->team);
         $tawarin = User::find(1);
         $customer = User::find(auth()->user()->id);
-        $referal = User::where('referral', $customer->from_referral)->first();
+        $cekReferal = User::where('referral', $customer->from_referral)->first();
+        $referal = $cekReferal ? User::where('referral', $customer->from_referral)->first() : User::find(1);
         $walletBonusReferral = $referal->getWallet('bonus');
-
         if (!$walletBonusReferral) {
             $walletBonusReferral = $referal->createWallet(['name' => 'Bonus Wallet','slug' => 'bonus']);
         };
-
         $tfTempTawarin = $reservationCounter->price - $reservationCounter->price_user;
         $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->jasa;
         $tfReferral = (5 / 100 * $tfTempTawarin);
