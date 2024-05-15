@@ -172,6 +172,7 @@ export default function Index(props) {
                                                                             <p className="flex-wrap text-sm font-medium text-gray-800 whitespace-break-spaces ">
                                                                                 {transaction.meta?.message}
                                                                             </p>
+                                                                            
                                                                             {transaction.meta?.type == 'uang masuk' ? <><p className="text-xs text-teal-500 ">
                                                                                 Rp{" "}
                                                                                 {numberFormat(

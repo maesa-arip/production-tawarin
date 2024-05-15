@@ -406,7 +406,7 @@ class ReservationController extends Controller
     {
         $data = ReservationJoinCounter::findOrfail($id);
         $userId = User::where('email', $data->email)->pluck('id')->first();
-        dd($data, $userId);
+        // dd($data, $userId);
         ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
         $data->update(['approved' => 1]);
         return redirect(route('reservation.myteaminvitations'))->with([

@@ -16,7 +16,7 @@ class WalletController extends Controller
         $referral = User::where('from_referral', $user->referral)->get();
         $balance = auth()->user()->balance;
         $wallet_id = DB::table('wallets')->where('holder_type','App\Models\User')->where('name','Default Wallet')->where('holder_id',$user->id)->first();
-        $depositpekerja = abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','withdraw')->sum('amount'));
+        $depositpekerja = abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','withdraw')->whereJsonContains('meta->type', 'deposit')->sum('amount'));
         // $depositpekerja = DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','withdraw')->whereRaw("JSON_EXTRACT(meta, '$.type') = 'deposit'")->sum('amount');
         // dd($depositpekerja);
         $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;

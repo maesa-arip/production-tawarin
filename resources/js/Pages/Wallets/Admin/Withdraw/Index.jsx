@@ -12,6 +12,9 @@ import DestroyModal from "@/Components/Modal/DestroyModal";
 import Button from "@/Components/Button";
 import { numberFormat } from "@/Libs/helper";
 import Pagination from "@/Components/Pagination";
+import Header from "@/Components/Header";
+import ThirdButtonSmallNoLink from "@/Components/ThirdButtonSmallNoLink";
+import ThirdButtonSmall from "@/Components/ThirdButtonSmall";
 
 const UpIcon = () => (
     <svg
@@ -91,13 +94,17 @@ export default function Index(props) {
     return (
         <>
             <Head title="Deposit" />
-            <Container>Deposit </Container>
+            <Header
+                title="Deposit"
+                description={"List uang deposit yang ada di Tawarin"}
+            />
+            <Container>
 
-            <div className="py-12">
+            <div className="">
                 <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
-                            <div className="flex items-center justify-end mb-6 gap-x-2">
+                            <div className="flex items-center justify-end gap-x-2">
                                 <select
                                     name="load"
                                     id="load"
@@ -137,6 +144,11 @@ export default function Index(props) {
                         </div>
                     </div>
 
+                    
+                    <div className="hidden lg:block">
+                    <div className="flex items-center justify-end">
+                       
+                    </div>
                     <div className="flex flex-col p-1">
                         <div className="-my-2 overflow-x-auto rounded sm:-mx-6 lg:-mx-8">
                             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -321,7 +333,7 @@ export default function Index(props) {
                                                         </td>
                                                         <td>
                                                             <Link
-                                                                href={`/adminwithdraws/${transaction.id}`}
+                                                                href={`/admindeposits/${transaction.id}`}
                                                             >
                                                                 <div className="flex items-center gap-x-2">
                                                                     Lihat
@@ -334,8 +346,87 @@ export default function Index(props) {
                                         </tbody>
                                     </table>
                                 </div>
-                                {/* <Pagination meta={meta} /> */}
-                                <ul className="flex items-center mt-10 gap-x-1">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="lg:hidden">
+                    <div className="flex items-center justify-between">
+                    </div>
+
+
+                    <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+                        {transaction.map((transaction, index) => (
+                            <div
+                                key={index}
+                                className="relative w-full mx-auto"
+                            >
+                                <div className="flex flex-col bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                                    <div className="flex flex-col items-center justify-center flex-auto p-2">
+                                        <div className="grid w-full grid-cols-12 gap-1">
+                                            <div className="col-span-8 col-start-1">
+                                                <p className="text-base font-semibold">
+                                                    {transaction.meta?.message}
+                                                </p>
+                                                <p className="text-xs font-medium text-gray-500">
+                                                    {/* {transaction.wallet.holder.name} */}
+                                                </p>
+                                            </div>
+                                            <div className="flex items-center justify-end col-span-4 col-end-13">
+                                                {transaction.confirmed == 1 ? (
+                                                    <ThirdButtonSmallNoLink color="teal">
+                                                        Diterima
+                                                    </ThirdButtonSmallNoLink>
+                                                ) : (
+                                                    <ThirdButtonSmallNoLink color="secondary">
+                                                        Menunggu
+                                                    </ThirdButtonSmallNoLink>
+                                                )}
+                                            </div>
+
+                                            <div className="col-span-12 col-start-1 border-b border-gray-100"></div>
+                                            {/* <div className="flex items-center justify-center col-span-2 col-start-1 mb-2">
+                                                <img
+                                                    className="object-cover w-12 h-12 border rounded-lg"
+                                                    src={
+                                                        transaction.media
+                                                            ? transaction.media
+                                                            : "storage/files/default/NoImage.svg"
+                                                    }
+                                                    alt="0"
+                                                ></img>
+                                            </div> */}
+                                            <div className="col-span-10 col-start-1">
+                                                <Link className="text-base font-semibold">
+                                                Rp{" "}
+                                                            {numberFormat(
+                                                                transaction.amount
+                                                            )}
+                                                </Link>
+
+                                                <p className="text-xs font-medium text-gray-500">
+                                                {
+                                                                transaction.created_at
+                                                            }
+                                                </p>
+                                            </div>
+                                            
+                                            <div className="col-span-5 col-end-13">
+                                                <div className="flex items-center justify-end col-span-3 col-end-6 ">
+                                                    <ThirdButtonSmall href={`/adminwithdraws/${transaction.id}`}>Lihat</ThirdButtonSmall>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                </div>
+                <ul className="flex items-center mt-10 gap-x-1">
                                     {meta.links.map((item, index) => (
                                         <button
                                             key={index}
@@ -360,11 +451,9 @@ export default function Index(props) {
                                         </button>
                                     ))}
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+            </Container>
         </>
     );
 }

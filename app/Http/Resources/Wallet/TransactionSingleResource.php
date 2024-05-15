@@ -20,6 +20,7 @@ class TransactionSingleResource extends JsonResource
             'payable_id' => $this->payable_id,
             'wallet_id' => $this->wallet_id,
             'type' => $this->type,
+            'meta' => $this->meta,
             'amount' => $this->amount,
             'holder_name' => $this->wallet->holder->name,
             'confirmed' => $this->confirmed,

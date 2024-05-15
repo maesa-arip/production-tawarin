@@ -39,6 +39,7 @@ use App\Http\Controllers\Toko\InvoiceController;
 use App\Http\Controllers\Toko\PaymentNotificationController;
 use App\Http\Controllers\Toko\ProductController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\UserBankController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Wallet\Admin\DepositAdminController;
 use App\Http\Controllers\Wallet\DepositController;
@@ -195,6 +196,7 @@ Route::get('public/reservationCounters/{reservationCounter}', [ReservationCounte
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class, 'show'])->name('reservationCounters.show');
+    Route::resource('userBanks', UserBankController::class);
 });
 
 

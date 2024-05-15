@@ -5,6 +5,7 @@ import { numberFormat } from "@/Libs/helper";
 import Container from "@/Components/Container";
 import Button from "@/Components/Button";
 import { Inertia } from "@inertiajs/inertia";
+import ThirdButtonSmallNoLink from "@/Components/ThirdButtonSmallNoLink";
 
 export default function Show({ transaction }) {
     const { data, setData, patch, clearErrors, reset, errors } = useForm({
@@ -48,15 +49,38 @@ export default function Show({ transaction }) {
                                         Status
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
-                                        {transaction.confirmed}
+                                    {transaction.confirmed == 1 ? (
+                                                    <ThirdButtonSmallNoLink color="teal">
+                                                        Diterima
+                                                    </ThirdButtonSmallNoLink>
+                                                ) : (
+                                                    <ThirdButtonSmallNoLink color="secondary">
+                                                        Menunggu Konfirmasi
+                                                    </ThirdButtonSmallNoLink>
+                                                )}
                                     </dd>
                                 </div>
                                 <div className="pt-4 border-t border-gray-200">
                                     <dt className="font-medium text-gray-900">
-                                        Jumlah Top Up
+                                        Jumlah Withdraw
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
                                         Rp {numberFormat(transaction.amount)}
+                                    </dd>
+                                </div>
+                                <div className="pt-4 border-t border-gray-200">
+                                    <dt className="font-medium text-gray-900">
+                                        Informasi Bank
+                                    </dt>
+                                    <dd className="mt-2 text-sm text-gray-500">
+                                    <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                            
+                            <div className="flex"><p>Nama Bank</p><p className="ml-9">: {transaction.meta?.bank_name}</p></div>
+                            <div className="flex"><p>Nomor Rekening</p><p className="ml-9">: {transaction.meta?.account_number}</p></div>
+                            <div className="flex"><p>Nama Pemilik</p><p className="ml-9">: {transaction.meta?.account_name}</p></div>
+                            
+                            
+                        </div>
                                     </dd>
                                 </div>
                             </dl>

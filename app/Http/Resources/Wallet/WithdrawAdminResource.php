@@ -21,6 +21,7 @@ class WithdrawAdminResource extends JsonResource
             'wallet_id' => $this->wallet_id,
             'type' => $this->type,
             'amount' => $this->amount,
+            'meta' => $this->meta,
             'confirmed' => $this->confirmed,
             'created_at' => $this->created_at->diffForHumans(),
         ];
