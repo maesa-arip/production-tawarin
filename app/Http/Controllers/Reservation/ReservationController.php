@@ -463,25 +463,25 @@ class ReservationController extends Controller
             if ($tip) {
                 $userTipFrom = auth()->user()->name;
                 $customer->transfer($team, $tip->tip, new Extra(
-                    deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'uang masuk'],
-                    withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'uang keluar'], confirmed: true)
+                    deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                    withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
                 ));
             }
             $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
-                deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang keluar'], confirmed: true)
+                deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
             ));
             $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
-                deposit: ['message' => 'Pembayaran dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                withdraw: new Option(meta: ['message' => 'Pembayaran ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
             ));
             $reservationCustomer->transfer($team, $tfTeam, new Extra(
-                deposit: ['message' => 'Pembayaran dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                withdraw: new Option(meta: ['message' => 'Pembayaran ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
             ));
             $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
-                deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang keluar'], confirmed: true)
+                deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
             ));
             if ($reservationCounter->deposit > 0) {
                 if ($pemilik->hasWallet('deposit')) {

@@ -184,7 +184,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                     className={
                                         "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                     }
-                                    href={"/histories"}
+                                    href={"/main/histories"}
                                 >
                                     History
                                 </NavLink>
@@ -297,7 +297,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                         className={
                                             "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
-                                        href={"/histories"}
+                                        href={"/bonus/histories"}
                                     >
                                         History
                                     </NavLink>
@@ -390,7 +390,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                         className={
                                             "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
-                                        href={"/histories"}
+                                        href={"/deposit/histories"}
                                     >
                                         Rincian
                                     </NavLink>
@@ -443,7 +443,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                         className={
                                             "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
-                                        href={"/histories"}
+                                        href={"/deposit/histories"}
                                     >
                                         Rincian
                                     </NavLink>

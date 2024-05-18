@@ -44,4 +44,118 @@ class HistoryController extends Controller
         ]);
         return inertia('Wallets/History/Index',['transactions'=>$transactions]);
     }
+    public function main(Request $request)
+    {
+        $query = Transaction::query()
+        ->where('payable_id',auth()->user()->id)
+        ->where('confirmed',1)
+        // ->whereJsonContains('meta->type', 'uang masuk')
+        // ->whereJsonContains('meta->type', 'tip')
+        // ->whereJsonContains('meta->type', 'deposit')
+        // ->whereJsonContains('meta->type', 'referral')
+        ->with('wallet');
+        if ($request->q) {
+            $query->where('payable_type','like','%'.$request->q.'%')
+            ->orWhere('type','like','%'.$request->q.'%')
+            ->orWhere('amount','like','%'.$request->q.'%')
+            ->orWhere('confirmed','like','%'.$request->q.'%')
+            ;
+        }
+        if ($request->has(['field','direction'])) {
+            $query->orderBy($request->field,$request->direction);
+        }
+        $transactions = (
+            HistoryResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' =>10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/HistoryUtama',['transactions'=>$transactions]);
+    }
+    public function bonus(Request $request)
+    {
+        $query = Transaction::query()
+        ->where('payable_id',auth()->user()->id)
+        ->where('confirmed',1)
+        // ->whereJsonContains('meta->type', 'uang masuk')
+        // ->whereJsonContains('meta->type', 'tip')
+        // ->whereJsonContains('meta->type', 'deposit')
+        // ->whereJsonContains('meta->type', 'referral')
+        ->with('wallet')->whereRelation('wallet', 'slug', '=', 'bonus');
+        if ($request->q) {
+            $query->where('payable_type','like','%'.$request->q.'%')
+            ->orWhere('type','like','%'.$request->q.'%')
+            ->orWhere('amount','like','%'.$request->q.'%')
+            ->orWhere('confirmed','like','%'.$request->q.'%')
+            ;
+        }
+        if ($request->has(['field','direction'])) {
+            $query->orderBy($request->field,$request->direction);
+        }
+        $transactions = (
+            HistoryResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' =>10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/HistoryBonus',['transactions'=>$transactions]);
+    }
+    public function deposit(Request $request)
+    {
+        $query = Transaction::query()
+        ->where('payable_id',auth()->user()->id)
+        ->where('confirmed',1)
+        // ->whereJsonContains('meta->type', 'uang masuk')
+        // ->whereJsonContains('meta->type', 'tip')
+        ->whereJsonContains('meta->type', 'deposit')
+        // ->whereJsonContains('meta->type', 'referral')
+        ->with('wallet');
+        if ($request->q) {
+            $query->where('payable_type','like','%'.$request->q.'%')
+            ->orWhere('type','like','%'.$request->q.'%')
+            ->orWhere('amount','like','%'.$request->q.'%')
+            ->orWhere('confirmed','like','%'.$request->q.'%')
+            ;
+        }
+        if ($request->has(['field','direction'])) {
+            $query->orderBy($request->field,$request->direction);
+        }
+        $transactions = (
+            HistoryResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' =>10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/HistoryDeposit',['transactions'=>$transactions]);
+    }
 }

@@ -302,6 +302,9 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::Resource('deposits', DepositController::class);
     Route::Resource('withdraws', WithdrawController::class);
     Route::Resource('histories', WalletHistoryController::class);
+    Route::get('main/histories', [WalletHistoryController::class,'main'])->name('main.histories');
+    Route::get('bonus/histories', [WalletHistoryController::class,'bonus'])->name('bonus.histories');
+    Route::get('deposit/histories', [WalletHistoryController::class,'deposit'])->name('deposit.histories');
     Route::get('wallet/transfers', [TransferController::class, 'transfer'])->name('wallet.transfer');
     Route::post('wallet/transfers', [TransferController::class, 'transferstore'])->name('wallet.transferstore');
     Route::get('plan/deposit/{plan}', [PlanDepositController::class, 'plandeposit'])->name('plan.deposit');

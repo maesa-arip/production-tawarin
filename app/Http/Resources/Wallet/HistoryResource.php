@@ -21,6 +21,7 @@ class HistoryResource extends JsonResource
             'wallet_id' => $this->wallet_id,
             'type' => $this->type,
             'meta' => $this->meta,
+            'wallet' => $this->wallet,
             'amount' => $this->amount,
             'confirmed' => $this->confirmed,
             'created_at' => $this->created_at->diffForHumans(),
