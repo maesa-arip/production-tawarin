@@ -25,7 +25,7 @@ class TransferController extends Controller
         // dd($request->all());
         // $from->transfer($to, $request->amount); 
         $transfer = $from->transfer($to, $request->amount, new Extra(
-            deposit: ['message' => 'Terima dari '.$to->name,'type'=>'uang masuk'],
+            deposit: ['message' => 'Terima dari '.$from->name,'type'=>'uang masuk'],
             withdraw: new Option(meta: ['message' => 'Transfer ke '.$to->name,'type' => 'uang keluar'], confirmed: true)
         ));
         return redirect('wallets')->with(

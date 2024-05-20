@@ -41,13 +41,10 @@ class ContactController extends Controller
         ]);
 
         $user = User::where('email', $validated['email'])->orWhere('username',  $validated['email'])->orWhere('phone',  $validated['email'])->first();
-        $exist = Contact::where('user_id',auth()->user()->id)->where('contact_id',$user->id)->first();
-        // dd($validated['email']);
-        // dd(auth()->user()->id);
-        if ($exist) {
+        if (!$user) {
             return back()->with([
                 'type' => 'error',
-                'message' => 'Anda sudah memiliki kontak tersebut',
+                'message' => 'Gagal tambah kotak, user dengan email/username/no telp tersebut tidak ditemukan',
             ]);
         }
         if ($user->id == auth()->user()->id) {
@@ -57,10 +54,14 @@ class ContactController extends Controller
             ]);
         }
         // dd($user);
-        if (!$user) {
+        
+        $exist = Contact::where('user_id',auth()->user()->id)->where('contact_id',$user->id)->first();
+        // dd($validated['email']);
+        // dd(auth()->user()->id);
+        if ($exist) {
             return back()->with([
                 'type' => 'error',
-                'message' => 'Gagal tambah kotak, user dengan email/username/no telp tersebut tidak ditemukan',
+                'message' => 'Anda sudah memiliki kontak tersebut',
             ]);
         }
         $contact = Contact::create(['user_id'=> auth()->user()->id, 'contact_id'=>$user->id]);

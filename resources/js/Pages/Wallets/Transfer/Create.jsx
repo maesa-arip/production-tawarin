@@ -114,7 +114,7 @@ export default function Create({ users }) {
                         </div>
                         <form onSubmit={onSubmitHandler}>
                         <div className="mt-5 md:mt-0 md:col-span-2">
-                            <div className="overflow-hidden shadow sm:rounded-md">
+                            <div className="overflow-auto h-96 shadow sm:rounded-md">
                                 <div className="px-4 py-5 bg-white sm:p-6">
                                     <div className="grid grid-cols-6 gap-6">
                                         <div className="col-span-6 sm:col-span-6 lg:col-span-5">
@@ -216,9 +216,9 @@ export default function Create({ users }) {
                                     </div>
                                 </div>
                                 <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                    <Button processing={processing}>
+                                    <ThirdButtonNoLink processing={processing}>
                                         Transfer
-                                    </Button>
+                                    </ThirdButtonNoLink>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,20 @@
+.menu-extended {
+    /* min-height: 90vh; */
+    height: 75vh;
+  }
+  .menu-collapsed {
+    height: 0;
+  }
+  .transition-height {
+    transition: height 0.5s ease-in-out;
+  }
+  .submenu-collapsed {
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    overflow: hidden;
+  }
+  .submenu-expanded {
+    max-height: 500px; /* Adjust as needed */
+    opacity: 1;
+  }

@@ -2,474 +2,329 @@ import { Disclosure } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/solid";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
+import "../../css/static/stickymenu.css";
 
 export default function Aside() {
-    const {
-        auth,
-        categories_global,
-        carts_global_count,
-        notifications_count,
-        permissions,
-    } = usePage().props;
-    const [isActive, setActive] = useState(false);
-
-    const toggleClass = () => {
-        setActive(!isActive);
-    };
+    const { auth, permissions } = usePage().props;
     const permission_name = permissions
-    ? permissions.map((permission) => permission.name)
-    : "null";
+        ? permissions.map((permission) => permission.name)
+        : "null";
+    const MenuSVG = () => (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="icon icon-tabler icon-tabler-menu-2"
+        >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 6l16 0" />
+            <path d="M4 12l16 0" />
+            <path d="M4 18l16 0" />
+        </svg>
+    );
+    const CloseSVG = () => (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="icon icon-tabler icon-tabler-x"
+        >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M18 6l-12 12" />
+            <path d="M6 6l12 12" />
+        </svg>
+    );
+
+    const PlusSVG = () => (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="icon icon-tabler icon-tabler-plus"
+        >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 5l0 14" />
+            <path d="M5 12l14 0" />
+        </svg>
+    );
+
+    const MinusSVG = () => (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="icon icon-tabler icon-tabler-minus"
+        >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M5 12l14 0" />
+        </svg>
+    );
+
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [submenuOpen, setSubmenuOpen] = useState(null); // Keeps track of opened submenu
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
+    const toggleSubmenu = (index) => {
+        setSubmenuOpen(submenuOpen === index ? null : index);
+    };
+
+    const menuClass = menuOpen ? "menu-extended" : "menu-collapsed";
+    const subMenuClass = menuOpen ? "submenu-expanded" : "submenu-collapsed";
+    const menuIcon = menuOpen ? <CloseSVG /> : <MenuSVG />;
+
     return (
-        <aside style={{ display: "none" }}>
-            <div id="nav" className={isActive ? "active" : null}>
-                <div id="close" onClick={toggleClass}>
-                    <div className="bar" />
-                    <div className="bar" />
-                </div>
-                <div id="nav-items">
-                    <ul style={{ color: "white !important" }}>
-                    {permission_name.indexOf(
-                                                    "lihat menu admin saldo"
-                                                ) > -1 && (
-                                                    <>
-                                                     <li>
-                        <div className="registration-box row">
-                            <Disclosure as="div" className="">
-                                {({ open }) => (
-                                    <>
-                                        <h3 className="">
-                                            <Disclosure.Button className="flex items-center justify-between w-full">
-                                                <span className="text-xl header-menu-text">
-                                                    Admin
-                                                </span>
-                                                <span className="flex items-center ">
-                                                    {open ? (
-                                                        <MinusIcon
-                                                            className="w-5 h-5 text-white"
-                                                            aria-hidden="true"
-                                                        />
-                                                    ) : (
-                                                        <PlusIcon
-                                                            className="w-5 h-5 text-white"
-                                                            aria-hidden="true"
-                                                        />
-                                                    )}
-                                                </span>
-                                            </Disclosure.Button>
-                                        </h3>
-
-                                        <Disclosure.Panel className="">
-                                            <div className="">
-                                                {permission_name.indexOf(
-                                                    "lihat menu admin saldo"
-                                                ) > -1 && (
-                                                    <>
-                                                        <Link
-                                                            onClick={
-                                                                toggleClass
-                                                            }
-                                                            href="/admindeposits"
-                                                            className="relative flex-row items-center w-full header-menu-text "
-                                                        >
-                                                            <span className="flex ml-2 text-lg header-menu-text">
-                                                                Admin
-                                                                Deposit
-                                                            </span>
-                                                        </Link>
-                                                        <Link
-                                                            onClick={
-                                                                toggleClass
-                                                            }
-                                                            href="/adminwithdraws"
-                                                            className="relative flex-row items-center w-full header-menu-text "
-                                                        >
-                                                            <span className="flex ml-2 text-lg header-menu-text">
-                                                                Admin
-                                                                Withdraw
-                                                            </span>
-                                                        </Link>
-                                                        <Link
-                                                            onClick={
-                                                                toggleClass
-                                                            }
-                                                            href="/adminplans"
-                                                            className="relative flex-row items-center w-full header-menu-text "
-                                                        >
-                                                            <span className="flex ml-2 text-lg header-menu-text">
-                                                                Admin
-                                                                Perencanaan
-                                                            </span>
-                                                        </Link>
-                                                        <Link
-                                                            onClick={
-                                                                toggleClass
-                                                            }
-                                                            href={route(
-                                                                "users.index"
-                                                            )}
-                                                            className="relative flex-row items-center w-full header-menu-text "
-                                                        >
-                                                            <span className="flex ml-2 text-lg header-menu-text">
-                                                                Admin User
-                                                            </span>
-                                                        </Link>
-                                                    </>
-                                                )}
-                                                
-                                            </div>
-                                        </Disclosure.Panel>
-                                    </>
-                                )}
-                            </Disclosure>
-                        </div>
+        <div
+            id="stickyMenu"
+            className={`z-40 fixed bottom-0 left-0 right-0 overflow-hidden transition-all duration-300 bg-yellow-500 shadow-lg md:hidden rounded-2xl`}
+        >
+            <button
+                id="menuToggle"
+                className="relative flex items-center justify-center w-full py-3 font-semibold text-center text-white bg-yellow-500"
+                onClick={toggleMenu}
+            >
+                Menu
+                <span id="menuIcon" className="absolute right-4">
+                    {menuIcon}
+                </span>
+            </button>
+            <div
+                id="menuContent"
+                className={`overflow-y-auto bg-yellow-500 ${menuClass} transition-height`}
+            >
+                <ul className="flex flex-col items-start justify-center px-8 leading-10">
+                    <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                        <Link
+                            onClick={toggleMenu}
+                            href="/homereservasi"
+                            className="text-white"
+                        >
+                            {" "}
+                            Reservasi
+                        </Link>
                     </li>
-                                                    </>
-                                                )}
-                       
+                    <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                        <Link
+                            onClick={toggleMenu}
+                            href="/homekonstruksi"
+                            className="text-white "
+                        >
+                            {" "}
+                            Konstruksi
+                        </Link>
+                    </li>
 
-                    
-                        <li>
-                                    <div className="registration-box row">
-                                        <Link
-                                        onClick={toggleClass}
-                                            href="/homereservasi"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Reservasi
-                                        </Link>
-                                    </div>
+                    {/* <li className="justify-between w-full">
+                        <div className="flex items-center">
+                            <button
+                                className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                onClick={() => toggleSubmenu(2)}
+                            >
+                                Services
+                                <span className="text-right submenu-icon">
+                                    {submenuOpen === 2 ? (
+                                        <MinusSVG />
+                                    ) : (
+                                        <PlusSVG />
+                                    )}
+                                </span>
+                            </button>
+                        </div>
+                        {submenuOpen === 2 && (
+                            <ul className={`pl-4 space-y-2 ${subMenuClass}`}>
+                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                    <a href="#" className="text-white ">
+                                        {" "}
+                                        Service 1
+                                    </a>
                                 </li>
-                                <li>
-                                    <div className="registration-box row">
-                                        <Link
-                                        onClick={toggleClass}
-                                            href="/homekonstruksi"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Konstruksi
-                                        </Link>
-                                    </div>
+                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                    <a href="#" className="text-white">
+                                        {" "}
+                                        Service 2
+                                    </a>
                                 </li>
-                    {/* <li>
-                                    <div className="registration-box row">
-                                        <Disclosure as="div" className="">
-                                            {({ open }) => (
-                                                <>
-                                                    <h3 className="">
-                                                        <Disclosure.Button className="flex items-center justify-between w-full">
-                                                            <span className="text-xl header-menu-text">
-                                                                Reservasi
-                                                            </span>
-                                                            <span className="flex items-center ">
-                                                                {open ? (
-                                                                    <MinusIcon
-                                                                        className="w-5 h-5 text-white"
-                                                                        aria-hidden="true"
-                                                                    />
-                                                                ) : (
-                                                                    <PlusIcon
-                                                                        className="w-5 h-5 text-white"
-                                                                        aria-hidden="true"
-                                                                    />
-                                                                )}
-                                                            </span>
-                                                        </Disclosure.Button>
-                                                    </h3>
-
-                                                    <Disclosure.Panel className="">
-                                                        <div className="">
-                                                            {permission_name.indexOf(
-                                                                "lihat menu owner reservasi"
-                                                            ) > -1 && (
-                                                                <>
-                                                                    <Link
-                                                                    onClick={toggleClass}
-                                                                        href={route(
-                                                                            "reservationprofile.edit"
-                                                                        )}
-                                                                        className="relative flex-row items-center w-full header-menu-text "
-                                                                    >
-                                                                        <span className="flex ml-2 text-lg header-menu-text">
-                                                                            Atur
-                                                                            Perusahaan
-                                                                        </span>
-                                                                    </Link>
-                                                                    <Link
-                                                                    onClick={toggleClass}
-                                                                        href={route(
-                                                                            "reservationCounters.index"
-                                                                        )}
-                                                                        className="relative flex-row items-center w-full header-menu-text "
-                                                                    >
-                                                                        <span className="flex ml-2 text-lg header-menu-text">
-                                                                            Atur
-                                                                            Layanan
-                                                                        </span>
-                                                                    </Link>
-                                                                    <Link
-                                                                    onClick={toggleClass}
-                                                                        href={route(
-                                                                            "reservation.mycompanycustomers"
-                                                                        )}
-                                                                        className="relative flex-row items-center w-full header-menu-text "
-                                                                    >
-                                                                        <span className="flex ml-2 text-lg header-menu-text">
-                                                                            Pelanggan
-                                                                            Perusahaan
-                                                                        </span>
-                                                                    </Link>
-                                                                </>
-                                                            )}
-                                                            {permission_name.indexOf(
-                                                                "lihat menu pekerja reservasi"
-                                                            ) > -1 && (
-                                                                <>
-                                                                    <Link
-                                                                    onClick={toggleClass}
-                                                                        href={route(
-                                                                            "reservation.myteaminvitations"
-                                                                        )}
-                                                                        className="relative flex-row items-center w-full header-menu-text "
-                                                                    >
-                                                                        <span className="flex ml-2 text-lg header-menu-text">
-                                                                            Lihat
-                                                                            Undangan
-                                                                        </span>
-                                                                    </Link>
-                                                                    <Link
-                                                                    onClick={toggleClass}
-                                                                        href={route(
-                                                                            "reservation.mycustomers"
-                                                                        )}
-                                                                        className="relative flex-row items-center w-full header-menu-text "
-                                                                    >
-                                                                        <span className="flex ml-2 text-lg header-menu-text">
-                                                                            Lihat
-                                                                            Pelanggan
-                                                                        </span>
-                                                                    </Link>
-                                                                    <Link
-                                                                    onClick={toggleClass}
-                                                                        href={route(
-                                                                            "reservation.mycounters"
-                                                                        )}
-                                                                        className="relative flex-row items-center w-full header-menu-text "
-                                                                    >
-                                                                        <span className="flex ml-2 text-lg header-menu-text">
-                                                                            Lihat
-                                                                            Layanan
-                                                                        </span>
-                                                                    </Link>
-                                                                </>
-                                                            )}
-                                                            <Link
-                                                            onClick={toggleClass}
-                                                                href={route(
-                                                                    "reservation.myreservations"
-                                                                )}
-                                                                className="relative flex-row items-center w-full header-menu-text "
-                                                            >
-                                                                <span className="flex ml-2 text-lg header-menu-text">
-                                                                    Reservasi
-                                                                    Saya
-                                                                </span>
-                                                            </Link>
-                                                            <Link
-                                                            onClick={toggleClass}
-                                                                href={route(
-                                                                    "reservation.list"
-                                                                )}
-                                                                className="relative flex-row items-center w-full header-menu-text "
-                                                            >
-                                                                <span className="flex ml-2 text-lg header-menu-text">
-                                                                    Cari
-                                                                    Reservasi
-                                                                </span>
-                                                            </Link>
-                                                        </div>
-                                                    </Disclosure.Panel>
-                                                </>
-                                            )}
-                                        </Disclosure>
-                                    </div>
+                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                    <a href="#" className="text-white">
+                                        {" "}
+                                        Service 3
+                                    </a>
                                 </li>
-                                <li>
-                                    <div className="registration-box row">
-                                        <Disclosure as="div" className="">
-                                            {({ open }) => (
-                                                <>
-                                                    <h3 className="">
-                                                        <Disclosure.Button className="flex items-center justify-between w-full">
-                                                            <span className="text-xl header-menu-text">
-                                                                Konstruksi
-                                                            </span>
-                                                            <span className="flex items-center ">
-                                                                {open ? (
-                                                                    <MinusIcon
-                                                                        className="w-5 h-5 text-white"
-                                                                        aria-hidden="true"
-                                                                    />
-                                                                ) : (
-                                                                    <PlusIcon
-                                                                        className="w-5 h-5 text-white"
-                                                                        aria-hidden="true"
-                                                                    />
-                                                                )}
-                                                            </span>
-                                                        </Disclosure.Button>
-                                                    </h3>
-
-                                                    <Disclosure.Panel className="">
-                                                        <div className="">
-                                                            <Link
-                                                            onClick={toggleClass}
-                                                                href=""
-                                                                className="relative flex-row items-center w-full header-menu-text "
-                                                            >
-                                                                <span className="flex ml-2 text-lg header-menu-text">
-                                                                    Undangan
-                                                                    Saya
-                                                                </span>
-                                                            </Link>
-                                                            <Link
-                                                            onClick={toggleClass}
-                                                                href=""
-                                                                className="relative flex-row items-center w-full header-menu-text "
-                                                            >
-                                                                <span className="flex ml-2 text-lg header-menu-text">
-                                                                    Pelanggan
-                                                                    Saya
-                                                                </span>
-                                                            </Link>
-                                                        </div>
-                                                    </Disclosure.Panel>
-                                                </>
-                                            )}
-                                        </Disclosure>
-                                    </div>
-                                </li> */}
-                        {auth.user ? (
-                            <>
-                                <li>
-                                    <div className="registration-box row">
-                                        <Link
-                                        onClick={toggleClass}
-                                            href="/dashboard"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Dashboard
-                                        </Link>
-                                    </div>
-                                </li>
-                                
-                                <li>
-                                    <div className="registration-box row">
-                                        <Link
-                                        onClick={toggleClass}
-                                            href="/profile"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Profile
-                                        </Link>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="registration-box">
-                                        <Link
-                                        onClick={toggleClass}
-                                            href="/wallets"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Saldo
-                                        </Link>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="registration-box">
-                                        <Link
-                                        onClick={toggleClass}
-                                            href="/chat"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Chat
-                                        </Link>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="registration-box row ">
-                                        <Link
-                                        onClick={toggleClass}
-                                            href={route("logout")}
-                                            method="post"
-                                            as="button"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Log Out
-                                        </Link>
-                                    </div>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                
-                                <li>
-                                    <div className="registration-box row">
-                                        <Link
-                                        onClick={
-                                            toggleClass
-                                        }
-                                            href="/login"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Masuk
-                                        </Link>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="registration-box">
-                                        <Link
-                                        onClick={
-                                            toggleClass
-                                        }
-                                            href="/register"
-                                            className="header-menu-text"
-                                            style={{
-                                                color: "white !important",
-                                            }}
-                                        >
-                                            Daftar
-                                        </Link>
-                                    </div>
-                                </li>
-                            </>
+                            </ul>
                         )}
-                    </ul>
-                </div>
+                    </li> */}
+                    {auth.user ? (
+                        <>
+                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                <Link
+                                    onClick={toggleMenu}
+                                    href="/dashboard"
+                                    className="text-white"
+                                >
+                                    {" "}
+                                    Dashboard
+                                </Link>
+                            </li>
+                            {permission_name.indexOf("lihat menu admin saldo") >
+                                -1 && (
+                                <li className="justify-between w-full">
+                                    <div className="flex items-center">
+                                        <button
+                                            className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                            onClick={() => toggleSubmenu(1)}
+                                        >
+                                            Admin Saldo
+                                            <span className="text-right submenu-icon">
+                                                {submenuOpen === 1 ? (
+                                                    <MinusSVG />
+                                                ) : (
+                                                    <PlusSVG />
+                                                )}
+                                            </span>
+                                        </button>
+                                    </div>
+                                    {submenuOpen === 1 && (
+                                        <ul
+                                            className={`pl-4 space-y-2 ${subMenuClass}`}
+                                        >
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                    onClick={toggleMenu}
+                                                    href="/admindeposits"
+                                                    className="text-white "
+                                                >
+                                                    {" "}
+                                                    Admin Deposit
+                                                </Link>
+                                            </li>
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                    onClick={toggleMenu}
+                                                    href="/adminwithdraws"
+                                                    className="text-white"
+                                                >
+                                                    {" "}
+                                                    Admin Withdraw
+                                                </Link>
+                                            </li>
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                    onClick={toggleMenu}
+                                                    href="/adminplans"
+                                                    className="text-white"
+                                                >
+                                                    {" "}
+                                                    Admin Perencanaan
+                                                </Link>
+                                            </li>
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                    onClick={toggleMenu}
+                                                    href={route("users.index")}
+                                                    className="text-white"
+                                                >
+                                                    {" "}
+                                                    Admin User
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    )}
+                                </li>
+                            )}
+                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                <Link
+                                    onClick={toggleMenu}
+                                    href="/profile"
+                                    className="text-white"
+                                >
+                                    {" "}
+                                    Profile
+                                </Link>
+                            </li>
+                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                <Link
+                                    onClick={toggleMenu}
+                                    href="/wallets"
+                                    className="text-white"
+                                >
+                                    {" "}
+                                    Saldo
+                                </Link>
+                            </li>
+                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                <Link
+                                    onClick={toggleMenu}
+                                    href="/chat"
+                                    className="text-white"
+                                >
+                                    {" "}
+                                    Chat
+                                </Link>
+                            </li>
+                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                <Link
+                                    onClick={toggleMenu}
+                                    href={route("logout")}
+                                    method="post"
+                                    as="button"
+                                    className="text-white"
+                                >
+                                    Log Out
+                                </Link>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                <Link
+                                    onClick={toggleMenu}
+                                    href="/login"
+                                    className="text-white"
+                                >
+                                    {" "}
+                                    Masuk
+                                </Link>
+                            </li>
+                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                <Link
+                                    onClick={toggleMenu}
+                                    href="/register"
+                                    className="text-white"
+                                >
+                                    {" "}
+                                    Daftar
+                                </Link>
+                            </li>
+                        </>
+                    )}
+                </ul>
             </div>
-        </aside>
+        </div>
     );
 }
