@@ -297,6 +297,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class, 'confirmed'])->name('admindeposit.confirmed');
     Route::patch('admindeposit/{id}/decline', [DepositAdminController::class, 'decline'])->name('admindeposit.decline');
     Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class, 'confirmed'])->name('adminwithdraw.confirmed');
+    Route::patch('adminwithdraw/{id}/decline', [WithdrawAdminController::class, 'decline'])->name('adminwithdraw.decline');
     Route::Resource('admindeposits', DepositAdminController::class);
     Route::Resource('adminwithdraws', WithdrawAdminController::class);
     Route::Resource('wallets', WalletController::class);

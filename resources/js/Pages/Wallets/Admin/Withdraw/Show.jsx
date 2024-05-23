@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import App from "@/Layouts/App";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import { numberFormat } from "@/Libs/helper";
@@ -6,17 +6,94 @@ import Container from "@/Components/Container";
 import Button from "@/Components/Button";
 import { Inertia } from "@inertiajs/inertia";
 import ThirdButtonSmallNoLink from "@/Components/ThirdButtonSmallNoLink";
+import InfoModal from "@/Components/Modal/InfoModal";
+import InputLabel from "@/Components/InputLabel";
+import TextAreaInput from "@/Components/TextAreaInput";
+import InputError from "@/Components/InputError";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 export default function Show({ transaction }) {
-    const { data, setData, patch, clearErrors, reset, errors } = useForm({
+    const { data, setData, patch, clearErrors,processing, reset, errors } = useForm({
     });
     const confirmedHandler = (e) => {
         e.preventDefault();
         patch(route('adminwithdraw.confirmed', transaction.id));
     };
+    const [isOpenDeclineDialog,setIsOpenDeclineDialog] = useState(false);
+    const [isOpenAcceptDialog,setIsOpenAcceptDialog] = useState(false);
+    const [state, setState] = useState([]);
+    const openDeclineDialog = (data) => {
+        setIsOpenDeclineDialog(true);
+        setState(data);
+    }
+    const closeDeclineDialog = () => {
+        setIsOpenDeclineDialog(false);
+    }
+    const openAcceptDialog = (data) => {
+        setIsOpenAcceptDialog(true);
+        setState(data);
+    }
+    const closeAcceptDialog = () => {
+        setIsOpenAcceptDialog(false);
+    }
+    const acceptWithdrawHandler = (e) => {
+        e.preventDefault();
+        patch(route('adminwithdraw.confirmed', transaction.id));
+    };
+    const declineWithdrawHandler = (e) => {
+        e.preventDefault();
+        patch(route('adminwithdraw.decline', transaction.id));
+    };
     return (
         <div>
             <Head title="Transactions" />
+            <InfoModal
+                isOpenInfoDialog={isOpenDeclineDialog}
+                setIsOpenInfoDialog={setIsOpenDeclineDialog}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Tolak Top Up ?"}
+            >
+                <InputLabel className={'text-left mt-4'}>Masukan Alasan</InputLabel>
+                    <TextAreaInput
+                        type="text"
+                        name="reason"
+                        value={data.reason}
+                        className="block w-full mt-1"
+                        autoComplete="reason"
+                        isFocused={true}
+                        handleChange ={(e) => setData("reason", e.target.value)}
+                    />
+                    <InputError message={errors.reason} className="mt-2 mb-2 text-left" />
+                <ThirdButtonNoLink processing={processing} onClick={declineWithdrawHandler}>
+                    Tolak
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeDeclineDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenAcceptDialog}
+                setIsOpenInfoDialog={setIsOpenAcceptDialog}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Terima Withdraw ?"}
+            >
+                <ThirdButtonNoLink processing={processing} onClick={acceptWithdrawHandler}>
+                    Terima
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeAcceptDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
             <Container>
                 <div className="bg-white">
                     <div className="grid items-start max-w-2xl grid-cols-1 px-4 py-12 mx-auto gap-y-16 gap-x-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
@@ -97,10 +174,10 @@ export default function Show({ transaction }) {
                                 </div>
                                 <div className="flex justify-end bg-gray-50">
                                 <div className="px-4 py-3 text-right sm:px-6">
-                                    <Button color="pink">Tolak</Button>
+                                <Button color="pink" onClick={openDeclineDialog}>Tolak</Button>
                                 </div>
                                 <div className="px-4 py-3 text-right sm:px-6">
-                                    <Button  onClick={confirmedHandler}>Konfirmasi</Button>
+                                <Button  onClick={openAcceptDialog}>Konfirmasi</Button>
                                 </div>
                                 
                                 </div>

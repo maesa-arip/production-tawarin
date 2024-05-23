@@ -8,8 +8,7 @@ use App\Http\Resources\Wallet\WithdrawAdminResource;
 use App\Models\User;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\Cache;
 
 class WithdrawAdminController extends Controller
 {
@@ -69,6 +68,40 @@ class WithdrawAdminController extends Controller
         return redirect('/adminwithdraws')->with([
             'type' => 'success',
             'message' => 'Confirmed',
+        ]);
+    }
+    public function decline(Request $request, Transaction $transaction,$id)
+    {
+        
+        $validated = $request->validate([
+            'reason' => 'required',
+        ]);
+        // dd($request->all());
+        $transaction = Transaction::find($id);
+        $transaction->meta = ['type'=>'decline','message' => 'Withdraw Anda ditolak oleh admin karena '.$validated['reason']];
+        $transaction->save();
+        if ($transaction->payable_type=='App\Models\User') {
+            $user = User::find($transaction->payable_id);
+        }
+        if ($transaction->payable_type=='App\Models\Plan\Plan') {
+            $user = Plan::find($transaction->payable_id);
+        }
+        // $user->confirm($transaction);
+        
+
+        // $pesan = [
+        //     'type' => 'Info',
+        //     'title' => 'Top Up mu sudah diverifikasi',
+        //     'message' => 'Top Up mu sudah diterima, silakan lihat di menu saldo',
+        //     'url' => '',
+        // ];
+
+        // $user->notify(new DepositConfirmNotification($transaction));
+        Cache::forget('notifications_count');
+
+        return redirect('/adminwithdraws')->with([
+            'type' => 'success',
+            'message' => 'Berhasil Tolak Top Up',
         ]);
     }
 }

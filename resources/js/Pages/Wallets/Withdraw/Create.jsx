@@ -177,11 +177,44 @@ export default function Create(props) {
                                 sudah benar.
                             </p>
                         </div>
-                        
+                        <div className="px-3 py-4 mb-6 text-sm font-semibold text-gray-500 border rounded shadow border-amber-500">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                                        width={24}
+                                                        height={24}
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={2}
+                                                        stroke="currentColor"
+                                                        fill="none"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    >
+                                                        <path
+                                                            stroke="none"
+                                                            d="M0 0h24v24H0z"
+                                                            fill="none"
+                                                        />
+                                                        <circle
+                                                            cx={12}
+                                                            cy={12}
+                                                            r={9}
+                                                        />
+                                                        <line
+                                                            x1={12}
+                                                            y1={8}
+                                                            x2="12.01"
+                                                            y2={8}
+                                                        />
+                                                        <polyline points="11 12 12 12 12 16 13 16" />
+                                                    </svg>
+                                                    Jumlah penarikan minimal adalah Rp 20.000 dan setiap transaksi penarikan akan dibebankan biaya admin sebesar Rp 2.500.
+                                                </div>
                             <div className="mt-5 md:mt-0 md:col-span-2">
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 bg-white sm:p-6">
                                         <div className="grid grid-cols-6 gap-6">
+                                        
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label
                                                     htmlFor="amount"

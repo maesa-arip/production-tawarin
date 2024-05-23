@@ -137,7 +137,7 @@ export default function HistoryUtama(props) {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="flex gap-x-2 my-2 overflow-x-scroll">
+                        {/* <div className="flex my-2 overflow-x-scroll gap-x-2">
                             <ThirdButtonSmall color="tawarin_outline">Semua</ThirdButtonSmall>
                             <ThirdButtonSmall href={route('topup.histories')} color="tawarin_outline">TopUp</ThirdButtonSmall>
                             <ThirdButtonSmall color="tawarin_outline">Withdraw</ThirdButtonSmall>
@@ -180,7 +180,11 @@ export default function HistoryUtama(props) {
                                                                                     {
                                                                                         transaction
                                                                                             .meta
-                                                                                            ?.message
+                                                                                            ?.type == "decline" ? (<><p className="text-xs text-red-500 ">
+                                                                                            {transaction.meta?.message}
+                                                                                        </p></>) : (<><p className="text-xs ">
+                                                                                            {transaction.meta?.message}
+                                                                                        </p></>)
                                                                                     }
                                                                                 </p>
 

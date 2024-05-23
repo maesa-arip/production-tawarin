@@ -374,13 +374,16 @@ export default function Index(props) {
                                                 </p>
                                             </div>
                                             <div className="flex items-center justify-end col-span-4 col-end-13">
-                                                {transaction.confirmed == 1 ? (
+                                            {transaction.confirmed == 0 && transaction.meta?.type == 'decline' ? 
+                                                <ThirdButtonSmallNoLink color="red">
+                                                        Ditolak
+                                                </ThirdButtonSmallNoLink> : transaction.confirmed == 1 ? (
                                                     <ThirdButtonSmallNoLink color="teal">
                                                         Diterima
                                                     </ThirdButtonSmallNoLink>
                                                 ) : (
                                                     <ThirdButtonSmallNoLink color="secondary">
-                                                        Menunggu
+                                                        Menunggu Konfirmasi
                                                     </ThirdButtonSmallNoLink>
                                                 )}
                                             </div>

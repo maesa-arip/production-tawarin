@@ -494,7 +494,7 @@ class ReservationController extends Controller
                 }
                 $team->transfer($depositpemilik, $tfDeposit, new Extra(
                     deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
-                    withdraw: new Option(meta: ['message' => 'Pembayaran Deposit ke ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'], confirmed: true)
+                    withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName .' atas nama pelanggan '.$customer->name, 'type' => 'deposit'], confirmed: true)
                 ));
             }
             DB::commit();
