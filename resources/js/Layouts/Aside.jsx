@@ -102,11 +102,11 @@ export default function Aside() {
     return (
         <div
             id="stickyMenu"
-            className={`z-40 fixed bottom-0 left-0 right-0 overflow-hidden transition-all duration-300 bg-yellow-500 shadow-lg md:hidden rounded-2xl`}
+            className={`z-40 mx-4 fixed bottom-0 left-0 right-0 overflow-hidden transition-all duration-300 bg-amber-500 shadow-lg md:hidden rounded-2xl`}
         >
             <button
                 id="menuToggle"
-                className="relative flex items-center justify-center w-full py-3 font-semibold text-center text-white bg-yellow-500"
+                className="relative flex items-center justify-center w-full py-3 font-semibold text-center text-white bg-amber-500"
                 onClick={toggleMenu}
             >
                 Menu
@@ -116,7 +116,7 @@ export default function Aside() {
             </button>
             <div
                 id="menuContent"
-                className={`overflow-y-auto bg-yellow-500 ${menuClass} transition-height`}
+                className={`overflow-y-auto bg-amber-500 ${menuClass} transition-height`}
             >
                 <ul className="flex flex-col items-start justify-center px-8 leading-10">
                     <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">

@@ -21,26 +21,67 @@ class ReservationEmployeeController extends Controller
     public $loadDefault = 10;
     public function index(Request $request)
     {
+        // $reservationEmployees = ReservationEmployee::query()
+        //     ->join('users','users.id','reservation_employees.user_id')
+        //     ->leftjoin('reservation_team_details', 'reservation_team_details.user_id','users.id')
+        //     ->leftjoin('reservation_teams', 'reservation_teams.id','reservation_team_details.reservation_team_id')
+        //     ->leftjoin('reservation_customers', function ($join) {
+        //         $join->on('reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+        //             ->where('reservation_customers.selesai_customer', '=', 1);
+        //     })
+        //     ->leftjoin('reservation_ratings', 'reservation_ratings.reservation_team_id', 'reservation_teams.id')
+        //     ->leftJoin('media', function ($join) {
+        //         $join->on('media.model_id', '=', 'reservation_employees.user_id')
+        //             ->where('media.model_type', '=', 'App\Models\User');
+        //     })
+        //     ->select(
+        //         'reservation_employees.id',
+        //         'reservation_employees.approved',
+        //         'reservation_employees.created_at',
+        //         'reservation_team_details.user_id',
+        //         'users.name',
+        //         'users.email',
+        //         'users.phone',
+        //         'media.file_name',
+        //         'media.id as media_id',
+        //         DB::raw('AVG(reservation_ratings.star_rating) as average_rating'),
+        //         DB::raw('COUNT(reservation_ratings.status) as count_rating'),
+        //         DB::raw('COUNT(reservation_customers.selesai_customer) as count_customer'),
+        //     )
+        //     ->groupBy('reservation_employees.id','users.name','users.email','users.phone','reservation_employees.created_at','reservation_employees.approved','file_name','media_id','user_id');
+
+        // $reservationEmployees = ReservationEmployee::with('company')->with('company.counter')->with('company.counter.team')->get();
         $reservationEmployees = ReservationEmployee::query()
-            ->join('users','users.id','reservation_employees.user_id')->leftjoin('reservation_team_details', 'reservation_team_details.user_id','users.id')->leftjoin('reservation_teams', 'reservation_teams.id','reservation_team_details.reservation_team_id')
-            ->leftjoin('reservation_customers', function ($join) {
-                $join->on('reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-                    ->where('reservation_customers.selesai_customer', '=', 1);
+            ->leftJoin('reservation_team_details as rtd', 'reservation_employees.user_id', '=', 'rtd.user_id')
+            ->leftJoin('reservation_teams as rt', 'rtd.reservation_team_id', '=', 'rt.id')
+            ->leftJoin('reservation_counters as rco', 'rt.reservation_counter_id', '=', 'rco.id')
+            ->leftJoin('reservation_customers as rc', function ($join) {
+                $join->on('rt.id', '=', 'rc.reservation_team_id')
+                     ->where('rc.selesai_customer', '=', 1);
             })
-            ->leftjoin('reservation_ratings', 'reservation_ratings.reservation_team_id', 'reservation_teams.id')
+            ->leftJoin('reservation_ratings as rr', 'rt.id', '=', 'rr.reservation_team_id')
+            ->leftJoin('users', 'reservation_employees.user_id', '=', 'users.id')
+            ->leftJoin('media', function ($join) {
+                $join->on('media.model_id', '=', 'reservation_employees.user_id')
+                    ->where('media.model_type', '=', 'App\\Models\\User');
+            })
             ->select(
-                'reservation_employees.id',
+                'reservation_employees.id as employee_record_id',
                 'reservation_employees.approved',
                 'reservation_employees.created_at',
+                'rtd.user_id as team_detail_user_id',
                 'users.name',
                 'users.email',
                 'users.phone',
-                DB::raw('AVG(reservation_ratings.star_rating) as average_rating'),
-                DB::raw('COUNT(reservation_ratings.star_rating) as count_rating'),
-                DB::raw('COUNT(reservation_customers.selesai_customer) as count_customer'),
+                'media.id as media_id',
+                'media.file_name',
+                DB::raw('AVG(rr.star_rating) as average_rating'),
+                DB::raw('COUNT(DISTINCT rc.id) as count_customer'),
+                DB::raw('COUNT(DISTINCT rr.id) as count_rating')
             )
-            ->groupBy('reservation_employees.id','users.name','users.email','users.phone','reservation_employees.created_at','reservation_employees.approved');
-            // dd($reservationEmployees);
+            ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'rtd.user_id', 'users.name', 'users.email', 'users.phone', 'media.id', 'media.file_name');
+        // dd($employees);
+                // dd($reservationEmployees);
         if ($request->q) {
             $reservationEmployees->where('name', 'like', '%' . $request->q . '%');
         }
@@ -80,8 +121,8 @@ class ReservationEmployeeController extends Controller
             'email' => 'required',
         ]);
         $user = User::where('email', $validated['email'])->orWhere('username',  $validated['email'])->orWhere('phone',  $validated['email'])->first();
-        $company = ReservationCompany::where('user_id',auth()->user()->id)->first();
-        $exist = ReservationEmployee::where('user_id',$user->id)->where('reservation_company_id',$company->id)->first();
+        $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
+        $exist = ReservationEmployee::where('user_id', $user->id)->where('reservation_company_id', $company->id)->first();
         if ($exist) {
             return back()->with([
                 'type' => 'error',
@@ -101,7 +142,7 @@ class ReservationEmployeeController extends Controller
                 'message' => 'Gagal tambah kotak, user dengan email/username/no telp tersebut tidak ditemukan',
             ]);
         }
-        $employee = ReservationEmployee::create(['user_id'=> $user->id, 'reservation_company_id'=>$company->id]);
+        $employee = ReservationEmployee::create(['user_id' => $user->id, 'reservation_company_id' => $company->id]);
         return back()->with([
             'type' => 'success',
             'message' => 'Karyawan berhasil diundang, menunggu konfirmasi',
@@ -176,7 +217,7 @@ class ReservationEmployeeController extends Controller
         ]);
     }
 
-    public function selectemployee(Request $request ,$id,$slug)
+    public function selectemployee(Request $request, $id, $slug)
     {
         $data = ReservationEmployee::findOrfail($id);
         $user = User::where('id', $data->user_id)->first();
@@ -186,7 +227,7 @@ class ReservationEmployeeController extends Controller
         $validated['reservation_counter_id'] = $reservation_counter_id->id;
         // dd("works");
         $reservationTeam = ReservationTeam::create(['reservation_counter_id' => $reservation_counter_id->id, 'name' => $user->name, 'slug' => $validated['slug'], 'code' => $validated['code']]);
-        $reservationCounter = ReservationJoinCounter::updateOrCreate(['email' => $user->email, 'reservation_team_id' => $reservationTeam->id,'approved'=>1], ['reservation_team_id' => $reservationTeam->id, 'email' => $user->email,'approved'=>1]);
+        $reservationCounter = ReservationJoinCounter::updateOrCreate(['email' => $user->email, 'reservation_team_id' => $reservationTeam->id, 'approved' => 1], ['reservation_team_id' => $reservationTeam->id, 'email' => $user->email, 'approved' => 1]);
         ReservationTeamDetail::create(['reservation_team_id' => $reservationTeam->id, 'user_id' => $user->id, 'leader' => 1]);
         // $data->update(['approved' => 1]);
         return back()->with([

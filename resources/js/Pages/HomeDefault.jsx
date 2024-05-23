@@ -99,7 +99,7 @@ export default function HomeDefault(props) {
                                         }}
                                     />
 
-                                    <span className="block pb-2 -mt-2 text-2xl tracking-tight text-transparent md:text-4xl bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-500 bg-clip-text lg:mt-4">
+                                    <span className="block pb-2 -mt-2 text-2xl tracking-tight text-transparent md:text-4xl bg-gradient-to-r from-amber-300 via-amber-500 to-amber-500 bg-clip-text lg:mt-4">
                                         <span>Super Ekosistem Tawarin.</span>
                                     </span>
                                 </h1>

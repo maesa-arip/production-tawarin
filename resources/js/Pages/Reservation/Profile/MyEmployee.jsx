@@ -51,6 +51,7 @@ const DownIcon = () => (
 );
 export default function MyEmployee(props) {
     const { data: reservationEmployees, meta, filtered, attributes } = props.reservationEmployees;
+    // console.log(reservationEmployees)
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -105,6 +106,7 @@ export default function MyEmployee(props) {
     };
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [isOpenRatingDialog, setIsOpenRatingDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
     const { data, setData, patch,post,put, processing, errors, reset } = useForm({
     });
@@ -127,6 +129,13 @@ export default function MyEmployee(props) {
             },
         });
     };
+    const openRatingDialog  = (data) =>{
+        // console.log(data)
+        setIsOpenRatingDialog(true);
+    }
+    const closeRatingDialog = () => {
+        setIsOpenRatingDialog(false);
+    }
     return (
         <>
         <Header title="Karyawan" description="List Karyawan Saya." />
@@ -186,6 +195,25 @@ export default function MyEmployee(props) {
                     className="mx-2 mt-2"
                     color="gray"
                     onClick={closeInfoDialog2}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
+
+            <InfoModal
+                isOpenInfoDialog={isOpenRatingDialog}
+                setIsOpenRatingDialog={setIsOpenRatingDialog}
+                size="2xl"
+                closeButton="false"
+                // title={"Yakin Mulai Pelayanan ?"}
+            >
+                {/* <ThirdButtonNoLink onClick={startService}>
+                    Mulai
+                </ThirdButtonNoLink> */}
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="gray"
+                    onClick={closeRatingDialog}
                 >
                     Close
                 </ThirdButtonNoLink>
@@ -462,10 +490,11 @@ export default function MyEmployee(props) {
                                                         <img
                                                             className="object-cover w-16 h-12 border rounded-lg"
                                                             src={
-                                                                employee.media
-                                                                    ? employee.media
-                                                                    : "storage/files/default/NoImage.svg"
+                                                                employee.media_id
+                                                                    ? `/storage/${employee.media_id}/${employee.file_name}`
+                                                                    : "/storage/files/default/NoImage.svg"
                                                             }
+                                                            
                                                             alt={employee.slug}
                                                         ></img>
                                                     </td>
@@ -727,9 +756,9 @@ export default function MyEmployee(props) {
                                                 <img
                                                     className="object-cover w-12 h-12 border rounded-lg"
                                                     src={
-                                                        employee.media
-                                                            ? employee.media
-                                                            : "storage/files/default/NoImage.svg"
+                                                        employee.media_id
+                                                            ? `/storage/${employee.media_id}/${employee.file_name}`
+                                                            : "/storage/files/default/NoImage.svg"
                                                     }
                                                     alt="0"
                                                 ></img>
@@ -783,7 +812,7 @@ export default function MyEmployee(props) {
                                             </div>
                                         ))}
                                     </div>
-                                    <span className="flex items-start text-xs font-medium text-left text-slate-400">
+                                    <span onClick={() =>openRatingDialog(employee)}  className="cursor-pointer flex items-start text-xs font-medium text-left text-slate-400">
                                         {employee.average_rating
                                             ? Math.round(
                                                   employee.average_rating *

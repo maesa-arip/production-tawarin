@@ -59,7 +59,7 @@ class DepositConfirmNotification extends Notification
             'type' => 'Info',
             'title' => 'Top Up mu sudah diverifikasi',
             'message' => 'Top Up mu sudah diterima, silakan lihat di menu saldo',
-            'url' => '',
+            'url' => route('wallets.index'),
             'id' => $this->transaction->id,
             'transaction_type' => $this->transaction->type,
             'amount' => $this->transaction->amount,

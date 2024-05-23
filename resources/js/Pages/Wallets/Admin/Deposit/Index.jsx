@@ -384,12 +384,15 @@ export default function Index(props) {
                                                 <p className="text-base font-semibold">
                                                     {transaction.type} dari {transaction.holder_name}
                                                 </p>
-                                                <p className="text-xs font-medium text-gray-500">
-                                                    {/* {transaction.wallet.holder.name} */}
+                                                <p className="text-xs text-red-600 font-medium ">
+                                                    {transaction.confirmed==0 && transaction.meta?.type == 'decline' ?  <> {transaction.meta?.message} </> : ''}
                                                 </p>
                                             </div>
                                             <div className="flex items-center justify-end col-span-6 col-end-13">
-                                                {transaction.confirmed == 1 ? (
+                                                {transaction.confirmed == 0 && transaction.meta?.type == 'decline' ? 
+                                                <ThirdButtonSmallNoLink color="red">
+                                                        Ditolak
+                                                </ThirdButtonSmallNoLink> : transaction.confirmed == 1 ? (
                                                     <ThirdButtonSmallNoLink color="teal">
                                                         Diterima
                                                     </ThirdButtonSmallNoLink>
@@ -398,6 +401,15 @@ export default function Index(props) {
                                                         Menunggu Konfirmasi
                                                     </ThirdButtonSmallNoLink>
                                                 )}
+                                                {/* // {transaction.confirmed == 1 ? (
+                                                //     <ThirdButtonSmallNoLink color="teal">
+                                                //         Diterima
+                                                //     </ThirdButtonSmallNoLink>
+                                                // ) : (
+                                                //     <ThirdButtonSmallNoLink color="secondary">
+                                                //         Menunggu Konfirmasi
+                                                //     </ThirdButtonSmallNoLink>
+                                                // )} */}
                                             </div>
 
                                             <div className="col-span-12 col-start-1 border-b border-gray-100"></div>

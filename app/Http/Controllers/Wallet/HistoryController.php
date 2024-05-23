@@ -48,7 +48,7 @@ class HistoryController extends Controller
     {
         $query = Transaction::query()
         ->where('payable_id',auth()->user()->id)
-        ->where('confirmed',1)
+        // ->where('confirmed',1)
         // ->whereJsonContains('meta->type', 'uang masuk')
         // ->whereJsonContains('meta->type', 'tip')
         // ->whereJsonContains('meta->type', 'deposit')
@@ -81,6 +81,46 @@ class HistoryController extends Controller
             ]
         ]);
         return inertia('Wallets/History/HistoryUtama',['transactions'=>$transactions]);
+    }
+    public function topup(Request $request)
+    {
+        $query = Transaction::query()
+        ->where('payable_id',auth()->user()->id)
+        // ->where('confirmed',1)
+        ->where('meta',null)
+        ->orWhereJsonContains('meta->type', 'accept')
+        ->orWhereJsonContains('meta->type', 'decline')
+        // ->whereJsonContains('meta->type', 'tip')
+        // ->whereJsonContains('meta->type', 'deposit')
+        // ->whereJsonContains('meta->type', 'referral')
+        ->with('wallet');
+        if ($request->q) {
+            $query->where('payable_type','like','%'.$request->q.'%')
+            ->orWhere('type','like','%'.$request->q.'%')
+            ->orWhere('amount','like','%'.$request->q.'%')
+            ->orWhere('confirmed','like','%'.$request->q.'%')
+            ;
+        }
+        if ($request->has(['field','direction'])) {
+            $query->orderBy($request->field,$request->direction);
+        }
+        $transactions = (
+            HistoryResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' =>10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/HistoryTopUp',['transactions'=>$transactions]);
     }
     public function bonus(Request $request)
     {

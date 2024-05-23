@@ -202,7 +202,7 @@ export default function Header() {
                                     aria-label="TawarinLogo"
                                     alt="Logo"
                                 />
-                                <p className='flex items-center justify-center ml-2 text-2xl tracking-tight text-transparent bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-500 bg-clip-text justify-items-center'>Tawarin</p>
+                                <p className='flex items-center justify-center ml-2 text-2xl tracking-tight text-transparent bg-gradient-to-r from-amber-300 via-amber-500 to-amber-500 bg-clip-text justify-items-center'>Tawarin</p>
                             </a>
                         </div>
                         {auth.user ? (

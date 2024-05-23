@@ -295,6 +295,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // Wallets
     Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class, 'confirmed'])->name('admindeposit.confirmed');
+    Route::patch('admindeposit/{id}/decline', [DepositAdminController::class, 'decline'])->name('admindeposit.decline');
     Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class, 'confirmed'])->name('adminwithdraw.confirmed');
     Route::Resource('admindeposits', DepositAdminController::class);
     Route::Resource('adminwithdraws', WithdrawAdminController::class);
@@ -303,6 +304,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::Resource('withdraws', WithdrawController::class);
     Route::Resource('histories', WalletHistoryController::class);
     Route::get('main/histories', [WalletHistoryController::class,'main'])->name('main.histories');
+    Route::get('topup/histories', [WalletHistoryController::class,'topup'])->name('topup.histories');
+    Route::get('withdraw/histories', [WalletHistoryController::class,'withdraw'])->name('withdraw.histories');
+    Route::get('bagihasil/histories', [WalletHistoryController::class,'bagihasil'])->name('bagihasil.histories');
+    Route::get('pembayaran/histories', [WalletHistoryController::class,'pembayaran'])->name('pembayaran.histories');
     Route::get('bonus/histories', [WalletHistoryController::class,'bonus'])->name('bonus.histories');
     Route::get('deposit/histories', [WalletHistoryController::class,'deposit'])->name('deposit.histories');
     Route::get('wallet/transfers', [TransferController::class, 'transfer'])->name('wallet.transfer');

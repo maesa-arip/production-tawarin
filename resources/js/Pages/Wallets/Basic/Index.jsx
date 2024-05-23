@@ -154,7 +154,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                 <NavLink
                                     type="button"
                                     className={
-                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                     }
                                     href={"/deposits/create"}
                                 >
@@ -163,7 +163,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                 <NavLink
                                     type="button"
                                     className={
-                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                     }
                                     href={"/wallet/transfers"}
                                 >
@@ -172,7 +172,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                 <NavLink
                                     type="button"
                                     className={
-                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                     }
                                     href={"/withdraws/create"}
                                 >
@@ -182,7 +182,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                 <NavLink
                                     type="button"
                                     className={
-                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                        "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                     }
                                     href={"/main/histories"}
                                 >
@@ -275,7 +275,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                     <NavLink
                                         type="button"
                                         className={
-                                            "inline-flex text-center items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            "inline-flex text-center items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
                                         href={"/wallet/transfers"}
                                     >
@@ -286,7 +286,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                     <NavLink
                                         type="button"
                                         className={
-                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
                                         href={"/withdraws/create"}
                                     >
@@ -295,7 +295,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                     <NavLink
                                         type="button"
                                         className={
-                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
                                         href={"/bonus/histories"}
                                     >
@@ -388,7 +388,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                 <NavLink
                                         type="button"
                                         className={
-                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
                                         href={"/deposit/histories"}
                                     >
@@ -441,7 +441,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                 <NavLink
                                         type="button"
                                         className={
-                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-gray-300 transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
                                         href={"/deposit/histories"}
                                     >

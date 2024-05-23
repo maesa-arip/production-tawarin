@@ -19,6 +19,7 @@ class DepositAdminController extends Controller
     {
         $query = Transaction::query()->where('type','deposit')
         ->where('meta', NULL)
+        ->orWhereJsonContains('meta->type','decline')
         ->with('wallet')->with('wallet.holder');
         
         // ->join('wallets', 'wallets.id', '=', 'transactions.wallet_id')
@@ -72,7 +73,35 @@ class DepositAdminController extends Controller
         if ($transaction->payable_type=='App\Models\Plan\Plan') {
             $user = Plan::find($transaction->payable_id);
         }
+        $transaction->meta = ['type'=>'accept','message' => 'Deposit Anda sudah diterima oleh Admin'];
+        $transaction->save();
         $user->confirm($transaction);
+
+        $user->notify(new DepositConfirmNotification($transaction));
+        Cache::forget('notifications_count');
+
+        return redirect('/admindeposits')->with([
+            'type' => 'success',
+            'message' => 'Berhasil Terima Top Up',
+        ]);
+    }
+    public function decline(Request $request, Transaction $transaction,$id)
+    {
+        
+        $validated = $request->validate([
+            'reason' => 'required',
+        ]);
+        $transaction = Transaction::find($id);
+        $transaction->meta = ['type'=>'decline','message' => 'Deposit Anda ditolak oleh admin karena '.$validated['reason']];
+        $transaction->save();
+        if ($transaction->payable_type=='App\Models\User') {
+            $user = User::find($transaction->payable_id);
+        }
+        if ($transaction->payable_type=='App\Models\Plan\Plan') {
+            $user = Plan::find($transaction->payable_id);
+        }
+        // $user->confirm($transaction);
+        
 
         // $pesan = [
         //     'type' => 'Info',
@@ -86,7 +115,7 @@ class DepositAdminController extends Controller
 
         return redirect('/admindeposits')->with([
             'type' => 'success',
-            'message' => 'Confirmed',
+            'message' => 'Berhasil Tolak Top Up',
         ]);
     }
 }
