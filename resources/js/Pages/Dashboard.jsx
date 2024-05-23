@@ -173,13 +173,13 @@ export default function Dashboard(props) {
             >
                 <p>Ayo lengkapi profilmu terlebih dahulu</p>
                 <ThirdButtonNoLink
-                    className="mx-2 mt-2"
+                    className="mx-1 mt-2"
                     color="secondary"
                     onClick={closeOpenDialog2}
                 >
                     Close
                 </ThirdButtonNoLink>
-                    <ThirdButton href={"/profile"} className="block mx-4 ">
+                    <ThirdButton href={"/profile"} className="block mx-1 ">
                         Lengkapi Profil
                     </ThirdButton>
                     

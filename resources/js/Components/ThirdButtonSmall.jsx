@@ -23,6 +23,7 @@ export default function ThirdButtonSmall({ type = 'submit', className = '',href,
         <Link
             type={type}
             onClick={onClick}
+            as="button"
             href={href}
             className={ 
                 `${colorVariants[color]} inline-flex items-center px-2 py-1 rounded-md font-semibold text-xs uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 ${

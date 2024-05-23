@@ -30,7 +30,7 @@ export default function InfoModal({title,children,header, isOpenInfoDialog,setIs
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className={`w-full transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all ${size}`}>
+                <Dialog.Panel className={`w-full transform rounded-2xl bg-white p-4 text-left align-middle shadow-xl transition-all ${size}`}>
                 {/* <Dialog.Panel className={`relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full ${size}`}> */}
                 <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">

@@ -102,7 +102,7 @@ export default function AsideKonstruksi() {
     return (
         <div
             id="stickyMenu"
-            className={`z-40 fixed bottom-0 left-0 right-0 overflow-hidden transition-all duration-300 bg-amber-500 shadow-lg md:hidden rounded-2xl`}
+            className={`z-40 mx-4 fixed bottom-0 left-0 right-0 overflow-hidden transition-all duration-300 bg-amber-500 shadow-lg md:hidden rounded-2xl`}
         >
             <button
                 id="menuToggle"
