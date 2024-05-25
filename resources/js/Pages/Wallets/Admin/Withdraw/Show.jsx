@@ -13,36 +13,36 @@ import InputError from "@/Components/InputError";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 export default function Show({ transaction }) {
-    const { data, setData, patch, clearErrors,processing, reset, errors } = useForm({
-    });
+    const { data, setData, patch, clearErrors, processing, reset, errors } =
+        useForm({});
     const confirmedHandler = (e) => {
         e.preventDefault();
-        patch(route('adminwithdraw.confirmed', transaction.id));
+        patch(route("adminwithdraw.confirmed", transaction.id));
     };
-    const [isOpenDeclineDialog,setIsOpenDeclineDialog] = useState(false);
-    const [isOpenAcceptDialog,setIsOpenAcceptDialog] = useState(false);
+    const [isOpenDeclineDialog, setIsOpenDeclineDialog] = useState(false);
+    const [isOpenAcceptDialog, setIsOpenAcceptDialog] = useState(false);
     const [state, setState] = useState([]);
     const openDeclineDialog = (data) => {
         setIsOpenDeclineDialog(true);
         setState(data);
-    }
+    };
     const closeDeclineDialog = () => {
         setIsOpenDeclineDialog(false);
-    }
+    };
     const openAcceptDialog = (data) => {
         setIsOpenAcceptDialog(true);
         setState(data);
-    }
+    };
     const closeAcceptDialog = () => {
         setIsOpenAcceptDialog(false);
-    }
+    };
     const acceptWithdrawHandler = (e) => {
         e.preventDefault();
-        patch(route('adminwithdraw.confirmed', transaction.id));
+        patch(route("adminwithdraw.confirmed", transaction.id));
     };
     const declineWithdrawHandler = (e) => {
         e.preventDefault();
-        patch(route('adminwithdraw.decline', transaction.id));
+        patch(route("adminwithdraw.decline", transaction.id));
     };
     return (
         <div>
@@ -54,18 +54,26 @@ export default function Show({ transaction }) {
                 closeButton="false"
                 title={"Yakin Tolak Top Up ?"}
             >
-                <InputLabel className={'text-left mt-4'}>Masukan Alasan</InputLabel>
-                    <TextAreaInput
-                        type="text"
-                        name="reason"
-                        value={data.reason}
-                        className="block w-full mt-1"
-                        autoComplete="reason"
-                        isFocused={true}
-                        handleChange ={(e) => setData("reason", e.target.value)}
-                    />
-                    <InputError message={errors.reason} className="mt-2 mb-2 text-left" />
-                <ThirdButtonNoLink processing={processing} onClick={declineWithdrawHandler}>
+                <InputLabel className={"text-left mt-4"}>
+                    Masukan Alasan
+                </InputLabel>
+                <TextAreaInput
+                    type="text"
+                    name="reason"
+                    value={data.reason}
+                    className="block w-full mt-1"
+                    autoComplete="reason"
+                    isFocused={true}
+                    handleChange={(e) => setData("reason", e.target.value)}
+                />
+                <InputError
+                    message={errors.reason}
+                    className="mt-2 mb-2 text-left"
+                />
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={declineWithdrawHandler}
+                >
                     Tolak
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink
@@ -83,7 +91,10 @@ export default function Show({ transaction }) {
                 closeButton="false"
                 title={"Yakin Terima Withdraw ?"}
             >
-                <ThirdButtonNoLink processing={processing} onClick={acceptWithdrawHandler}>
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={acceptWithdrawHandler}
+                >
                     Terima
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink
@@ -105,14 +116,14 @@ export default function Show({ transaction }) {
                             <p className="mt-4 text-gray-500"></p>
 
                             <dl className="grid grid-cols-1 mt-16 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
-                                <div className="pt-4 border-t border-gray-200">
+                                {/* <div className="pt-4 border-t border-gray-200">
                                     <dt className="font-medium text-gray-900">
                                         Jenis
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
                                         {transaction.payable_type}
                                     </dd>
-                                </div>
+                                </div> */}
                                 <div className="pt-4 border-t border-gray-200">
                                     <dt className="font-medium text-gray-900">
                                         Tipe
@@ -126,15 +137,20 @@ export default function Show({ transaction }) {
                                         Status
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
-                                    {transaction.confirmed == 1 ? (
-                                                    <ThirdButtonSmallNoLink color="teal">
-                                                        Diterima
-                                                    </ThirdButtonSmallNoLink>
-                                                ) : (
-                                                    <ThirdButtonSmallNoLink color="secondary">
-                                                        Menunggu Konfirmasi
-                                                    </ThirdButtonSmallNoLink>
-                                                )}
+                                        {transaction.confirmed == 0 &&
+                                        transaction.meta?.type == "decline" ? (
+                                            <ThirdButtonSmallNoLink color="red">
+                                                Ditolak
+                                            </ThirdButtonSmallNoLink>
+                                        ) : transaction.confirmed == 1 ? (
+                                            <ThirdButtonSmallNoLink color="teal">
+                                                Diterima
+                                            </ThirdButtonSmallNoLink>
+                                        ) : (
+                                            <ThirdButtonSmallNoLink color="secondary">
+                                                Menunggu Konfirmasi
+                                            </ThirdButtonSmallNoLink>
+                                        )}
                                     </dd>
                                 </div>
                                 <div className="pt-4 border-t border-gray-200">
@@ -150,14 +166,38 @@ export default function Show({ transaction }) {
                                         Informasi Bank
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
-                                    <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
-                            
-                            <div className="flex"><p>Nama Bank</p><p className="ml-9">: {transaction.meta?.bank_name}</p></div>
-                            <div className="flex"><p>Nomor Rekening</p><p className="ml-9">: {transaction.meta?.account_number}</p></div>
-                            <div className="flex"><p>Nama Pemilik</p><p className="ml-9">: {transaction.meta?.account_name}</p></div>
-                            
-                            
-                        </div>
+                                        <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                                            <div className="flex">
+                                                <p>Nama Bank</p>
+                                                <p className="ml-9">
+                                                    :{" "}
+                                                    {
+                                                        transaction.meta
+                                                            ?.bank_name
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div className="flex">
+                                                <p>Nomor Rekening</p>
+                                                <p className="ml-9">
+                                                    :{" "}
+                                                    {
+                                                        transaction.meta
+                                                            ?.account_number
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div className="flex">
+                                                <p>Nama Pemilik</p>
+                                                <p className="ml-9">
+                                                    :{" "}
+                                                    {
+                                                        transaction.meta
+                                                            ?.account_name
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
                                     </dd>
                                 </div>
                             </dl>
@@ -166,22 +206,57 @@ export default function Show({ transaction }) {
                             <div className="shadow sm:rounded-md sm:overflow-hidden">
                                 <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">
-                                            Bukti Transfer
-                                        </label>
+                                    {transaction.confirmed == 0 &&
+                                    transaction.meta?.type == "decline" ? (
+                                        <div className="px-1 py-3 text-right sm:px-6">
+                                            <p className="text-sm font-medium text-left text-red-500">
+                                            {transaction.meta?.message}
+                                        </p>
+                                        </div>
+                                    ) : transaction.confirmed == 1 ? (
+                                        <></>
+                                    ) : (
+                                        <>
+                                            
+                                        </>
+                                    )}
                                         
                                     </div>
                                 </div>
                                 <div className="flex justify-end bg-gray-50">
-                                <div className="px-4 py-3 text-right sm:px-6">
-                                <Button color="pink" onClick={openDeclineDialog}>Tolak</Button>
+                                    {transaction.confirmed == 0 &&
+                                    transaction.meta?.type == "decline" ? (
+                                        <div className="px-4 py-3 text-right sm:px-6">
+                                            <ThirdButtonNoLink color="red">
+                                                Withdraw Sudah Ditolak
+                                            </ThirdButtonNoLink>
+                                        </div>
+                                    ) : transaction.confirmed == 1 ? (
+                                        <div className="px-4 py-3 text-right sm:px-6">
+                                            <ThirdButtonNoLink color="teal">
+                                                Withdraw Sudah Diterima
+                                            </ThirdButtonNoLink>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="px-4 py-3 text-right sm:px-6">
+                                                <Button
+                                                    color="pink"
+                                                    onClick={openDeclineDialog}
+                                                >
+                                                    Tolak
+                                                </Button>
+                                            </div>
+                                            <div className="px-4 py-3 text-right sm:px-6">
+                                                <Button
+                                                    onClick={openAcceptDialog}
+                                                >
+                                                    Konfirmasi
+                                                </Button>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                                <div className="px-4 py-3 text-right sm:px-6">
-                                <Button  onClick={openAcceptDialog}>Konfirmasi</Button>
-                                </div>
-                                
-                                </div>
-                                
                             </div>
                         </div>
                     </div>

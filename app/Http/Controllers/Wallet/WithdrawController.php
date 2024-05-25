@@ -25,7 +25,7 @@ class WithdrawController extends Controller
         $user = auth()->user();
         $userBank = UserBank::with('bank')->where('user_id',auth()->user()->id)->first();
         // dd($user);
-        $withdraw = $user->withdraw($request->amount,['message' => 'Permintaan Penarikan dari '.$user->name ,'bank_name' => $userBank->bank->name, 'account_number' => $userBank->account_number,'account_name' => $userBank->account_name, 'type' => 'uang keluar'], false);
+        $withdraw = $user->withdraw($request->amount,['message' => 'Permintaan Penarikan dari '.$user->name ,'bank_name' => $userBank->bank->name, 'account_number' => $userBank->account_number,'account_name' => $userBank->account_name, 'type' => 'request_withdraw'], false);
 
 
         return redirect('wallets')->with([

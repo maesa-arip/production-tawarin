@@ -62,7 +62,7 @@ export default function Show({ transaction, media }) {
                         isFocused={true}
                         handleChange ={(e) => setData("reason", e.target.value)}
                     />
-                    <InputError message={errors.reason} className="mt-2 text-left mb-2" />
+                    <InputError message={errors.reason} className="mt-2 mb-2 text-left" />
                 <ThirdButtonNoLink processing={processing} onClick={declineDepositHandler}>
                     Tolak
                 </ThirdButtonNoLink>
@@ -104,14 +104,14 @@ export default function Show({ transaction, media }) {
                             <p className="mt-4 text-gray-500"></p>
 
                             <dl className="grid grid-cols-1 mt-16 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
-                                <div className="pt-4 border-t border-gray-200">
+                                {/* <div className="pt-4 border-t border-gray-200">
                                     <dt className="font-medium text-gray-900">
                                         Jenis
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
                                         {transaction.type}
                                     </dd>
-                                </div>
+                                </div> */}
                                 <div className="pt-4 border-t border-gray-200">
                                     <dt className="font-medium text-gray-900">
                                         Nama

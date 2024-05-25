@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Wallet\TransactionSingleResource;
 use App\Http\Resources\Wallet\WithdrawAdminResource;
 use App\Models\User;
+use App\Notifications\DepositConfirmNotification;
+use App\Notifications\WithdrawConfirmNotification;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -17,6 +19,8 @@ class WithdrawAdminController extends Controller
     {
         $query = Transaction::query()->where('type','withdraw')
         ->where('confirmed','<>',1)
+        ->orWhereJsonContains('meta->type','request_withdraw')
+        ->orWhereJsonContains('meta->type','accept')
         ->with('wallet');
         
         // ->join('wallets', 'wallets.id', '=', 'transactions.wallet_id')
@@ -62,12 +66,19 @@ class WithdrawAdminController extends Controller
     public function confirmed(Transaction $transaction,$id)
     {
         $transaction = Transaction::find($id);
-        $user = User::find($transaction->payable_id);
+        if ($transaction->payable_type=='App\Models\User') {
+            $user = User::find($transaction->payable_id);
+        }
+        $transaction->meta = ['type'=>'accept','message' => 'Withdraw Anda sudah diterima oleh Admin'];
+        $transaction->save();
         $user->confirm($transaction);
+
+        $user->notify(new WithdrawConfirmNotification($transaction));
+        Cache::forget('notifications_count');
 
         return redirect('/adminwithdraws')->with([
             'type' => 'success',
-            'message' => 'Confirmed',
+            'message' => 'Berhasil Terima Withdraw',
         ]);
     }
     public function decline(Request $request, Transaction $transaction,$id)

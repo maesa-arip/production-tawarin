@@ -20,6 +20,7 @@ class DepositAdminController extends Controller
         $query = Transaction::query()->where('type','deposit')
         ->where('meta', NULL)
         ->orWhereJsonContains('meta->type','decline')
+        ->orWhereJsonContains('meta->type','accept')
         ->with('wallet')->with('wallet.holder');
         
         // ->join('wallets', 'wallets.id', '=', 'transactions.wallet_id')
