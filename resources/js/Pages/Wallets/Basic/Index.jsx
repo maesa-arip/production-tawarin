@@ -33,7 +33,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                             {referral.length > 0
                                                 ? referral.map(
                                                       (person, index) => (
-                                                          <li className="flex flex-col items-center space-y-2">
+                                                          <li key={index} className="flex flex-col items-center space-y-2">
                                                               <Link
                                                                   className="block p-1 bg-white rounded-full"
                                                                   href={route(
@@ -311,11 +311,11 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                             <div className="flex flex-col w-full space-y-8">
                                 <div className="w-full h-56 p-6 text-white shadow-md bg-gradient-to-tl from-gray-900 to-gray-800 md:w-96 rounded-xl">
                                     <div className="flex flex-col justify-between h-full">
-                                        <div className="flex items-start justify-between space-x-4">
+                                        <div className="flex items-start justify-between space-x-2">
                                             <div className="text-xl font-semibold tracking-tigh">
                                                 SALDO DEPOSIT MILIK PEKERJA
                                             </div>
-                                            <div className="inline-flex flex-col items-center justify-center">
+                                            <div className="inline-flex flex-col items-center justify-center w-12">
                                                 <ApplicationLogo />
                                             </div>
                                         </div>
@@ -390,7 +390,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                         className={
                                             "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                         }
-                                        href={"/deposit/histories"}
+                                        href={"/deposit/summary"}
                                     >
                                         Rincian
                                     </NavLink>

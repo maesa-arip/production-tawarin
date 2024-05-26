@@ -43,6 +43,7 @@ export default function HistoryDeposit(props) {
         filtered,
         attributes,
     } = props.transactions;
+    console.log(transaction)
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const [isInitialRender, setIsInitialRender] = useState(true);

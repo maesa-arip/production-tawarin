@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Wallet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ArrayResource;
 use App\Http\Resources\Wallet\HistoryResource;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HistoryController extends Controller
 {
@@ -197,5 +199,45 @@ class HistoryController extends Controller
             ]
         ]);
         return inertia('Wallets/History/HistoryDeposit',['transactions'=>$transactions]);
+    }
+    public function summary(Request $request)
+    {
+        $query = Transaction::query()
+            ->where('confirmed', 1)
+            ->where('type', 'withdraw')
+            ->whereJsonContains('transactions.meta->type', 'deposit')
+            ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+            ->join('users', 'wallets.holder_id', '=', 'users.id')
+            ->groupBy('wallets.holder_id', 'users.id','users.name','users.created_at')
+            ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as total_amount'));
+            // ->get();
+        // ->with('wallet')->get();
+        // dd($query);
+        if ($request->q) {
+            $query->where('payable_type', 'like', '%' . $request->q . '%')
+                ->orWhere('type', 'like', '%' . $request->q . '%')
+                ->orWhere('amount', 'like', '%' . $request->q . '%')
+                ->orWhere('confirmed', 'like', '%' . $request->q . '%');
+        }
+        if ($request->has(['field', 'direction'])) {
+            $query->orderBy($request->field, $request->direction);
+        }
+        $transactions = (
+            ArrayResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' => 10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/DepositSummary', ['transactions' => $transactions]);
     }
 }

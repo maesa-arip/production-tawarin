@@ -200,6 +200,7 @@ export default function AsideReservasi() {
                             {permission_name.indexOf(
                                 "lihat menu owner reservasi"
                             ) > -1 && (
+                                <>
                                 <li className="justify-between w-full">
                                     <div className="flex items-center">
                                         <button
@@ -283,6 +284,53 @@ export default function AsideReservasi() {
                                         </ul>
                                     )}
                                 </li>
+                                <li className="justify-between w-full">
+                                <div className="flex items-center">
+                                    <button
+                                        className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                        onClick={() => toggleSubmenu(5)}
+                                    >
+                                        Rekapan
+                                        <span className="text-right submenu-icon">
+                                            {submenuOpen === 5 ? (
+                                                <MinusSVG />
+                                            ) : (
+                                                <PlusSVG />
+                                            )}
+                                        </span>
+                                    </button>
+                                </div>
+                                {submenuOpen === 5 && (
+                                    <ul
+                                        className={`pl-4 space-y-2 ${subMenuClass}`}
+                                    >
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "reservationprofile.edit"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Rekapan Pendapatan Perusahaan
+                                            </Link>
+                                        </li>
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "reservationprofile.edit"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Rekapan Pendapatan Karyawan
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                )}
+                            </li></>
                             )}
                             {permission_name.indexOf(
                                 "lihat menu pekerja reservasi"

@@ -311,6 +311,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('pembayaran/histories', [WalletHistoryController::class,'pembayaran'])->name('pembayaran.histories');
     Route::get('bonus/histories', [WalletHistoryController::class,'bonus'])->name('bonus.histories');
     Route::get('deposit/histories', [WalletHistoryController::class,'deposit'])->name('deposit.histories');
+    Route::get('deposit/summary', [WalletHistoryController::class,'summary'])->name('deposit.summary');
     Route::get('wallet/transfers', [TransferController::class, 'transfer'])->name('wallet.transfer');
     Route::post('wallet/transfers', [TransferController::class, 'transferstore'])->name('wallet.transferstore');
     Route::get('plan/deposit/{plan}', [PlanDepositController::class, 'plandeposit'])->name('plan.deposit');

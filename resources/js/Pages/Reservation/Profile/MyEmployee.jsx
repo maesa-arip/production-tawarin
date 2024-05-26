@@ -480,6 +480,7 @@ export default function MyEmployee(props) {
                                                 </th>
                                             </tr>
                                         </thead>
+                                        
                                         <tbody className="bg-white divide-y divide-gray-200">
                                             {reservationEmployees.map((employee, index) => (
                                                 <tr key={employee.id}>
@@ -812,7 +813,7 @@ export default function MyEmployee(props) {
                                             </div>
                                         ))}
                                     </div>
-                                    <span onClick={() =>openRatingDialog(employee)}  className="cursor-pointer flex items-start text-xs font-medium text-left text-slate-400">
+                                    <span onClick={() =>openRatingDialog(employee)}  className="flex items-start text-xs font-medium text-left cursor-pointer text-slate-400">
                                         {employee.average_rating
                                             ? Math.round(
                                                   employee.average_rating *
@@ -843,7 +844,8 @@ export default function MyEmployee(props) {
                             </div>
                         ))}
                     </div>
-                    
+
+
                     <ul className="flex items-center mt-10 gap-x-1">
                         {meta.links.map((item, index) => (
                             <button
