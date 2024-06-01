@@ -49,7 +49,7 @@ export default function Team({ setIsOpenDialog, model }) {
             },
         });
     };
-    console.log(data)
+    // console.log(data)
     const closeInfoDialog = () => {
         setIsOpenInfoDialog(false);
     };
@@ -87,10 +87,42 @@ export default function Team({ setIsOpenDialog, model }) {
     const dateMatches = (dateString1, dateString2) => {
         const formattedDate1 = parseDate(dateString1);
         const formattedDate2 = parseDate(dateString2);
-        return formattedDate1 === formattedDate2;
+        const match = formattedDate1 === formattedDate2;
+        // console.log(`Date Match Check: ${formattedDate1} === ${formattedDate2} -> ${match}`);
+        return match;
     };
     const userMatches = (user, userArray) => {
-        return userArray.some((userObj) => userObj.user_id === user);
+        const match = userArray.some((userObj) => userObj.user_id === user);
+        // console.log(`User ${user} match: ${match}`);
+        return match;
+    };
+    const userDateMatches = (userId, date) => {
+        const match = model2.offDay.some(
+            (offDay) => offDay.user_id === userId && dateMatches(offDay.date, date)
+        );
+        // console.log(`User Date Match Check: userId=${userId}, date=${date} -> ${match}`);
+        return match;
+    };
+    const isUserDateMatched = (userId, date) => {
+        return userDateMatches(userId, date);
+    };
+    const timeRangeMatches = (timeRange1, timeRange2) => {
+        const [start1, end1] = timeRange1.split(" - ").map(t => new Date(`2000-01-01T${t}`));
+        const [start2, end2] = timeRange2.split(" - ").map(t => new Date(`2000-01-01T${t}`));
+        const match = start1 < end2 && end1 > start2;
+        // console.log(`Time Range Match Check: ${timeRange1} vs ${timeRange2} -> ${match}`);
+        return match;
+    };
+
+    const userWorkBreakMatches = (userId, timeRange) => {
+        const match = model2.workBreak.some(
+            (workBreak) => workBreak.user_id === userId && timeRangeMatches(workBreak.start + " - " + workBreak.end, timeRange)
+        );
+        // console.log(`User Work Break Match Check: userId=${userId}, timeRange=${timeRange} -> ${match}`);
+        return match;
+    };
+    const isUserWorkBreakMatched = (userId, timeRange) => {
+        return userWorkBreakMatches(userId, timeRange);
     };
     const isDateMatched = model2.offDay.some((date) =>
         dateMatches(date.date, model2.date)
@@ -241,57 +273,20 @@ export default function Team({ setIsOpenDialog, model }) {
                                     />
                                 </div>
                                 <div className="col-span-12">
-                                    {isDateMatched &&
-                                    userMatches(
-                                        resultteam.user_id,
-                                        model2.offDay
-                                    ) ? (
+                                    
+                                {isUserDateMatched(resultteam.user_id, model2.date) ? (
                                         <div className="col-span-12">
                                             <ThirdButtonNoLink color="secondary">
                                                 Libur
                                             </ThirdButtonNoLink>
                                         </div>
-                                    ) : // Check if the team member is on break
-                                    model2.workBreak &&
-                                      model2.workBreak.some((breakItem) => {
-                                          if (
-                                              typeof model.timeRange
-                                                  .timeRange === "string"
-                                          ) {
-                                              const [startRange, endRange] =
-                                                  model.timeRange.timeRange.split(
-                                                      " - "
-                                                  );
-                                              const startTime = new Date(
-                                                  `2000-01-01T${startRange}:00`
-                                              );
-                                              const endTime = new Date(
-                                                  `2000-01-01T${endRange}:00`
-                                              );
-
-                                              // Convert break start and end times to Date objects
-                                              const breakStartTime = new Date(
-                                                  `2000-01-01T${breakItem.start}`
-                                              );
-                                              const breakEndTime = new Date(
-                                                  `2000-01-01T${breakItem.end}`
-                                              );
-                                              
-                                              return (
-                                                startTime < breakEndTime && // Start of selected range is before end of break
-                                                endTime > breakStartTime && // End of selected range is after start of break
-                                                userMatches(resultteam.user_id, model2.workBreak)
-                                            );
-                                          }
-                                          return false;
-                                      }) ? (
+                                    ) : isUserWorkBreakMatched(resultteam.user_id, model.timeRange.timeRange) ? (
                                         <div className="col-span-12">
                                             <ThirdButtonNoLink color="secondary">
                                                 Istirahat
                                             </ThirdButtonNoLink>
                                         </div>
                                     ) : (
-                                        // If not on off day or break, render the "Pilih" button
                                         <div className="col-span-12">
                                             <ThirdButtonNoLink
                                                 onClick={() =>

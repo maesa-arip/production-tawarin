@@ -93,10 +93,10 @@ export default function Index(props) {
     };
     return (
         <>
-            <Head title="Deposit" />
+            <Head title="Withdraw" />
             <Header
-                title="Deposit"
-                description={"List uang deposit yang ada di Tawarin"}
+                title="Withdraw"
+                description={"List uang Withdraw yang ada di Tawarin"}
             />
             <Container>
 
@@ -333,7 +333,7 @@ export default function Index(props) {
                                                         </td>
                                                         <td>
                                                             <Link
-                                                                href={`/admindeposits/${transaction.id}`}
+                                                                href={`/adminwithdraws/${transaction.id}`}
                                                             >
                                                                 <div className="flex items-center gap-x-2">
                                                                     Lihat

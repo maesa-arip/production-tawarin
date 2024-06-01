@@ -17,11 +17,20 @@ class WithdrawAdminController extends Controller
     public $loadDefault = 10;
     public function index(Request $request)
     {
-        $query = Transaction::query()->where('type','withdraw')
+        $query = Transaction::query()
+        // ->where(function ($query) {
+        //     $query->where('type','withdraw')
+        //           ->where('confirmed','<>',1);
+        // })->orWhere(function ($query) {
+        //     $query->orWhereJsonContains('meta->type','request_withdraw')
+        //     ->orWhereJsonContains('meta->type','accept');
+        // })
+        ->where('type','withdraw')
         ->where('confirmed','<>',1)
         ->orWhereJsonContains('meta->type','request_withdraw')
-        ->orWhereJsonContains('meta->type','accept')
+        ->orWhereJsonContains('meta->type','accept_wihdraw')
         ->with('wallet');
+        // ->orderBy('transactions.created_at','DESC')->take(10)->get();
         
         // ->join('wallets', 'wallets.id', '=', 'transactions.wallet_id')
         // ->join('users', 'users.id', '=', 'wallets.holder_id');
@@ -69,7 +78,7 @@ class WithdrawAdminController extends Controller
         if ($transaction->payable_type=='App\Models\User') {
             $user = User::find($transaction->payable_id);
         }
-        $transaction->meta = ['type'=>'accept','message' => 'Withdraw Anda sudah diterima oleh Admin'];
+        $transaction->meta = ['type'=>'accept_wihdraw','message' => 'Withdraw Anda sudah diterima oleh Admin'];
         $transaction->save();
         $user->confirm($transaction);
 

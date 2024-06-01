@@ -140,6 +140,14 @@ export default function MyCompanyCustomer({
                                             {item.name}
                                         </p>
                                     </div>
+                                    <div className="flex items-center justify-between px-4 my-4">
+                                        <p className="text-sm font-semibold text-gray-500">
+                                            Nama Pelanggan
+                                        </p>
+                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            {item.customerName}
+                                        </p>
+                                    </div>
                                         <div className="flex items-center px-4 my-4 justify-evenly">
                                             {item.selesai_customer == 1 ? (
                                                 <ThirdButtonNoLink

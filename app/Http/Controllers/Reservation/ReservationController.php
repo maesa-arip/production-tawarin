@@ -258,10 +258,11 @@ class ReservationController extends Controller
     {
         $myCustomers = ReservationCustomer::where('reservation_companies.user_id', auth()->user()->id)
             ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('users', 'users.id', 'reservation_customers.user_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName')->orderBy('reservation_customers.created_at', 'DESC')->get();
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName','users.name as customerName')->orderBy('reservation_customers.created_at', 'DESC')->get();
         return Inertia::render('Reservation/Profile/MyCompanyCustomer', [
             'myCustomers' => $myCustomers,
         ]);
@@ -446,6 +447,7 @@ class ReservationController extends Controller
             $walletBonusReferral = $referal->createWallet(['name' => 'Bonus Wallet','slug' => 'bonus']);
         };
         $tfTempTawarin = $reservationCounter->price - $reservationCounter->price_user;
+        $tfBahan = $reservationCounter->bhp;
         $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->jasa;
         $tfReferral = (5 / 100 * $tfTempTawarin);
         $tfTawarin = $tfTempTawarin - $tfReferral;
@@ -483,6 +485,13 @@ class ReservationController extends Controller
                 deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                 withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
             ));
+            if ($tfBahan>0) {
+                $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
+                    deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
+                    withdraw: new Option(meta: ['message' => 'Uang Bahan ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'], confirmed: true)
+                ));
+            }
+            
             if ($reservationCounter->deposit > 0) {
                 if ($pemilik->hasWallet('deposit')) {
                     $depositpemilik = $pemilik->getWallet('deposit');

@@ -126,6 +126,14 @@ export default function MyEmployeeRequestOff({
                                             {item.date}
                                             </p>
                                         </div>
+                                        <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Alasan
+                                            </p>
+                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            {item.reason}
+                                            </p>
+                                        </div>
                                        
                                         
                                         <div className="flex items-center px-4 my-4 justify-evenly">
