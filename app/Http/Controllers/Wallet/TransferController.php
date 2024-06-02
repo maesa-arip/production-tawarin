@@ -13,7 +13,7 @@ class TransferController extends Controller
 {
     public function transfer()
     {
-        $users = User::whereNotIn('users.id', [auth()->user()->id])->join('contacts', 'users.id', '=', 'contacts.contact_id')->where('user_id',auth()->user()->id)->select('users.*')->get();
+        $users = User::whereNotIn('users.id', [auth()->user()->id])->join('contacts', 'users.id', '=', 'contacts.contact_id')->where('user_id',auth()->user()->id)->whereNotNull('email_verified_at')->select('users.*')->get();
         return inertia('Wallets/Transfer/Create', [
             'users' => UserResource::collection($users),
         ]);

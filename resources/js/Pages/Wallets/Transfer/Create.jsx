@@ -14,6 +14,7 @@ import EditModal from "@/Components/Modal/EditModal";
 import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
+import InfoModal from "@/Components/Modal/InfoModal";
 
 export default function Create({ users }) {
     // const [enabled, setEnabled] = useState(false);
@@ -64,9 +65,43 @@ export default function Create({ users }) {
             },
         });
     };
-    // console.log(users)
+    const [isOpenConfirmationDialog, setIsOpenConfirmationDialog] =
+        useState(false);
+    const openConfirmationDialog = (result) => {
+        setState(result);
+        // console.log(data);
+        setIsOpenConfirmationDialog(true);
+    };
+    const closeConfirmationDialog = () => {
+        setIsOpenConfirmationDialog(false);
+        setState();
+    };
     return (
         <div>
+            <InfoModal
+                isOpenInfoDialog={isOpenConfirmationDialog}
+                setIsOpenInfoDialog={setIsOpenConfirmationDialog}
+                size="2xl"
+                title={"Konfirmasi"}
+                closeButton="false"
+            >
+                <p className="my-4 text-left text-wrap">Yakin Transfer Dana kepada ?</p>
+                <div className="px-2 mb-4 overflow-auto border rounded-xl ">
+                    
+                    <p className="my-4 text-left text-wrap">Nama: <br /> {selected.name}</p>
+                    <p className="my-4 text-left text-wrap">Email: <br />{selected.email}</p>
+                    <p className="my-4 text-left text-wrap">Phone Number: <br />{selected.phone}</p>
+                    <p className="my-4 text-left text-wrap">Jumlah: <br /> {formatRupiahAmount}</p>
+                </div>
+                <ThirdButtonNoLink
+                    color="secondary"
+                    className="mx-4"
+                    onClick={closeConfirmationDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink onClick={onSubmitHandler}>Kirim</ThirdButtonNoLink>
+            </InfoModal>
             <EditModal
                 isOpenEditDialog={isOpenJoinDialog}
                 setIsOpenEditDialog={setIsOpenJoinDialog}
@@ -91,7 +126,6 @@ export default function Create({ users }) {
             </EditModal>
             <Head title="Transfer" />
             <Container>
-            
                 <div className="mt-10 sm:mt-0">
                     <div className="md:grid md:grid-cols-3 md:gap-6">
                         <div className="md:col-span-1">
@@ -112,9 +146,9 @@ export default function Create({ users }) {
                                 </p>
                             </div>
                         </div>
-                        <form onSubmit={onSubmitHandler}>
+                        {/* <form onSubmit={onSubmitHandler}> */}
                         <div className="mt-5 md:mt-0 md:col-span-2">
-                            <div className="overflow-auto h-96 shadow sm:rounded-md">
+                            <div className="overflow-auto shadow h-96 sm:rounded-md">
                                 <div className="px-4 py-5 bg-white sm:p-6">
                                     <div className="grid grid-cols-6 gap-6">
                                         <div className="col-span-6 sm:col-span-6 lg:col-span-5">
@@ -190,42 +224,23 @@ export default function Create({ users }) {
                                                 </span>
                                             </div>
                                         </div>
-                                        {/* <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                                                <label
-                                                    htmlFor="berita"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Catatan
-                                                </label>
-                                                <div className="mt-1">
-                                                    <textarea
-                                                        id="berita"
-                                                        name="berita"
-                                                        rows={3}
-                                                        onChange={onChange}
-                                                        className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        placeholder=""
-                                                        defaultValue={""}
-                                                    />
-                                                </div>
-                                                <p className="mt-2 text-sm text-gray-500">
-                                                    Masukan Penjelasan Tentang
-                                                    Bisnis Anda
-                                                </p>
-                                            </div> */}
                                     </div>
                                 </div>
                                 <div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                                    <ThirdButtonNoLink processing={processing}>
+                                    <ThirdButtonNoLink
+                                        onClick={() =>
+                                            openConfirmationDialog(data)
+                                        }
+                                    >
                                         Transfer
                                     </ThirdButtonNoLink>
                                 </div>
                             </div>
                         </div>
-                        </form>
+                        {/* </form> */}
                     </div>
                 </div>
-               
+
                 <form onSubmit={onSubmitHandler}>
                     <div className="hidden sm:block" aria-hidden="true">
                         <div className="py-5">
