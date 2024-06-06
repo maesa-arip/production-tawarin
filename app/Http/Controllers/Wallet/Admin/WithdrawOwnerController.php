@@ -91,7 +91,7 @@ class WithdrawOwnerController extends Controller
         $transaction2->save();
         $user2->confirm($transaction2);
 
-        $user->notify(new WithdrawConfirmNotification($transaction));
+        // $user->notify(new WithdrawConfirmNotification($transaction));
         Cache::forget('notifications_count');
 
         return redirect('/owneradmindeposits')->with([
@@ -107,7 +107,7 @@ class WithdrawOwnerController extends Controller
         ]);
         // dd($request->all());
         $transaction = Transaction::find($id);
-        $transaction->meta = ['type'=>'decline','message' => 'Withdraw Anda ditolak oleh admin karena '.$validated['reason']];
+        $transaction->meta = ['type'=>'decline_deposit_withdraw','message' => 'Transfer Deposit ke Saldo Utama Anda ditolak oleh admin karena '.$validated['reason']];
         $transaction->save();
         if ($transaction->payable_type=='App\Models\User') {
             $user = User::find($transaction->payable_id);
@@ -128,9 +128,9 @@ class WithdrawOwnerController extends Controller
         // $user->notify(new DepositConfirmNotification($transaction));
         Cache::forget('notifications_count');
 
-        return redirect('/adminwithdraws')->with([
+        return redirect('/owneradmindeposits')->with([
             'type' => 'success',
-            'message' => 'Berhasil Tolak Top Up',
+            'message' => 'Berhasil Tolak Tranfer Deposit ke Saldo Utama',
         ]);
     }
 }
