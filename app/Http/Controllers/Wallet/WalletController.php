@@ -18,7 +18,7 @@ class WalletController extends Controller
         $balance = auth()->user()->balance;
         
         $wallet_id = DB::table('wallets')->where('holder_type','App\Models\User')->where('name','Default Wallet')->where('holder_id',$user->id)->first();
-        $depositpekerja = abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','withdraw')->whereJsonContains('meta->type', 'deposit')->sum('amount'));
+        $depositpekerja = abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','withdraw')->where('confirmed',1)->whereJsonContains('meta->type', 'deposit')->sum('amount')) - abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','deposit')->whereJsonContains('meta->type', 'deposit_withdraw')->where('confirmed',1)->sum('amount'));
         $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;
         $deposit = auth()->user()->hasWallet('deposit') ? auth()->user()->getWallet('deposit')->balance : 0 ;
         return inertia('Wallets/Basic/Index',[

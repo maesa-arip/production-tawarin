@@ -37,58 +37,24 @@ const DownIcon = () => (
 );
 
 export default function TawarinSummary(props) {
-    const {
-        data: transactions,
-        meta,
-        filtered,
-        attributes,
-    } = props.transactions;
-    // console.log(transaction);
-    const [pageNumber, setPageNumber] = useState([]);
-    const [params, setParams] = useState(filtered);
-    const [isInitialRender, setIsInitialRender] = useState(true);
-    const reload = useCallback(
-        debounce((query) => {
-            Inertia.get(
-                route(route().current()),
-                // route("riskRegisterKlinis.index"),
-                { ...pickBy(query), page: query.page },
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                }
-            );
-        }, 150),
-        []
-    );
-    useEffect(() => {
-        if (!isInitialRender) {
-            reload(params);
-        } else {
-            setIsInitialRender(false);
-        }
-    }, [params]);
-    useEffect(() => {
-        let numbers = [];
-        for (
-            let i = attributes.per_page;
-            i < attributes.total / attributes.per_page;
-            i = i + attributes.per_page
-        ) {
-            numbers.push(i);
-        }
-        setPageNumber(numbers);
-    }, []);
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
-    const sort = (item) => {
-        setParams({
-            ...params,
-            field: item,
-            direction: params.direction == "asc" ? "desc" : "asc",
-        });
-    };
-    // console.log(transaction)
+    // const {
+    //     data: transactions,
+    //     meta,
+    //     filtered,
+    //     attributes,
+    // } = props.transactions;
+    const topUpBelumKonfirmasi = props.topUpBelumKonfirmasi;
+    const topUpSudahKonfirmasi = props.topUpSudahKonfirmasi;
+    const topUpSudahKonfirmasiNULL = props.topUpSudahKonfirmasiNULL;
+    const totalTopUp = props.totalTopUp;
+    const topUpDitolak = props.topUpDitolak;
+    const withdrawBelumKonfirmasi = props.withdrawBelumKonfirmasi;
+    const withdrawSudahKonfirmasi = props.withdrawSudahKonfirmasi;
+    const withdrawDitolak = props.withdrawDitolak;
+    const referral = props.referral;
+    const fee = props.fee;
+    const bonus = props.bonus;
+
     return (
         <>
             <Head title="History" />
@@ -99,18 +65,7 @@ export default function TawarinSummary(props) {
                     <div className="flex items-center justify-end">
                         <div className="w-full px-4">
                             <div className="flex items-center justify-end mb-6 gap-x-2">
-                                <select
-                                    name="load"
-                                    id="load"
-                                    onChange={onChange}
-                                    value={params.load}
-                                    className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
-                                >
-                                    {pageNumber.map((page, index) => (
-                                        <option key={index}>{page}</option>
-                                    ))}
-                                </select>
-                                <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
+                                {/* <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
                                     <svg
                                         className="inline w-5 h-5 text-gray-500"
                                         fill="none"
@@ -133,7 +88,7 @@ export default function TawarinSummary(props) {
                                         value={params.q}
                                         className="w-full border-0 focus:ring-0 form-text"
                                     />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -142,55 +97,311 @@ export default function TawarinSummary(props) {
                         <div className="overflow-x-auto rounded sm:-mx-6 lg:-mx-8">
                             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                                 <div className="overflow-hidden sm:rounded-lg">
-                                            {transactions.map(
-                                                (transaction, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className="flex items-start p-4 my-4 bg-white border rounded-xl"
-                                                    >
-                                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
-                                                                width={24}
-                                                                height={24}
-                                                                viewBox="0 0 24 24"
-                                                                strokeWidth={2}
-                                                                stroke="currentColor"
-                                                                fill="none"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            >
-                                                                <path
-                                                                    stroke="none"
-                                                                    d="M0 0h24v24H0z"
-                                                                    fill="none"
-                                                                />
-                                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
-                                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
-                                                            </svg>
-                                                        </div>
-                                                        <div className="ml-4">
-                                                            <h2 className="text-base font-semibold">
-                                                                Rp{" "}
-                                                                {numberFormat(
-                                                                    transaction.total_amount
-                                                                )}
-                                                            </h2>
-                                                            <p className="mt-2 text-sm text-gray-500">
-                                                                Deposit dari{" "}
-                                                                {
-                                                                    transaction.user_name
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            )}
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    topUpBelumKonfirmasi
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                TopUp Belum Konfirmasi
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="overflow-hidden sm:rounded-lg">
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    totalTopUp
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                TopUp Sudah Konfirmasi
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* <div className="overflow-hidden sm:rounded-lg">
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    topUpSudahKonfirmasiNULL
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                TopUp Sudah Konfirmasi NULL
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> */}
+                                <div className="overflow-hidden sm:rounded-lg">
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    withdrawBelumKonfirmasi
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Withdraw Belum Konfirmasi
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="overflow-hidden sm:rounded-lg">
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    withdrawSudahKonfirmasi
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Withdraw Sudah Konfirmasi
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="overflow-hidden sm:rounded-lg">
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    referral
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Referral
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="overflow-hidden sm:rounded-lg">
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    bonus
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Bonus
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="overflow-hidden sm:rounded-lg">
+                                    <div className="flex items-start p-4 my-4 bg-white border rounded-xl">
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="w-6 h-6 text-orange-400 icon icon-tabler icon-tabler-cash"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                strokeWidth={2}
+                                                stroke="currentColor"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                                />
+                                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-4">
+                                            <h2 className="text-base font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(
+                                                    fee
+                                                )}
+                                            </h2>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                Fee
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <ul className="flex items-center mt-4 gap-x-1">
-                                    {meta.links.map((item, index) => (
+                                    {/* {meta.links.map((item, index) => (
                                         <button
                                             key={index}
                                             disabled={
@@ -212,7 +423,7 @@ export default function TawarinSummary(props) {
                                         >
                                             {item.label}
                                         </button>
-                                    ))}
+                                    ))} */}
                                 </ul>
                             </div>
                         </div>

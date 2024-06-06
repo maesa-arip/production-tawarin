@@ -33,4 +33,24 @@ class TransferController extends Controller
             'message'=>'Transfer Berhasil']
         );
     }    
+    public function transferdepositstore(Request $request)
+    {
+        $main = auth()->user()->getWallet('default');
+        $deposit_wallet = User::find(25)->getWallet('deposit');
+        $from = User::find(25);
+        $to = User::find(auth()->user()->id);
+        // $transfer = $firstWallet->transfer($secondWallet, 500, new Extra(
+        //     deposit: ['message' => 'Hello, secondWallet!'],
+        //     withdraw: new Option(meta: ['something' => 'anything'], confirmed: false)
+        // ));
+        $transfer = $deposit_wallet->transfer($to, $request->amount, new Extra(
+            // deposit: ['message' => 'Pengembalian deposit dari '.$from->name,'type'=>'deposit_withdraw'],
+            deposit: new Option(meta: ['message' => 'Pengembalian deposit dari '.$from->name,'type' => 'deposit_withdraw'], confirmed: false),
+            withdraw: new Option(meta: ['message' => 'Pengembalian deposit ke '.$to->name,'type' => 'deposit_withdraw'], confirmed: false)
+        ));
+        return redirect('wallets')->with(
+            ['type'=>'success',
+            'message'=>'Transfer Deposit Berhasil']
+        );
+    } 
 }

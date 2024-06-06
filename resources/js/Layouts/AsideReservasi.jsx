@@ -224,6 +224,16 @@ export default function AsideReservasi() {
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                 <Link
                                                     onClick={toggleMenu}
+                                                    href="/owneradmindeposits"
+                                                    className="text-white"
+                                                >
+                                                    {" "}
+                                                    Penarikan Deposit
+                                                </Link>
+                                            </li>
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                    onClick={toggleMenu}
                                                     href={route(
                                                         "reservationprofile.edit"
                                                     )}
@@ -308,7 +318,31 @@ export default function AsideReservasi() {
                                             <Link
                                                 onClick={toggleMenu}
                                                 href={route(
-                                                    "reservationprofile.edit"
+                                                    "topup.summary"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Rekapan TopUp
+                                            </Link>
+                                        </li>
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "tawarin.summary"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Rekapan Tawarin
+                                            </Link>
+                                        </li>
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "company.summary"
                                                 )}
                                                 className="text-white "
                                             >

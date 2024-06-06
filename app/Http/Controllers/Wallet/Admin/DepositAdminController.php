@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Cache;
 
 class DepositAdminController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     public $loadDefault = 10;
     public function index(Request $request)
     {

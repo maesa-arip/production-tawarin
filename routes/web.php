@@ -46,6 +46,7 @@ use App\Http\Controllers\Wallet\DepositController;
 use App\Http\Controllers\Wallet\TransferController;
 use App\Http\Controllers\Wallet\WalletController;
 use App\Http\Controllers\Wallet\Admin\WithdrawAdminController;
+use App\Http\Controllers\Wallet\Admin\WithdrawOwnerController;
 use App\Http\Controllers\Wallet\HistoryController as WalletHistoryController;
 use App\Http\Controllers\Wallet\PlanDepositController;
 use App\Http\Controllers\Wallet\WithdrawController;
@@ -221,14 +222,29 @@ Route::get('toko/products/me', [ProductController::class, 'mine'])->middleware('
 Route::resource('toko/products', ProductController::class);
 
 
+Route::group(['middleware' => ['permission:lihat menu admin saldo']], function () {
+    Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class, 'confirmed'])->name('admindeposit.confirmed');
+    Route::patch('admindeposit/{id}/decline', [DepositAdminController::class, 'decline'])->name('admindeposit.decline');
+    Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class, 'confirmed'])->name('adminwithdraw.confirmed');
+    Route::patch('adminwithdraw/{id}/decline', [WithdrawAdminController::class, 'decline'])->name('adminwithdraw.decline');
+    Route::Resource('admindeposits', DepositAdminController::class);
+    Route::Resource('adminwithdraws', WithdrawAdminController::class);
+});
+
+Route::group(['middleware' => ['permission:lihat menu owner reservasi']], function () {
+    Route::patch('owneradmindeposits/{id}/confirmed', [WithdrawOwnerController::class, 'confirmed'])->name('owneradmindeposits.confirmed');
+    Route::patch('owneradmindeposits/{id}/decline', [WithdrawOwnerController::class, 'decline'])->name('owneradmindeposits.decline');
+    Route::Resource('owneradmindeposits', WithdrawOwnerController::class);
+});
+
+Route::get('/user/list', [UserController::class, 'list'])->name('user.list');
+Route::get('/user/detail/{username}', [UserController::class, 'detail'])->name('user.detail');
+
 Route::group(['middleware' => ['permission:atur hak akses user']], function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('permissions', PermissionController::class);
 });
-
-Route::get('/user/list', [UserController::class, 'list'])->name('user.list');
-Route::get('/user/detail/{username}', [UserController::class, 'detail'])->name('user.detail');
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -294,12 +310,7 @@ Route::middleware('auth', 'verified')->group(function () {
     // End Fundings
 
     // Wallets
-    Route::patch('admindeposit/{id}/confirmed', [DepositAdminController::class, 'confirmed'])->name('admindeposit.confirmed');
-    Route::patch('admindeposit/{id}/decline', [DepositAdminController::class, 'decline'])->name('admindeposit.decline');
-    Route::patch('adminwithdraw/{id}/confirmed', [WithdrawAdminController::class, 'confirmed'])->name('adminwithdraw.confirmed');
-    Route::patch('adminwithdraw/{id}/decline', [WithdrawAdminController::class, 'decline'])->name('adminwithdraw.decline');
-    Route::Resource('admindeposits', DepositAdminController::class);
-    Route::Resource('adminwithdraws', WithdrawAdminController::class);
+    
     Route::Resource('wallets', WalletController::class);
     Route::Resource('deposits', DepositController::class);
     Route::Resource('withdraws', WithdrawController::class);
@@ -312,9 +323,12 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('bonus/histories', [WalletHistoryController::class,'bonus'])->name('bonus.histories');
     Route::get('deposit/histories', [WalletHistoryController::class,'deposit'])->name('deposit.histories');
     Route::get('deposit/summary', [WalletHistoryController::class,'summary'])->name('deposit.summary');
+    Route::get('company/summary', [WalletHistoryController::class,'companysummary'])->name('company.summary');
     Route::get('tawarin/summary', [WalletHistoryController::class,'summarytawarin'])->name('tawarin.summary');
+    Route::get('topup/summary', [WalletHistoryController::class,'summarytopup'])->name('topup.summary');
     Route::get('wallet/transfers', [TransferController::class, 'transfer'])->name('wallet.transfer');
     Route::post('wallet/transfers', [TransferController::class, 'transferstore'])->name('wallet.transferstore');
+    Route::post('wallet/transferdepositstore', [TransferController::class, 'transferdepositstore'])->name('wallet.transferdepositstore');
     Route::get('plan/deposit/{plan}', [PlanDepositController::class, 'plandeposit'])->name('plan.deposit');
     Route::post('plan/deposit/{plan}', [PlanDepositController::class, 'plandepositstore'])->name('plan.depositstore');
     // End Wallets

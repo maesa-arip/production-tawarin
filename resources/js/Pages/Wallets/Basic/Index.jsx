@@ -3,19 +3,74 @@ import Header from "@/Components/Header";
 import NavLink from "@/Components/NavLink";
 import App from "@/Layouts/App";
 import { numberFormat } from "@/Libs/helper";
-import { Head, Link, usePage } from "@inertiajs/inertia-react";
-import React from "react";
+import { Head, Link, useForm, usePage } from "@inertiajs/inertia-react";
+import React, { useState } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
+import InfoModal from "@/Components/Modal/InfoModal";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
+import InputLabel from "@/Components/InputLabel";
+import TextAreaInput from "@/Components/TextAreaInput";
+import InputError from "@/Components/InputError";
 
 export default function Index({ balance, bonus, referral, deposit, depositpekerja }) {
     const { permissions } = usePage().props;
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
+        const { data, setData, patch,post,put, processing, errors, reset } = useForm({
+        });
+    const [isOpenConfirmationDialog,setIsOpenConfirmationDialog] = useState(false);
+        const openConfirmationDepositToMainWallet= ()=>{
+            // console.log('open')
+            setIsOpenConfirmationDialog(true)
+        }
+        const closeInfoDialog =()=>{
+            setIsOpenConfirmationDialog(false)
+        }
+       
+        const handleTransferDeposit =(e) =>{
+            e.preventDefault();
+            post(route("wallet.transferdepositstore"), {
+                data,
+                onSuccess: () => {
+                    return Promise.all([setIsOpenConfirmationDialog(false), reset()]);
+                },
+            });
+            // console.log('begin transfer')
+
+        }
     return (
         <>
             <Head title="Wallet" />
-
+            <InfoModal
+                isOpenInfoDialog={isOpenConfirmationDialog}
+                setIsOpenInfoDialog={setIsOpenConfirmationDialog}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Transfer Deposit ke Saldo Utama ?"}
+            >
+                <InputLabel className={'text-left mt-4'}>Masukan Nominal</InputLabel>
+                    <TextAreaInput
+                        type="text"
+                        name="amount"
+                        value={data.amount}
+                        className="block w-full mt-1"
+                        autoComplete="amount"
+                        isFocused={true}
+                        handleChange ={(e) => setData("amount", e.target.value)}
+                    />
+                    <InputError message={errors.amount} className="mt-2 mb-2 text-left" />
+                <ThirdButtonNoLink processing={processing} onClick={handleTransferDeposit}>
+                    Transfer
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeInfoDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
             <div className="max-w-full mx-auto">
                 <div className="p-8 mb-5 bg-white rounded-3xl">
                     <h1 className="mb-10 text-3xl font-bold">
@@ -437,6 +492,18 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                 
                             </div>
                             <div className="grid w-full grid-cols-2 mt-6 text-white gap-x-1 md:w-96">
+                            <div className="grid w-full grid-cols-1">
+                                    <button
+                                        type="button"
+                                        className={
+                                            "inline-flex text-center items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                        }
+                                        onClick={openConfirmationDepositToMainWallet}
+                                        // href={"/wallet/transfers"}
+                                    >
+                                        Transfer ke Saldo Utama(Deposit)
+                                    </button>
+                                </div>
                                 <div className="grid w-full grid-cols-1">
                                 <NavLink
                                         type="button"
@@ -447,6 +514,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                     >
                                         Rincian
                                     </NavLink>
+                                    
                                 </div>
                                 <div className="grid w-full grid-cols-2 gap-x-1">
                                     
