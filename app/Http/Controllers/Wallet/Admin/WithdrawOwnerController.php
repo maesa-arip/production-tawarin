@@ -28,7 +28,12 @@ class WithdrawOwnerController extends Controller
         // })
         ->where('type','withdraw')
         // ->where('confirmed','<>',1)
-        ->whereJsonContains('meta->type','deposit_withdraw')
+        ->where(function ($query) {
+            $query->orWhereJsonContains('meta->type','deposit_withdraw')
+            ->orWhereJsonContains('meta->type','decline_deposit_withdraw');
+        })
+        // ->whereJsonContains('meta->type','deposit_withdraw')
+        // ->orWhereJsonContains('meta->type','decline_deposit_withdraw')
         ->with('wallet');
         // ->orderBy('transactions.created_at','DESC')->take(10)->get();
         
@@ -107,8 +112,19 @@ class WithdrawOwnerController extends Controller
         ]);
         // dd($request->all());
         $transaction = Transaction::find($id);
+        
+        if ($transaction->payable_type=='App\Models\User') {
+            $user = User::find($transaction->payable_id);
+        }
+        $deposit_id = DB::table('transfers')->where('withdraw_id',$id)->first();
+        $transaction2 = Transaction::find($deposit_id->deposit_id);
+        $user2 = User::find($transaction2->payable_id);
+
         $transaction->meta = ['type'=>'decline_deposit_withdraw','message' => 'Transfer Deposit ke Saldo Utama Anda ditolak oleh admin karena '.$validated['reason']];
         $transaction->save();
+
+        $transaction2->meta = ['type'=>'decline_deposit_withdraw','message' => 'Transfer Deposit ke Saldo Utama Anda ditolak oleh admin karena '.$validated['reason']];
+        $transaction2->save();
         if ($transaction->payable_type=='App\Models\User') {
             $user = User::find($transaction->payable_id);
         }

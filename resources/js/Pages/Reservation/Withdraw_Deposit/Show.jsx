@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import App from "@/Layouts/App";
+import AppReservasi from "@/Layouts/AppReservasi";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import { numberFormat } from "@/Libs/helper";
 import Container from "@/Components/Container";
@@ -138,7 +138,7 @@ export default function Show({ transaction }) {
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
                                         {transaction.confirmed == 0 &&
-                                        transaction.meta?.type == "decline" ? (
+                                        transaction.meta?.type == "decline_deposit_withdraw" ? (
                                             <ThirdButtonSmallNoLink color="red">
                                                 Ditolak
                                             </ThirdButtonSmallNoLink>
@@ -163,40 +163,18 @@ export default function Show({ transaction }) {
                                 </div>
                                 <div className="pt-4 border-t border-gray-200">
                                     <dt className="font-medium text-gray-900">
-                                        Informasi Bank
+                                        Alasan
                                     </dt>
                                     <dd className="mt-2 text-sm text-gray-500">
                                         <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
                                             <div className="flex">
-                                                <p>Nama Bank</p>
-                                                <p className="ml-9">
-                                                    :{" "}
-                                                    {
+                                                <p>{
                                                         transaction.meta
-                                                            ?.bank_name
-                                                    }
-                                                </p>
+                                                            ?.reason
+                                                    }</p>
+                                                
                                             </div>
-                                            <div className="flex">
-                                                <p>Nomor Rekening</p>
-                                                <p className="ml-9">
-                                                    :{" "}
-                                                    {
-                                                        transaction.meta
-                                                            ?.account_number
-                                                    }
-                                                </p>
-                                            </div>
-                                            <div className="flex">
-                                                <p>Nama Pemilik</p>
-                                                <p className="ml-9">
-                                                    :{" "}
-                                                    {
-                                                        transaction.meta
-                                                            ?.account_name
-                                                    }
-                                                </p>
-                                            </div>
+                                            
                                         </div>
                                     </dd>
                                 </div>
@@ -207,7 +185,7 @@ export default function Show({ transaction }) {
                                 <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
                                     <div>
                                     {transaction.confirmed == 0 &&
-                                    transaction.meta?.type == "decline" ? (
+                                    transaction.meta?.type == "decline_deposit_withdraw" ? (
                                         <div className="px-1 py-3 text-right sm:px-6">
                                             <p className="text-sm font-medium text-left text-red-500">
                                             {transaction.meta?.message}
@@ -225,7 +203,7 @@ export default function Show({ transaction }) {
                                 </div>
                                 <div className="flex justify-end bg-gray-50">
                                     {transaction.confirmed == 0 &&
-                                    transaction.meta?.type == "decline" ? (
+                                    transaction.meta?.type == "decline_deposit_withdraw" ? (
                                         <div className="px-4 py-3 text-right sm:px-6">
                                             <ThirdButtonNoLink color="red">
                                                 Withdraw Sudah Ditolak
@@ -266,4 +244,4 @@ export default function Show({ transaction }) {
     );
 }
 
-Show.layout = (page) => <App children={page}></App>;
+Show.layout = (page) => <AppReservasi children={page}></AppReservasi>;

@@ -29,7 +29,7 @@ class WithdrawAdminController extends Controller
         ->where('confirmed','<>',1)
         ->whereJsonDoesntContain('meta->type','deposit_withdraw')
         ->orWhereJsonContains('meta->type','request_withdraw')
-        ->orWhereJsonContains('meta->type','accept_wihdraw')
+        ->orWhereJsonContains('meta->type','accept_withdraw')
         ->with('wallet');
         // ->orderBy('transactions.created_at','DESC')->take(10)->get();
         
@@ -80,7 +80,7 @@ class WithdrawAdminController extends Controller
             $user = User::find($transaction->payable_id);
         }
         // dd($user);
-        $transaction->meta = ['type'=>'accept_wihdraw','message' => 'Withdraw Anda sudah diterima oleh Admin'];
+        $transaction->meta = ['type'=>'accept_withdraw','message' => 'Withdraw Anda sudah diterima oleh Admin'];
         $transaction->save();
         $user->confirm($transaction);
 

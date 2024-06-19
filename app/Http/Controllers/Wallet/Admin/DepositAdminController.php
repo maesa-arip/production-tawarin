@@ -43,7 +43,7 @@ class DepositAdminController extends Controller
             $query->orderBy($request->field,$request->direction);
         }
         $transactions = (
-            DepositAdminResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+            DepositAdminResource::collection($query->latest()->fastPaginate($request->load ?? $this->loadDefault)->withQueryString()->onEachSide(1))
         )->additional([
             'attributes' => [
                 'total' => Transaction::count(),

@@ -133,6 +133,7 @@ export default function AsideReservasi() {
                             </li>
                             {permission_name.indexOf("lihat menu admin saldo") >
                                 -1 && (
+                                    <>
                                 <li className="justify-between w-full">
                                     <div className="flex items-center">
                                         <button
@@ -196,6 +197,55 @@ export default function AsideReservasi() {
                                         </ul>
                                     )}
                                 </li>
+                                <li className="justify-between w-full">
+                                <div className="flex items-center">
+                                    <button
+                                        className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                        onClick={() => toggleSubmenu(5)}
+                                    >
+                                        Rekapan
+                                        <span className="text-right submenu-icon">
+                                            {submenuOpen === 5 ? (
+                                                <MinusSVG />
+                                            ) : (
+                                                <PlusSVG />
+                                            )}
+                                        </span>
+                                    </button>
+                                </div>
+                                {submenuOpen === 5 && (
+                                    <ul
+                                        className={`pl-4 space-y-2 ${subMenuClass}`}
+                                    >
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "topup.summary"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Rekapan TopUp
+                                            </Link>
+                                        </li>
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "tawarin.summary"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Rekapan Tawarin
+                                            </Link>
+                                        </li>
+                                        
+                                    </ul>
+                                )}
+                            </li>
+                                </>
                             )}
                             {permission_name.indexOf(
                                 "lihat menu owner reservasi"
@@ -314,30 +364,7 @@ export default function AsideReservasi() {
                                     <ul
                                         className={`pl-4 space-y-2 ${subMenuClass}`}
                                     >
-                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                            <Link
-                                                onClick={toggleMenu}
-                                                href={route(
-                                                    "topup.summary"
-                                                )}
-                                                className="text-white "
-                                            >
-                                                {" "}
-                                                Rekapan TopUp
-                                            </Link>
-                                        </li>
-                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                            <Link
-                                                onClick={toggleMenu}
-                                                href={route(
-                                                    "tawarin.summary"
-                                                )}
-                                                className="text-white "
-                                            >
-                                                {" "}
-                                                Rekapan Tawarin
-                                            </Link>
-                                        </li>
+                                        
                                         <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                             <Link
                                                 onClick={toggleMenu}
@@ -354,18 +381,21 @@ export default function AsideReservasi() {
                                             <Link
                                                 onClick={toggleMenu}
                                                 href={route(
-                                                    "reservationprofile.edit"
+                                                    "company.chart"
                                                 )}
                                                 className="text-white "
                                             >
                                                 {" "}
-                                                Rekapan Pendapatan Karyawan
+                                                Grafik Layanan Perusahaan
                                             </Link>
                                         </li>
+                                        
                                     </ul>
                                 )}
-                            </li></>
+                            </li>
+                            </>
                             )}
+                            
                             {permission_name.indexOf(
                                 "lihat menu pekerja reservasi"
                             ) > -1 && (
@@ -441,6 +471,7 @@ export default function AsideReservasi() {
                                     )}
                                 </li>
                             )}
+                            
                             <li className="justify-between w-full">
                                     <div className="flex items-center">
                                         <button
@@ -488,6 +519,62 @@ export default function AsideReservasi() {
                                         </ul>
                                     )}
                                 </li>
+                                {permission_name.indexOf(
+                                "lihat menu pekerja reservasi"
+                            ) > -1 && (
+                                <>
+                                
+                                <li className="justify-between w-full">
+                                <div className="flex items-center">
+                                    <button
+                                        className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                        onClick={() => toggleSubmenu(5)}
+                                    >
+                                        Rekapan
+                                        <span className="text-right submenu-icon">
+                                            {submenuOpen === 5 ? (
+                                                <MinusSVG />
+                                            ) : (
+                                                <PlusSVG />
+                                            )}
+                                        </span>
+                                    </button>
+                                </div>
+                                {submenuOpen === 5 && (
+                                    <ul
+                                        className={`pl-4 space-y-2 ${subMenuClass}`}
+                                    >
+                                        
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "employee.summary"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Rekapan Pendapatan Pekerja
+                                            </Link>
+                                        </li>
+                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            <Link
+                                                onClick={toggleMenu}
+                                                href={route(
+                                                    "employee.chart"
+                                                )}
+                                                className="text-white "
+                                            >
+                                                {" "}
+                                                Grafik Layanan Pekerja
+                                            </Link>
+                                        </li>
+                                        
+                                    </ul>
+                                )}
+                            </li>
+                            </>
+                            )}
                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                 <Link
                                     onClick={toggleMenu}

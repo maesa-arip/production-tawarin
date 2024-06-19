@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\ChooseController;
 use App\Http\Controllers\ContactController;
@@ -235,6 +236,13 @@ Route::group(['middleware' => ['permission:lihat menu owner reservasi']], functi
     Route::patch('owneradmindeposits/{id}/confirmed', [WithdrawOwnerController::class, 'confirmed'])->name('owneradmindeposits.confirmed');
     Route::patch('owneradmindeposits/{id}/decline', [WithdrawOwnerController::class, 'decline'])->name('owneradmindeposits.decline');
     Route::Resource('owneradmindeposits', WithdrawOwnerController::class);
+    Route::get('/companychart', [ChartController::class, 'index'])->name('company.chart');
+    Route::get('company/summary', [WalletHistoryController::class,'companysummary'])->name('company.summary');
+});
+
+Route::group(['middleware' => ['permission:lihat menu pekerja reservasi']], function () {
+    Route::get('/employeechart', [ChartController::class, 'employeechart'])->name('employee.chart');
+    Route::get('employee/summary', [WalletHistoryController::class,'employeesummary'])->name('employee.summary');
 });
 
 Route::get('/user/list', [UserController::class, 'list'])->name('user.list');
@@ -323,7 +331,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('bonus/histories', [WalletHistoryController::class,'bonus'])->name('bonus.histories');
     Route::get('deposit/histories', [WalletHistoryController::class,'deposit'])->name('deposit.histories');
     Route::get('deposit/summary', [WalletHistoryController::class,'summary'])->name('deposit.summary');
-    Route::get('company/summary', [WalletHistoryController::class,'companysummary'])->name('company.summary');
+    
     Route::get('tawarin/summary', [WalletHistoryController::class,'summarytawarin'])->name('tawarin.summary');
     Route::get('topup/summary', [WalletHistoryController::class,'summarytopup'])->name('topup.summary');
     Route::get('wallet/transfers', [TransferController::class, 'transfer'])->name('wallet.transfer');

@@ -7,88 +7,62 @@ import { Inertia } from "@inertiajs/inertia";
 import { numberFormat } from "@/Libs/helper";
 import { IconCash, IconChecks } from "@tabler/icons";
 
-const UpIcon = () => (
-    <svg
-        className="w-5 h-5 text-gray-500"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <path
-            fillRule="evenodd"
-            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-            clipRule="evenodd"
-        />
-    </svg>
-);
-const DownIcon = () => (
-    <svg
-        className="w-5 h-5 text-gray-500"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <path
-            fillRule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clipRule="evenodd"
-        />
-    </svg>
-);
+
 
 export default function DepositSummary(props) {
-    const {
-        data: transactions,
-        meta,
-        filtered,
-        attributes,
-    } = props.transactions;
+    // const {
+    //     data: transactions,
+    //     meta,
+    //     filtered,
+    //     attributes,
+    // } = props.transactions;
     // console.log(transaction);
-    const [pageNumber, setPageNumber] = useState([]);
-    const [params, setParams] = useState(filtered);
-    const [isInitialRender, setIsInitialRender] = useState(true);
-    const reload = useCallback(
-        debounce((query) => {
-            Inertia.get(
-                route(route().current()),
-                // route("riskRegisterKlinis.index"),
-                { ...pickBy(query), page: query.page },
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                }
-            );
-        }, 150),
-        []
-    );
-    useEffect(() => {
-        if (!isInitialRender) {
-            reload(params);
-        } else {
-            setIsInitialRender(false);
-        }
-    }, [params]);
-    useEffect(() => {
-        let numbers = [];
-        for (
-            let i = attributes.per_page;
-            i < attributes.total / attributes.per_page;
-            i = i + attributes.per_page
-        ) {
-            numbers.push(i);
-        }
-        setPageNumber(numbers);
-    }, []);
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
-    const sort = (item) => {
-        setParams({
-            ...params,
-            field: item,
-            direction: params.direction == "asc" ? "desc" : "asc",
-        });
-    };
-    // console.log(transaction)
+    const transactions = props.transactions;
+    // const [pageNumber, setPageNumber] = useState([]);
+    // const [params, setParams] = useState(filtered);
+    // const [isInitialRender, setIsInitialRender] = useState(true);
+    // const reload = useCallback(
+    //     debounce((query) => {
+    //         Inertia.get(
+    //             route(route().current()),
+    //             // route("riskRegisterKlinis.index"),
+    //             { ...pickBy(query), page: query.page },
+    //             {
+    //                 preserveState: true,
+    //                 preserveScroll: true,
+    //             }
+    //         );
+    //     }, 150),
+    //     []
+    // );
+    // useEffect(() => {
+    //     if (!isInitialRender) {
+    //         reload(params);
+    //     } else {
+    //         setIsInitialRender(false);
+    //     }
+    // }, [params]);
+    // useEffect(() => {
+    //     let numbers = [];
+    //     for (
+    //         let i = attributes.per_page;
+    //         i < attributes.total / attributes.per_page;
+    //         i = i + attributes.per_page
+    //     ) {
+    //         numbers.push(i);
+    //     }
+    //     setPageNumber(numbers);
+    // }, []);
+    // const onChange = (event) =>
+    //     setParams({ ...params, [event.target.name]: event.target.value });
+    // const sort = (item) => {
+    //     setParams({
+    //         ...params,
+    //         field: item,
+    //         direction: params.direction == "asc" ? "desc" : "asc",
+    //     });
+    // };
+    // // console.log(transaction)
     return (
         <>
             <Head title="History" />
@@ -99,7 +73,7 @@ export default function DepositSummary(props) {
                     <div className="flex items-center justify-end">
                         <div className="w-full px-4">
                             <div className="flex items-center justify-end mb-6 gap-x-2">
-                                <select
+                                {/* <select
                                     name="load"
                                     id="load"
                                     onChange={onChange}
@@ -109,8 +83,8 @@ export default function DepositSummary(props) {
                                     {pageNumber.map((page, index) => (
                                         <option key={index}>{page}</option>
                                     ))}
-                                </select>
-                                <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
+                                </select> */}
+                                {/* <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
                                     <svg
                                         className="inline w-5 h-5 text-gray-500"
                                         fill="none"
@@ -133,7 +107,7 @@ export default function DepositSummary(props) {
                                         value={params.q}
                                         className="w-full border-0 focus:ring-0 form-text"
                                     />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -189,7 +163,7 @@ export default function DepositSummary(props) {
                                                 )
                                             )}
                                 </div>
-                                <ul className="flex items-center mt-4 gap-x-1">
+                                {/* <ul className="flex items-center mt-4 gap-x-1">
                                     {meta.links.map((item, index) => (
                                         <button
                                             key={index}
@@ -213,7 +187,7 @@ export default function DepositSummary(props) {
                                             {item.label}
                                         </button>
                                     ))}
-                                </ul>
+                                </ul> */}
                             </div>
                         </div>
                     </div>

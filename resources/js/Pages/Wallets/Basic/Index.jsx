@@ -11,6 +11,7 @@ import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import InputLabel from "@/Components/InputLabel";
 import TextAreaInput from "@/Components/TextAreaInput";
 import InputError from "@/Components/InputError";
+import TextInput from "@/Components/TextInput";
 
 export default function Index({ balance, bonus, referral, deposit, depositpekerja }) {
     const { permissions } = usePage().props;
@@ -50,7 +51,7 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                 title={"Yakin Transfer Deposit ke Saldo Utama ?"}
             >
                 <InputLabel className={'text-left mt-4'}>Masukan Nominal</InputLabel>
-                    <TextAreaInput
+                    <TextInput
                         type="text"
                         name="amount"
                         value={data.amount}
@@ -60,6 +61,18 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                         handleChange ={(e) => setData("amount", e.target.value)}
                     />
                     <InputError message={errors.amount} className="mt-2 mb-2 text-left" />
+
+                    <InputLabel className={'text-left mt-4'}>Masukan Alasan</InputLabel>
+                    <TextAreaInput
+                        type="text"
+                        name="reason"
+                        value={data.reason}
+                        className="block w-full mt-1"
+                        autoComplete="reason"
+                        isFocused={true}
+                        handleChange ={(e) => setData("reason", e.target.value)}
+                    />
+                    <InputError message={errors.reason} className="mt-2 mb-2 text-left" />
                 <ThirdButtonNoLink processing={processing} onClick={handleTransferDeposit}>
                     Transfer
                 </ThirdButtonNoLink>

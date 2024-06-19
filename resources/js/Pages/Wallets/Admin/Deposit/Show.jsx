@@ -166,12 +166,39 @@ export default function Show({ transaction, media }) {
                                     </div>
                                 </div>
                                 <div className="flex justify-end bg-gray-50">
-                                <div className="px-4 py-3 text-right sm:px-6">
-                                    <Button color="pink" onClick={openDeclineDialog}>Tolak</Button>
-                                </div>
-                                <div className="px-4 py-3 text-right sm:px-6">
-                                    <Button  onClick={openAcceptDialog}>Konfirmasi</Button>
-                                </div>
+                                {transaction.confirmed == 0 &&
+                                    transaction.meta?.type == "decline" ? (
+                                        <div className="px-4 py-3 text-right sm:px-6">
+                                            <ThirdButtonNoLink color="red">
+                                                Top Up Sudah Ditolak
+                                            </ThirdButtonNoLink>
+                                        </div>
+                                    ) : transaction.confirmed == 1 ? (
+                                        <div className="px-4 py-3 text-right sm:px-6">
+                                            <ThirdButtonNoLink color="teal">
+                                                Top Up Sudah Diterima
+                                            </ThirdButtonNoLink>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="px-4 py-3 text-right sm:px-6">
+                                                <Button
+                                                    color="pink"
+                                                    onClick={openDeclineDialog}
+                                                >
+                                                    Tolak
+                                                </Button>
+                                            </div>
+                                            <div className="px-4 py-3 text-right sm:px-6">
+                                                <Button
+                                                    onClick={openAcceptDialog}
+                                                >
+                                                    Konfirmasi
+                                                </Button>
+                                            </div>
+                                        </>
+                                    )}
+                                
                                 
                                 </div>
                                 

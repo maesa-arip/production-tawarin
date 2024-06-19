@@ -417,6 +417,7 @@ class ReservationController extends Controller
     }
     public function finishcustomer(Request $request, $id)
     {
+        // $reservationCustomer1 = ReservationCustomer::join('reservation_teams','reservation_teams.id','reservation_customers.reservation_team_id')->join('reservation_team_details','reservation_team_details.reservation_team_id','reservation_teams.id')->where('reservation_customers.id',$id);
         $layananKe = ReservationCustomer::where('user_id', auth()->user()->id)->where('selesai_customer', 1)->count();
         $tip = Tip::find($request->tip);
         $reservationCustomer = ReservationCustomer::findOrfail($id);

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import App from "@/Layouts/App";
+import AppReservasi from "@/Layouts/AppReservasi";
 import { Head, Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { debounce, pickBy } from "lodash";
@@ -474,4 +474,4 @@ export default function Index(props) {
         </>
     );
 }
-Index.layout = (page) => <App children={page} />;
+Index.layout = (page) => <AppReservasi children={page} />;

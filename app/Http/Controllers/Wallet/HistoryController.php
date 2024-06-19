@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Wallet;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArrayResource;
 use App\Http\Resources\Wallet\HistoryResource;
+use App\Models\Reservation\ReservationCustomer;
+use App\Models\Reservation\ReservationEmployee;
+use App\Models\Reservation\ReservationTeam;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class HistoryController extends Controller
@@ -197,39 +201,68 @@ class HistoryController extends Controller
     }
     public function summary(Request $request)
     {
-        $query = Transaction::query()
-            ->where('confirmed', 1)
-            ->where('type', 'withdraw')
-            ->whereJsonContains('transactions.meta->type', 'deposit')
-            ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
-            ->join('users', 'wallets.holder_id', '=', 'users.id')
-            ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
-            ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as total_amount'));
-        if ($request->q) {
-            $query->where('payable_type', 'like', '%' . $request->q . '%')
-                ->orWhere('type', 'like', '%' . $request->q . '%')
-                ->orWhere('amount', 'like', '%' . $request->q . '%')
-                ->orWhere('confirmed', 'like', '%' . $request->q . '%');
-        }
-        if ($request->has(['field', 'direction'])) {
-            $query->orderBy($request->field, $request->direction);
-        }
-        $transactions = (
-            ArrayResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
-        )->additional([
-            'attributes' => [
-                'total' => Transaction::count(),
-                'per_page' => 10,
-            ],
-            'filtered' => [
-                'load' => $request->load ?? $this->loadDefault,
-                'q' => $request->q ?? '',
-                'page' => $request->page ?? 1,
-                'field' => $request->field ?? '',
-                'direction' => $request->direction ?? '',
+        $withdrawQuery = Transaction::query()
+        ->where('confirmed', 1)
+        ->where('type', 'withdraw')
+        ->whereJsonContains('transactions.meta->type', 'deposit')
+        ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+        ->join('users', 'wallets.holder_id', '=', 'users.id')
+        ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
+        ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as withdraw_amount'));
 
-            ]
-        ]);
+    // Initial complex query for deposit transactions
+    $depositQuery = Transaction::query()
+        ->where('confirmed', 1)
+        ->where('type', 'deposit')
+        ->whereJsonContains('transactions.meta->type', 'deposit_withdraw')
+        ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+        ->join('users', 'wallets.holder_id', '=', 'users.id')
+        ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
+        ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as deposit_amount'));
+
+    // Raw SQL for both subqueries
+    // $withdrawSql = $withdrawQuery->toSql();
+    // $depositSql = $depositQuery->toSql();
+
+    // Combine the queries using a union and handle both left and right joins
+    $combinedQuery = DB::query()
+        ->fromSub($withdrawQuery, 'withdraws')
+        ->leftJoinSub($depositQuery, 'deposits', 'withdraws.user_id', '=', 'deposits.user_id')
+        ->select(DB::raw('withdraws.user_id, withdraws.user_name, withdraws.holder_id, withdraws.created_at, COALESCE(withdraws.withdraw_amount, 0) - COALESCE(deposits.deposit_amount, 0) as total_amount'))
+        ->union(
+            DB::query()
+                ->fromSub($depositQuery, 'deposits')
+                ->leftJoinSub($withdrawQuery, 'withdraws', 'deposits.user_id', '=', 'withdraws.user_id')
+                ->select(DB::raw('deposits.user_id, deposits.user_name, deposits.holder_id, deposits.created_at, COALESCE(withdraws.withdraw_amount, 0) - COALESCE(deposits.deposit_amount, 0) as total_amount'))
+        );
+        // dd($depositQuery);
+        // dd($combinedQuery);
+        // if ($request->q) {
+        //     $combinedQuery->where('payable_type', 'like', '%' . $request->q . '%')
+        //         ->orWhere('type', 'like', '%' . $request->q . '%')
+        //         ->orWhere('amount', 'like', '%' . $request->q . '%')
+        //         ->orWhere('confirmed', 'like', '%' . $request->q . '%');
+        // }
+        // if ($request->has(['field', 'direction'])) {
+        //     $combinedQuery->orderBy($request->field, $request->direction);
+        // }
+        // $transactions = (
+        //     ArrayResource::collection($combinedQuery->latest()->paginate($request->load)->withQueryString())
+        // )->additional([
+        //     'attributes' => [
+        //         'total' => Transaction::count(),
+        //         'per_page' => 10,
+        //     ],
+        //     'filtered' => [
+        //         'load' => $request->load ?? $this->loadDefault,
+        //         'q' => $request->q ?? '',
+        //         'page' => $request->page ?? 1,
+        //         'field' => $request->field ?? '',
+        //         'direction' => $request->direction ?? '',
+
+        //     ]
+        // ]);
+        $transactions = $combinedQuery->get();
         return inertia('Wallets/History/DepositSummary', ['transactions' => $transactions]);
     }
     public function summarytopup(Request $request)
@@ -307,6 +340,7 @@ class HistoryController extends Controller
             ->where('type', 'withdraw')
             ->where('confirmed', 1)
             ->whereJsonContains('meta->type', 'accept_withdraw')
+            ->orWhereJsonContains('meta->type', 'accept_wihdraw')
             ->sum('amount');
 
 
@@ -344,34 +378,75 @@ class HistoryController extends Controller
     }
     public function companysummary(Request $request)
     {
-        $query = Transaction::query()
-            ->where('confirmed', 1)
-            ->where('type', 'deposit')
-            ->where(function($query) {
-                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
-                      ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%']);
-            })
-            // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
-            // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%'])
-            ->whereJsonContains('transactions.meta->type', 'uang masuk')
-            ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
-            ->join('users', 'wallets.holder_id', '=', 'users.id')
-            ->join('reservation_employees', 'reservation_employees.user_id', '=', 'users.id')
-            ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
-            ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as total_amount'))
-            ->get();
-        dd($query);
-        if ($request->q) {
-            $query->where('payable_type', 'like', '%' . $request->q . '%')
-                ->orWhere('type', 'like', '%' . $request->q . '%')
-                ->orWhere('amount', 'like', '%' . $request->q . '%')
-                ->orWhere('confirmed', 'like', '%' . $request->q . '%');
+        // $query2 = ReservationCustomer::where('reservation_customers.selesai_customer', '=', 1)->get();
+        // dd($query2);
+        $employees = ReservationEmployee::all();
+        $query = ReservationEmployee::select(
+            'reservation_employees.id as employee_id',
+            'users.name as employee_name',
+            'reservation_counters.id as counter_id',
+            'reservation_counters.name as counter_name',
+            // 'reservation_customers.reservation_team_id',
+            DB::raw('COUNT(reservation_customers.id) as total_customers'),
+            DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
+            DB::raw('SUM(reservation_counters.jasa) as total_jasa')
+        )
+        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+        ->join('reservation_team_details', function($join) {
+            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+        })
+        // ->join('reservation_customers', function($join) {
+        //     $join->on('reservation_team_details.user_id', '=', 'reservation_customers.user_id')
+        //          ->on('reservation_team_details.reservation_team_id', '=', 'reservation_customers.reservation_team_id');
+        // })
+        // ->whereDate('reservation_customers.created_at', Carbon::today())
+        ->where('reservation_customers.selesai_customer', '=', 1)
+        ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+        ->orderBy('reservation_employees.id')
+        ->orderBy('reservation_counters.id');
+        // dd($results);
+        // $query = Transaction::query()
+        //     ->where('confirmed', 1)
+        //     ->where('type', 'deposit')
+        //     ->where(function($query) {
+        //         $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
+        //               ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%']);
+        //     })
+        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
+        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%'])
+        //     ->whereJsonContains('transactions.meta->type', 'uang masuk')
+        //     ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+        //     ->join('users', 'wallets.holder_id', '=', 'users.id')
+        //     ->join('reservation_employees', 'reservation_employees.user_id', '=', 'users.id')
+        //     ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
+        //     ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as total_amount'))
+        //     ->get();
+        // dd($query);
+        if ($request->q && $request->q<>'Semua Karyawan') {
+            $query->where('users.name', 'like', '%' . $request->q . '%');
+        }
+        if (!$request->startDate && !$request->endDate) {
+            $query->whereDate('reservation_customers.created_at', Carbon::today());
+        }
+        if (!$request->startDate && $request->endDate) {
+            $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)]);
+        }
+        if ($request->startDate && !$request->endDate) {
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()]);
+        }
+        if ($request->startDate && $request->endDate) {
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)]);
         }
         if ($request->has(['field', 'direction'])) {
             $query->orderBy($request->field, $request->direction);
         }
         $transactions = (
-            ArrayResource::collection($query->latest()->fastPaginate($request->load)->withQueryString())
+            ArrayResource::collection($query->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
         )->additional([
             'attributes' => [
                 'total' => Transaction::count(),
@@ -386,6 +461,97 @@ class HistoryController extends Controller
 
             ]
         ]);
-        return inertia('Wallets/History/CompanySummary', ['transactions' => $transactions]);
+        return inertia('Wallets/History/CompanySummary', ['transactions' => $transactions, 'employees' => $employees]);
+    }
+    public function employeesummary(Request $request)
+    {
+        // $query2 = ReservationCustomer::where('reservation_customers.selesai_customer', '=', 1)->get();
+        // dd($query2);
+        $employees = ReservationEmployee::all();
+        $query = ReservationEmployee::select(
+            'reservation_employees.id as employee_id',
+            'users.name as employee_name',
+            'reservation_counters.id as counter_id',
+            'reservation_counters.name as counter_name',
+            // 'reservation_customers.reservation_team_id',
+            DB::raw('COUNT(reservation_customers.id) as total_customers'),
+            DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
+            DB::raw('SUM(reservation_counters.jasa) as total_jasa')
+        )
+        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+        ->join('reservation_team_details', function($join) {
+            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+        })
+        // ->join('reservation_customers', function($join) {
+        //     $join->on('reservation_team_details.user_id', '=', 'reservation_customers.user_id')
+        //          ->on('reservation_team_details.reservation_team_id', '=', 'reservation_customers.reservation_team_id');
+        // })
+        // ->whereDate('reservation_customers.created_at', Carbon::today())
+        ->where('reservation_customers.selesai_customer', '=', 1)
+        ->where('reservation_employees.user_id', '=', auth()->user()->id)
+        ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+        ->orderBy('reservation_employees.id')
+        ->orderBy('reservation_counters.id');
+        // dd($results);
+        // $query = Transaction::query()
+        //     ->where('confirmed', 1)
+        //     ->where('type', 'deposit')
+        //     ->where(function($query) {
+        //         $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
+        //               ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%']);
+        //     })
+        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
+        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%'])
+        //     ->whereJsonContains('transactions.meta->type', 'uang masuk')
+        //     ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+        //     ->join('users', 'wallets.holder_id', '=', 'users.id')
+        //     ->join('reservation_employees', 'reservation_employees.user_id', '=', 'users.id')
+        //     ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
+        //     ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as total_amount'))
+        //     ->get();
+        // dd($query);
+        if ($request->q) {
+            $query->where('payable_type', 'like', '%' . $request->q . '%')
+                ->orWhere('type', 'like', '%' . $request->q . '%')
+                ->orWhere('amount', 'like', '%' . $request->q . '%')
+                ->orWhere('confirmed', 'like', '%' . $request->q . '%');
+        }
+        if (!$request->startDate && !$request->endDate) {
+            $query->whereDate('reservation_customers.created_at', Carbon::today());
+        }
+        if (!$request->startDate && $request->endDate) {
+            $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)]);
+        }
+        if ($request->startDate && !$request->endDate) {
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()]);
+        }
+        if ($request->startDate && $request->endDate) {
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)]);
+        }
+        if ($request->has(['field', 'direction'])) {
+            $query->orderBy($request->field, $request->direction);
+        }
+        $transactions = (
+            ArrayResource::collection($query->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' => 10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/EmployeeSummary', ['transactions' => $transactions, 'employees' => $employees]);
     }
 }
