@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Wallet;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArrayResource;
 use App\Http\Resources\Wallet\HistoryResource;
+use App\Models\Reservation\ReservationCompany;
+use App\Models\Reservation\ReservationCounter;
 use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationEmployee;
 use App\Models\Reservation\ReservationTeam;
@@ -378,9 +380,9 @@ class HistoryController extends Controller
     }
     public function companysummary(Request $request)
     {
-        // $query2 = ReservationCustomer::where('reservation_customers.selesai_customer', '=', 1)->get();
-        // dd($query2);
-        $employees = ReservationEmployee::all();
+        $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
+        $employees = ReservationEmployee::with('user')->where('reservation_company_id',$company->id)->get();
+        $counters = ReservationCounter::where('reservation_company_id',$company->id)->get();
         $query = ReservationEmployee::select(
             'reservation_employees.id as employee_id',
             'users.name as employee_name',
@@ -400,50 +402,65 @@ class HistoryController extends Controller
             $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
                  ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
         })
-        // ->join('reservation_customers', function($join) {
-        //     $join->on('reservation_team_details.user_id', '=', 'reservation_customers.user_id')
-        //          ->on('reservation_team_details.reservation_team_id', '=', 'reservation_customers.reservation_team_id');
-        // })
-        // ->whereDate('reservation_customers.created_at', Carbon::today())
         ->where('reservation_customers.selesai_customer', '=', 1)
         ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
         ->orderBy('reservation_employees.id')
         ->orderBy('reservation_counters.id');
-        // dd($results);
-        // $query = Transaction::query()
-        //     ->where('confirmed', 1)
-        //     ->where('type', 'deposit')
-        //     ->where(function($query) {
-        //         $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
-        //               ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%']);
-        //     })
-        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
-        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%'])
-        //     ->whereJsonContains('transactions.meta->type', 'uang masuk')
-        //     ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
-        //     ->join('users', 'wallets.holder_id', '=', 'users.id')
-        //     ->join('reservation_employees', 'reservation_employees.user_id', '=', 'users.id')
-        //     ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
-        //     ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as total_amount'))
-        //     ->get();
-        // dd($query);
+
+        $sumQuery = ReservationEmployee::select(
+            'reservation_employees.id as employee_id',
+            'users.name as employee_name',
+            // 'reservation_counters.id as counter_id',
+            // 'reservation_counters.name as counter_name',
+            DB::raw('COUNT(reservation_customers.id) as total_customers'),
+            DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
+            DB::raw('SUM(reservation_counters.jasa) as total_jasa')
+        )
+        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+        ->join('reservation_team_details', function($join) {
+            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+        })
+        ->where('reservation_customers.selesai_customer', '=', 1)
+        ->where('reservation_companies.user_id', '=', auth()->user()->id)
+        // ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+        ->groupBy('reservation_employees.id', 'users.name')
+        ->orderBy('reservation_employees.id')
+        ->orderBy('reservation_counters.id');
+
         if ($request->q && $request->q<>'Semua Karyawan') {
             $query->where('users.name', 'like', '%' . $request->q . '%');
+            $sumQuery->where('users.name', 'like', '%' . $request->q . '%');
+        }
+        if ($request->r && $request->r<>'Semua Layanan') {
+            $query->where('reservation_counters.name', $request->r);
+            $sumQuery->where('reservation_counters.name', $request->r);
         }
         if (!$request->startDate && !$request->endDate) {
             $query->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse('01-06-2024'), Carbon::today()]);
+            $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
         }
         if (!$request->startDate && $request->endDate) {
-            $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->startDate && !$request->endDate) {
-            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
         }
         if ($request->startDate && $request->endDate) {
-            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->has(['field', 'direction'])) {
             $query->orderBy($request->field, $request->direction);
+            $sumQuery->orderBy($request->field, $request->direction);
         }
         $transactions = (
             ArrayResource::collection($query->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
@@ -461,7 +478,23 @@ class HistoryController extends Controller
 
             ]
         ]);
-        return inertia('Wallets/History/CompanySummary', ['transactions' => $transactions, 'employees' => $employees]);
+        $sumTransactions = (
+            ArrayResource::collection($sumQuery->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' => 10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/CompanySummary', ['transactions' => $transactions,'sumTransactions' => $sumTransactions, 'employees' => $employees,'counters'=>$counters]);
     }
     public function employeesummary(Request $request)
     {
@@ -473,7 +506,6 @@ class HistoryController extends Controller
             'users.name as employee_name',
             'reservation_counters.id as counter_id',
             'reservation_counters.name as counter_name',
-            // 'reservation_customers.reservation_team_id',
             DB::raw('COUNT(reservation_customers.id) as total_customers'),
             DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
             DB::raw('SUM(reservation_counters.jasa) as total_jasa')
@@ -487,54 +519,68 @@ class HistoryController extends Controller
             $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
                  ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
         })
-        // ->join('reservation_customers', function($join) {
-        //     $join->on('reservation_team_details.user_id', '=', 'reservation_customers.user_id')
-        //          ->on('reservation_team_details.reservation_team_id', '=', 'reservation_customers.reservation_team_id');
-        // })
-        // ->whereDate('reservation_customers.created_at', Carbon::today())
         ->where('reservation_customers.selesai_customer', '=', 1)
         ->where('reservation_employees.user_id', '=', auth()->user()->id)
         ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
         ->orderBy('reservation_employees.id')
         ->orderBy('reservation_counters.id');
-        // dd($results);
-        // $query = Transaction::query()
-        //     ->where('confirmed', 1)
-        //     ->where('type', 'deposit')
-        //     ->where(function($query) {
-        //         $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
-        //               ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%']);
-        //     })
-        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Pembayarn dari%'])
-        //     // ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(transactions.meta, '$.message')) LIKE ?", ['Bagi Hasil%'])
-        //     ->whereJsonContains('transactions.meta->type', 'uang masuk')
-        //     ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
-        //     ->join('users', 'wallets.holder_id', '=', 'users.id')
-        //     ->join('reservation_employees', 'reservation_employees.user_id', '=', 'users.id')
-        //     ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
-        //     ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as total_amount'))
-        //     ->get();
-        // dd($query);
+        $sumQuery = ReservationEmployee::select(
+            'reservation_employees.id as employee_id',
+            'users.name as employee_name',
+            // 'reservation_counters.id as counter_id',
+            // 'reservation_counters.name as counter_name',
+            DB::raw('COUNT(reservation_customers.id) as total_customers'),
+            DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
+            DB::raw('SUM(reservation_counters.jasa) as total_jasa')
+        )
+        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+        ->join('reservation_team_details', function($join) {
+            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+        })
+        ->where('reservation_customers.selesai_customer', '=', 1)
+        ->where('reservation_employees.user_id', '=', auth()->user()->id)
+        // ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+        ->groupBy('reservation_employees.id', 'users.name')
+        ->orderBy('reservation_employees.id')
+        ->orderBy('reservation_counters.id');
+        // dd($query2->get());
+        
         if ($request->q) {
             $query->where('payable_type', 'like', '%' . $request->q . '%')
+                ->orWhere('type', 'like', '%' . $request->q . '%')
+                ->orWhere('amount', 'like', '%' . $request->q . '%')
+                ->orWhere('confirmed', 'like', '%' . $request->q . '%');
+            $sumQuery->where('payable_type', 'like', '%' . $request->q . '%')
                 ->orWhere('type', 'like', '%' . $request->q . '%')
                 ->orWhere('amount', 'like', '%' . $request->q . '%')
                 ->orWhere('confirmed', 'like', '%' . $request->q . '%');
         }
         if (!$request->startDate && !$request->endDate) {
             $query->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse('01-06-2024'), Carbon::today()]);
+            $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
         }
         if (!$request->startDate && $request->endDate) {
-            $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->startDate && !$request->endDate) {
-            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
         }
         if ($request->startDate && $request->endDate) {
-            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->has(['field', 'direction'])) {
             $query->orderBy($request->field, $request->direction);
+            $sumQuery->orderBy($request->field, $request->direction);
         }
         $transactions = (
             ArrayResource::collection($query->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
@@ -552,6 +598,22 @@ class HistoryController extends Controller
 
             ]
         ]);
-        return inertia('Wallets/History/EmployeeSummary', ['transactions' => $transactions, 'employees' => $employees]);
+        $sumTransactions = (
+            ArrayResource::collection($sumQuery->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => Transaction::count(),
+                'per_page' => 10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        return inertia('Wallets/History/EmployeeSummary', ['transactions' => $transactions,'sumTransactions' => $sumTransactions, 'employees' => $employees]);
     }
 }

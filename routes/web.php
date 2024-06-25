@@ -101,6 +101,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::Resource('reservationemployees', ReservationEmployeeController::class);
     Route::Resource('reservationemployeedayoff', ReservationDayOffBreakController::class);
     Route::post('reservationemployeebreak', [ReservationDayOffBreakController::class, 'store_break'])->name('reservationemployeebreak.store_break');
+    Route::patch('reservationemployee_cancel/{id}', [ReservationDayOffBreakController::class, 'cancel_dayoff'])->name('reservationemployee_cancel.cancel_dayoff');
     Route::get('/reservationprofile', [ReservationController::class, 'edit'])->name('reservationprofile.edit');
     Route::patch('/reservationprofile', [ReservationController::class, 'update'])->name('reservationprofile.update');
     Route::delete('/reservationprofile', [ReservationController::class, 'destroy'])->name('reservationprofile.destroy');

@@ -70,4 +70,21 @@ class ReservationDayOffBreakController extends Controller
             'message' => 'Jadwal istirahat berhasil disimpan',
         ]);
     }
+    public function cancel_dayoff(Request $request, $id)
+    {
+        // dd($id);
+        // $validated = $request->validate([
+        //     'reason' => 'required',
+        //     // 'end' => 'required',
+        // ]);
+        // $start  = date("H:i", strtotime($request->start));
+        // $end  = date("H:i", strtotime($request->end));
+        ReservationEmployeeDayOff::where('id', $id)
+            ->update(['batal' => 1]);
+        // $break = ReservationEmployeeBreak::update(['batal' => 1]);
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Batalkan Libur Berhasil',
+        ]);
+    }
 }

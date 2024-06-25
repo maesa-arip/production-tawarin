@@ -130,7 +130,7 @@ class ReservationCounterController extends Controller
 
         
             // dd($team);
-        $offDay = ReservationEmployeeDayOff::where('reservation_company_id',$reservationCompany->id)->get();
+        $offDay = ReservationEmployeeDayOff::where('reservation_company_id',$reservationCompany->id)->where('approved',1)->where('batal',0)->get();
         $workBreak = ReservationEmployeeBreak::where('reservation_company_id',$reservationCompany->id)->get();
         // dd($workBreak);
         $currentDate = Carbon::now(); // Get the current date and time
