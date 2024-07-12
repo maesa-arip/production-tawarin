@@ -628,6 +628,7 @@ class ReservationController extends Controller
 
         $checkPegawai = ReservationEmployee::where('user_id',auth()->user()->id)->where('reservation_company_id',$reservationCustomer1->IDCompany);
         
+
         if ($reservationCustomer1->jumlahlayanandiskon === 0) {
             // Tidak ada diskon
             // dd("Tidak ada diskon");
@@ -695,7 +696,7 @@ class ReservationController extends Controller
         
         if ($reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && !$checkPegawai) {
             // Ambil Bonus
-            dd("ambil bonus");
+            // dd("ambil bonus");
             DB::beginTransaction();
             try {
                 $reservationCustomer->update(['selesai_customer' => 1]);
@@ -738,7 +739,7 @@ class ReservationController extends Controller
         }
         if ($reservationCustomer2 + 1 < $reservationCustomer1->jumlahlayanandiskon) {
             // Layanan Biasa
-            dd("layanan biasa");
+            // dd("layanan biasa");
             DB::beginTransaction();
             try {
                 $reservationCustomer->update(['selesai_customer' => 1]);
