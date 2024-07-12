@@ -7,6 +7,8 @@ use App\Http\Requests\Wallet\DepositRequest;
 use App\Models\TemporaryFile;
 use App\Models\User;
 use App\Notifications\Wallet\UserDepositNotification;
+use Bavix\Wallet\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
@@ -45,7 +47,24 @@ class DepositController extends Controller
     {
         $user = auth()->user();
         $admin = User::find(1);
-        $deposit = $user->deposit($request->amount, null, false);        
+        // $deposit = $user->deposit($request->amount, null, false); 
+        $currentTimestamp = Carbon::now()->toDateString();
+        $exists = Transaction::where('payable_id', $user->id)
+        ->where('amount', $request->amount)
+        ->where('type', 'deposit')
+        ->whereDate('created_at', $currentTimestamp)
+        ->exists();
+        // dd($exists);
+        if ($exists) {
+        //     Session::remove('folder');
+        // Session::remove('filename');
+            return redirect('wallets')->with([
+                'type' => 'error',
+                'message' => 'Top Up gagal, sudah pernah melakukan top up dengan nominal tersebut pada hari ini',
+            ]);
+        }
+        if (!$exists) {
+        $deposit = $user->deposit($request->amount,['message' => 'Permintaan Deposit dari '.$user->name, 'type' => 'request_deposit'], false);       
         $temporaryFolder = Session::get('folder');
         $namefile = Session::get('filename');
 
@@ -74,6 +93,7 @@ class DepositController extends Controller
             'type' => 'success',
             'message' => 'Top Up berhasil, menunggu konfirmasi admin',
         ]);
+    }
     }
 
     /**

@@ -10,15 +10,18 @@ import ThirdButton from "@/Components/ThirdButton";
 import InfoModal from "@/Components/Modal/InfoModal";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks } from "@tabler/icons";
+import { IconChecks, IconX } from "@tabler/icons";
 import RadioCard from "@/Components/RadioCard";
 import TextAreaInput from "@/Components/TextAreaInput";
+import InputLabel from "@/Components/InputLabel";
+import InputError from "@/Components/InputError";
 
 export default function MyReservation({ myReservations,tips }) {
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
     const { data, setData, patch, post, put, processing, errors, reset } =
-        useForm({tip: "",});
+        useForm({});
     const openInfoDialog = (item) => {
         setState(item);
         setIsOpenInfoDialog(true);
@@ -38,7 +41,24 @@ export default function MyReservation({ myReservations,tips }) {
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
-    // console.log(data)
+    const openCancelDialog = (item) => {
+        setState(item);
+        setIsOpenCancelDialog(true);
+    };
+    const closeCancelDialog = () => {
+        setIsOpenCancelDialog(false);
+        setSelected();
+    };
+    const handleCancelReservation = (e) => {
+        e.preventDefault();
+        put(route("reservation.cancelreservation", state.id), {
+            onSuccess: () => {
+                return Promise.all([setIsOpenCancelDialog(false), reset()]);
+            },
+            // onSuccess: () => setIsOpenCancelDialog(false),
+        });
+    };
+    // console.log(myReservations)
     return (
         <>
             <InfoModal
@@ -224,6 +244,49 @@ export default function MyReservation({ myReservations,tips }) {
                 </ThirdButtonNoLink>
                 
             </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenCancelDialog}
+                setIsOpenInfoDialog={setIsOpenCancelDialog}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Batalkan Reservasi ?"}
+            >
+                <p className="p-4 text-left border rounded-lg">Pembatalan hanya bisa dilakukan 2 Jam sebelum layanan atau jika barber tidak ada</p>
+               <InputLabel className={"text-left mt-4"}>
+                    Masukan Alasan
+                </InputLabel>
+                <TextAreaInput
+                    type="text"
+                    name="reason"
+                    value={data.reason}
+                    className="block w-full mt-1"
+                    autoComplete="reason"
+                    isFocused={true}
+                    handleChange={(e) => setData("reason", e.target.value)}
+                />
+                <InputError
+                    message={errors.reason}
+                    className="mt-2 mb-2 text-left"
+                />
+
+                
+                <ThirdButtonNoLink
+                    className="mt-2"
+                    processing={processing}
+                    onClick={handleCancelReservation}
+                >
+                    Selesai
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeCancelDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
+                
+            </InfoModal>
+
             <Head title="Profile" />
             <div className="py-12">
                 <div className="mx-auto space-y-6 sm:px-6 lg:px-8">
@@ -277,14 +340,16 @@ export default function MyReservation({ myReservations,tips }) {
                                                 {item.name}
                                             </p>
                                         </div>
-                                        <div className="flex items-center justify-between px-4 my-4">
+                                        {item.jumlahlayanandiskon > 0 ? <div className="flex items-center justify-between px-4 my-4">
                                             <p className="text-sm font-semibold text-gray-500">
                                                 Layanan Ke
                                             </p>
                                             <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                {item.layanan_ke}
+                                                {item.layanan_ke} {item.ambil_bonus == 1 ? '(Cashback)' : ''}
+
                                             </p>
-                                        </div>
+                                        </div> : <></>}
+                                        
                                         {/* <div className="flex items-center justify-between px-4 my-4">
                                         <p className="text-sm font-semibold text-gray-500">
                                             Status
@@ -294,7 +359,10 @@ export default function MyReservation({ myReservations,tips }) {
                                         </p>
                                     </div> */}
                                         <div className="flex items-center px-4 my-4 justify-evenly">
-                                            {item.selesai_customer == 1 ? (
+                                            {item.batal_customer == 1 ? <ThirdButtonNoLink className="cursor-not-allowed" color="red">
+                                                                    Sudah dibatalkan <IconX className="w-4 h-4"/>
+                                                                </ThirdButtonNoLink> :
+                                            item.selesai_customer == 1 ? (
                                                 <ThirdButtonNoLink
                                                     color="teal"
                                                     className="cursor-not-allowed"
@@ -325,10 +393,22 @@ export default function MyReservation({ myReservations,tips }) {
                                                                     dikerjakan
                                                                 </ThirdButtonNoLink>
                                                             ) : (
+                                                                <>
+                                                                <ThirdButtonNoLink onClick={() =>
+                                                                openCancelDialog(
+                                                                    item
+                                                                )
+                                                            } color="secondary">
+                                                                    Batal
+                                                                </ThirdButtonNoLink>
+                                                                <ThirdButton href={route('reservations.change', { id: item.id,reservationCompany: item.companySlug })} className={item.id} color="tawarin">
+                                                                    Ubah Layanan
+                                                                </ThirdButton>
                                                                 <ThirdButton color="gray">
                                                                     Belum
                                                                     dikerjakan
                                                                 </ThirdButton>
+                                                                </>
                                                             )}
                                                         </>
                                                     )}

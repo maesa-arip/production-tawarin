@@ -54,7 +54,7 @@ export default function Create(props) {
             },
         });
     };
-    console.log(userBank)
+    // console.log(userBank)
     return (
         <div>
             <EditModal

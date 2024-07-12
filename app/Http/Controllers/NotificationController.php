@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
@@ -16,10 +18,24 @@ class NotificationController extends Controller
             'notifications' => auth()->user()->notifications,
         ]);
     }
-
-    // public function index()
-    // {
-    //     $user = User::find(auth()->user()->id)->get();
-    //     return inertia('Notifications/Basic/Index', ['user' =>$user]);
-    // }
+    public function readMessage($id)
+    {
+        $notification = DatabaseNotification::findOrfail($id);
+        $notification->update(['read_at' => now()]);
+        Cache::forget('notifications_count');
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Berhasil dibaca',
+        ]);
+    }
+    public function readAllMessage()
+    {
+        $user = User::find(auth()->user()->id);
+        $user->unreadNotifications()->update(['read_at' => now()]);
+        Cache::forget('notifications_count');
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Berhasil dibaca semua',
+        ]);
+    }
 }

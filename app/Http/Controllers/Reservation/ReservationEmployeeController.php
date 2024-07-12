@@ -216,6 +216,21 @@ class ReservationEmployeeController extends Controller
             'message' => 'Libur Telah diterima',
         ]);
     }
+    public function declinedayoff(Request $request, $id)
+    {
+        // dd($request->all());
+        $validated = $request->validate([
+            'reason' => 'required',
+        ]);
+        $data = ReservationEmployeeDayOff::findOrfail($id);
+        // $userId = User::where('email', $data->email)->pluck('id')->first();
+        // ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
+        $data->update(['decline' => 1,'decline_reason'=>$validated['reason']]);
+        return redirect(route('reservation.myemployeerequestoff'))->with([
+            'type' => 'success',
+            'message' => 'Libur berhasil ditolak',
+        ]);
+    }
 
     public function selectemployee(Request $request, $id, $slug)
     {

@@ -11,8 +11,11 @@ import InfoModal from "@/Components/Modal/InfoModal";
 import Button from "@/Components/Button";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks, IconCircleCheck, IconXboxX } from "@tabler/icons";
+import { IconChecks, IconCircleCheck, IconX, IconXboxX } from "@tabler/icons";
 import { numberFormat } from "@/Libs/helper";
+import InputLabel from "@/Components/InputLabel";
+import TextAreaInput from "@/Components/TextAreaInput";
+import InputError from "@/Components/InputError";
 
 export default function MyEmployeeRequestOff({
     auth,
@@ -20,9 +23,10 @@ export default function MyEmployeeRequestOff({
     status,
     myEmployeeRequestOff,
 }) {
-    console.log(myEmployeeRequestOff)
+    // console.log(myEmployeeRequestOff)
     const [state, setState] = useState([]);
     const [isOpenAcceptDialog, setIsOpenAcceptDialog] = useState(false);
+    const [isOpenDeclineDialog, setIsOpenDeclineDialog] = useState(false);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
     const { data, setData, patch,post,put, processing, errors, reset } = useForm({
@@ -38,6 +42,15 @@ export default function MyEmployeeRequestOff({
     const closeAcceptDialog = (item) => {
         // setState(item);
         setIsOpenAcceptDialog(false);
+    };
+
+    const openDeclineDialog = (item) => {
+        setState(item);
+        setIsOpenDeclineDialog(true);
+    };
+    const closeDeclineDialog = (item) => {
+        // setState(item);
+        setIsOpenDeclineDialog(false);
     };
     const openInfoDialog2 = (item) => {
         setState(item);
@@ -58,6 +71,13 @@ export default function MyEmployeeRequestOff({
         e.preventDefault();
         put(route("reservation.acceptdayoff", state.id), {
             onSuccess: () => setIsOpenAcceptDialog(false),
+        });
+    };
+
+    const declineDayOff = (e) => {
+        e.preventDefault();
+        put(route("reservation.declinedayoff", state.id), {
+            onSuccess: () => setIsOpenDeclineDialog(false),
         });
     };
     // console.log(myEmployeeRequestOff)
@@ -90,10 +110,41 @@ export default function MyEmployeeRequestOff({
                 title={"Yakin Terima ?"}
                 closeButton="false"
             >
-                <ThirdButtonNoLink onClick={acceptInvitation}>
+                <ThirdButtonNoLink className="mx-2" onClick={acceptInvitation}>
                     Terima
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink color="secondary" onClick={closeAcceptDialog}>
+                    Batal
+                </ThirdButtonNoLink>
+            </InfoModal>
+
+            <InfoModal
+                isOpenInfoDialog={isOpenDeclineDialog}
+                setIsOpenInfoDialog={setIsOpenDeclineDialog}
+                size="2xl"
+                title={"Yakin Tolak ?"}
+                closeButton="false"
+            >
+                <InputLabel className={"text-left mt-4"}>
+                    Masukan Alasan
+                </InputLabel>
+                <TextAreaInput
+                    type="text"
+                    name="reason"
+                    value={data.reason}
+                    className="block w-full mt-1"
+                    autoComplete="reason"
+                    isFocused={true}
+                    handleChange={(e) => setData("reason", e.target.value)}
+                />
+                <InputError
+                    message={errors.reason}
+                    className="mt-2 mb-2 text-left"
+                />
+                <ThirdButtonNoLink className="mx-2 mt-2" onClick={declineDayOff}>
+                    Tolak
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink color="secondary" onClick={closeDeclineDialog}>
                     Batal
                 </ThirdButtonNoLink>
             </InfoModal>
@@ -134,16 +185,35 @@ export default function MyEmployeeRequestOff({
                                             {item.reason}
                                             </p>
                                         </div>
+                                        {item.decline == 1 ? <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Alasan di Tolak
+                                            </p>
+                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            {item.decline_reason}
+                                            </p>
+                                        </div> : <></>}
+                                        
                                        
                                         
                                         <div className="flex items-center px-4 my-4 justify-evenly">
-                                            {item.approved == 1 ? <ThirdButtonNoLink
+                                        {item.decline == 1 ? <ThirdButtonNoLink
+                                                    color="red"
+                                                    className="cursor-not-allowed"
+                                                >
+                                                    SUDAH Ditolak{" "}
+                                                    <IconX className="w-5 h-5 ml-2" />
+                                                </ThirdButtonNoLink>: 
+                                            item.approved == 1 ? 
+                                            <ThirdButtonNoLink
                                                     color="teal"
                                                     className="cursor-not-allowed"
                                                 >
                                                     SUDAH DISETUJUI{" "}
                                                     <IconChecks className="w-5 h-5 ml-2" />
-                                                </ThirdButtonNoLink> : <><ThirdButtonNoLink
+                                                </ThirdButtonNoLink> 
+                                                : 
+                                                <><ThirdButtonNoLink
                                                     color="teal"
                                                     className=""  onClick={() =>
                                                         openAcceptDialog(
@@ -157,12 +227,15 @@ export default function MyEmployeeRequestOff({
                                                 <ThirdButtonNoLink
                                                     color="red"
                                                     className=""
+                                                    onClick={() =>
+                                                        openDeclineDialog(
+                                                            item
+                                                        )
+                                                    }
                                                 >
                                                     TOLAK{" "}
                                                     <IconXboxX className="w-5 h-5 ml-2" />
                                                 </ThirdButtonNoLink></>}
-                                                
-                                            
                                         </div>
                                     </div>
                                 </div>

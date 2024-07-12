@@ -26,10 +26,6 @@ class DepositAdminController extends Controller
         ->orWhereJsonContains('meta->type','decline')
         ->orWhereJsonContains('meta->type','accept')
         ->with('wallet')->with('wallet.holder');
-        
-        // ->join('wallets', 'wallets.id', '=', 'transactions.wallet_id')
-        // ->join('users', 'users.id', '=', 'wallets.holder_id');
-        // ->get();
         // dd($query);
         if ($request->q) {
             $query->where('payable_type','like','%'.$request->q.'%')
@@ -38,12 +34,14 @@ class DepositAdminController extends Controller
             ->orWhere('confirmed','like','%'.$request->q.'%')
             ;
         }
-
+        if ($request->r && $request->r<>'Semua Transaksi') {
+            $query->where('confirmed',0);
+        }
         if ($request->has(['field','direction'])) {
             $query->orderBy($request->field,$request->direction);
         }
         $transactions = (
-            DepositAdminResource::collection($query->latest()->fastPaginate($request->load ?? $this->loadDefault)->withQueryString()->onEachSide(1))
+            DepositAdminResource::collection($query->latest()->paginate($request->load ?? $this->loadDefault)->withQueryString()->onEachSide(1))
         )->additional([
             'attributes' => [
                 'total' => Transaction::count(),

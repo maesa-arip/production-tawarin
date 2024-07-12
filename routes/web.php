@@ -115,6 +115,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/reservations/mycounters', [ReservationController::class, 'mycounters'])->name('reservation.mycounters');
     Route::put('/startservice/{id}/edit', [ReservationController::class, 'startservice'])->name('reservation.startservice');
     Route::put('/finishservice/{id}/edit', [ReservationController::class, 'finishservice'])->name('reservation.finishservice');
+    Route::put('/cancelreservation/{id}/edit', [ReservationController::class, 'cancelreservation'])->name('reservation.cancelreservation');
     Route::put('/finishcustomer/{id}/edit', [ReservationController::class, 'finishcustomer'])->name('reservation.finishcustomer');
     Route::put('/updatejoinas/{id}/edit', [ReservationController::class, 'updatejoinas'])->name('reservation.updatejoinas');
     Route::post('/daftarcounter', [ReservationController::class, 'daftarcounter'])->name('reservation.daftarcounter');
@@ -193,12 +194,18 @@ Route::get('public/projects/{project}', [ProjectController::class, 'show'])->nam
 // End Plans
 
 // Reservation
+Route::get('public/reservations/{reservationCompany}/{id}/change', [ReservationController::class, 'change'])->name('reservations.change'); //Ubah Layanan
+Route::put('public/reservations/{reservationCompany}/{id}/change', [ReservationController::class, 'change'])->name('reservations.change'); //Ubah Layanan
 Route::get('public/reservations/{reservationCompany}', [ReservationController::class, 'show'])->name('reservations.show');
-Route::post('public/reservationCounters', [ReservationController::class, 'store'])->name('reservationCounters.storecustomer');
+
 Route::get('public/reservationCounters/{reservationCounter}', [ReservationCounterController::class, 'settingteam'])->name('reservationCounters.settingteam');
 
 Route::middleware('auth', 'verified')->group(function () {
+    Route::post('public/reservationCounters', [ReservationController::class, 'store'])->name('reservationCounters.storecustomer');
+    Route::post('public/reservationCounters/{reservationCompany}/{reservationCounter}/{id}/change', [ReservationController::class, 'storechange'])->name('reservationCounters.storechangecustomer');
     Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class, 'show'])->name('reservationCounters.show');
+    Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}/{id}/change', [ReservationCounterController::class, 'change'])->name('reservationCounters.change');
+    
     Route::resource('userBanks', UserBankController::class);
 });
 
@@ -236,14 +243,15 @@ Route::group(['middleware' => ['permission:lihat menu admin saldo']], function (
 Route::group(['middleware' => ['permission:lihat menu owner reservasi']], function () {
     Route::patch('owneradmindeposits/{id}/confirmed', [WithdrawOwnerController::class, 'confirmed'])->name('owneradmindeposits.confirmed');
     Route::patch('owneradmindeposits/{id}/decline', [WithdrawOwnerController::class, 'decline'])->name('owneradmindeposits.decline');
+    Route::put('reservation/declinedayoff/{id}/decline', [ReservationEmployeeController::class, 'declinedayoff'])->name('reservation.declinedayoff');
     Route::Resource('owneradmindeposits', WithdrawOwnerController::class);
     Route::get('/companychart', [ChartController::class, 'index'])->name('company.chart');
-    Route::get('company/summary', [WalletHistoryController::class,'companysummary'])->name('company.summary');
+    Route::get('company/summary', [WalletHistoryController::class, 'companysummary'])->name('company.summary');
 });
 
 Route::group(['middleware' => ['permission:lihat menu pekerja reservasi']], function () {
     Route::get('/employeechart', [ChartController::class, 'employeechart'])->name('employee.chart');
-    Route::get('employee/summary', [WalletHistoryController::class,'employeesummary'])->name('employee.summary');
+    Route::get('employee/summary', [WalletHistoryController::class, 'employeesummary'])->name('employee.summary');
 });
 
 Route::get('/user/list', [UserController::class, 'list'])->name('user.list');
@@ -260,6 +268,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('toko/history', HistoryController::class)->name('tokohistory');
     Route::get('/profiles', [UserController::class, 'profile'])->name('users.profiles');
 
+    Route::put('/notification/readMessage/{id}', [NotificationController::class, 'readMessage'])->name('notification.readMessage');
+    Route::get('/notification/readAllMessage', [NotificationController::class, 'readAllMessage'])->name('notification.readAllMessage');
     // Plans
     Route::Resource('adminplans', PlanAdminController::class);
     Route::patch('/planadmin/confirmed/{id}', [PlanAdminController::class, 'confirmed'])->name('planadmin.confirmed');
@@ -319,22 +329,22 @@ Route::middleware('auth', 'verified')->group(function () {
     // End Fundings
 
     // Wallets
-    
+
     Route::Resource('wallets', WalletController::class);
     Route::Resource('deposits', DepositController::class);
     Route::Resource('withdraws', WithdrawController::class);
     Route::Resource('histories', WalletHistoryController::class);
-    Route::get('main/histories', [WalletHistoryController::class,'main'])->name('main.histories');
-    Route::get('topup/histories', [WalletHistoryController::class,'topup'])->name('topup.histories');
-    Route::get('withdraw/histories', [WalletHistoryController::class,'withdraw'])->name('withdraw.histories');
-    Route::get('bagihasil/histories', [WalletHistoryController::class,'bagihasil'])->name('bagihasil.histories');
-    Route::get('pembayaran/histories', [WalletHistoryController::class,'pembayaran'])->name('pembayaran.histories');
-    Route::get('bonus/histories', [WalletHistoryController::class,'bonus'])->name('bonus.histories');
-    Route::get('deposit/histories', [WalletHistoryController::class,'deposit'])->name('deposit.histories');
-    Route::get('deposit/summary', [WalletHistoryController::class,'summary'])->name('deposit.summary');
-    
-    Route::get('tawarin/summary', [WalletHistoryController::class,'summarytawarin'])->name('tawarin.summary');
-    Route::get('topup/summary', [WalletHistoryController::class,'summarytopup'])->name('topup.summary');
+    Route::get('main/histories', [WalletHistoryController::class, 'main'])->name('main.histories');
+    Route::get('topup/histories', [WalletHistoryController::class, 'topup'])->name('topup.histories');
+    Route::get('withdraw/histories', [WalletHistoryController::class, 'withdraw'])->name('withdraw.histories');
+    Route::get('bagihasil/histories', [WalletHistoryController::class, 'bagihasil'])->name('bagihasil.histories');
+    Route::get('pembayaran/histories', [WalletHistoryController::class, 'pembayaran'])->name('pembayaran.histories');
+    Route::get('bonus/histories', [WalletHistoryController::class, 'bonus'])->name('bonus.histories');
+    Route::get('deposit/histories', [WalletHistoryController::class, 'deposit'])->name('deposit.histories');
+    Route::get('deposit/summary', [WalletHistoryController::class, 'summary'])->name('deposit.summary');
+
+    Route::get('tawarin/summary', [WalletHistoryController::class, 'summarytawarin'])->name('tawarin.summary');
+    Route::get('topup/summary', [WalletHistoryController::class, 'summarytopup'])->name('topup.summary');
     Route::get('wallet/transfers', [TransferController::class, 'transfer'])->name('wallet.transfer');
     Route::post('wallet/transfers', [TransferController::class, 'transferstore'])->name('wallet.transferstore');
     Route::post('wallet/transferdepositstore', [TransferController::class, 'transferdepositstore'])->name('wallet.transferdepositstore');

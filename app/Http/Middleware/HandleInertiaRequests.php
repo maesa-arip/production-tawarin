@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Toko\Cart;
 use App\Models\Toko\Category;
+use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
@@ -42,6 +43,8 @@ class HandleInertiaRequests extends Middleware
         $notification_count = $request->user() ? Cache::rememberForever('notifications_count',fn()=> auth()->user()->unreadNotifications->count()) : null;
         $roles = $request->user() ? $request->user()->getRoleNames() : null;
         $permissions = $request->user() ? $request->user()->getAllPermissions() : null;
+        $requestTopUp = Transaction::whereNull('meta')->where('confirmed',0)->where('type','deposit')->count();
+        $requestWithdraw = Transaction::WhereJsonContains('meta->type','request_withdraw')->where('confirmed',0)->where('type','withdraw')->count();
         $allSessions = Session::all();
         return array_merge(parent::share($request), [
             'users' => fn () => $request->user() ? \App\Models\User::where('id', '!=', $request->user()->id)->get() : null,
@@ -70,6 +73,8 @@ class HandleInertiaRequests extends Middleware
             'permissions' => $permissions,
             'roles' => $roles,
             'allSessions' => $allSessions,
+            'requestTopUp' => $requestTopUp,
+            'requestWithdraw' => $requestWithdraw,
             'csrf_token' => csrf_token(),
         ]);
     }

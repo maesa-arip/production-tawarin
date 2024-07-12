@@ -138,6 +138,28 @@ class ReservationCounterController extends Controller
         return inertia('Reservation/Counter/Basic/Show', ['reservationCompany' => $reservationCompany, 'team' => $team, 'offDay' => $offDay,'workBreak' => $workBreak,'reservationCounter' => $reservationCounter, 'endDate' => $endDate->toDateString()]);
     }
 
+    public function change(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter, $id)
+    {
+        $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
+            ->withAvg('ratings', 'star_rating')->withCount('ratings')->withCount('customers')->with('teamdetail')
+            ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', 'reservation_teams.id')
+            ->leftJoin('media', function ($join) {
+                $join->on('media.model_id', '=', 'reservation_team_details.user_id')
+                    ->where('media.model_type', '=', 'App\Models\User');
+            })
+            ->addSelect('media.file_name', 'media.id as media_id','reservation_team_details.user_id')
+            ->orderBy('ratings_avg_star_rating', 'DESC')->get();
+
+        
+            // dd($team);
+        $offDay = ReservationEmployeeDayOff::where('reservation_company_id',$reservationCompany->id)->where('approved',1)->where('batal',0)->get();
+        $workBreak = ReservationEmployeeBreak::where('reservation_company_id',$reservationCompany->id)->get();
+        // dd($workBreak);
+        $currentDate = Carbon::now(); // Get the current date and time
+        $endDate = $currentDate->copy()->addDays($reservationCounter->period);
+        return inertia('Reservation/Counter/Change/Show', ['reservationCompany' => $reservationCompany,'idExist'=>$id, 'team' => $team, 'offDay' => $offDay,'workBreak' => $workBreak,'reservationCounter' => $reservationCounter, 'endDate' => $endDate->toDateString()]);
+    }
+
 
     public function edit(ReservationCounter $reservationCounter)
     {

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import "../../css/static/stickymenu.css";
 
 export default function Aside() {
-    const { auth, permissions } = usePage().props;
+    const { auth, permissions, requestTopUp, requestWithdraw } = usePage().props;
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
@@ -199,7 +199,7 @@ export default function Aside() {
                                             className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
                                             onClick={() => toggleSubmenu(1)}
                                         >
-                                            Admin Saldo
+                                             <span className="inline-flex">Admin Saldo <p className="content-center ml-2 text-sm text-red-500">{requestTopUp + requestWithdraw}</p></span>
                                             <span className="text-right submenu-icon">
                                                 {submenuOpen === 1 ? (
                                                     <MinusSVG />
@@ -219,8 +219,7 @@ export default function Aside() {
                                                     href="/admindeposits"
                                                     className="text-white "
                                                 >
-                                                    {" "}
-                                                    Admin Deposit
+                                                    <span className="inline-flex">Admin Deposit <p className="content-center ml-2 text-sm text-red-500">{requestTopUp}</p></span>
                                                 </Link>
                                             </li>
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
@@ -229,8 +228,7 @@ export default function Aside() {
                                                     href="/adminwithdraws"
                                                     className="text-white"
                                                 >
-                                                    {" "}
-                                                    Admin Withdraw
+                                                    <span className="inline-flex">Admin Withdraw <p className="content-center ml-2 text-sm text-red-500">{requestWithdraw}</p></span>
                                                 </Link>
                                             </li>
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
