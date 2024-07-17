@@ -402,7 +402,7 @@ export default function MyReservation({ myReservations,tips }) {
                                                                     Batal
                                                                 </ThirdButtonNoLink>
                                                                 <ThirdButton href={route('reservations.change', { id: item.id,reservationCompany: item.companySlug })} className={item.id} color="tawarin">
-                                                                    Ubah Layanan
+                                                                    Ubah
                                                                 </ThirdButton>
                                                                 <ThirdButton color="gray">
                                                                     Belum

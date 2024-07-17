@@ -254,6 +254,12 @@ export default function CompanySummary(props) {
                                                     transaction.total_price_user
                                                 )}
                                             </p>
+                                            <p className="text-xl font-semibold text-gray-800">
+                                            {/* sum += transaction.total_price_user; */}
+                                                {numberFormat(
+                                                    transaction.total_price_user
+                                                )}
+                                            </p>
                                         </div>
                                     </div>
                                     {/* End Card */}

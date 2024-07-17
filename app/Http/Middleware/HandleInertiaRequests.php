@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
         $notification_count = $request->user() ? Cache::rememberForever('notifications_count',fn()=> auth()->user()->unreadNotifications->count()) : null;
         $roles = $request->user() ? $request->user()->getRoleNames() : null;
         $permissions = $request->user() ? $request->user()->getAllPermissions() : null;
-        $requestTopUp = Transaction::whereNull('meta')->where('confirmed',0)->where('type','deposit')->count();
+        $requestTopUp = Transaction::WhereJsonContains('meta->type','request_deposit')->where('confirmed',0)->where('type','deposit')->count();
         $requestWithdraw = Transaction::WhereJsonContains('meta->type','request_withdraw')->where('confirmed',0)->where('type','withdraw')->count();
         $allSessions = Session::all();
         return array_merge(parent::share($request), [

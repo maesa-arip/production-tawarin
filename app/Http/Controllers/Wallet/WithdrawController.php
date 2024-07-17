@@ -24,7 +24,14 @@ class WithdrawController extends Controller
         // dd($request->all());
         $user = auth()->user();
         $userBank = UserBank::with('bank')->where('user_id',auth()->user()->id)->first();
-        // dd($user);
+        // dd($request->amount + 2500);
+        if ($request->amount + 2500 > $user->balance) {
+            return redirect()->route('withdraws.create')->with([
+                'message' => 'Penarikan Gagal, Saldo tidak mencukupi',
+                'type' => 'error'
+            ]);
+        }
+        // dd($user->balance);
         $withdraw = $user->withdraw($request->amount,['message' => 'Permintaan Penarikan dari '.$user->name ,'bank_name' => $userBank->bank->name, 'account_number' => $userBank->account_number,'account_name' => $userBank->account_name, 'type' => 'request_withdraw'], false);
 
 

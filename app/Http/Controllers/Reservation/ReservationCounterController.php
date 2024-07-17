@@ -118,18 +118,37 @@ class ReservationCounterController extends Controller
 
     public function show(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter)
     {
-        $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
-            ->withAvg('ratings', 'star_rating')->withCount('ratings')->withCount('customers')->with('teamdetail')
-            ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', 'reservation_teams.id')
+        // $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
+        //     ->withAvg('ratings', 'star_rating')->withCount('ratings')
+        //     ->withCount('customers')->with('teamdetail')
+        //     ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', 'reservation_teams.id')
+        //     ->leftJoin('media', function ($join) {
+        //         $join->on('media.model_id', '=', 'reservation_team_details.user_id')
+        //             ->where('media.model_type', '=', 'App\Models\User');
+        //     })
+        //     ->addSelect('media.file_name', 'media.id as media_id','reservation_team_details.user_id')
+        //     ->orderBy('ratings_avg_star_rating', 'DESC')->get();
+
+            $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
+            ->withCount('customers')
+            ->with('teamdetail')
+            ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', '=', 'reservation_teams.id')
             ->leftJoin('media', function ($join) {
                 $join->on('media.model_id', '=', 'reservation_team_details.user_id')
                     ->where('media.model_type', '=', 'App\Models\User');
             })
-            ->addSelect('media.file_name', 'media.id as media_id','reservation_team_details.user_id')
-            ->orderBy('ratings_avg_star_rating', 'DESC')->get();
+            ->leftJoin('reservation_ratings', 'reservation_ratings.user_id', '=', 'reservation_team_details.user_id')
+            ->select('reservation_teams.*', 'media.file_name', 'media.id as media_id', 'reservation_team_details.user_id')
+            ->selectRaw('COUNT(reservation_ratings.id) as ratings_count')
+            ->selectRaw('AVG(reservation_ratings.star_rating) as ratings_avg_star_rating')
+            ->groupBy('reservation_teams.id', 'media.file_name', 'media.id', 'reservation_team_details.user_id')
+            ->orderBy('ratings_avg_star_rating', 'DESC')
+            ->get();
+// dd($team);
+        // $rating = 
 
         
-            // dd($team);
+        //     dd($team);
         $offDay = ReservationEmployeeDayOff::where('reservation_company_id',$reservationCompany->id)->where('approved',1)->where('batal',0)->get();
         $workBreak = ReservationEmployeeBreak::where('reservation_company_id',$reservationCompany->id)->get();
         // dd($workBreak);

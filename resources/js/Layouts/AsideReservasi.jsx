@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import "../../css/static/stickymenu.css";
 
 export default function AsideReservasi() {
-    const { auth, permissions } = usePage().props;
+    const { auth, permissions,requestTopUp, requestWithdraw } = usePage().props;
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
@@ -133,14 +133,12 @@ export default function AsideReservasi() {
                             </li>
                             {permission_name.indexOf("lihat menu admin saldo") >
                                 -1 && (
-                                    <>
                                 <li className="justify-between w-full">
-                                    <div className="flex items-center">
+                                    <div className="items-center ">
                                         <button
-                                            className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                            className={`flex items-center w-full py-2 text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
                                             onClick={() => toggleSubmenu(1)}
                                         >
-                                            Admin Saldo
                                             <span className="text-right submenu-icon">
                                                 {submenuOpen === 1 ? (
                                                     <MinusSVG />
@@ -148,30 +146,45 @@ export default function AsideReservasi() {
                                                     <PlusSVG />
                                                 )}
                                             </span>
+                                            <span className="inline-flex">
+                                                Admin Saldo{" "}
+                                            </span>
+                                            <span className="items-end content-center w-10 h-10 ml-auto text-base text-center text-red-500 bg-white rounded-full ">
+                                                {requestTopUp + requestWithdraw}
+                                            </span>
+                                            
                                         </button>
                                     </div>
                                     {submenuOpen === 1 && (
                                         <ul
-                                            className={`pl-4 space-y-2 ${subMenuClass}`}
+                                            className={`pl-6 space-y-2 ${subMenuClass}`}
                                         >
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                 <Link
                                                     onClick={toggleMenu}
                                                     href="/admindeposits"
-                                                    className="text-white "
+                                                    className="flex justify-between text-white "
                                                 >
-                                                    {" "}
-                                                    Admin Deposit
+                                                    <span className="inline-flex">
+                                                        Admin Deposit
+                                                    </span>
+                                                    <span className="content-center w-10 h-10 text-base text-center text-red-500 bg-white rounded-full">
+                                                        {requestTopUp}
+                                                    </span>
                                                 </Link>
                                             </li>
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                 <Link
                                                     onClick={toggleMenu}
                                                     href="/adminwithdraws"
-                                                    className="text-white"
+                                                    className="flex justify-between text-white"
                                                 >
-                                                    {" "}
-                                                    Admin Withdraw
+                                                    <span className="inline-flex">
+                                                        Admin Withdraw
+                                                    </span>
+                                                    <span className="content-center w-10 h-10 ml-10 text-base text-center text-red-500 bg-white rounded-full">
+                                                        {requestWithdraw}
+                                                    </span>
                                                 </Link>
                                             </li>
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
@@ -197,6 +210,11 @@ export default function AsideReservasi() {
                                         </ul>
                                     )}
                                 </li>
+                            )}
+                            {permission_name.indexOf("lihat menu admin saldo") >
+                                -1 && (
+                                    <>
+                                
                                 <li className="justify-between w-full">
                                 <div className="flex items-center">
                                     <button

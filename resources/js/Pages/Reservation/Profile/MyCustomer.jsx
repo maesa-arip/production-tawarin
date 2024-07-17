@@ -11,7 +11,7 @@ import InfoModal from "@/Components/Modal/InfoModal";
 import Button from "@/Components/Button";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks } from "@tabler/icons";
+import { IconChecks, IconX } from "@tabler/icons";
 
 export default function MyCustomer({
     auth,
@@ -140,9 +140,22 @@ export default function MyCustomer({
                                         <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
                                             {item.user.name}
                                         </p>
+                                        
                                     </div>
+                                    {item.batal_customer == 1 ? <div className="flex items-center justify-between px-4 my-4">
+                                        <p className="text-sm font-semibold text-gray-500">
+                                            Alasan Batal
+                                        </p>
+                                        <p className="rounded-full bg-red-200 px-2 py-0.5 text-xs font-semibold text-red-600">
+                                            {item.alasan_batal_customer}
+                                        </p>
+                                        
+                                    </div> : <></>}
                                         <div className="flex items-center px-4 my-4 justify-evenly">
-                                            {item.selesai_customer == 1 ? (
+                                        {item.batal_customer == 1 ? <ThirdButtonNoLink className="cursor-not-allowed" color="red">
+                                                                    Sudah dibatalkan <IconX className="w-4 h-4"/>
+                                                                </ThirdButtonNoLink> :
+                                            item.selesai_customer == 1 ? (
                                                 <ThirdButtonNoLink
                                                     color="teal"
                                                     className="cursor-not-allowed"

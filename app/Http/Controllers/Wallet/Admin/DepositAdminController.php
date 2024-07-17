@@ -25,6 +25,7 @@ class DepositAdminController extends Controller
         ->where('meta', NULL)
         ->orWhereJsonContains('meta->type','decline')
         ->orWhereJsonContains('meta->type','accept')
+        ->orWhereJsonContains('meta->type','request_deposit')
         ->with('wallet')->with('wallet.holder');
         // dd($query);
         if ($request->q) {

@@ -380,6 +380,7 @@ class HistoryController extends Controller
     }
     public function companysummary(Request $request)
     {
+      
         $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
         $employees = ReservationEmployee::with('user')->where('reservation_company_id',$company->id)->get();
         $counters = ReservationCounter::where('reservation_company_id',$company->id)->get();
@@ -451,8 +452,9 @@ class HistoryController extends Controller
             $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->startDate && !$request->endDate) {
-            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
-            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()->addDay()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()->addDay()]);
+            // dd(Carbon::parse($request->startDate),Carbon::today()->addDay(1));
         }
         if ($request->startDate && $request->endDate) {
             $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);

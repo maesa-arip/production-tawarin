@@ -34,6 +34,7 @@ use App\Http\Controllers\Reservation\ReservationController;
 use App\Http\Controllers\Reservation\ReservationCounterController;
 use App\Http\Controllers\Reservation\ReservationDayOffBreakController;
 use App\Http\Controllers\Reservation\ReservationEmployeeController;
+use App\Http\Controllers\ReservationRatingController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
 use App\Http\Controllers\Toko\InvoiceController;
@@ -96,7 +97,7 @@ Route::middleware('auth', 'verified')->group(function () {
 });
 Route::get('/reservationlist', [ReservationController::class, 'list'])->name('reservation.list');
 Route::middleware('auth', 'verified')->group(function () {
-
+    Route::get('/reservation/employee/rating/{user_id}', [ReservationRatingController::class, 'getallemployeerating'])->name('reservationrating.employeerating');
     Route::Resource('contacts', ContactController::class);
     Route::Resource('reservationemployees', ReservationEmployeeController::class);
     Route::Resource('reservationemployeedayoff', ReservationDayOffBreakController::class);
