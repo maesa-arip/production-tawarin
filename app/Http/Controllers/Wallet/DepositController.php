@@ -52,6 +52,8 @@ class DepositController extends Controller
         $exists = Transaction::where('payable_id', $user->id)
         ->where('amount', $request->amount)
         ->where('type', 'deposit')
+        ->where('meta->type', '<>', 'decline')
+        // ->whereJsonContains('meta->type','<>','decline')
         ->whereDate('created_at', $currentTimestamp)
         ->exists();
         // dd($exists);

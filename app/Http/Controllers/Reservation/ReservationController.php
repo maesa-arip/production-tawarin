@@ -178,7 +178,23 @@ class ReservationController extends Controller
             ->with('reservationcategory')
             ->where('is_approved', 1)
             ->when($request->reservation_category, fn ($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
-            ->select('id', 'name', 'formattedAddress', 'is_approved', 'reservation_category_id', 'slug', 'created_at');
+            ->select('id', 'name', 'formattedAddress', 'is_approved', 'reservation_category_id', 'slug', 'reservation_companies.created_at')
+            ->addSelect([
+                // Key is the alias, value is the sub-select
+                'sum' => ReservationRating::query()
+                ->join('reservation_teams','reservation_teams.id','reservation_ratings.reservation_team_id')
+                ->join('reservation_counters','reservation_counters.id','reservation_teams.reservation_counter_id')
+                ->join('reservation_companies','reservation_companies.id','reservation_counters.reservation_company_id')
+                    // You can use eloquent methods here
+                    // ->select('reservation_teams.id')
+                    ->selectRaw('COUNT(*)')
+                    ->whereColumn('reservation_company_id', 'reservation_companies.id')
+                    // ->count()
+                    // ->latest()
+                    // ->take(1)
+            ])
+            ->get();
+            dd($reservations);
         if ($request->q) {
             $reservations->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')
@@ -620,8 +636,8 @@ class ReservationController extends Controller
         }
         $checkPegawai = ReservationEmployee::where('user_id',auth()->user()->id)->where('reservation_company_id',$reservationCustomer1->IDCompany);
 
-        
-        
+        // dd($reservationCustomer1->jumlahlayanandiskon,$reservationCustomer2,$checkPegawai);
+        // dd($reservationCustomer1->jumlahlayanandiskon,$reservationCustomer2,$reservationCustomer1->jumlahlayanandiskon === 0,$reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && !$checkPegawai,$reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && $checkPegawai,$reservationCustomer2 + 1 < $reservationCustomer1->jumlahlayanandiskon);
         // Tidak ada layanan gratis
         if ($reservationCustomer1->jumlahlayanandiskon === 0) {
             // Tidak ada diskon

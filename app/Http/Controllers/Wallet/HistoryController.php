@@ -275,7 +275,7 @@ class HistoryController extends Controller
             ->where('transactions.meta', NULL)
             ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
             ->join('users', 'wallets.holder_id', '=', 'users.id')
-            ->select('transactions.*', 'users.id as user_id', 'users.name as user_name');
+            ->select('transactions.*', 'users.id as user_id', 'users.name as user_name')->orderBy('transactions.id','DESC');
         // dd($query);
         if ($request->q) {
             $query->where('payable_type', 'like', '%' . $request->q . '%')

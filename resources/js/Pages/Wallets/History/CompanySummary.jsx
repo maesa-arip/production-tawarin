@@ -50,7 +50,7 @@ export default function CompanySummary(props) {
     const { data: sumTransactions } = props.sumTransactions;
     const employees = props.employees;
     const counters = props.counters;
-    console.log(employees);
+    // console.log(employees);
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -104,6 +104,16 @@ export default function CompanySummary(props) {
     const onChangePlanCategoryId = (e) => {
         setData({ ...data, ["plan_category_id"]: e.id });
     };
+
+
+// Function to format the number
+const numberFormat = (value) => {
+    return new Intl.NumberFormat('id-ID').format(value);
+};
+
+// Calculate the total sum of transaction.total_price_user
+const totalSum = sumTransactions.reduce((acc, transaction) => acc + Number(transaction.total_price_user), 0);
+
     return (
         <>
             <Head title="History" />
@@ -254,12 +264,12 @@ export default function CompanySummary(props) {
                                                     transaction.total_price_user
                                                 )}
                                             </p>
-                                            <p className="text-xl font-semibold text-gray-800">
-                                            {/* sum += transaction.total_price_user; */}
+                                            {/* <p className="text-xl font-semibold text-gray-800">
+                                            sum += transaction.total_price_user;
                                                 {numberFormat(
                                                     transaction.total_price_user
                                                 )}
-                                            </p>
+                                            </p> */}
                                         </div>
                                     </div>
                                     {/* End Card */}
@@ -267,6 +277,23 @@ export default function CompanySummary(props) {
                                 {/* End Card Grid */}
                             </div>
                         ))}
+                        <div className="py-2">
+            <div className="flex justify-end">
+                <div className="flex flex-col p-4 border border-gray-200 rounded-xl">
+                    <h4 className="mb-1 text-gray-800">
+                        Total Pendapatan
+                    </h4>
+                    <div className="flex gap-x-1">
+                        <span className="text-base font-normal text-gray-800">
+                            Rp
+                        </span>
+                        <p className="text-xl font-semibold text-gray-800">
+                            {numberFormat(totalSum)}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
                         <div className="flex flex-col mt-4">
                             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -488,6 +515,7 @@ export default function CompanySummary(props) {
                                 </div>
                             </div>
                         </div>
+                        
                         <ul className="flex items-center mt-10 gap-x-1">
                             {meta.links.map((item, index) => (
                                 <button

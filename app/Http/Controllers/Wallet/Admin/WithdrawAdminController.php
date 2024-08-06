@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Wallet\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Wallet\TransactionSingleResource;
 use App\Http\Resources\Wallet\WithdrawAdminResource;
+use App\Models\TemporaryFile;
 use App\Models\User;
 use App\Notifications\DepositConfirmNotification;
 use App\Notifications\WithdrawConfirmNotification;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class WithdrawAdminController extends Controller
 {
@@ -75,6 +79,7 @@ class WithdrawAdminController extends Controller
     }
     public function confirmed(Transaction $transaction,$id)
     {
+        // dd("sukses");
         $transaction = Transaction::find($id);
         if ($transaction->payable_type=='App\Models\User') {
             $user = User::find($transaction->payable_id);
@@ -84,6 +89,28 @@ class WithdrawAdminController extends Controller
         $transaction->save();
         $user->confirm($transaction);
 
+        $temporaryFolder = Session::get('folder');
+        $namefile = Session::get('filename');
+
+        for ($i = 0; $i < count($temporaryFolder); $i++) {
+            $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $namefile[$i])->first();
+            if ($temporary) { //if exist
+                $transaction2 = $transaction->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
+                    ->toMediaCollection('BuktiTransferWithdraw');
+                //hapus file and folder temporary
+                $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                if (File::exists($path)) {
+                    Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                    File::delete($path);
+                    rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                    //delete record in temporary table
+                    $temporary->delete();
+                }
+            }
+        }
+        Session::remove('folder');
+        Session::remove('filename');
+        // dd($transaction,$transaction2);
         $user->notify(new WithdrawConfirmNotification($transaction));
         Cache::forget('notifications_count');
 

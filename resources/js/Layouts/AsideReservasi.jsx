@@ -3,6 +3,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/solid";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
 import "../../css/static/stickymenu.css";
+import { IconBrandWechat } from "@tabler/icons";
 
 export default function AsideReservasi() {
     const { auth, permissions,requestTopUp, requestWithdraw } = usePage().props;
@@ -107,10 +108,21 @@ export default function AsideReservasi() {
             <button
                 id="menuToggle"
                 className="relative flex items-center justify-center w-full py-3 font-semibold text-center text-white bg-amber-500"
-                onClick={toggleMenu}
             >
+                {auth.user ? (
+                    <Link href="/chat" className="absolute left-4">
+                        {" "}
+                        <IconBrandWechat />
+                    </Link>
+                ) : (
+                    <></>
+                )}
                 Menu
-                <span id="menuIcon" className="absolute right-4">
+                <span
+                    onClick={toggleMenu}
+                    id="menuIcon"
+                    className="absolute right-4"
+                >
                     {menuIcon}
                 </span>
             </button>
