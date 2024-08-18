@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Reservation\ReservationCustomer;
 use App\Models\Toko\Cart;
 use App\Models\Toko\Category;
 use Bavix\Wallet\Models\Transaction;
@@ -45,6 +46,14 @@ class HandleInertiaRequests extends Middleware
         $permissions = $request->user() ? $request->user()->getAllPermissions() : null;
         $requestTopUp = Transaction::WhereJsonContains('meta->type','request_deposit')->where('confirmed',0)->where('type','deposit')->count();
         $requestWithdraw = Transaction::WhereJsonContains('meta->type','request_withdraw')->where('confirmed',0)->where('type','withdraw')->count();
+        $customer_count = $request->user() ? ReservationCustomer::with('user')->where('reservation_team_details.user_id', auth()->user()->id)
+            ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
+            ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+            ->where('reservation_customers.selesai_customer',0)
+            ->where('reservation_customers.batal_customer',0)
+            ->count() : null;
         $allSessions = Session::all();
         return array_merge(parent::share($request), [
             'users' => fn () => $request->user() ? \App\Models\User::where('id', '!=', $request->user()->id)->get() : null,
@@ -72,6 +81,7 @@ class HandleInertiaRequests extends Middleware
             'notifications_count' => $notification_count,
             'permissions' => $permissions,
             'roles' => $roles,
+            'customer_count' => $customer_count,
             'allSessions' => $allSessions,
             'requestTopUp' => $requestTopUp,
             'requestWithdraw' => $requestWithdraw,

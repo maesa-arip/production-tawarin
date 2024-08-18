@@ -60,10 +60,12 @@ class DashboardController extends Controller
         $referral = User::where('from_referral', $user->referral)->count();
         $balance = auth()->user()->balance;
         $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;
+        $feewithdraw = auth()->user()->hasWallet('feewithdraw') ? auth()->user()->getWallet('feewithdraw')->balance : 0 ;
         $portofolio = User::where('users.id', auth()->user()->id)->join('plan_portofolios', 'plan_portofolios.user_id','users.id')->get();
         
         return inertia('Dashboard', ['plans' => $plans, 'portofolio'=> $portofolio, 'joinas_reservasi'=>$joinas_reservasi,'joinas_konstruksi'=>$joinas_konstruksi,'balance' => $balance,
         'bonus' => $bonus,
+        'feewithdraw' => $feewithdraw,
         'referral' => $referral,]);
     }
 }

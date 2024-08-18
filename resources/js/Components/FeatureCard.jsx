@@ -1,7 +1,7 @@
 import { numberFormat } from "@/Libs/helper";
 import React from "react";
 
-export default function FeatureCard({balance, bonus, referral}) {
+export default function FeatureCard({balance, bonus, referral, feewithdraw}) {
     return (
         <div className="flex flex-col px-2 pb-6 mt-4 bg-white border shadow-lg rounded-xl ">
             <h2 className="mb-4 text-2xl font-bold">{/* Feature Cards */}</h2>
@@ -103,7 +103,7 @@ export default function FeatureCard({balance, bonus, referral}) {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <h2 className="mt-3 text-xs font-semibold">0 Proyek</h2>
+                        <h2 className="mt-3 text-xs font-semibold">Rp {numberFormat(feewithdraw)} Fee Withdraw</h2>
                         {/* <p className="mt-2 text-sm text-gray-500">Last commented 8 days ago</p> */}
                     </div>
                 </div>

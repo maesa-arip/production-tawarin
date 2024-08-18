@@ -15,7 +15,8 @@ class NotificationController extends Controller
     public function index()
     {
         Cache::forget('notifications_count');
-        return inertia('Notifications/Basic/Index', [
+        return inertia('Notifications/Basic/Index', 
+        [
             'notifications' => auth()->user()->notifications,
         ]);
     }

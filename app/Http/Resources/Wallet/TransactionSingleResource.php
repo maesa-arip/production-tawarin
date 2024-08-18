@@ -24,6 +24,8 @@ class TransactionSingleResource extends JsonResource
             'amount' => $this->amount,
             'holder_name' => $this->wallet->holder->name,
             'confirmed' => $this->confirmed,
+            'date' => $this->updated_at->isoFormat('dddd, D MMMM Y'),
+            'time' => $this->updated_at->format('H:i'),
         ];
     }
 }

@@ -9,6 +9,8 @@ use App\Models\TemporaryFile;
 use App\Models\User;
 use App\Notifications\DepositConfirmNotification;
 use App\Notifications\WithdrawConfirmNotification;
+use Bavix\Wallet\External\Dto\Extra;
+use Bavix\Wallet\External\Dto\Option;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -84,10 +86,21 @@ class WithdrawAdminController extends Controller
         if ($transaction->payable_type=='App\Models\User') {
             $user = User::find($transaction->payable_id);
         }
-        // dd($user);
-        $transaction->meta = ['type'=>'accept_withdraw','message' => 'Withdraw Anda sudah diterima oleh Admin'];
+        // dd($transaction->meta);
+        $transaction->meta = ['type'=>'accept_withdraw','message' => 'Withdraw Anda sudah diterima oleh Admin','bank_name'=>$transaction->meta['bank_name'],'message_before'=>$transaction->meta['message'],'account_number'=>$transaction->meta['account_number'],'account_name'=>$transaction->meta['account_name']];
         $transaction->save();
         $user->confirm($transaction);
+        $tawarin = User::find(1);
+        $feewithdraw = 2500;
+        $walletFeeWithdraw = $tawarin->getWallet('feewithdraw');
+        if (!$walletFeeWithdraw) {
+            $walletFeeWithdraw = $tawarin->createWallet(['name' => 'FeeWithdraw Wallet', 'slug' => 'feewithdraw']);
+        };
+
+        $user->transfer($walletFeeWithdraw, $feewithdraw, new Extra(
+            deposit: ['message' => 'Fee Withdraw dari ' . $user->name , 'type' => 'feewithdraw'],
+            withdraw: new Option(meta: ['message' => 'Fee Withdraw ke ' . $user->name , 'type' => 'feewithdraw'], confirmed: true)
+        ));
 
         $temporaryFolder = Session::get('folder');
         $namefile = Session::get('filename');
@@ -114,10 +127,14 @@ class WithdrawAdminController extends Controller
         $user->notify(new WithdrawConfirmNotification($transaction));
         Cache::forget('notifications_count');
 
-        return redirect('/adminwithdraws')->with([
+        return redirect()->back()->with([
             'type' => 'success',
             'message' => 'Berhasil Terima Withdraw',
         ]);
+        // return redirect('/adminwithdraws')->with([
+        //     'type' => 'success',
+        //     'message' => 'Berhasil Terima Withdraw',
+        // ]);
     }
     public function decline(Request $request, Transaction $transaction,$id)
     {
@@ -127,7 +144,8 @@ class WithdrawAdminController extends Controller
         ]);
         // dd($request->all());
         $transaction = Transaction::find($id);
-        $transaction->meta = ['type'=>'decline','message' => 'Withdraw Anda ditolak oleh admin karena '.$validated['reason']];
+        // $transaction->meta = ['type'=>'decline','message' => 'Withdraw Anda ditolak oleh admin karena '.$validated['reason']];
+        $transaction->meta = ['type'=>'decline','message' => 'Withdraw Anda ditolak oleh admin karena '.$validated['reason'],'bank_name'=>$transaction->meta['bank_name'],'message_before'=>$transaction->meta['message'],'account_number'=>$transaction->meta['account_number'],'account_name'=>$transaction->meta['account_name']];
         $transaction->save();
         if ($transaction->payable_type=='App\Models\User') {
             $user = User::find($transaction->payable_id);

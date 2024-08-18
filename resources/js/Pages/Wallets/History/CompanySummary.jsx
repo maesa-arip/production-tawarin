@@ -113,6 +113,7 @@ const numberFormat = (value) => {
 
 // Calculate the total sum of transaction.total_price_user
 const totalSum = sumTransactions.reduce((acc, transaction) => acc + Number(transaction.total_price_user), 0);
+const totalPendapatan = sumTransactions.reduce((acc, transaction) => acc + Number(transaction.total_uang), 0);
 
     return (
         <>
@@ -278,7 +279,7 @@ const totalSum = sumTransactions.reduce((acc, transaction) => acc + Number(trans
                             </div>
                         ))}
                         <div className="py-2">
-            <div className="flex justify-end">
+            <div className="flex justify-between">
                 <div className="flex flex-col p-4 border border-gray-200 rounded-xl">
                     <h4 className="mb-1 text-gray-800">
                         Total Pendapatan
@@ -292,8 +293,22 @@ const totalSum = sumTransactions.reduce((acc, transaction) => acc + Number(trans
                         </p>
                     </div>
                 </div>
+                <div className="flex flex-col p-4 border border-gray-200 rounded-xl">
+                    <h4 className="mb-1 text-gray-800">
+                        Total Bagi Hasil untuk Pekerja
+                    </h4>
+                    <div className="flex gap-x-1">
+                        <span className="text-base font-normal text-gray-800">
+                            Rp
+                        </span>
+                        <p className="text-xl font-semibold text-gray-800">
+                            {numberFormat(Math.abs(totalPendapatan))}
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
+                       
                         <div className="flex flex-col mt-4">
                             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -446,6 +461,33 @@ const totalSum = sumTransactions.reduce((acc, transaction) => acc + Number(trans
                                                                 )}
                                                         </div>
                                                     </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+                                                    >
+                                                        <div
+                                                            className="flex items-center cursor-pointer gap-x-2"
+                                                            onClick={() =>
+                                                                sort(
+                                                                    "total_uang"
+                                                                )
+                                                            }
+                                                        >
+                                                            Total Bagi Hasil
+                                                            {params.field ==
+                                                                "total_uang" &&
+                                                                params.direction ==
+                                                                    "asc" && (
+                                                                    <UpIcon />
+                                                                )}
+                                                            {params.field ==
+                                                                "total_uang" &&
+                                                                params.direction ==
+                                                                    "desc" && (
+                                                                    <DownIcon />
+                                                                )}
+                                                        </div>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody className="bg-white divide-y divide-gray-200">
@@ -502,6 +544,18 @@ const totalSum = sumTransactions.reduce((acc, transaction) => acc + Number(trans
                                                                     <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
                                                                         {numberFormat(
                                                                             transaction.total_jasa
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <div className="flex mt-1 rounded-md shadow-sm">
+                                                                    <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
+                                                                        Rp
+                                                                    </span>
+                                                                    <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                        {numberFormat(
+                                                                            Math.abs(transaction.total_uang)
                                                                         )}
                                                                     </div>
                                                                 </div>

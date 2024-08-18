@@ -181,7 +181,7 @@ class ReservationController extends Controller
             ->select('id', 'name', 'formattedAddress', 'is_approved', 'reservation_category_id', 'slug', 'reservation_companies.created_at')
             ->addSelect([
                 // Key is the alias, value is the sub-select
-                'sum' => ReservationRating::query()
+                'reviews_count' => ReservationRating::query()
                 ->join('reservation_teams','reservation_teams.id','reservation_ratings.reservation_team_id')
                 ->join('reservation_counters','reservation_counters.id','reservation_teams.reservation_counter_id')
                 ->join('reservation_companies','reservation_companies.id','reservation_counters.reservation_company_id')
@@ -193,8 +193,21 @@ class ReservationController extends Controller
                     // ->latest()
                     // ->take(1)
             ])
-            ->get();
-            dd($reservations);
+            ->addSelect([
+                // Key is the alias, value is the sub-select
+                'average_rating' => ReservationRating::query()
+                ->join('reservation_teams','reservation_teams.id','reservation_ratings.reservation_team_id')
+                ->join('reservation_counters','reservation_counters.id','reservation_teams.reservation_counter_id')
+                ->join('reservation_companies','reservation_companies.id','reservation_counters.reservation_company_id')
+                    // You can use eloquent methods here
+                    // ->select('reservation_teams.id')
+                    ->selectRaw('AVG(star_rating)')
+                    ->whereColumn('reservation_company_id', 'reservation_companies.id')
+                    // ->count()
+                    // ->latest()
+                    // ->take(1)
+            ]);
+            // dd($reservations);
         if ($request->q) {
             $reservations->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')

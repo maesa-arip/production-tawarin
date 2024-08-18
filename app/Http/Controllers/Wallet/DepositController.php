@@ -50,52 +50,52 @@ class DepositController extends Controller
         // $deposit = $user->deposit($request->amount, null, false); 
         $currentTimestamp = Carbon::now()->toDateString();
         $exists = Transaction::where('payable_id', $user->id)
-        ->where('amount', $request->amount)
-        ->where('type', 'deposit')
-        ->where('meta->type', '<>', 'decline')
-        // ->whereJsonContains('meta->type','<>','decline')
-        ->whereDate('created_at', $currentTimestamp)
-        ->exists();
+            ->where('amount', $request->amount)
+            ->where('type', 'deposit')
+            ->where('meta->type', '<>', 'decline')
+            // ->whereJsonContains('meta->type','<>','decline')
+            ->whereDate('created_at', $currentTimestamp)
+            ->exists();
         // dd($exists);
         if ($exists) {
-        //     Session::remove('folder');
-        // Session::remove('filename');
+            //     Session::remove('folder');
+            // Session::remove('filename');
             return redirect('wallets')->with([
                 'type' => 'error',
                 'message' => 'Top Up gagal, sudah pernah melakukan top up dengan nominal tersebut pada hari ini',
             ]);
         }
         if (!$exists) {
-        $deposit = $user->deposit($request->amount,['message' => 'Permintaan Deposit dari '.$user->name, 'type' => 'request_deposit'], false);       
-        $temporaryFolder = Session::get('folder');
-        $namefile = Session::get('filename');
+            $deposit = $user->deposit($request->amount, ['message' => 'Permintaan Deposit dari ' . $user->name, 'type' => 'request_deposit'], false);
+            $temporaryFolder = Session::get('folder');
+            $namefile = Session::get('filename');
 
-        for ($i = 0; $i < count($temporaryFolder); $i++) {
-            $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $namefile[$i])->first();
-            if ($temporary) { //if exist
-                $deposit->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
-                    ->toMediaCollection('BuktiTransfer');
-                //hapus file and folder temporary
-                $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
-                if (File::exists($path)) {
-                    Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
-                    File::delete($path);
-                    rmdir(storage_path('app/files/tmp/' . $temporary->folder));
-                    //delete record in temporary table
-                    $temporary->delete();
+            for ($i = 0; $i < count($temporaryFolder); $i++) {
+                $temporary = TemporaryFile::where('folder', $temporaryFolder[$i])->where('filename', $namefile[$i])->first();
+                if ($temporary) { //if exist
+                    $deposit->addMedia(storage_path('app/public/files/tmp/' . $temporaryFolder[$i] . '/' . $namefile[$i]))
+                        ->toMediaCollection('BuktiTransfer');
+                    //hapus file and folder temporary
+                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->filename;
+                    if (File::exists($path)) {
+                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->filename, 'files/' . $temporary->folder . '/' . $temporary->filename);
+                        File::delete($path);
+                        rmdir(storage_path('app/files/tmp/' . $temporary->folder));
+                        //delete record in temporary table
+                        $temporary->delete();
+                    }
                 }
             }
-        }
-        Session::remove('folder');
-        Session::remove('filename');
+            Session::remove('folder');
+            Session::remove('filename');
 
-        $admin->notify(new UserDepositNotification($deposit));
-        Cache::forget('notifications_count');
-        return redirect('wallets')->with([
-            'type' => 'success',
-            'message' => 'Top Up berhasil, menunggu konfirmasi admin',
-        ]);
-    }
+            $admin->notify(new UserDepositNotification($deposit));
+            Cache::forget('notifications_count');
+            return redirect('wallets')->with([
+                'type' => 'success',
+                'message' => 'Top Up berhasil, menunggu konfirmasi admin',
+            ]);
+        }
     }
 
     /**

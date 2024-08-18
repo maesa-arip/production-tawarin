@@ -13,33 +13,43 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
 
-export default function Index({ balance, bonus, referral, deposit, depositpekerja }) {
+export default function Index({
+    balance,
+    bonus,
+    referral,
+    deposit,
+    depositpekerja,
+    onhold,
+}) {
     const { permissions } = usePage().props;
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
-        const { data, setData, patch,post,put, processing, errors, reset } = useForm({
-        });
-    const [isOpenConfirmationDialog,setIsOpenConfirmationDialog] = useState(false);
-        const openConfirmationDepositToMainWallet= ()=>{
-            // console.log('open')
-            setIsOpenConfirmationDialog(true)
-        }
-        const closeInfoDialog =()=>{
-            setIsOpenConfirmationDialog(false)
-        }
-       
-        const handleTransferDeposit =(e) =>{
-            e.preventDefault();
-            post(route("wallet.transferdepositstore"), {
-                data,
-                onSuccess: () => {
-                    return Promise.all([setIsOpenConfirmationDialog(false), reset()]);
-                },
-            });
-            // console.log('begin transfer')
+    const { data, setData, patch, post, put, processing, errors, reset } =
+        useForm({});
+    const [isOpenConfirmationDialog, setIsOpenConfirmationDialog] =
+        useState(false);
+    const openConfirmationDepositToMainWallet = () => {
+        // console.log('open')
+        setIsOpenConfirmationDialog(true);
+    };
+    const closeInfoDialog = () => {
+        setIsOpenConfirmationDialog(false);
+    };
 
-        }
+    const handleTransferDeposit = (e) => {
+        e.preventDefault();
+        post(route("wallet.transferdepositstore"), {
+            data,
+            onSuccess: () => {
+                return Promise.all([
+                    setIsOpenConfirmationDialog(false),
+                    reset(),
+                ]);
+            },
+        });
+        // console.log('begin transfer')
+    };
     return (
         <>
             <Head title="Wallet" />
@@ -50,30 +60,43 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                 closeButton="false"
                 title={"Yakin Transfer Deposit ke Saldo Utama ?"}
             >
-                <InputLabel className={'text-left mt-4'}>Masukan Nominal</InputLabel>
-                    <TextInput
-                        type="text"
-                        name="amount"
-                        value={data.amount}
-                        className="block w-full mt-1"
-                        autoComplete="amount"
-                        isFocused={true}
-                        handleChange ={(e) => setData("amount", e.target.value)}
-                    />
-                    <InputError message={errors.amount} className="mt-2 mb-2 text-left" />
+                <InputLabel className={"text-left mt-4"}>
+                    Masukan Nominal
+                </InputLabel>
+                <TextInput
+                    type="text"
+                    name="amount"
+                    value={data.amount}
+                    className="block w-full mt-1"
+                    autoComplete="amount"
+                    isFocused={true}
+                    handleChange={(e) => setData("amount", e.target.value)}
+                />
+                <InputError
+                    message={errors.amount}
+                    className="mt-2 mb-2 text-left"
+                />
 
-                    <InputLabel className={'text-left mt-4'}>Masukan Alasan</InputLabel>
-                    <TextAreaInput
-                        type="text"
-                        name="reason"
-                        value={data.reason}
-                        className="block w-full mt-1"
-                        autoComplete="reason"
-                        isFocused={true}
-                        handleChange ={(e) => setData("reason", e.target.value)}
-                    />
-                    <InputError message={errors.reason} className="mt-2 mb-2 text-left" />
-                <ThirdButtonNoLink processing={processing} onClick={handleTransferDeposit}>
+                <InputLabel className={"text-left mt-4"}>
+                    Masukan Alasan
+                </InputLabel>
+                <TextAreaInput
+                    type="text"
+                    name="reason"
+                    value={data.reason}
+                    className="block w-full mt-1"
+                    autoComplete="reason"
+                    isFocused={true}
+                    handleChange={(e) => setData("reason", e.target.value)}
+                />
+                <InputError
+                    message={errors.reason}
+                    className="mt-2 mb-2 text-left"
+                />
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={handleTransferDeposit}
+                >
                     Transfer
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink
@@ -97,43 +120,42 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                             <div className="overflow-x-auto rounded sm:-mx-6 lg:-mx-8">
                                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                                     {/* <div className="border-b border-gray-200 shadow sm:rounded-lg"> */}
-                                        <ul className="flex items-center justify-center space-x-2">
-                                            {referral.length > 0
-                                                ? referral.map(
-                                                      (person, index) => (
-                                                          <li key={index} className="flex flex-col items-center space-y-2">
-                                                              <Link
-                                                                  className="block p-1 bg-white rounded-full"
-                                                                  href={route(
-                                                                      "user.detail",
-                                                                      person.username
-                                                                  )}
-                                                              >
-                                                                  <div className="flex items-center justify-center w-16 h-16 text-2xl font-semibold bg-indigo-200 rounded-full">
-                                                                      {
-                                                                          Array.from(
-                                                                              person.name
-                                                                          )[0]
-                                                                      }
-                                                                  </div>
-                                                              </Link>
-                                                              <Link
-                                                                  href={route(
-                                                                      "user.detail",
-                                                                      person.username
-                                                                  )}
-                                                              >
-                                                                  <span className="text-xs text-gray-500 truncate">
-                                                                      {
-                                                                          person.name
-                                                                      }
-                                                                  </span>
-                                                              </Link>
-                                                          </li>
-                                                      )
-                                                  )
-                                                : "Belum Ada Referral"}
-                                        </ul>
+                                    <ul className="flex items-center justify-center space-x-2">
+                                        {referral.length > 0
+                                            ? referral.map((person, index) => (
+                                                  <li
+                                                      key={index}
+                                                      className="flex flex-col items-center space-y-2"
+                                                  >
+                                                      <Link
+                                                          className="block p-1 bg-white rounded-full"
+                                                          href={route(
+                                                              "user.detail",
+                                                              person.username
+                                                          )}
+                                                      >
+                                                          <div className="flex items-center justify-center w-16 h-16 text-2xl font-semibold bg-indigo-200 rounded-full">
+                                                              {
+                                                                  Array.from(
+                                                                      person.name
+                                                                  )[0]
+                                                              }
+                                                          </div>
+                                                      </Link>
+                                                      <Link
+                                                          href={route(
+                                                              "user.detail",
+                                                              person.username
+                                                          )}
+                                                      >
+                                                          <span className="text-xs text-gray-500 truncate">
+                                                              {person.name}
+                                                          </span>
+                                                      </Link>
+                                                  </li>
+                                              ))
+                                            : "Belum Ada Referral"}
+                                    </ul>
                                     {/* </div> */}
                                 </div>
                             </div>
@@ -163,11 +185,24 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                                 <div className="border-t border-l border-gray-900 rounded-tl" />
                                             </div>
                                         </div>
-                                        <div className="text-xs font-semibold tracking-tight">
-                                            Saldo
-                                        </div>
-                                        <div className="text-2xl font-semibold">
-                                            Rp {numberFormat(balance)}
+                                        <div className="grid grid-cols-12">
+                                            <div className="col-span-6">
+                                                <div className="text-xs font-semibold tracking-tight">
+                                                    Saldo
+                                                </div>
+                                                <div className="text-2xl font-semibold">
+                                                    Rp {numberFormat(balance)}
+                                                </div>
+                                            </div>
+                                            {onhold ? <div className="col-span-6">
+                                                <div className="text-xs font-semibold tracking-tight">
+                                                    Penarikan Pending
+                                                </div>
+                                                <div className="text-2xl font-semibold">
+                                                    Rp {numberFormat(onhold)}
+                                                </div>
+                                            </div> : <></>}
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -374,37 +409,38 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
 
                             <hr className="my-10" />
                         </div>
-                        {permission_name.indexOf("lihat menu owner reservasi") > -1 && (
-                        <div className="mt-12 md:mt-0">
-                            <div className="flex flex-col w-full space-y-8">
-                                <div className="w-full h-56 p-6 text-white shadow-md bg-gradient-to-tl from-gray-900 to-gray-800 md:w-96 rounded-xl">
-                                    <div className="flex flex-col justify-between h-full">
-                                        <div className="flex items-start justify-between space-x-2">
-                                            <div className="text-xl font-semibold tracking-tigh">
-                                                SALDO DEPOSIT MILIK PEKERJA
+                        {permission_name.indexOf("lihat menu owner reservasi") >
+                            -1 && (
+                            <div className="mt-12 md:mt-0">
+                                <div className="flex flex-col w-full space-y-8">
+                                    <div className="w-full h-56 p-6 text-white shadow-md bg-gradient-to-tl from-gray-900 to-gray-800 md:w-96 rounded-xl">
+                                        <div className="flex flex-col justify-between h-full">
+                                            <div className="flex items-start justify-between space-x-2">
+                                                <div className="text-xl font-semibold tracking-tigh">
+                                                    SALDO DEPOSIT MILIK PEKERJA
+                                                </div>
+                                                <div className="inline-flex flex-col items-center justify-center w-12">
+                                                    <ApplicationLogo />
+                                                </div>
                                             </div>
-                                            <div className="inline-flex flex-col items-center justify-center w-12">
-                                                <ApplicationLogo />
+                                            <div className="inline-block w-12 h-8 overflow-hidden rounded-md shadow-inner bg-gradient-to-tl from-yellow-200 to-yellow-100">
+                                                <div className="relative grid w-full h-full grid-cols-2 gap-1">
+                                                    <div className="absolute w-4 h-6 border border-gray-900 rounded left-4 top-1" />
+                                                    <div className="border-b border-r border-gray-900 rounded-br" />
+                                                    <div className="border-b border-l border-gray-900 rounded-bl" />
+                                                    <div className="border-t border-r border-gray-900 rounded-tr" />
+                                                    <div className="border-t border-l border-gray-900 rounded-tl" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="inline-block w-12 h-8 overflow-hidden rounded-md shadow-inner bg-gradient-to-tl from-yellow-200 to-yellow-100">
-                                            <div className="relative grid w-full h-full grid-cols-2 gap-1">
-                                                <div className="absolute w-4 h-6 border border-gray-900 rounded left-4 top-1" />
-                                                <div className="border-b border-r border-gray-900 rounded-br" />
-                                                <div className="border-b border-l border-gray-900 rounded-bl" />
-                                                <div className="border-t border-r border-gray-900 rounded-tr" />
-                                                <div className="border-t border-l border-gray-900 rounded-tl" />
+                                            <div className="text-xs font-semibold tracking-tight">
+                                                Saldo
                                             </div>
-                                        </div>
-                                        <div className="text-xs font-semibold tracking-tight">
-                                            Saldo
-                                        </div>
-                                        <div className="text-2xl font-semibold">
-                                            Rp {numberFormat(deposit)}
+                                            <div className="text-2xl font-semibold">
+                                                Rp {numberFormat(deposit)}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                {/* <div className="relative">
+                                    {/* <div className="relative">
                                     <div className="absolute flex items-start px-2 py-3 space-x-2 text-gray-900 bg-white border-gray-200 rounded-lg shadow-2xl -right-4 lg:right-36 -mt-14 md:-mt-16 w-72">
                                         <div className="flex-initial">
                                             <div className="inline-flex items-center justify-center bg-green-300 rounded-lg bg-gradient-tl from-green-400 via-green-400">
@@ -450,93 +486,90 @@ export default function Index({ balance, bonus, referral, deposit, depositpekerj
                                         </div>
                                     </div>
                                 </div> */}
-                            </div>
-                            <div className="grid w-full grid-cols-2 mt-6 text-white gap-x-1 md:w-96">
-                                <div className="grid w-full grid-cols-1">
-                                <NavLink
-                                        type="button"
-                                        className={
-                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
-                                        }
-                                        href={"/deposit/summary"}
-                                    >
-                                        Rincian
-                                    </NavLink>
                                 </div>
-                                <div className="grid w-full grid-cols-2 gap-x-1">
-                                    
-                                    
+                                <div className="grid w-full grid-cols-2 mt-6 text-white gap-x-1 md:w-96">
+                                    <div className="grid w-full grid-cols-1">
+                                        <NavLink
+                                            type="button"
+                                            className={
+                                                "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            }
+                                            href={"/deposit/summary"}
+                                        >
+                                            Rincian
+                                        </NavLink>
+                                    </div>
+                                    <div className="grid w-full grid-cols-2 gap-x-1"></div>
                                 </div>
-                            </div>
 
-                            <hr className="my-10" />
-                        </div>
+                                <hr className="my-10" />
+                            </div>
                         )}
-                        {permission_name.indexOf("lihat menu pekerja reservasi") > -1 && (
-                        <div className="mt-12 md:mt-0">
-                            <div className="flex flex-col w-full space-y-8">
-                                <div className="w-full h-56 p-6 text-white shadow-md bg-gradient-to-tl from-gray-900 to-gray-800 md:w-96 rounded-xl">
-                                    <div className="flex flex-col justify-between h-full">
-                                        <div className="flex items-start justify-between space-x-4">
-                                            <div className="text-xl font-semibold tracking-tigh">
-                                                SALDO DEPOSIT PEKERJA
+                        {permission_name.indexOf(
+                            "lihat menu pekerja reservasi"
+                        ) > -1 && (
+                            <div className="mt-12 md:mt-0">
+                                <div className="flex flex-col w-full space-y-8">
+                                    <div className="w-full h-56 p-6 text-white shadow-md bg-gradient-to-tl from-gray-900 to-gray-800 md:w-96 rounded-xl">
+                                        <div className="flex flex-col justify-between h-full">
+                                            <div className="flex items-start justify-between space-x-4">
+                                                <div className="text-xl font-semibold tracking-tigh">
+                                                    SALDO DEPOSIT PEKERJA
+                                                </div>
+                                                <div className="inline-flex flex-col items-center justify-center">
+                                                    <ApplicationLogo />
+                                                </div>
                                             </div>
-                                            <div className="inline-flex flex-col items-center justify-center">
-                                                <ApplicationLogo />
+                                            <div className="inline-block w-12 h-8 overflow-hidden rounded-md shadow-inner bg-gradient-to-tl from-yellow-200 to-yellow-100">
+                                                <div className="relative grid w-full h-full grid-cols-2 gap-1">
+                                                    <div className="absolute w-4 h-6 border border-gray-900 rounded left-4 top-1" />
+                                                    <div className="border-b border-r border-gray-900 rounded-br" />
+                                                    <div className="border-b border-l border-gray-900 rounded-bl" />
+                                                    <div className="border-t border-r border-gray-900 rounded-tr" />
+                                                    <div className="border-t border-l border-gray-900 rounded-tl" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="inline-block w-12 h-8 overflow-hidden rounded-md shadow-inner bg-gradient-to-tl from-yellow-200 to-yellow-100">
-                                            <div className="relative grid w-full h-full grid-cols-2 gap-1">
-                                                <div className="absolute w-4 h-6 border border-gray-900 rounded left-4 top-1" />
-                                                <div className="border-b border-r border-gray-900 rounded-br" />
-                                                <div className="border-b border-l border-gray-900 rounded-bl" />
-                                                <div className="border-t border-r border-gray-900 rounded-tr" />
-                                                <div className="border-t border-l border-gray-900 rounded-tl" />
+                                            <div className="text-xs font-semibold tracking-tight">
+                                                Saldo
                                             </div>
-                                        </div>
-                                        <div className="text-xs font-semibold tracking-tight">
-                                            Saldo
-                                        </div>
-                                        <div className="text-2xl font-semibold">
-                                            Rp {numberFormat(depositpekerja)}
+                                            <div className="text-2xl font-semibold">
+                                                Rp{" "}
+                                                {numberFormat(depositpekerja)}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                            </div>
-                            <div className="grid w-full grid-cols-2 mt-6 text-white gap-x-1 md:w-96">
-                            <div className="grid w-full grid-cols-1">
-                                    <button
-                                        type="button"
-                                        className={
-                                            "inline-flex text-center items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
-                                        }
-                                        onClick={openConfirmationDepositToMainWallet}
-                                        // href={"/wallet/transfers"}
-                                    >
-                                        Transfer ke Saldo Utama(Deposit)
-                                    </button>
+                                <div className="grid w-full grid-cols-2 mt-6 text-white gap-x-1 md:w-96">
+                                    <div className="grid w-full grid-cols-1">
+                                        <button
+                                            type="button"
+                                            className={
+                                                "inline-flex text-center items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            }
+                                            onClick={
+                                                openConfirmationDepositToMainWallet
+                                            }
+                                            // href={"/wallet/transfers"}
+                                        >
+                                            Transfer ke Saldo Utama(Deposit)
+                                        </button>
+                                    </div>
+                                    <div className="grid w-full grid-cols-1">
+                                        <NavLink
+                                            type="button"
+                                            className={
+                                                "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
+                                            }
+                                            href={"/deposit/histories"}
+                                        >
+                                            Rincian
+                                        </NavLink>
+                                    </div>
+                                    <div className="grid w-full grid-cols-2 gap-x-1"></div>
                                 </div>
-                                <div className="grid w-full grid-cols-1">
-                                <NavLink
-                                        type="button"
-                                        className={
-                                            "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
-                                        }
-                                        href={"/deposit/histories"}
-                                    >
-                                        Rincian
-                                    </NavLink>
-                                    
-                                </div>
-                                <div className="grid w-full grid-cols-2 gap-x-1">
-                                    
-                                    
-                                </div>
-                            </div>
 
-                            <hr className="my-10" />
-                        </div>
+                                <hr className="my-10" />
+                            </div>
                         )}
                     </div>
                 </div>

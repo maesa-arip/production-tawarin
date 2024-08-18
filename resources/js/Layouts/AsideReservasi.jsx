@@ -6,7 +6,7 @@ import "../../css/static/stickymenu.css";
 import { IconBrandWechat } from "@tabler/icons";
 
 export default function AsideReservasi() {
-    const { auth, permissions,requestTopUp, requestWithdraw } = usePage().props;
+    const { auth, permissions,requestTopUp, requestWithdraw, customer_count } = usePage().props;
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
@@ -430,7 +430,7 @@ export default function AsideReservasi() {
                                 "lihat menu pekerja reservasi"
                             ) > -1 && (
                                 <li className="justify-between w-full">
-                                    <div className="flex items-center">
+                                    {/* <div className="flex items-center">
                                         <button
                                             className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
                                             onClick={() => toggleSubmenu(3)}
@@ -442,6 +442,26 @@ export default function AsideReservasi() {
                                                 ) : (
                                                     <PlusSVG />
                                                 )}
+                                            </span>
+                                        </button>
+                                    </div> */}
+                                    <div>
+                                    <button
+                                            className={`flex items-center w-full py-2 text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                            onClick={() => toggleSubmenu(3)}
+                                        >
+                                            <span className="text-right submenu-icon">
+                                                {submenuOpen === 3 ? (
+                                                    <MinusSVG />
+                                                ) : (
+                                                    <PlusSVG />
+                                                )}
+                                            </span>
+                                            <span className="inline-flex">
+                                            Pengaturan Pekerja{" "}
+                                            </span>
+                                            <span className="items-end content-center w-10 h-10 ml-auto text-base text-center text-red-500 bg-white rounded-full ">
+                                                {customer_count}
                                             </span>
                                         </button>
                                     </div>
@@ -473,7 +493,7 @@ export default function AsideReservasi() {
                                                     Lihat Undangan
                                                 </Link>
                                             </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                            {/* <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                 <Link
                                                     onClick={toggleMenu}
                                                     href={route(
@@ -483,6 +503,26 @@ export default function AsideReservasi() {
                                                 >
                                                     {" "}
                                                     Lihat Pelanggan
+                                                </Link>
+                                                
+                                            <span className="items-end content-center w-10 h-10 ml-auto text-base text-center text-red-500 bg-white rounded-full ">
+                                                {customer_count}
+                                            </span>
+                                            </li> */}
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                     onClick={toggleMenu}
+                                                     href={route(
+                                                         "reservation.mycustomers"
+                                                     )}
+                                                    className="flex justify-between text-white"
+                                                >
+                                                    <span className="inline-flex">
+                                                    Lihat Pelanggan
+                                                    </span>
+                                                    <span className="content-center w-10 h-10 ml-10 text-base text-center text-red-500 bg-white rounded-full">
+                                                        {customer_count}
+                                                    </span>
                                                 </Link>
                                             </li>
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">

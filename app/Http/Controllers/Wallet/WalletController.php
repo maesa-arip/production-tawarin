@@ -15,10 +15,13 @@ class WalletController extends Controller
         $user = User::where('id',auth()->user()->id)->first();
         $referral = User::where('from_referral', $user->referral)->get();
         $user->wallet->refreshBalance();
-        $balance = auth()->user()->balance;
+        
+        
         
         $wallet_id = DB::table('wallets')->where('holder_type','App\Models\User')->where('name','Default Wallet')->where('holder_id',$user->id)->first();
         $depositpekerja = abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','withdraw')->where('confirmed',1)->whereJsonContains('meta->type', 'deposit')->sum('amount')) - abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','deposit')->whereJsonContains('meta->type', 'deposit_withdraw')->where('confirmed',1)->sum('amount'));
+        $onhold = abs(DB::table('transactions')->where('wallet_id',$wallet_id->id)->where('type','withdraw')->where('confirmed',0)->whereJsonContains('meta->type', 'request_withdraw')->sum('amount'));
+        $balance = $onhold ? auth()->user()->balance - $onhold : auth()->user()->balance;
         $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;
         $deposit = auth()->user()->hasWallet('deposit') ? auth()->user()->getWallet('deposit')->balance : 0 ;
         return inertia('Wallets/Basic/Index',[
@@ -26,6 +29,7 @@ class WalletController extends Controller
             'bonus' => $bonus,
             'deposit' => $deposit,
             'depositpekerja' => $depositpekerja,
+            'onhold' => $onhold,
             'referral' => $referral,
         ]);
     }

@@ -384,15 +384,20 @@ class HistoryController extends Controller
         $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
         $employees = ReservationEmployee::with('user')->where('reservation_company_id',$company->id)->get();
         $counters = ReservationCounter::where('reservation_company_id',$company->id)->get();
-        $query = ReservationEmployee::select(
+        $cekIDOwner = ReservationEmployee::select(
             'reservation_employees.id as employee_id',
             'users.name as employee_name',
-            'reservation_counters.id as counter_id',
-            'reservation_counters.name as counter_name',
-            // 'reservation_customers.reservation_team_id',
-            DB::raw('COUNT(reservation_customers.id) as total_customers'),
-            DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
-            DB::raw('SUM(reservation_counters.jasa) as total_jasa')
+            'transactions.amount as amount',
+            'transactions.id as transaction_id',
+            'transfers.id as transfer_id',
+            'transactions.wallet_id as wallet_id',
+            'transactions.meta as meta_id',
+            'reservation_companies.user_id as company_user_id',
+            'wallets.id as wallets_id'
+            // DB::raw('COUNT(reservation_customers.id) as total_customers'),
+            // DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
+            // DB::raw('SUM(reservation_counters.jasa) as total_jasa'),
+            // DB::raw('SUM(transactions.amount) as total_uang')
         )
         ->join('users', 'reservation_employees.user_id', '=', 'users.id')
         ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
@@ -403,8 +408,58 @@ class HistoryController extends Controller
             $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
                  ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
         })
+        ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
+        ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
+        ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
+        // ->where('reservation_customers.selesai_customer', '=', 1)
+        ->where('reservation_companies.user_id', '=', auth()->user()->id)
+        ->where('users.id',26)
+       
+        ->where('wallets.holder_type','App\Models\User')
+        ->where('wallets.slug','default')
+        ->where('reservation_customers.id',1873)
+        ->whereJsonContains('transactions.meta->type', 'uang keluar')
+        // ->groupBy('reservation_employees.id', 'users.name')
+        ->orderBy('transactions.id','DESC')
+        ->orderBy('reservation_employees.id')
+        ->orderBy('reservation_counters.id')->first();
+        // dd($cekIDOwner);
+        $query = ReservationEmployee::select(
+            'reservation_employees.id as employee_id',
+            'users.name as employee_name',
+            'reservation_counters.id as counter_id',
+            'reservation_counters.name as counter_name',
+            // 'reservation_customers.reservation_team_id',
+            DB::raw('COUNT(reservation_customers.id) as total_customers'),
+            DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
+            DB::raw('SUM(reservation_counters.jasa) as total_jasa'),
+            DB::raw('SUM(transactions.amount) as total_uang')
+        )
+        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+        ->join('reservation_team_details', function($join) {
+            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+        })
+        ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
+        ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
+        ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
+        // ->where('reservation_customers.selesai_customer', '=', 1)
+        ->where('reservation_companies.user_id', '=', auth()->user()->id)
+        ->where('transfers.to_id','<>',$cekIDOwner->wallets_id)
+        // ->where('users.id',30)
+        ->where('wallets.holder_type','App\Models\User')
+        ->where('wallets.slug','default')
+        ->where('reservation_customers.id', '>',100)
+        ->whereJsonContains('transactions.meta->type', 'uang keluar')
+        // ->groupBy('reservation_employees.id', 'users.name' )
+        
         ->where('reservation_customers.selesai_customer', '=', 1)
         ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+        ->orderBy('transactions.id','DESC')
         ->orderBy('reservation_employees.id')
         ->orderBy('reservation_counters.id');
 
@@ -433,36 +488,82 @@ class HistoryController extends Controller
         ->orderBy('reservation_employees.id')
         ->orderBy('reservation_counters.id');
 
+        
+
+        $sumPendapatan = ReservationEmployee::select(
+            'reservation_employees.id as employee_id',
+            'users.name as employee_name',
+            // 'transactions.amount as amount',
+            // 'reservation_counters.price_user',
+            // 'reservation_counters.jasa',
+            // 'transactions.id as transaction_id',
+            // 'transfers.id as transfer_id',
+            // 'transactions.wallet_id as wallet_id',
+            // 'transactions.meta as meta_id',
+            // 'reservation_companies.user_id as company_user_id',
+            // 'transfers.to_id as to_id',
+            DB::raw('COUNT(reservation_customers.id) as total_customers'),
+            DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
+            DB::raw('SUM(reservation_counters.jasa) as total_jasa'),
+            DB::raw('SUM(transactions.amount) as total_uang')
+        )
+        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+        ->join('reservation_team_details', function($join) {
+            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+        })
+        ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
+        ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
+        ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
+        // ->where('reservation_customers.selesai_customer', '=', 1)
+        ->where('reservation_companies.user_id', '=', auth()->user()->id)
+        ->where('transfers.to_id','<>',$cekIDOwner->wallets_id)
+        // ->where('users.id',30)
+        ->where('wallets.holder_type','App\Models\User')
+        ->where('wallets.slug','default')
+        ->where('reservation_customers.id', '>',100)
+        ->whereJsonContains('transactions.meta->type', 'uang keluar')
+        ->groupBy('reservation_employees.id', 'users.name' )
+        ->orderBy('transactions.id','DESC')
+        ->orderBy('reservation_employees.id')
+        ->orderBy('reservation_counters.id');
+
+        // dd($sumPendapatan);
+
         if ($request->q && $request->q<>'Semua Karyawan') {
             $query->where('users.name', 'like', '%' . $request->q . '%');
-            $sumQuery->where('users.name', 'like', '%' . $request->q . '%');
+            $sumPendapatan->where('users.name', 'like', '%' . $request->q . '%');
         }
         if ($request->r && $request->r<>'Semua Layanan') {
             $query->where('reservation_counters.name', $request->r);
-            $sumQuery->where('reservation_counters.name', $request->r);
+            $sumPendapatan->where('reservation_counters.name', $request->r);
         }
         if (!$request->startDate && !$request->endDate) {
             $query->whereDate('reservation_customers.created_at', Carbon::today());
-            // $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
-            // $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse('01-06-2024'), Carbon::today()]);
-            $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumPendapatan->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumPendapatan->whereBetween('reservation_customers.created_at', [Carbon::parse('01-06-2024'), Carbon::today()]);
+            $sumPendapatan->whereDate('reservation_customers.created_at', Carbon::today());
         }
         if (!$request->startDate && $request->endDate) {
             $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
-            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
+            $sumPendapatan->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->startDate && !$request->endDate) {
             $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()->addDay()]);
-            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()->addDay()]);
+            $sumPendapatan->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::today()->addDay()]);
             // dd(Carbon::parse($request->startDate),Carbon::today()->addDay(1));
         }
         if ($request->startDate && $request->endDate) {
             $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
-            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
+            $sumPendapatan->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->has(['field', 'direction'])) {
             $query->orderBy($request->field, $request->direction);
-            $sumQuery->orderBy($request->field, $request->direction);
+            $sumPendapatan->orderBy($request->field, $request->direction);
         }
         $transactions = (
             ArrayResource::collection($query->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
@@ -481,7 +582,7 @@ class HistoryController extends Controller
             ]
         ]);
         $sumTransactions = (
-            ArrayResource::collection($sumQuery->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
+            ArrayResource::collection($sumPendapatan->fastPaginate($request->load ?? $this->loadDefault)->withQueryString())
         )->additional([
             'attributes' => [
                 'total' => Transaction::count(),

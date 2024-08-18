@@ -55,11 +55,12 @@ export default function Index(props) {
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
 
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(
-                route("adminwithdraws.index"),
-                // {...pickBy({ search: query, page: query.page })},
+                route(route().current()),
+                // route("riskRegisterKlinis.index"),
                 { ...pickBy(query), page: query.page },
                 {
                     preserveState: true,
@@ -69,8 +70,13 @@ export default function Index(props) {
         }, 150),
         []
     );
-
-    useEffect(() => reload(params), [params]);
+    useEffect(() => {
+        if (!isInitialRender) {
+            reload(params);
+        } else {
+            setIsInitialRender(false);
+        }
+    }, [params]);
     useEffect(() => {
         let numbers = [];
         for (

@@ -18,6 +18,8 @@ class ReservationResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
+            'reviews_count' => $this->reviews_count,
+            'average_rating' => $this->average_rating,
             'formattedAddress' => $this->formattedAddress,
             'open_at' => $this->open_at,
             'close_at' => $this->close_at,

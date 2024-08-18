@@ -64,6 +64,7 @@ export default function Dashboard(props) {
     const balance = props.balance;
     const referral = props.referral;
     const bonus = props.bonus;
+    const feewithdraw = props.feewithdraw;
     const { auth } = usePage().props;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -262,7 +263,7 @@ export default function Dashboard(props) {
                 </div>
             </InfoModal>
             <Container>
-                <FeatureCard balance={balance} bonus={bonus} referral={referral}  />
+                <FeatureCard balance={balance} bonus={bonus} feewithdraw={feewithdraw} referral={referral}  />
                 {portofolio.length > 0 ? (
                     <> </>
                 ) : (
