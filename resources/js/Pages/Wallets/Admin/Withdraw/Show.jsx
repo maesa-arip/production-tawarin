@@ -178,7 +178,7 @@ export default function Show({ transaction }) {
             </InfoModal>
             <Container>
                 {transaction.confirmed == 1 ? (
-                    <div className="flex items-center justify-center min-h-screen -mt-24 ">
+                    <div className="flex items-center justify-center min-h-screen ">
                         <div className="w-full max-w-sm p-6 bg-white border shadow-lg rounded-xl">
                             <div className="flex flex-col items-center">
                                 {/* Icon and Message */}
@@ -218,7 +218,7 @@ export default function Show({ transaction }) {
                                         </p>
                                     </div>
                                     <div className="px-3 py-1 text-white uppercase bg-yellow-400 rounded-full">
-                                    {Array.from(transaction.meta?.account_name)[0]}
+                                    {/* {Array.from(transaction.meta?.account_name)[0]} */}
                                     </div>
                                 </div>
                                 <div className="text-2xl font-bold text-gray-700">
