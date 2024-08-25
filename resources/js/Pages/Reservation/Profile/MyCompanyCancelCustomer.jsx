@@ -12,6 +12,9 @@ import Button from "@/Components/Button";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
 import { IconChecks, IconGavel, IconX } from "@tabler/icons";
+import InputLabel from "@/Components/InputLabel";
+import TextAreaInput from "@/Components/TextAreaInput";
+import InputError from "@/Components/InputError";
 
 export default function MyCompanyCancelCustomer({
     auth,
@@ -22,6 +25,7 @@ export default function MyCompanyCancelCustomer({
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
+    const [isOpenPunishmentDialog, setIsOpenPunishmentDialog] = useState(false);
     const { data, setData, patch,post,put, processing, errors, reset } = useForm({
     });
     const openInfoDialog = (item) => {
@@ -47,6 +51,23 @@ export default function MyCompanyCancelCustomer({
     };
     const closeInfoDialog2 = () => {
         setIsOpenInfoDialog2(false);
+    };
+    const openPunishmentDialog = (item) => {
+        setState(item);
+        setIsOpenPunishmentDialog(true);
+    };
+    const closePunishmentDialog = () => {
+        setIsOpenPunishmentDialog(false);
+        // setSelected();
+    };
+    const handlePunishmentReservation = (e) => {
+        e.preventDefault();
+        put(route("reservation.punishmentreservation", state.id), {
+            onSuccess: () => {
+                return Promise.all([setIsOpenPunishmentDialog(false), reset()]);
+            },
+            // onSuccess: () => setIsOpenPunishmentDialog(false),
+        });
     };
     return (
         <>
@@ -87,7 +108,50 @@ export default function MyCompanyCancelCustomer({
                     Close
                 </ThirdButtonNoLink>
             </InfoModal>
-            <Head title="Profile" />
+
+            <InfoModal
+                isOpenInfoDialog={isOpenPunishmentDialog}
+                setIsOpenInfoDialog={setIsOpenPunishmentDialog}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Batalkan Reservasi ?"}
+            >
+                <p className="p-4 text-base font-semibold text-left border-2 border-yellow-600 rounded-lg">Yakin berikan punishment ke barber ?</p>
+               <InputLabel className={"text-left mt-4"}>
+                    Masukan Alasan
+                </InputLabel>
+                <TextAreaInput
+                    type="text"
+                    name="reason"
+                    value={data.reason}
+                    className="block w-full mt-1"
+                    autoComplete="reason"
+                    isFocused={true}
+                    handleChange={(e) => setData("reason", e.target.value)}
+                />
+                <InputError
+                    message={errors.reason}
+                    className="mt-2 mb-2 text-left"
+                />
+
+                
+                <ThirdButtonNoLink
+                    className="mt-2"
+                    processing={processing}
+                    onClick={handlePunishmentReservation}
+                >
+                    Simpan
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closePunishmentDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
+                
+            </InfoModal>
+            <Head title="Cancel Customer" />
             <div className="py-12">
                 <div className="mx-auto space-y-6 sm:px-6 lg:px-8">
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
@@ -173,6 +237,11 @@ export default function MyCompanyCancelCustomer({
                                             <ThirdButtonNoLink
                                                     className="cursor-pointer"
                                                     color="yellow"
+                                                    onClick={() =>
+                                                        openPunishmentDialog(
+                                                            item
+                                                        )
+                                                    }
                                                 >
                                                     Punishment{" "}
                                                     <IconGavel className="w-4 h-4" />
