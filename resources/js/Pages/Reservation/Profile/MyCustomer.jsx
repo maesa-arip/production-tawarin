@@ -22,8 +22,8 @@ export default function MyCustomer({
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
-    const { data, setData, patch,post,put, processing, errors, reset } = useForm({
-    });
+    const { data, setData, patch, post, put, processing, errors, reset } =
+        useForm({});
     const openInfoDialog = (item) => {
         setState(item);
         setIsOpenInfoDialog(true);
@@ -58,7 +58,10 @@ export default function MyCustomer({
                 closeButton="false"
                 title={"Yakin Mulai Pelayanan ?"}
             >
-                <ThirdButtonNoLink processing={processing} onClick={startService}>
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={startService}
+                >
                     Mulai
                 </ThirdButtonNoLink>
                 <ThirdButtonNoLink
@@ -76,10 +79,13 @@ export default function MyCustomer({
                 closeButton="false"
                 title={"Yakin Selesaikan Pelayanan ?"}
             >
-                <ThirdButtonNoLink processing={processing} onClick={finishService}>
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={finishService}
+                >
                     Selesai
                 </ThirdButtonNoLink>
-                
+
                 <ThirdButtonNoLink
                     className="mx-2 mt-2"
                     color="secondary"
@@ -101,61 +107,68 @@ export default function MyCustomer({
                             <div className="py-5" key={index}>
                                 <div className="p-2 duration-150 bg-white rounded-lg shadow cursor-pointer">
                                     <div>
-                                    <div className="flex items-center justify-between px-4 my-6">
-                                        <p className="font-bold text-gray-500">
-                                            Nama Layanan
-                                        </p>
-                                        <p className="rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
-                                            {item.counterName}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center justify-between px-4 my-4">
-                                        <p className="text-sm font-semibold text-gray-500">
-                                            Kode Bukti
-                                        </p>
-                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                        {item.code}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center justify-between px-4 my-4">
-                                        <p className="text-sm font-semibold text-gray-500">
-                                            Tanggal Reservasi
-                                        </p>
-                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                            {item.date}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center justify-between px-4 my-4">
-                                        <p className="text-sm font-semibold text-gray-500">
-                                            Jam Reservasi
-                                        </p>
-                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                        {item.time}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center justify-between px-4 my-4">
-                                        <p className="text-sm font-semibold text-gray-500">
-                                            Nama Pelanggan
-                                        </p>
-                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                            {item.user.name}
-                                        </p>
-                                        
-                                    </div>
-                                    {item.batal_customer == 1 ? <div className="flex items-center justify-between px-4 my-4">
-                                        <p className="text-sm font-semibold text-gray-500">
-                                            Alasan Batal
-                                        </p>
-                                        <p className="rounded-full bg-red-200 px-2 py-0.5 text-xs font-semibold text-red-600">
-                                            {item.alasan_batal_customer}
-                                        </p>
-                                        
-                                    </div> : <></>}
+                                        <div className="flex items-center justify-between px-4 my-6">
+                                            <p className="font-bold text-gray-500">
+                                                Nama Layanan
+                                            </p>
+                                            <p className="rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
+                                                {item.counterName}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Kode Bukti
+                                            </p>
+                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                {item.code}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Tanggal Reservasi
+                                            </p>
+                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                {item.date}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Jam Reservasi
+                                            </p>
+                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                {item.time}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Nama Pelanggan
+                                            </p>
+                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                {item.user.name}
+                                            </p>
+                                        </div>
+                                        {item.batal_customer == 1 ? (
+                                            <div className="flex items-center justify-between px-4 my-4">
+                                                <p className="text-sm font-semibold text-gray-500">
+                                                    Alasan Batal
+                                                </p>
+                                                <p className="rounded-full bg-red-200 px-2 py-0.5 text-xs font-semibold text-red-600">
+                                                    {item.alasan_batal_customer}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <></>
+                                        )}
                                         <div className="flex items-center px-4 my-4 justify-evenly">
-                                        {item.batal_customer == 1 ? <ThirdButtonNoLink className="cursor-not-allowed" color="red">
-                                                                    Sudah dibatalkan <IconX className="w-4 h-4"/>
-                                                                </ThirdButtonNoLink> :
-                                            item.selesai_customer == 1 ? (
+                                            {item.batal_customer == 1 ? (
+                                                <ThirdButtonNoLink
+                                                    className="cursor-not-allowed"
+                                                    color="red"
+                                                >
+                                                    Sudah dibatalkan{" "}
+                                                    <IconX className="w-4 h-4" />
+                                                </ThirdButtonNoLink>
+                                            ) : item.selesai_customer == 1 ? (
                                                 <ThirdButtonNoLink
                                                     color="teal"
                                                     className="cursor-not-allowed"

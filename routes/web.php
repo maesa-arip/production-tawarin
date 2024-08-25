@@ -113,6 +113,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/reservations/mycustomers', [ReservationController::class, 'mycustomers'])->name('reservation.mycustomers');
     // Route::get('/reservations/myemployees', [ReservationController::class, 'myemployees'])->name('reservation.myemployees');
     Route::get('/reservations/mycompanycustomers', [ReservationController::class, 'mycompanycustomers'])->name('reservation.mycompanycustomers');
+    Route::get('/reservations/mycompanycancelcustomers', [ReservationController::class, 'mycompanycancelcustomers'])->name('reservation.mycompanycancelcustomers');
     Route::get('/reservations/mycounters', [ReservationController::class, 'mycounters'])->name('reservation.mycounters');
     Route::put('/startservice/{id}/edit', [ReservationController::class, 'startservice'])->name('reservation.startservice');
     Route::put('/finishservice/{id}/edit', [ReservationController::class, 'finishservice'])->name('reservation.finishservice');

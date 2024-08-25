@@ -371,6 +371,18 @@ export default function AsideReservasi() {
                                                     Pelanggan Perusahaan
                                                 </Link>
                                             </li>
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                    onClick={toggleMenu}
+                                                    href={route(
+                                                        "reservation.mycompanycancelcustomers"
+                                                    )}
+                                                    className="text-white"
+                                                >
+                                                    {" "}
+                                                    Customer Batal
+                                                </Link>
+                                            </li>
                                         </ul>
                                     )}
                                 </li>

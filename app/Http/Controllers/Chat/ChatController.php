@@ -14,7 +14,17 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $contacts = User::join('contacts', 'users.id', '=', 'contacts.contact_id')->where('user_id',auth()->user()->id)->get();
+        $contacts = User::join('contacts', 'users.id', '=', 'contacts.contact_id')
+        ->where('user_id',auth()->user()->id)
+        ->orWhere('chats.receiver_id',auth()->user()->id)
+        ->leftjoin('chats','users.id','chats.sender_id')
+        ->select('users.*')
+        // ->leftjoin('chats as sa','users.id','sa.receiver_id')
+        ->distinct()
+        ->get();
+        
+    
+        // dd($contacts);
         return inertia('Chats/Index', ['contacts'=>$contacts]);
     }
 

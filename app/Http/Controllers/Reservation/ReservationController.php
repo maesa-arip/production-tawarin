@@ -418,6 +418,21 @@ class ReservationController extends Controller
             'myCustomers' => $myCustomers,
         ]);
     }
+    public function mycompanycancelcustomers(Request $request)
+    {
+        $myCustomers = ReservationCustomer::where('reservation_companies.user_id', auth()->user()->id)
+            ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('users', 'users.id', 'reservation_customers.user_id')
+            ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
+            ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName', 'users.name as customerName')
+            ->where('reservation_customers.batal_customer',1)
+            ->orderBy('reservation_customers.created_at', 'DESC')->get();
+        return Inertia::render('Reservation/Profile/MyCompanyCancelCustomer', [
+            'myCustomers' => $myCustomers,
+        ]);
+    }
     public function myemployees(Request $request)
     {
         $myEmployees = ReservationEmployee::with('user')->get();
