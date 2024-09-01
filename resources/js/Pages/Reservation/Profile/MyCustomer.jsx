@@ -11,7 +11,7 @@ import InfoModal from "@/Components/Modal/InfoModal";
 import Button from "@/Components/Button";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks, IconX } from "@tabler/icons";
+import { IconChecks, IconMoodSad, IconX } from "@tabler/icons";
 
 export default function MyCustomer({
     auth,
@@ -147,6 +147,15 @@ export default function MyCustomer({
                                                 {item.user.name}
                                             </p>
                                         </div>
+                                        {item.complaint == 1 ? <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Alasan Komplain
+                                            </p>
+                                            <p className="rounded-full bg-red-200 px-2 py-0.5 text-xs font-semibold text-red-600">
+                                                {item.complaint_reason}
+                                            </p>
+                                        </div> : <></>}
+                                        
                                         {item.batal_customer == 1 ? (
                                             <div className="flex items-center justify-between px-4 my-4">
                                                 <p className="text-sm font-semibold text-gray-500">
@@ -186,7 +195,12 @@ export default function MyCustomer({
                                                             Menunggu Konfirmasi
                                                             Pelanggan
                                                         </ThirdButtonNoLink>
-                                                    ) : (
+                                                    ) : item.complaint == 1 ? (<ThirdButtonNoLink
+                                                        color="red"
+                                                        className="cursor-not-allowed"
+                                                    >
+                                                        Pelanggan Komplain <IconMoodSad className="w-5 h-5 ml-2"/>
+                                                    </ThirdButtonNoLink>) : (
                                                         <>
                                                             {item.dikerjakan ==
                                                             1 ? (

@@ -65,6 +65,10 @@ class ReservationEmployeeController extends Controller
                 $join->on('media.model_id', '=', 'reservation_employees.user_id')
                     ->where('media.model_type', '=', 'App\\Models\\User');
             })
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'reservation_employees.user_id')
+                    ->where('model_has_roles.role_id', '=', '13');
+            })
             ->select(
                 'reservation_employees.id as employee_record_id',
                 'reservation_employees.approved',
@@ -74,12 +78,53 @@ class ReservationEmployeeController extends Controller
                 'users.email',
                 'users.phone',
                 'media.id as media_id',
+                'model_has_roles.model_type as model_has_roles_model_type',
                 'media.file_name',
                 DB::raw('AVG(rr.star_rating) as average_rating'),
                 DB::raw('COUNT(DISTINCT rc.id) as count_customer'),
                 DB::raw('COUNT(DISTINCT rr.id) as count_rating')
             )
-            ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'rtd.user_id', 'users.name', 'users.email', 'users.phone', 'media.id', 'media.file_name');
+            ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'rtd.user_id', 'users.name', 'users.email', 'users.phone', 'media.id','model_has_roles.model_type', 'media.file_name');
+    //     $reservationEmployees = ReservationEmployee::query()
+    // ->leftJoin('reservation_team_details as rtd', 'reservation_employees.user_id', '=', 'rtd.user_id')
+    // ->leftJoin('users', 'reservation_employees.user_id', '=', 'users.id')
+    // ->leftJoin('media', function ($join) {
+    //     $join->on('media.model_id', '=', 'reservation_employees.user_id')
+    //          ->where('media.model_type', '=', 'App\\Models\\User');
+    // })
+    // ->leftJoinSub(
+    //     DB::table('reservation_teams as rt')
+    //         ->leftJoin('reservation_ratings as rr', 'rt.id', '=', 'rr.reservation_team_id')
+    //         ->select('rt.id as team_id', DB::raw('AVG(rr.star_rating) as average_rating'), DB::raw('COUNT(DISTINCT rr.id) as count_rating'))
+    //         ->groupBy('rt.id'),
+    //     'ratings_subquery', 'ratings_subquery.team_id', '=', 'rtd.reservation_team_id'
+    // )
+    // ->leftJoinSub(
+    //     DB::table('reservation_teams as rt')
+    //         ->leftJoin('reservation_customers as rc', function ($join) {
+    //             $join->on('rt.id', '=', 'rc.reservation_team_id')
+    //                  ->where('rc.selesai_customer', '=', 1);
+    //         })
+    //         ->select('rt.id as team_id', DB::raw('COUNT(DISTINCT rc.id) as count_customer'))
+    //         ->groupBy('rt.id'),
+    //     'customers_subquery', 'customers_subquery.team_id', '=', 'rtd.reservation_team_id'
+    // )
+    // ->select(
+    //     'reservation_employees.id as employee_record_id',
+    //     'reservation_employees.approved',
+    //     'reservation_employees.created_at',
+    //     'users.name',
+    //     'users.email',
+    //     'users.phone',
+    //     'media.id as media_id',
+    //     'media.file_name',
+    //     'ratings_subquery.average_rating',
+    //     'ratings_subquery.count_rating',
+    //     'customers_subquery.count_customer'
+    // )
+    // ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'users.name', 'users.email', 'users.phone', 'media.id', 'media.file_name')
+    // ;
+
         // dd($employees);
                 // dd($reservationEmployees);
         if ($request->q) {
@@ -148,7 +193,23 @@ class ReservationEmployeeController extends Controller
             'message' => 'Karyawan berhasil diundang, menunggu konfirmasi',
         ]);
     }
-
+    public function makecashier(Request $request,  $id)
+    {
+        // $validated = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => ['required', 'email','unique:users,email,'. optional($user)->id],
+        // ]);
+        // $user->update($validated);
+        // dd($id,$user);
+        
+        $user = User::findOrFail($id);
+        // dd($user);
+        $user->roles()->attach([0 => 13]);
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Berhasil setting kasir',
+        ]);
+    }
     /**
      * Display the specified resource.
      *

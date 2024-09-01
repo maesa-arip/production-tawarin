@@ -13,6 +13,7 @@ export default function ThirdButton({ type = 'submit', className = '',href, proc
         gray: 'bg-gray-50 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 focus:ring-gray-100',
         pink: 'bg-pink-50 text-pink-500 hover:bg-pink-100 focus:bg-pink-100 active:bg-pink-100 focus:ring-pink-100',
         tawarin: 'inline-flex items-center px-4 py-2 bg-amber-500 border border-transparent rounded-md font-semibold text-xs text-white  uppercase tracking-widest hover:bg-amber-600 focus:bg-amber-600 active:bg-amber-600 focus:outline-none transition ease-in-out duration-150 false',
+        danger: 'inline-flex items-center px-4 py-2 bg-red-500 border border-transparent rounded-md font-semibold text-xs text-white  uppercase tracking-widest hover:bg-red-600 focus:bg-red-600 active:bg-red-600 focus:outline-none transition ease-in-out duration-150 false',
         primary: 'inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none sm:w-auto sm:text-sm',
         secondary: 'inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white  uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none transition ease-in-out duration-150 false ',
 

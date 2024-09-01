@@ -113,11 +113,14 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/reservations/mycustomers', [ReservationController::class, 'mycustomers'])->name('reservation.mycustomers');
     // Route::get('/reservations/myemployees', [ReservationController::class, 'myemployees'])->name('reservation.myemployees');
     Route::get('/reservations/mycompanycustomers', [ReservationController::class, 'mycompanycustomers'])->name('reservation.mycompanycustomers');
-    Route::get('/reservations/mycompanycancelcustomers', [ReservationController::class, 'mycompanycancelcustomers'])->name('reservation.mycompanycancelcustomers');
+    Route::get('/reservations/mycompanycomplaintcustomers', [ReservationController::class, 'mycompanycomplaintcustomers'])->name('reservation.mycompanycomplaintcustomers');
     Route::get('/reservations/mycounters', [ReservationController::class, 'mycounters'])->name('reservation.mycounters');
     Route::put('/startservice/{id}/edit', [ReservationController::class, 'startservice'])->name('reservation.startservice');
+    Route::put('/nopunishment/{id}/edit', [ReservationController::class, 'nopunishment'])->name('reservation.nopunishment');
+    Route::put('/punishmentreservation/{id}/edit', [ReservationController::class, 'punishmentreservation'])->name('reservation.punishmentreservation');
     Route::put('/finishservice/{id}/edit', [ReservationController::class, 'finishservice'])->name('reservation.finishservice');
     Route::put('/cancelreservation/{id}/edit', [ReservationController::class, 'cancelreservation'])->name('reservation.cancelreservation');
+    Route::put('/complaintreservation/{id}/edit', [ReservationController::class, 'complaintreservation'])->name('reservation.complaintreservation');
     Route::put('/finishcustomer/{id}/edit', [ReservationController::class, 'finishcustomer'])->name('reservation.finishcustomer');
     Route::put('/updatejoinas/{id}/edit', [ReservationController::class, 'updatejoinas'])->name('reservation.updatejoinas');
     Route::post('/daftarcounter', [ReservationController::class, 'daftarcounter'])->name('reservation.daftarcounter');
@@ -246,6 +249,7 @@ Route::group(['middleware' => ['permission:lihat menu owner reservasi']], functi
     Route::patch('owneradmindeposits/{id}/confirmed', [WithdrawOwnerController::class, 'confirmed'])->name('owneradmindeposits.confirmed');
     Route::patch('owneradmindeposits/{id}/decline', [WithdrawOwnerController::class, 'decline'])->name('owneradmindeposits.decline');
     Route::put('reservation/declinedayoff/{id}/decline', [ReservationEmployeeController::class, 'declinedayoff'])->name('reservation.declinedayoff');
+    Route::put('reservation/makecashier/{id}/update', [ReservationEmployeeController::class, 'makecashier'])->name('reservation.makecashier');
     Route::Resource('owneradmindeposits', WithdrawOwnerController::class);
     Route::get('/companychart', [ChartController::class, 'index'])->name('company.chart');
     Route::get('company/summary', [WalletHistoryController::class, 'companysummary'])->name('company.summary');

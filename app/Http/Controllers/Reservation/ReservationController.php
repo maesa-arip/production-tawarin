@@ -23,6 +23,8 @@ use App\Models\Reservation\ReservationTeamDetail;
 use App\Models\TemporaryFile;
 use App\Models\Tip;
 use App\Models\User;
+use App\Notifications\Reservation\ReservationAcceptComplaintNotification;
+use App\Notifications\Reservation\ReservationDeclineComplaintNotification;
 use App\Notifications\Reservation\ReservationNotification;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -177,37 +179,37 @@ class ReservationController extends Controller
             ->with('media')
             ->with('reservationcategory')
             ->where('is_approved', 1)
-            ->when($request->reservation_category, fn ($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
+            ->when($request->reservation_category, fn($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
             ->select('id', 'name', 'formattedAddress', 'is_approved', 'reservation_category_id', 'slug', 'reservation_companies.created_at')
             ->addSelect([
                 // Key is the alias, value is the sub-select
                 'reviews_count' => ReservationRating::query()
-                ->join('reservation_teams','reservation_teams.id','reservation_ratings.reservation_team_id')
-                ->join('reservation_counters','reservation_counters.id','reservation_teams.reservation_counter_id')
-                ->join('reservation_companies','reservation_companies.id','reservation_counters.reservation_company_id')
+                    ->join('reservation_teams', 'reservation_teams.id', 'reservation_ratings.reservation_team_id')
+                    ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+                    ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
                     // You can use eloquent methods here
                     // ->select('reservation_teams.id')
                     ->selectRaw('COUNT(*)')
                     ->whereColumn('reservation_company_id', 'reservation_companies.id')
-                    // ->count()
-                    // ->latest()
-                    // ->take(1)
+                // ->count()
+                // ->latest()
+                // ->take(1)
             ])
             ->addSelect([
                 // Key is the alias, value is the sub-select
                 'average_rating' => ReservationRating::query()
-                ->join('reservation_teams','reservation_teams.id','reservation_ratings.reservation_team_id')
-                ->join('reservation_counters','reservation_counters.id','reservation_teams.reservation_counter_id')
-                ->join('reservation_companies','reservation_companies.id','reservation_counters.reservation_company_id')
+                    ->join('reservation_teams', 'reservation_teams.id', 'reservation_ratings.reservation_team_id')
+                    ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+                    ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
                     // You can use eloquent methods here
                     // ->select('reservation_teams.id')
                     ->selectRaw('AVG(star_rating)')
                     ->whereColumn('reservation_company_id', 'reservation_companies.id')
-                    // ->count()
-                    // ->latest()
-                    // ->take(1)
+                // ->count()
+                // ->latest()
+                // ->take(1)
             ]);
-            // dd($reservations);
+        // dd($reservations);
         if ($request->q) {
             $reservations->where('name', 'like', '%' . $request->q . '%')
                 ->orWhere('slug', 'like', '%' . $request->q . '%')
@@ -245,6 +247,7 @@ class ReservationController extends Controller
             'time' =>  $request->time,
             'code' =>  Str::random(8),
         ]);
+        // dd($date,$atrributes);
         $harga = ReservationTeam::join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')->where('reservation_teams.id', $request->reservation_team_id)->pluck('price')->first();
         $reservationTeam = ReservationTeam::join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')->where('reservation_teams.id', $request->reservation_team_id)->first();
         // dd($reservationTeam);
@@ -385,7 +388,7 @@ class ReservationController extends Controller
             ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug','reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.created_at', 'DESC')->get();
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug', 'reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.created_at', 'DESC')->get();
         return Inertia::render('Reservation/Profile/MyReservation', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -418,7 +421,7 @@ class ReservationController extends Controller
             'myCustomers' => $myCustomers,
         ]);
     }
-    public function mycompanycancelcustomers(Request $request)
+    public function mycompanycomplaintcustomers(Request $request)
     {
         $myCustomers = ReservationCustomer::where('reservation_companies.user_id', auth()->user()->id)
             ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
@@ -427,9 +430,9 @@ class ReservationController extends Controller
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
             ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName', 'users.name as customerName')
-            ->where('reservation_customers.batal_customer',1)
+            ->where('reservation_customers.complaint', 1)
             ->orderBy('reservation_customers.created_at', 'DESC')->get();
-        return Inertia::render('Reservation/Profile/MyCompanyCancelCustomer', [
+        return Inertia::render('Reservation/Profile/MyCompanyComplaintCustomer', [
             'myCustomers' => $myCustomers,
         ]);
     }
@@ -588,15 +591,15 @@ class ReservationController extends Controller
     }
     public function finishcustomer(Request $request, $id)
     {
-        
+
         $reservationCustomer1 = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.jasa', 'reservation_counters.percent_owner', 'percent_employe', 'deposit', 'reservation_companies.name as CompanyName', 'reservation_counters.name as CounterName', 'reservation_companies.slug as CompanySlug', 'reservation_counters.slug as CounterSlug', 'reservation_counters.jumlahlayanandiskon','reservation_companies.id as IDCompany')
+            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.jasa', 'reservation_counters.percent_owner', 'percent_employe', 'deposit', 'reservation_companies.name as CompanyName', 'reservation_counters.name as CounterName', 'reservation_companies.slug as CompanySlug', 'reservation_counters.slug as CounterSlug', 'reservation_counters.jumlahlayanandiskon', 'reservation_companies.id as IDCompany')
             ->where('reservation_customers.id', $id)
             ->first();
-        
+
         // Step 1: Get the last reservation_customer ID where ambil_bonus = 1
         $lastBonusId = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
@@ -608,7 +611,7 @@ class ReservationController extends Controller
             ->where('ambil_bonus', 1)
             ->latest('id') // Get the latest record where ambil_bonus = 1
             ->value('reservation_customers.id');
-        
+
         $lastBonusId = $lastBonusId ? $lastBonusId : 1;
         // dd($lastBonusId);
         // Step 2: Count the records that come after the identified ID
@@ -622,7 +625,7 @@ class ReservationController extends Controller
             ->where('selesai_customer', 1)
             ->where('reservation_customers.id', '>', $lastBonusId)
             ->count();
-            
+
         // $reservationCustomer2 = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
         //     ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
         //     ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
@@ -634,7 +637,7 @@ class ReservationController extends Controller
         // dd($reservationCustomer2,$reservationCustomer1);
         $tip = Tip::find($request->tip);
         $reservationCustomer = ReservationCustomer::findOrfail($id);
-        
+
         $reservationCounter = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
@@ -662,7 +665,7 @@ class ReservationController extends Controller
         if ($reservationCounter->deposit > 0) {
             $tfDeposit = ($reservationCounter->deposit) / 100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->jasa);
         }
-        $checkPegawai = ReservationEmployee::where('user_id',auth()->user()->id)->where('reservation_company_id',$reservationCustomer1->IDCompany);
+        $checkPegawai = ReservationEmployee::where('user_id', auth()->user()->id)->where('reservation_company_id', $reservationCustomer1->IDCompany);
 
         // dd($reservationCustomer1->jumlahlayanandiskon,$reservationCustomer2,$checkPegawai);
         // dd($reservationCustomer1->jumlahlayanandiskon,$reservationCustomer2,$reservationCustomer1->jumlahlayanandiskon === 0,$reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && !$checkPegawai,$reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && $checkPegawai,$reservationCustomer2 + 1 < $reservationCustomer1->jumlahlayanandiskon);
@@ -673,7 +676,7 @@ class ReservationController extends Controller
             DB::beginTransaction();
             try {
                 $reservationCustomer->update(['selesai_customer' => 1]);
-               
+
                 if ($tip) {
                     $userTipFrom = auth()->user()->name;
                     $customer->transfer($team, $tip->tip, new Extra(
@@ -920,9 +923,6 @@ class ReservationController extends Controller
                 ]);
             }
         }
-        
-        
-
     }
     public function cancelreservation(Request $request, $id)
     {
@@ -957,6 +957,104 @@ class ReservationController extends Controller
             'message' => 'Pelayanan berhasil dibatalkan',
         ]);
     }
+    public function complaintreservation(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'complaint_reason' => 'required',
+        ]);
+        $reservationCustomer = ReservationCustomer::findOrfail($id);
+        // dd($reservationCustomer);
+        $reservation = ReservationCustomer::where('reservation_customers.id', $id)
+            ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName')->orderBy('reservation_customers.created_at', 'DESC')->first();
+        $balance = $reservationCustomer->balance;
+        $customer = User::findOrfail($reservationCustomer->user_id);
+
+        $reservationCustomer->transfer($customer, $balance, new Extra(
+            deposit: ['message' => 'Pengembalian dana dari ' . $reservation->companyName . ' untuk Layanan ' . $reservation->counterName, 'type' => 'refund_cancel_layanan'],
+            withdraw: new Option(meta: ['message' => 'Pengembalian dana dari ' . $reservation->companyName . ' untuk Layanan ' . $reservation->counterName, 'type' => 'refund_cancel_layanan'], confirmed: true)
+        ));
+            $reservationCustomer->update(['complaint' => 1, 'complaint_reason' => $validated['complaint_reason']]);
+            
+        return redirect(route('reservation.myreservations'))->with([
+            'type' => 'success',
+            'message' => 'Komplain berhasil dikirim',
+        ]);
+    }
+    public function nopunishment(Request $request, $id)
+    {
+
+        
+        $validated = $request->validate([
+            'complaint_decline_reason' => 'required',
+        ]);
+        $reservationCustomer = ReservationCustomer::findOrfail($id);
+
+        $barber = ReservationCustomer::where('reservation_customers.id', $id)
+            ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', 'reservation_teams.id')
+            ->join('users', 'users.id', 'reservation_team_details.user_id')
+            ->select('users.*')->first();
+        $reservationCustomer->update(['punishment' => 2, 'complaint_decline_reason' => $validated['complaint_decline_reason']]);
+        $reservation = ReservationCustomer::where('reservation_customers.id', $id)
+            ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+            ->join('users', 'users.id', 'reservation_customers.user_id')
+            ->select('users.*', 'reservation_companies.name as companyName', 'reservation_counters.name as counterName','reservation_customers.date','reservation_customers.time','reservation_customers.complaint_reason','reservation_customers.complaint_decline_reason')->first();
+        $user = User::findOrfail($barber->id);
+        $customer = User::findOrfail($reservation->id);
+
+        
+
+        $customer->notify(new ReservationDeclineComplaintNotification($reservation,$user));
+
+        Cache::forget('notifications_count');
+
+        return redirect(route('reservation.mycompanycomplaintcustomers'))->with([
+            'type' => 'success',
+            'message' => 'Berhasil',
+        ]);
+    }
+    public function punishmentreservation(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'punishment_comment' => 'required',
+        ]);
+        $reservationCustomer = ReservationCustomer::findOrfail($id);
+
+        $barber = ReservationCustomer::where('reservation_customers.id', $id)
+            ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', 'reservation_teams.id')
+            ->join('users', 'users.id', 'reservation_team_details.user_id')
+            ->select('users.*')->first();
+        $reservation = ReservationCustomer::where('reservation_customers.id', $id)
+            ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+            ->join('users', 'users.id', 'reservation_customers.user_id')
+            ->select('users.*', 'reservation_companies.name as companyName', 'reservation_counters.name as counterName','reservation_customers.date','reservation_customers.time','reservation_customers.complaint_reason')->first();
+        $user = User::findOrfail($barber->id);
+        $customer = User::findOrfail($reservation->id);
+        $balance = 5000;
+
+        $user->transfer($customer, $balance, new Extra(
+            deposit: ['message' => 'Kompensasi dari ' . $reservation->companyName . ' untuk Layanan ' . $reservation->counterName . ' dengan keterangan ' . $validated['punishment_comment'], 'type' => 'punishment_cancelation'],
+            withdraw: new Option(meta: ['message' => 'Punishment dana dari ' . $reservation->companyName . ' untuk Layanan ' . $reservation->counterName . ' dengan keterangan ' . $validated['punishment_comment'], 'type' => 'punishment_cancelation'], confirmed: true)
+        ));
+        $reservationCustomer->update(['punishment' => 1, 'punishment_comment' => $validated['punishment_comment']]);
+
+        $customer->notify(new ReservationAcceptComplaintNotification($reservation,$user));
+
+        Cache::forget('notifications_count');
+        return redirect(route('reservation.mycompanycomplaintcustomers'))->with([
+            'type' => 'success',
+            'message' => 'Punishment berhasil diberikan',
+        ]);
+    }
+
     public function updatejoinas(Request $request, $id)
     {
         // dd($request->all());

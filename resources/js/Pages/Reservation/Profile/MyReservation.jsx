@@ -16,10 +16,11 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 
-export default function MyReservation({ myReservations,tips }) {
+export default function MyReservation({ myReservations, tips }) {
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
+    const [isOpenComplaintDialog, setIsOpenComplaintDialog] = useState(false);
     const { data, setData, patch, post, put, processing, errors, reset } =
         useForm({});
     const openInfoDialog = (item) => {
@@ -31,7 +32,6 @@ export default function MyReservation({ myReservations,tips }) {
             onSuccess: () => setIsOpenInfoDialog(false),
         });
     };
-    
 
     const [selected, setSelected] = useState();
     const closeInfoDialog = () => {
@@ -39,8 +39,15 @@ export default function MyReservation({ myReservations,tips }) {
         setSelected();
     };
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
     };
+
+    // Cancel
     const openCancelDialog = (item) => {
         setState(item);
         setIsOpenCancelDialog(true);
@@ -58,7 +65,26 @@ export default function MyReservation({ myReservations,tips }) {
             // onSuccess: () => setIsOpenCancelDialog(false),
         });
     };
-    // console.log(myReservations)
+
+    // Complaint
+    const openComplaintDialog = (item) => {
+        setState(item);
+        setIsOpenComplaintDialog(true);
+    };
+    const closeComplaintDialog = () => {
+        setIsOpenComplaintDialog(false);
+        setSelected();
+    };
+    const handleComplaintReservation = (e) => {
+        e.preventDefault();
+        put(route("reservation.complaintreservation", state.id), {
+            onSuccess: () => {
+                return Promise.all([setIsOpenComplaintDialog(false), reset()]);
+            },
+            // onSuccess: () => setIsOpenCancelDialog(false),
+        });
+    };
+
     return (
         <>
             <InfoModal
@@ -70,16 +96,16 @@ export default function MyReservation({ myReservations,tips }) {
             >
                 <p className="py-4 text-left">Berikan Tip</p>
                 <RadioCard
-                                    ShouldMap={tips}
-                                    selected={selected}
-                                    onChange={(e) => {
-                                        setData({
-                                            ...data,
-                                            ["tip"]: e.id,
-                                        });
-                                        setSelected(e);
-                                    }}
-                                />
+                    ShouldMap={tips}
+                    selected={selected}
+                    onChange={(e) => {
+                        setData({
+                            ...data,
+                            ["tip"]: e.id,
+                        });
+                        setSelected(e);
+                    }}
+                />
                 <p className="pt-8 pb-2 text-left">Berikan Rating</p>
                 {/* Rating */}
                 <div className="flex flex-row-reverse items-center justify-center pb-8">
@@ -226,8 +252,12 @@ export default function MyReservation({ myReservations,tips }) {
                 </div>
                 {/* End Rating */}
 
-                <TextAreaInput placeholder="Komentar" name="comments" handleChange={onHandleChange}></TextAreaInput>
-                
+                <TextAreaInput
+                    placeholder="Komentar"
+                    name="comments"
+                    handleChange={onHandleChange}
+                ></TextAreaInput>
+
                 <ThirdButtonNoLink
                     className="mt-2"
                     processing={processing}
@@ -242,7 +272,6 @@ export default function MyReservation({ myReservations,tips }) {
                 >
                     Close
                 </ThirdButtonNoLink>
-                
             </InfoModal>
             <InfoModal
                 isOpenInfoDialog={isOpenCancelDialog}
@@ -251,8 +280,11 @@ export default function MyReservation({ myReservations,tips }) {
                 closeButton="false"
                 title={"Yakin Batalkan Reservasi ?"}
             >
-                <p className="p-4 text-left border rounded-lg">Pembatalan hanya bisa dilakukan 2 Jam sebelum layanan atau jika barber tidak ada</p>
-               <InputLabel className={"text-left mt-4"}>
+                <p className="p-4 text-left border rounded-lg">
+                    Pembatalan hanya bisa dilakukan 2 Jam sebelum layanan atau
+                    jika barber tidak ada
+                </p>
+                <InputLabel className={"text-left mt-4"}>
                     Masukan Alasan
                 </InputLabel>
                 <TextAreaInput
@@ -269,7 +301,6 @@ export default function MyReservation({ myReservations,tips }) {
                     className="mt-2 mb-2 text-left"
                 />
 
-                
                 <ThirdButtonNoLink
                     className="mt-2"
                     processing={processing}
@@ -284,7 +315,52 @@ export default function MyReservation({ myReservations,tips }) {
                 >
                     Close
                 </ThirdButtonNoLink>
-                
+            </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenComplaintDialog}
+                setIsOpenInfoDialog={setIsOpenComplaintDialog}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Laporkan Barber ?"}
+            >
+                <p className="p-4 text-left border rounded-lg">
+                    Jika melakukan komplain maka secara otomatis layanan akan
+                    dibatalkan dan pembayaran akan dikembalikan, jika komplain
+                    diterima oleh owner, maka akan mendapat kompensasi tambahan
+                </p>
+                <InputLabel className={"text-left mt-4"}>
+                    Masukan Alasan Laporan
+                </InputLabel>
+                <TextAreaInput
+                    type="text"
+                    name="complaint_reason"
+                    value={data.complaint_reason}
+                    className="block w-full mt-1"
+                    autoComplete="complaint_reason"
+                    isFocused={true}
+                    handleChange={(e) =>
+                        setData("complaint_reason", e.target.value)
+                    }
+                />
+                <InputError
+                    message={errors.complaint_reason}
+                    className="mt-2 mb-2 text-left"
+                />
+
+                <ThirdButtonNoLink
+                    className="mt-2"
+                    processing={processing}
+                    onClick={handleComplaintReservation}
+                >
+                    Kirim Laporan
+                </ThirdButtonNoLink>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeComplaintDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
             </InfoModal>
 
             <Head title="Profile" />
@@ -298,7 +374,40 @@ export default function MyReservation({ myReservations,tips }) {
                         </div>
                         {myReservations.map((item, index) => (
                             <div className="py-5" key={index}>
-                                <div className="p-2 duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                <div className="relative p-2 overflow-hidden duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                    {/* <div class="absolute left-0 top-0 h-12 w-12">
+                                        <div
+                                            className={`absolute transform text-center text-white font-semibold py-1 top-[20px] w-[250px] ${
+                                                item.batal_customer == 1
+                                                    ? "bg-red-700"
+                                                    : item.selesai_customer == 1
+                                                    ? "bg-teal-700"
+                                                    : item.selesai_team == 1
+                                                    ? "bg-yellow-700"
+                                                    : item.dikerjakan == 1
+                                                    ? "bg-amber-700"
+                                                    : "bg-gray-700"
+                                            }`}
+                                        >
+                                            {item.batal_customer == 1 ? (
+                                                <>
+                                                    Sudah dibatalkan{" "}
+                                                    <IconX className="w-4 h-4" />
+                                                </>
+                                            ) : item.selesai_customer == 1 ? (
+                                                <>
+                                                    BERES{" "}
+                                                    <IconChecks className="w-5 h-5 ml-2" />
+                                                </>
+                                            ) : item.selesai_team == 1 ? (
+                                                <>Menunggu Konfirmasi</>
+                                            ) : item.dikerjakan == 1 ? (
+                                                <>Sedang dikerjakan</>
+                                            ) : (
+                                                <>Belum Dikerjakan</>
+                                            )}
+                                        </div>
+                                    </div> */}
                                     <div>
                                         <div className="flex items-center justify-between px-4 my-6">
                                             <p className="font-bold text-gray-500">
@@ -340,16 +449,22 @@ export default function MyReservation({ myReservations,tips }) {
                                                 {item.name}
                                             </p>
                                         </div>
-                                        {item.jumlahlayanandiskon > 0 ? <div className="flex items-center justify-between px-4 my-4">
-                                            <p className="text-sm font-semibold text-gray-500">
-                                                Layanan Ke
-                                            </p>
-                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                {item.layanan_ke} {item.ambil_bonus == 1 ? '(Cashback)' : ''}
+                                        {item.jumlahlayanandiskon > 0 ? (
+                                            <div className="flex items-center justify-between px-4 my-4">
+                                                <p className="text-sm font-semibold text-gray-500">
+                                                    Layanan Ke
+                                                </p>
+                                                <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                    {item.layanan_ke}{" "}
+                                                    {item.ambil_bonus == 1
+                                                        ? "(Cashback)"
+                                                        : ""}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <></>
+                                        )}
 
-                                            </p>
-                                        </div> : <></>}
-                                        
                                         {/* <div className="flex items-center justify-between px-4 my-4">
                                         <p className="text-sm font-semibold text-gray-500">
                                             Status
@@ -359,10 +474,37 @@ export default function MyReservation({ myReservations,tips }) {
                                         </p>
                                     </div> */}
                                         <div className="flex items-center px-4 my-4 justify-evenly">
-                                            {item.batal_customer == 1 ? <ThirdButtonNoLink className="cursor-not-allowed" color="red">
-                                                                    Sudah dibatalkan <IconX className="w-4 h-4"/>
-                                                                </ThirdButtonNoLink> :
-                                            item.selesai_customer == 1 ? (
+                                            {item.batal_customer == 1 ? (
+                                                <ThirdButtonNoLink
+                                                    className="cursor-not-allowed"
+                                                    color="red"
+                                                >
+                                                    Sudah dibatalkan{" "}
+                                                    <IconX className="w-4 h-4" />
+                                                </ThirdButtonNoLink>
+                                            ) : item.punishment == 2 ? (
+                                                <ThirdButtonNoLink
+                                                    className="cursor-not-allowed"
+                                                    color="amber"
+                                                >
+                                                    Komplain Ditolak{" "}
+                                                    <IconChecks className="w-4 h-4" />
+                                                </ThirdButtonNoLink>
+                                            ) : item.punishment == 1 ? (<ThirdButtonNoLink
+                                                className="cursor-not-allowed"
+                                                color="teal"
+                                            >
+                                                Komplain Diterima{" "}
+                                                <IconChecks className="w-4 h-4" />
+                                            </ThirdButtonNoLink>) : item.complaint == 1 ? (
+                                                <ThirdButtonNoLink
+                                                    className="cursor-not-allowed"
+                                                    color="red"
+                                                >
+                                                    Komplain Terkirim{" "}
+                                                    <IconChecks className="w-4 h-4" />
+                                                </ThirdButtonNoLink>
+                                            ) : item.selesai_customer == 1 ? (
                                                 <ThirdButtonNoLink
                                                     color="teal"
                                                     className="cursor-not-allowed"
@@ -394,20 +536,42 @@ export default function MyReservation({ myReservations,tips }) {
                                                                 </ThirdButtonNoLink>
                                                             ) : (
                                                                 <>
-                                                                <ThirdButtonNoLink onClick={() =>
-                                                                openCancelDialog(
-                                                                    item
-                                                                )
-                                                            } color="secondary">
-                                                                    Batal
-                                                                </ThirdButtonNoLink>
-                                                                <ThirdButton href={route('reservations.change', { id: item.id,reservationCompany: item.companySlug })} className={item.id} color="tawarin">
-                                                                    Ubah
-                                                                </ThirdButton>
-                                                                <ThirdButton color="gray">
-                                                                    Belum
-                                                                    dikerjakan
-                                                                </ThirdButton>
+                                                                    <ThirdButtonNoLink
+                                                                        onClick={() =>
+                                                                            openCancelDialog(
+                                                                                item
+                                                                            )
+                                                                        }
+                                                                        color="secondary"
+                                                                    >
+                                                                        Batal
+                                                                    </ThirdButtonNoLink>
+                                                                    <ThirdButton
+                                                                        href={route(
+                                                                            "reservations.change",
+                                                                            {
+                                                                                id: item.id,
+                                                                                reservationCompany:
+                                                                                    item.companySlug,
+                                                                            }
+                                                                        )}
+                                                                        className={
+                                                                            item.id
+                                                                        }
+                                                                        color="tawarin"
+                                                                    >
+                                                                        Ubah
+                                                                    </ThirdButton>
+                                                                    <ThirdButtonNoLink
+                                                                        onClick={() =>
+                                                                            openComplaintDialog(
+                                                                                item
+                                                                            )
+                                                                        }
+                                                                        color="danger"
+                                                                    >
+                                                                        Laporkan Barber
+                                                                    </ThirdButtonNoLink>
                                                                 </>
                                                             )}
                                                         </>

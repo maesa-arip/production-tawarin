@@ -15,7 +15,7 @@ import { IconChecks, IconCirclePlus, IconDotsVertical } from "@tabler/icons";
 import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import EditModal from "@/Components/Modal/EditModal";
-import { debounce,pickBy } from "lodash";
+import { debounce, pickBy } from "lodash";
 import Header from "@/Components/Header";
 import Dropdown from "@/Components/Dropdown";
 import DropdownMobile from "@/Components/DropdownMobile";
@@ -50,7 +50,12 @@ const DownIcon = () => (
     </svg>
 );
 export default function MyEmployee(props) {
-    const { data: reservationEmployees, meta, filtered, attributes } = props.reservationEmployees;
+    const {
+        data: reservationEmployees,
+        meta,
+        filtered,
+        attributes,
+    } = props.reservationEmployees;
     // console.log(reservationEmployees)
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -108,8 +113,9 @@ export default function MyEmployee(props) {
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenRatingDialog, setIsOpenRatingDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
-    const { data, setData, patch,post,put, processing, errors, reset } = useForm({
-    });
+    const [isOpenCashierDialog, setIsOpenCashierDialog] = useState(false);
+    const { data, setData, patch, post, put, processing, errors, reset } =
+        useForm({});
     const closeInfoDialog = () => {
         setIsOpenInfoDialog(false);
     };
@@ -129,107 +135,154 @@ export default function MyEmployee(props) {
             },
         });
     };
-    const openRatingDialog  = (data) =>{
+    const openRatingDialog = (data) => {
         // console.log(data)
         setIsOpenRatingDialog(true);
-    }
+    };
     const closeRatingDialog = () => {
         setIsOpenRatingDialog(false);
-    }
+    };
+    const openCashierDialog = (employee) => {
+        setState(employee);
+        // console.log(state)
+        setIsOpenCashierDialog(true);
+    };
+    const closeCashierDialog = () => {
+        setIsOpenCashierDialog(false);
+        // setSelected();
+    };
+    const handleCashierReservation = (e) => {
+        e.preventDefault();
+        // console.log(state.id)
+        put(route("reservation.makecashier", state.team_detail_user_id), {
+            onSuccess: () => {
+                return Promise.all([setIsOpenCashierDialog(false), reset()]);
+            },
+        });
+    };
     return (
         <>
-        <Header title="Karyawan" description="List Karyawan Saya." />
-        <Container>
-        <EditModal
-                isOpenEditDialog={isOpenJoinDialog}
-                setIsOpenEditDialog={setIsOpenJoinDialog}
-                size="2xl"
-                title={"Masukan Email/Username/No Telp Karyawan"}
-            >
-                <form onSubmit={submit}>
-                    <Input
-                        type="text"
-                        name="email"
-                        value={data.email}
-                        className="block w-full mt-1"
-                        autoComplete="email"
-                        isFocused={true}
-                        onChange={(e) => setData("email", e.target.value)}
-                    />
-                    <InputError message={errors.email} className="mt-2" />
-                    <ThirdButtonNoLink className="mt-4" disabled={processing}>
-                        Undang
-                    </ThirdButtonNoLink>
-                </form>
-            </EditModal>
-            <InfoModal
-                isOpenInfoDialog={isOpenInfoDialog}
-                setIsOpenInfoDialog={setIsOpenInfoDialog}
-                size="2xl"
-                closeButton="false"
-                title={"Yakin Mulai Pelayanan ?"}
-            >
-                {/* <ThirdButtonNoLink onClick={startService}>
+            <Header title="Karyawan" description="List Karyawan Saya." />
+            <Container>
+                <EditModal
+                    isOpenEditDialog={isOpenJoinDialog}
+                    setIsOpenEditDialog={setIsOpenJoinDialog}
+                    size="2xl"
+                    title={"Masukan Email/Username/No Telp Karyawan"}
+                >
+                    <form onSubmit={submit}>
+                        <Input
+                            type="text"
+                            name="email"
+                            value={data.email}
+                            className="block w-full mt-1"
+                            autoComplete="email"
+                            isFocused={true}
+                            onChange={(e) => setData("email", e.target.value)}
+                        />
+                        <InputError message={errors.email} className="mt-2" />
+                        <ThirdButtonNoLink
+                            className="mt-4"
+                            disabled={processing}
+                        >
+                            Undang
+                        </ThirdButtonNoLink>
+                    </form>
+                </EditModal>
+                <InfoModal
+                    isOpenInfoDialog={isOpenInfoDialog}
+                    setIsOpenInfoDialog={setIsOpenInfoDialog}
+                    size="2xl"
+                    closeButton="false"
+                    title={"Yakin Mulai Pelayanan ?"}
+                >
+                    {/* <ThirdButtonNoLink onClick={startService}>
                     Mulai
                 </ThirdButtonNoLink> */}
-                <ThirdButtonNoLink
-                    className="mx-2 mt-2"
-                    color="gray"
-                    onClick={closeInfoDialog}
+                    <ThirdButtonNoLink
+                        className="mx-2 mt-2"
+                        color="gray"
+                        onClick={closeInfoDialog}
+                    >
+                        Close
+                    </ThirdButtonNoLink>
+                </InfoModal>
+                <InfoModal
+                    isOpenInfoDialog={isOpenInfoDialog2}
+                    setIsOpenInfoDialog={setIsOpenInfoDialog2}
+                    size="2xl"
+                    closeButton="false"
+                    title={"Yakin Selesaikan Pelayanan ?"}
                 >
-                    Close
-                </ThirdButtonNoLink>
-            </InfoModal>
-            <InfoModal
-                isOpenInfoDialog={isOpenInfoDialog2}
-                setIsOpenInfoDialog={setIsOpenInfoDialog2}
-                size="2xl"
-                closeButton="false"
-                title={"Yakin Selesaikan Pelayanan ?"}
-            >
-                {/* <ThirdButtonNoLink color="teal" onClick={finishService}>
+                    {/* <ThirdButtonNoLink color="teal" onClick={finishService}>
                     Selesai
                 </ThirdButtonNoLink> */}
-                
-                <ThirdButtonNoLink
-                    className="mx-2 mt-2"
-                    color="gray"
-                    onClick={closeInfoDialog2}
-                >
-                    Close
-                </ThirdButtonNoLink>
-            </InfoModal>
 
-            <InfoModal
-                isOpenInfoDialog={isOpenRatingDialog}
-                setIsOpenRatingDialog={setIsOpenRatingDialog}
-                size="2xl"
-                closeButton="false"
-                // title={"Yakin Mulai Pelayanan ?"}
-            >
-                {/* <ThirdButtonNoLink onClick={startService}>
+                    <ThirdButtonNoLink
+                        className="mx-2 mt-2"
+                        color="gray"
+                        onClick={closeInfoDialog2}
+                    >
+                        Close
+                    </ThirdButtonNoLink>
+                </InfoModal>
+
+                <InfoModal
+                    isOpenInfoDialog={isOpenRatingDialog}
+                    setIsOpenRatingDialog={setIsOpenRatingDialog}
+                    size="2xl"
+                    closeButton="false"
+                    // title={"Yakin Mulai Pelayanan ?"}
+                >
+                    {/* <ThirdButtonNoLink onClick={startService}>
                     Mulai
                 </ThirdButtonNoLink> */}
-                <ThirdButtonNoLink
-                    className="mx-2 mt-2"
-                    color="gray"
-                    onClick={closeRatingDialog}
+                    <ThirdButtonNoLink
+                        className="mx-2 mt-2"
+                        color="gray"
+                        onClick={closeRatingDialog}
+                    >
+                        Close
+                    </ThirdButtonNoLink>
+                </InfoModal>
+                <InfoModal
+                    isOpenInfoDialog={isOpenCashierDialog}
+                    setIsOpenInfoDialog={setIsOpenCashierDialog}
+                    size="2xl"
+                    closeButton="false"
+                    title={"Yakin Jadikan Kasir ?"}
                 >
-                    Close
-                </ThirdButtonNoLink>
-            </InfoModal>
-            
-            <Head title="Profile" />
-            
-            <div className="hidden lg:block">
+                    <p className="p-4 text-base font-semibold text-left border-2 border-yellow-600 rounded-lg">
+                        Yakin berikan akun ini sebagai kasir ?
+                    </p>
+
+                    <ThirdButtonNoLink
+                        className="mt-2"
+                        processing={processing}
+                        onClick={handleCashierReservation}
+                    >
+                        Simpan
+                    </ThirdButtonNoLink>
+                    <ThirdButtonNoLink
+                        className="mx-2 mt-2"
+                        color="secondary"
+                        onClick={closeCashierDialog}
+                    >
+                        Close
+                    </ThirdButtonNoLink>
+                </InfoModal>
+                <Head title="Profile" />
+
+                <div className="hidden lg:block">
                     {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
                     <div className="flex items-center justify-end">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mb-6 gap-x-2">
-                                <ThirdButtonNoLink onClick={() =>
-                                                        openJoinDialog()
-                                                    }>Undang Karyawan</ThirdButtonNoLink>
-                                
+                                <ThirdButtonNoLink
+                                    onClick={() => openJoinDialog()}
+                                >
+                                    Undang Karyawan
+                                </ThirdButtonNoLink>
                             </div>
                         </div>
                         <div className="w-1/2">
@@ -480,54 +533,54 @@ export default function MyEmployee(props) {
                                                 </th>
                                             </tr>
                                         </thead>
-                                        
-                                        <tbody className="bg-white divide-y divide-gray-200">
-                                            {reservationEmployees.map((employee, index) => (
-                                                <tr key={employee.id}>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        {meta.from + index}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <img
-                                                            className="object-cover w-16 h-12 border rounded-lg"
-                                                            src={
-                                                                employee.media_id
-                                                                    ? `/storage/${employee.media_id}/${employee.file_name}`
-                                                                    : "/storage/files/default/NoImage.svg"
-                                                            }
-                                                            
-                                                            alt={employee.slug}
-                                                        ></img>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        {employee.name}
-                                                    </td>
 
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex mt-1 rounded-md shadow-sm">
-                                                            <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                                {
-                                                                    employee.jumlah_revisi
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {reservationEmployees.map(
+                                                (employee, index) => (
+                                                    <tr key={employee.id}>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            {meta.from + index}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <img
+                                                                className="object-cover w-16 h-12 border rounded-lg"
+                                                                src={
+                                                                    employee.media_id
+                                                                        ? `/storage/${employee.media_id}/${employee.file_name}`
+                                                                        : "/storage/files/default/NoImage.svg"
                                                                 }
+                                                                alt={
+                                                                    employee.slug
+                                                                }
+                                                            ></img>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            {employee.name}
+                                                        </td>
+
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {
+                                                                        employee.jumlah_revisi
+                                                                    }
+                                                                </div>
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
+                                                                    Kali
+                                                                </span>
                                                             </div>
-                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
-                                                                Kali
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex mt-1 rounded-md shadow-sm">
-                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
-                                                                Rp
-                                                            </span>
-                                                            <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                                
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
+                                                                    Rp
+                                                                </span>
+                                                                <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
                                                                     employee.anggaran_proyek
-                                                                
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    
+                                                        </td>
+
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             {employee.approved ==
                                                             1 ? (
@@ -541,74 +594,70 @@ export default function MyEmployee(props) {
                                                                 </ThirdButtonSmallNoLink>
                                                             )}
                                                         </td>
-                                                    
 
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex mt-1 rounded-md shadow-sm">
-                                                            <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                                {
-                                                                    employee.employee_bids_count
-                                                                }
-                                                            </div>
-                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
-                                                                Penawaran
-                                                            </span>
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        {employee.created_at}
-                                                    </td>
-                                                    <td>
-                                                        <Dropdown>
-                                                            <Dropdown.Trigger>
-                                                                <button>
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        className="w-4 h-4 text-gray-400"
-                                                                        viewBox="0 0 20 20"
-                                                                        fill="currentColor"
-                                                                    >
-                                                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </Dropdown.Trigger>
-                                                            <Dropdown.Content>
-                                                                {employee.approved ==
-                                                                1 ? (
-                                                                    ""
-                                                                ) : (
-                                                                    <>
-                                                                        <Dropdown.Link
-                                                                            
-                                                                        >
-                                                                            Edit
-                                                                        </Dropdown.Link>
-                                                                        <button
-                                                                            className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
-                                                                            onClick={() =>
-                                                                                openDestroyDialog(
-                                                                                    employee
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Hapus
-                                                                        </button>
-                                                                    </>
-                                                                )}
-
-                                                                <Dropdown.Link
-                                                                    
-                                                                >
-                                                                    Lihat Detail
-                                                                </Dropdown.Link>
-                                                                <Dropdown.Link
-                                                                    
-                                                                >
-                                                                    Lihat
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {
+                                                                        employee.employee_bids_count
+                                                                    }
+                                                                </div>
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50">
                                                                     Penawaran
-                                                                </Dropdown.Link>
-                                                                {/* {employee.employee_bids_count >
+                                                                </span>
+                                                            </div>
+                                                        </td>
+
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            {
+                                                                employee.created_at
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <Dropdown>
+                                                                <Dropdown.Trigger>
+                                                                    <button>
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            className="w-4 h-4 text-gray-400"
+                                                                            viewBox="0 0 20 20"
+                                                                            fill="currentColor"
+                                                                        >
+                                                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </Dropdown.Trigger>
+                                                                <Dropdown.Content>
+                                                                    {employee.approved ==
+                                                                    1 ? (
+                                                                        ""
+                                                                    ) : (
+                                                                        <>
+                                                                            <Dropdown.Link>
+                                                                                Edit
+                                                                            </Dropdown.Link>
+                                                                            <button
+                                                                                className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                                onClick={() =>
+                                                                                    openDestroyDialog(
+                                                                                        employee
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Hapus
+                                                                            </button>
+                                                                        </>
+                                                                    )}
+
+                                                                    <Dropdown.Link>
+                                                                        Lihat
+                                                                        Detail
+                                                                    </Dropdown.Link>
+                                                                    <Dropdown.Link>
+                                                                        Lihat
+                                                                        Penawaran
+                                                                    </Dropdown.Link>
+                                                                    {/* {employee.employee_bids_count >
                                                                     0 && (
                                                                     <Dropdown.Link
                                                                         href={route(
@@ -620,23 +669,24 @@ export default function MyEmployee(props) {
                                                                         Penawaran
                                                                     </Dropdown.Link>
                                                                 )} */}
-                                                                {employee.employee_bids_sum_is_approved ==
-                                                                    "1" && (
-                                                                    <Dropdown.Link
-                                                                        href={route(
-                                                                            "employee.tahapan",
-                                                                            `${employee.slug}`
-                                                                        )}
-                                                                    >
-                                                                        Tahapan
-                                                                        Perencanaan
-                                                                    </Dropdown.Link>
-                                                                )}
-                                                            </Dropdown.Content>
-                                                        </Dropdown>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                                                    {employee.employee_bids_sum_is_approved ==
+                                                                        "1" && (
+                                                                        <Dropdown.Link
+                                                                            href={route(
+                                                                                "employee.tahapan",
+                                                                                `${employee.slug}`
+                                                                            )}
+                                                                        >
+                                                                            Tahapan
+                                                                            Perencanaan
+                                                                        </Dropdown.Link>
+                                                                    )}
+                                                                </Dropdown.Content>
+                                                            </Dropdown>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
@@ -673,11 +723,12 @@ export default function MyEmployee(props) {
                     <div className="flex items-center justify-between">
                         <div className="w-1/2">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
-                            <ThirdButtonNoLink onClick={() =>
-                                                        openJoinDialog()
-                                                    }>Undang Karyawan <IconCirclePlus className="w-4 h-4" /></ThirdButtonNoLink>
-                                
-                                
+                                <ThirdButtonNoLink
+                                    onClick={() => openJoinDialog()}
+                                >
+                                    Undang Karyawan{" "}
+                                    <IconCirclePlus className="w-4 h-4" />
+                                </ThirdButtonNoLink>
                             </div>
                         </div>
                         <div className="w-1/2">
@@ -738,20 +789,41 @@ export default function MyEmployee(props) {
                                                     {employee.email}
                                                 </p>
                                             </div>
-                                            <div className="flex items-center justify-end col-span-6 col-end-13">
-                                                
-                                                        {employee.approved ==
-                                                        1 ? (
-                                                            <ThirdButtonSmallNoLink>Diterima</ThirdButtonSmallNoLink>
-                                                            
+                                            <div className="flex items-center justify-end col-span-8 col-end-13">
+                                                {employee.approved == 1 ? (
+                                                    <>
+                                                        {employee.model_has_roles_model_type ? (
+                                                            <ThirdButtonSmallNoLink
+                                                                color="teal"
+                                                                className="mx-2"
+                                                            >
+                                                                Sudah jadi kasir
+                                                            </ThirdButtonSmallNoLink>
                                                         ) : (
-                                                            <ThirdButtonSmallNoLink color="secondary">Menunggu Konfirmasi</ThirdButtonSmallNoLink>
-                                                            
+                                                            <ThirdButtonSmallNoLink
+                                                                color="secondary"
+                                                                className="mx-2"
+                                                                onClick={() =>
+                                                                    openCashierDialog(
+                                                                        employee
+                                                                    )
+                                                                }
+                                                            >
+                                                                Tunjuk Sebagai
+                                                                Kasir
+                                                            </ThirdButtonSmallNoLink>
                                                         )}
-                                                    
-                                               
+                                                        <ThirdButtonSmallNoLink>
+                                                            Diterima
+                                                        </ThirdButtonSmallNoLink>
+                                                    </>
+                                                ) : (
+                                                    <ThirdButtonSmallNoLink color="secondary">
+                                                        Menunggu Konfirmasi
+                                                    </ThirdButtonSmallNoLink>
+                                                )}
                                             </div>
-                                            
+
                                             <div className="col-span-12 col-start-1 border-b border-gray-100"></div>
                                             <div className="flex items-center justify-center col-span-2 col-start-1 mb-2">
                                                 <img
@@ -765,78 +837,82 @@ export default function MyEmployee(props) {
                                                 ></img>
                                             </div>
                                             <div className="col-span-10 col-start-3 mb-2">
-                                                <Link
-                                                    className="text-base font-semibold"
-                                                    
-                                                >
+                                                <Link className="text-base font-semibold">
                                                     {/* {employee.name} */}
                                                 </Link>
 
                                                 <p className="text-xs font-medium text-gray-500">
-                                                {employee.phone}
+                                                    {employee.phone}
                                                 </p>
                                             </div>
                                             <div className="col-span-6 col-start-1">
-                                            <div className="flex items-start">
-                                        {[1, 2, 3, 4, 5].map((index) => (
-                                            <div
-                                                key={index}
-                                                className={`w-5 h-5 relative`}
-                                            >
-                                                {index <=
-                                                employee.average_rating ? (
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="w-5 h-auto text-yellow-500 fill-current"
-                                                        viewBox="0 0 16 16"
-                                                    >
-                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                                    </svg>
-                                                ) : index - 0.95 <
-                                                employee.average_rating ? (
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="w-5 h-auto text-yellow-500 fill-current"
-                                                        viewBox="0 0 16 16"
-                                                    >
-                                                        <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
-                                                    </svg>
-                                                ) : (
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="w-5 h-auto text-yellow-500 fill-current"
-                                                        viewBox="0 0 16 16"
-                                                    >
-                                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                    </svg>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <span onClick={() =>openRatingDialog(employee)}  className="flex items-start text-xs font-medium text-left cursor-pointer text-slate-400">
-                                        {employee.average_rating
-                                            ? Math.round(
-                                                  employee.average_rating *
-                                                      10
-                                              ) / 10
-                                            : 0}{" "}
-                                        out of 5 stars 
-                                        <br />
-                                        (
-                                        {employee.count_rating
-                                            ? employee.count_rating
-                                            : 0}{" "}
-                                        Reviews dari{" "}
-                                        {employee.count_customer
-                                            ? employee.count_customer
-                                            : 0}{" "}
-                                        Customer)
-                                    </span>
+                                                <div className="flex items-start">
+                                                    {[1, 2, 3, 4, 5].map(
+                                                        (index) => (
+                                                            <div
+                                                                key={index}
+                                                                className={`w-5 h-5 relative`}
+                                                            >
+                                                                {index <=
+                                                                employee.average_rating ? (
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-5 h-auto text-yellow-500 fill-current"
+                                                                        viewBox="0 0 16 16"
+                                                                    >
+                                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                                    </svg>
+                                                                ) : index -
+                                                                      0.95 <
+                                                                  employee.average_rating ? (
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-5 h-auto text-yellow-500 fill-current"
+                                                                        viewBox="0 0 16 16"
+                                                                    >
+                                                                        <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-5 h-auto text-yellow-500 fill-current"
+                                                                        viewBox="0 0 16 16"
+                                                                    >
+                                                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                                                    </svg>
+                                                                )}
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                                <span
+                                                    onClick={() =>
+                                                        openRatingDialog(
+                                                            employee
+                                                        )
+                                                    }
+                                                    className="flex items-start text-xs font-medium text-left cursor-pointer text-slate-400"
+                                                >
+                                                    {employee.average_rating
+                                                        ? Math.round(
+                                                              employee.average_rating *
+                                                                  10
+                                                          ) / 10
+                                                        : 0}{" "}
+                                                    out of 5 stars
+                                                    <br />(
+                                                    {employee.count_rating
+                                                        ? employee.count_rating
+                                                        : 0}{" "}
+                                                    Reviews dari{" "}
+                                                    {employee.count_customer
+                                                        ? employee.count_customer
+                                                        : 0}{" "}
+                                                    Customer)
+                                                </span>
                                             </div>
                                             <div className="col-span-5 col-end-13">
-                                                <div className="flex items-center justify-end col-span-3 col-end-6 ">
-                                                    
-                                                </div>
+                                                <div className="flex items-center justify-end col-span-3 col-end-6 "></div>
                                             </div>
                                         </div>
                                     </div>
@@ -844,7 +920,6 @@ export default function MyEmployee(props) {
                             </div>
                         ))}
                     </div>
-
 
                     <ul className="flex items-center mt-10 gap-x-1">
                         {meta.links.map((item, index) => (
@@ -870,7 +945,7 @@ export default function MyEmployee(props) {
                         ))}
                     </ul>
                 </div>
-                </Container>
+            </Container>
         </>
         // </AuthenticatedLayout>
     );

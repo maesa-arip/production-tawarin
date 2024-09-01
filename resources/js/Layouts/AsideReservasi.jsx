@@ -6,7 +6,8 @@ import "../../css/static/stickymenu.css";
 import { IconBrandWechat } from "@tabler/icons";
 
 export default function AsideReservasi() {
-    const { auth, permissions,requestTopUp, requestWithdraw, customer_count } = usePage().props;
+    const { auth, permissions, requestTopUp, requestWithdraw, customer_count } =
+        usePage().props;
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
@@ -164,7 +165,6 @@ export default function AsideReservasi() {
                                             <span className="items-end content-center w-10 h-10 ml-auto text-base text-center text-red-500 bg-white rounded-full ">
                                                 {requestTopUp + requestWithdraw}
                                             </span>
-                                            
                                         </button>
                                     </div>
                                     {submenuOpen === 1 && (
@@ -225,219 +225,224 @@ export default function AsideReservasi() {
                             )}
                             {permission_name.indexOf("lihat menu admin saldo") >
                                 -1 && (
-                                    <>
-                                
-                                <li className="justify-between w-full">
-                                <div className="flex items-center">
-                                    <button
-                                        className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
-                                        onClick={() => toggleSubmenu(5)}
-                                    >
-                                        Rekapan
-                                        <span className="text-right submenu-icon">
-                                            {submenuOpen === 5 ? (
-                                                <MinusSVG />
-                                            ) : (
-                                                <PlusSVG />
-                                            )}
-                                        </span>
-                                    </button>
-                                </div>
-                                {submenuOpen === 5 && (
-                                    <ul
-                                        className={`pl-4 space-y-2 ${subMenuClass}`}
-                                    >
-                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                            <Link
-                                                onClick={toggleMenu}
-                                                href={route(
-                                                    "topup.summary"
-                                                )}
-                                                className="text-white "
+                                <>
+                                    <li className="justify-between w-full">
+                                        <div className="flex items-center">
+                                            <button
+                                                className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                                onClick={() => toggleSubmenu(5)}
                                             >
-                                                {" "}
-                                                Rekapan TopUp
-                                            </Link>
-                                        </li>
-                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                            <Link
-                                                onClick={toggleMenu}
-                                                href={route(
-                                                    "tawarin.summary"
-                                                )}
-                                                className="text-white "
+                                                Rekapan
+                                                <span className="text-right submenu-icon">
+                                                    {submenuOpen === 5 ? (
+                                                        <MinusSVG />
+                                                    ) : (
+                                                        <PlusSVG />
+                                                    )}
+                                                </span>
+                                            </button>
+                                        </div>
+                                        {submenuOpen === 5 && (
+                                            <ul
+                                                className={`pl-4 space-y-2 ${subMenuClass}`}
                                             >
-                                                {" "}
-                                                Rekapan Tawarin
-                                            </Link>
-                                        </li>
-                                        
-                                    </ul>
-                                )}
-                            </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "topup.summary"
+                                                        )}
+                                                        className="text-white "
+                                                    >
+                                                        {" "}
+                                                        Rekapan TopUp
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "tawarin.summary"
+                                                        )}
+                                                        className="text-white "
+                                                    >
+                                                        {" "}
+                                                        Rekapan Tawarin
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
                                 </>
                             )}
                             {permission_name.indexOf(
                                 "lihat menu owner reservasi"
                             ) > -1 && (
                                 <>
-                                <li className="justify-between w-full">
-                                    <div className="flex items-center">
-                                        <button
-                                            className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
-                                            onClick={() => toggleSubmenu(2)}
-                                        >
-                                            Pengaturan Owner
-                                            <span className="text-right submenu-icon">
-                                                {submenuOpen === 2 ? (
-                                                    <MinusSVG />
-                                                ) : (
-                                                    <PlusSVG />
-                                                )}
-                                            </span>
-                                        </button>
-                                    </div>
-                                    {submenuOpen === 2 && (
-                                        <ul
-                                            className={`pl-4 space-y-2 ${subMenuClass}`}
-                                        >
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href="/owneradmindeposits"
-                                                    className="text-white"
-                                                >
-                                                    {" "}
-                                                    Penarikan Deposit
-                                                </Link>
-                                            </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservationprofile.edit"
-                                                    )}
-                                                    className="text-white "
-                                                >
-                                                    {" "}
-                                                    Atur Perusahaan
-                                                </Link>
-                                            </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservationemployees.index"
-                                                    )}
-                                                    className="text-white"
-                                                >
-                                                    {" "}
-                                                    Atur Karyawan
-                                                </Link>
-                                            </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservation.myemployeerequestoff"
-                                                    )}
-                                                    className="text-white"
-                                                >
-                                                    {" "}
-                                                    Atur Permintaan Libur
-                                                </Link>
-                                            </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservationCounters.index"
-                                                    )}
-                                                    className="text-white"
-                                                >
-                                                    {" "}
-                                                    Atur Layanan
-                                                </Link>
-                                            </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservation.mycompanycustomers"
-                                                    )}
-                                                    className="text-white"
-                                                >
-                                                    {" "}
-                                                    Pelanggan Perusahaan
-                                                </Link>
-                                            </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservation.mycompanycancelcustomers"
-                                                    )}
-                                                    className="text-white"
-                                                >
-                                                    {" "}
-                                                    Customer Batal
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    )}
-                                </li>
-                                <li className="justify-between w-full">
-                                <div className="flex items-center">
-                                    <button
-                                        className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
-                                        onClick={() => toggleSubmenu(5)}
-                                    >
-                                        Rekapan
-                                        <span className="text-right submenu-icon">
-                                            {submenuOpen === 5 ? (
-                                                <MinusSVG />
-                                            ) : (
-                                                <PlusSVG />
-                                            )}
-                                        </span>
-                                    </button>
-                                </div>
-                                {submenuOpen === 5 && (
-                                    <ul
-                                        className={`pl-4 space-y-2 ${subMenuClass}`}
-                                    >
-                                        
-                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                            <Link
-                                                onClick={toggleMenu}
-                                                href={route(
-                                                    "company.summary"
-                                                )}
-                                                className="text-white "
+                                    <li className="justify-between w-full">
+                                        <div className="flex items-center">
+                                            <button
+                                                className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                                onClick={() => toggleSubmenu(2)}
                                             >
-                                                {" "}
-                                                Rekapan Pendapatan Perusahaan
-                                            </Link>
-                                        </li>
-                                        <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                            <Link
-                                                onClick={toggleMenu}
-                                                href={route(
-                                                    "company.chart"
-                                                )}
-                                                className="text-white "
+                                                Pengaturan Owner
+                                                <span className="text-right submenu-icon">
+                                                    {submenuOpen === 2 ? (
+                                                        <MinusSVG />
+                                                    ) : (
+                                                        <PlusSVG />
+                                                    )}
+                                                </span>
+                                            </button>
+                                        </div>
+                                        {submenuOpen === 2 && (
+                                            <ul
+                                                className={`pl-4 space-y-2 ${subMenuClass}`}
                                             >
-                                                {" "}
-                                                Grafik Layanan Perusahaan
-                                            </Link>
-                                        </li>
-                                        
-                                    </ul>
-                                )}
-                            </li>
-                            </>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href="/owneradmindeposits"
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Penarikan Deposit
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "reservationprofile.edit"
+                                                        )}
+                                                        className="text-white "
+                                                    >
+                                                        {" "}
+                                                        Atur Perusahaan
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "reservationemployees.index"
+                                                        )}
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Atur Karyawan
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "reservation.myemployeerequestoff"
+                                                        )}
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Atur Permintaan Libur
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "reservationCounters.index"
+                                                        )}
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Atur Layanan
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "reservation.mycompanycustomers"
+                                                        )}
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Pelanggan Perusahaan
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "reservation.mycompanycomplaintcustomers"
+                                                        )}
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Pelanggan Komplain
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                    
+                                </>
                             )}
-                            
+                            {permission_name.indexOf(
+                                "lihat menu kasir reservasi"
+                            ) > -1 && (
+                                <>
+                                <li className="justify-between w-full">
+                                        <div className="flex items-center">
+                                            <button
+                                                className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                                onClick={() => toggleSubmenu(5)}
+                                            >
+                                                Rekapan
+                                                <span className="text-right submenu-icon">
+                                                    {submenuOpen === 5 ? (
+                                                        <MinusSVG />
+                                                    ) : (
+                                                        <PlusSVG />
+                                                    )}
+                                                </span>
+                                            </button>
+                                        </div>
+                                        {submenuOpen === 5 && (
+                                            <ul
+                                                className={`pl-4 space-y-2 ${subMenuClass}`}
+                                            >
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "company.summary"
+                                                        )}
+                                                        className="text-white "
+                                                    >
+                                                        {" "}
+                                                        Rekapan Pendapatan
+                                                        Perusahaan
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "company.chart"
+                                                        )}
+                                                        className="text-white "
+                                                    >
+                                                        {" "}
+                                                        Grafik Layanan
+                                                        Perusahaan
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                </>
+                            )}
+
                             {permission_name.indexOf(
                                 "lihat menu pekerja reservasi"
                             ) > -1 && (
@@ -458,7 +463,7 @@ export default function AsideReservasi() {
                                         </button>
                                     </div> */}
                                     <div>
-                                    <button
+                                        <button
                                             className={`flex items-center w-full py-2 text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
                                             onClick={() => toggleSubmenu(3)}
                                         >
@@ -470,7 +475,7 @@ export default function AsideReservasi() {
                                                 )}
                                             </span>
                                             <span className="inline-flex">
-                                            Pengaturan Pekerja{" "}
+                                                Pengaturan Pekerja{" "}
                                             </span>
                                             <span className="items-end content-center w-10 h-10 ml-auto text-base text-center text-red-500 bg-white rounded-full ">
                                                 {customer_count}
@@ -490,7 +495,8 @@ export default function AsideReservasi() {
                                                     className="text-white "
                                                 >
                                                     {" "}
-                                                    Atur Hari Libur dan Istirahat
+                                                    Atur Hari Libur dan
+                                                    Istirahat
                                                 </Link>
                                             </li>
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
@@ -523,14 +529,14 @@ export default function AsideReservasi() {
                                             </li> */}
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                 <Link
-                                                     onClick={toggleMenu}
-                                                     href={route(
-                                                         "reservation.mycustomers"
-                                                     )}
+                                                    onClick={toggleMenu}
+                                                    href={route(
+                                                        "reservation.mycustomers"
+                                                    )}
                                                     className="flex justify-between text-white"
                                                 >
                                                     <span className="inline-flex">
-                                                    Lihat Pelanggan
+                                                        Lihat Pelanggan
                                                     </span>
                                                     <span className="content-center w-10 h-10 ml-10 text-base text-center text-red-500 bg-white rounded-full">
                                                         {customer_count}
@@ -553,68 +559,16 @@ export default function AsideReservasi() {
                                     )}
                                 </li>
                             )}
-                            
+
                             <li className="justify-between w-full">
-                                    <div className="flex items-center">
-                                        <button
-                                            className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
-                                            onClick={() => toggleSubmenu(4)}
-                                        >
-                                            Pemesanan
-                                            <span className="text-right submenu-icon">
-                                                {submenuOpen === 4 ? (
-                                                    <MinusSVG />
-                                                ) : (
-                                                    <PlusSVG />
-                                                )}
-                                            </span>
-                                        </button>
-                                    </div>
-                                    {submenuOpen === 4 && (
-                                        <ul
-                                            className={`pl-4 space-y-2 ${subMenuClass}`}
-                                        >
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservation.myreservations"
-                                                    )}
-                                                    className="text-white "
-                                                >
-                                                    {" "}
-                                                    Reservasi Saya
-                                                </Link>
-                                            </li>
-                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
-                                                <Link
-                                                    onClick={toggleMenu}
-                                                    href={route(
-                                                        "reservation.list"
-                                                    )}
-                                                    className="text-white"
-                                                >
-                                                    {" "}
-                                                    Cari Reservasi
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    )}
-                                </li>
-                                {permission_name.indexOf(
-                                "lihat menu pekerja reservasi"
-                            ) > -1 && (
-                                <>
-                                
-                                <li className="justify-between w-full">
                                 <div className="flex items-center">
                                     <button
                                         className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
-                                        onClick={() => toggleSubmenu(5)}
+                                        onClick={() => toggleSubmenu(4)}
                                     >
-                                        Rekapan
+                                        Pemesanan
                                         <span className="text-right submenu-icon">
-                                            {submenuOpen === 5 ? (
+                                            {submenuOpen === 4 ? (
                                                 <MinusSVG />
                                             ) : (
                                                 <PlusSVG />
@@ -622,40 +576,88 @@ export default function AsideReservasi() {
                                         </span>
                                     </button>
                                 </div>
-                                {submenuOpen === 5 && (
+                                {submenuOpen === 4 && (
                                     <ul
                                         className={`pl-4 space-y-2 ${subMenuClass}`}
                                     >
-                                        
                                         <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                             <Link
                                                 onClick={toggleMenu}
                                                 href={route(
-                                                    "employee.summary"
+                                                    "reservation.myreservations"
                                                 )}
                                                 className="text-white "
                                             >
                                                 {" "}
-                                                Rekapan Pendapatan Pekerja
+                                                Reservasi Saya
                                             </Link>
                                         </li>
                                         <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                             <Link
                                                 onClick={toggleMenu}
-                                                href={route(
-                                                    "employee.chart"
-                                                )}
-                                                className="text-white "
+                                                href={route("reservation.list")}
+                                                className="text-white"
                                             >
                                                 {" "}
-                                                Grafik Layanan Pekerja
+                                                Cari Reservasi
                                             </Link>
                                         </li>
-                                        
                                     </ul>
                                 )}
                             </li>
-                            </>
+                            {permission_name.indexOf(
+                                "lihat menu pekerja reservasi"
+                            ) > -1 && (
+                                <>
+                                    <li className="justify-between w-full">
+                                        <div className="flex items-center">
+                                            <button
+                                                className={`flex items-center justify-between w-full py-2 text-center text-white border-b border-gray-100 border-opacity-25 submenu-toggle`}
+                                                onClick={() => toggleSubmenu(5)}
+                                            >
+                                                Rekapan
+                                                <span className="text-right submenu-icon">
+                                                    {submenuOpen === 5 ? (
+                                                        <MinusSVG />
+                                                    ) : (
+                                                        <PlusSVG />
+                                                    )}
+                                                </span>
+                                            </button>
+                                        </div>
+                                        {submenuOpen === 5 && (
+                                            <ul
+                                                className={`pl-4 space-y-2 ${subMenuClass}`}
+                                            >
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "employee.summary"
+                                                        )}
+                                                        className="text-white "
+                                                    >
+                                                        {" "}
+                                                        Rekapan Pendapatan
+                                                        Pekerja
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
+                                                            "employee.chart"
+                                                        )}
+                                                        className="text-white "
+                                                    >
+                                                        {" "}
+                                                        Grafik Layanan Pekerja
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                </>
                             )}
                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                 <Link

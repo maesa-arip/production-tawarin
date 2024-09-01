@@ -71,6 +71,7 @@ class UserRoleController extends Controller
     }
     public function update(User $user)
     {
+        // dd($user);
         $user->syncRoles(request('roles'));
         $notification = array(
             'title' => 'Success',
