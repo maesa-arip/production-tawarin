@@ -349,6 +349,18 @@ export default function AsideReservasi() {
                                                     <Link
                                                         onClick={toggleMenu}
                                                         href={route(
+                                                            "reservation.myemployeebreaksetting"
+                                                        )}
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Atur Jam Libur
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
                                                             "reservationCounters.index"
                                                         )}
                                                         className="text-white"

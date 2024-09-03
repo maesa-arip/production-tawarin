@@ -664,22 +664,22 @@ class HistoryController extends Controller
                 ->orWhere('confirmed', 'like', '%' . $request->q . '%');
         }
         if (!$request->startDate && !$request->endDate) {
-            $query->whereDate('reservation_customers.date', Carbon::today());
-            // $sumQuery->whereDate('reservation_customers.date', Carbon::today());
-            // $sumQuery->whereBetween('reservation_customers.date', [Carbon::parse('01-06-2024'), Carbon::today()]);
-            $sumQuery->whereDate('reservation_customers.date', Carbon::today());
+            $query->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
+            // $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse('01-06-2024'), Carbon::today()]);
+            $sumQuery->whereDate('reservation_customers.created_at', Carbon::today());
         }
         if (!$request->startDate && $request->endDate) {
-            $query->whereBetween('reservation_customers.date', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
-            $sumQuery->whereBetween('reservation_customers.date', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::today(), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->startDate && !$request->endDate) {
-            $query->whereBetween('reservation_customers.date', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
-            $sumQuery->whereBetween('reservation_customers.date', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate)->addDay(), Carbon::today()]);
         }
         if ($request->startDate && $request->endDate) {
-            $query->whereBetween('reservation_customers.date', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
-            $sumQuery->whereBetween('reservation_customers.date', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
+            $query->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
+            $sumQuery->whereBetween('reservation_customers.created_at', [Carbon::parse($request->startDate), Carbon::parse($request->endDate)->addDay()]);
         }
         if ($request->has(['field', 'direction'])) {
             $query->orderBy($request->field, $request->direction);

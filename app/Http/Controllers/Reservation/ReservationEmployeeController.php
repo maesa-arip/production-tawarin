@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reservation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Reservation\ReservationEmployeeResource;
+use App\Models\Reservation\ReservationBreakTimeSetting;
 use App\Models\Reservation\ReservationCompany;
 use App\Models\Reservation\ReservationCounter;
 use App\Models\Reservation\ReservationEmployee;
@@ -52,14 +53,9 @@ class ReservationEmployeeController extends Controller
 
         // $reservationEmployees = ReservationEmployee::with('company')->with('company.counter')->with('company.counter.team')->get();
         $reservationEmployees = ReservationEmployee::query()
-            ->leftJoin('reservation_team_details as rtd', 'reservation_employees.user_id', '=', 'rtd.user_id')
-            ->leftJoin('reservation_teams as rt', 'rtd.reservation_team_id', '=', 'rt.id')
-            ->leftJoin('reservation_counters as rco', 'rt.reservation_counter_id', '=', 'rco.id')
-            ->leftJoin('reservation_customers as rc', function ($join) {
-                $join->on('rt.id', '=', 'rc.reservation_team_id')
-                     ->where('rc.selesai_customer', '=', 1);
-            })
-            ->leftJoin('reservation_ratings as rr', 'rt.id', '=', 'rr.reservation_team_id')
+            ->leftJoin('reservation_team_details', 'reservation_employees.user_id', '=', 'reservation_team_details.user_id')
+            ->leftJoin('reservation_teams', 'reservation_team_details.reservation_team_id', '=', 'reservation_teams.id')
+            ->leftJoin('reservation_counters', 'reservation_teams.reservation_counter_id', '=', 'reservation_counters.id')
             ->leftJoin('users', 'reservation_employees.user_id', '=', 'users.id')
             ->leftJoin('media', function ($join) {
                 $join->on('media.model_id', '=', 'reservation_employees.user_id')
@@ -73,18 +69,21 @@ class ReservationEmployeeController extends Controller
                 'reservation_employees.id as employee_record_id',
                 'reservation_employees.approved',
                 'reservation_employees.created_at',
-                'rtd.user_id as team_detail_user_id',
+                'reservation_team_details.user_id as team_detail_user_id',
                 'users.name',
                 'users.email',
                 'users.phone',
                 'media.id as media_id',
                 'model_has_roles.model_type as model_has_roles_model_type',
                 'media.file_name',
-                DB::raw('AVG(rr.star_rating) as average_rating'),
-                DB::raw('COUNT(DISTINCT rc.id) as count_customer'),
-                DB::raw('COUNT(DISTINCT rr.id) as count_rating')
+                // DB::raw('AVG(rr.star_rating) as average_rating'),
+                // DB::raw('COUNT(DISTINCT rc.id) as count_customer'),
+                // DB::raw('COUNT(DISTINCT rr.id) as count_rating')
             )
-            ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'rtd.user_id', 'users.name', 'users.email', 'users.phone', 'media.id','model_has_roles.model_type', 'media.file_name');
+            ->distinct();
+            // ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'rtd.user_id', 'users.name', 'users.email', 'users.phone', 'media.id','model_has_roles.model_type', 'media.file_name')
+            // ->get();
+            // dd($reservationEmployees);
     //     $reservationEmployees = ReservationEmployee::query()
     // ->leftJoin('reservation_team_details as rtd', 'reservation_employees.user_id', '=', 'rtd.user_id')
     // ->leftJoin('users', 'reservation_employees.user_id', '=', 'users.id')
@@ -133,7 +132,7 @@ class ReservationEmployeeController extends Controller
         if ($request->has(['field', 'direction'])) {
             $reservationEmployees->orderBy($request->field, $request->direction);
         }
-        $reservationEmployees = (ReservationEmployeeResource::collection($reservationEmployees->latest()->fastPaginate($request->load)->withQueryString())
+        $reservationEmployees = (ReservationEmployeeResource::collection($reservationEmployees->fastPaginate($request->load)->withQueryString())
         )->additional([
             'attributes' => [
                 'total' => 1100,
@@ -292,7 +291,7 @@ class ReservationEmployeeController extends Controller
             'message' => 'Libur berhasil ditolak',
         ]);
     }
-
+    
     public function selectemployee(Request $request, $id, $slug)
     {
         $data = ReservationEmployee::findOrfail($id);

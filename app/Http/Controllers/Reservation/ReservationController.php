@@ -9,6 +9,7 @@ use App\Http\Resources\Reservation\ReservationCounterResource;
 use App\Http\Resources\Reservation\ReservationResource;
 use App\Models\Auth\JoinAs;
 use App\Models\Reservation\DaftarCounter;
+use App\Models\Reservation\ReservationBreakTimeSetting;
 use App\Models\Reservation\ReservationCategory;
 use App\Models\Reservation\ReservationCompany;
 use App\Models\Reservation\ReservationCounter;
@@ -496,6 +497,36 @@ class ReservationController extends Controller
         // dd( $myEmployeeRequestOff);
         return Inertia::render('Reservation/Profile/MyEmployeeRequestOff', [
             'myEmployeeRequestOff' => $myEmployeeRequestOff,
+        ]);
+    }
+    public function myemployeebreaksetting(Request $request)
+    {
+        $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->with(["company" => function ($q) {
+            $q->where('user_id', auth()->user()->id);
+        }])
+            ->select('*', DB::raw("STR_TO_DATE(date, '%d/%m/%Y') as date_cast"))
+            ->orderBy('date_cast', 'DESC')
+            ->get();
+        return inertia('Reservation/Profile/MyEmployeeBreakSetting', [
+            'myEmployeeRequestOff' => $myEmployeeRequestOff,
+        ]);
+    }
+    public function storesetbreaktime(Request $request)
+    {
+        dd($request->all());
+        $validated = $request->validate([
+            'break_time' => 'required',
+        ]);
+        $company = ReservationCompany::findOrfail(auth()->user()->id);
+        // $data = ReservationEmployeeDayOff::findOrfail($company->id);
+       
+        $reservationBreak = ReservationBreakTimeSetting::updateOrCreate(['reservation_company_id' => $company->id], ['break_time' => $$request->break_time]);
+        // $userId = User::where('email', $data->email)->pluck('id')->first();
+        // ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
+        // $data->update(['approved' => 1]);
+        return redirect(route('reservation.myemployeebreaksetting'))->with([
+            'type' => 'success',
+            'message' => 'Berhasil Atur Jam Libur',
         ]);
     }
     public function daftarcounter(Request $request)

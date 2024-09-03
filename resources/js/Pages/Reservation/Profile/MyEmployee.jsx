@@ -781,7 +781,7 @@ export default function MyEmployee(props) {
                                 <div className="flex flex-col bg-white border shadow-lg rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                                     <div className="flex flex-col items-center justify-center flex-auto p-2">
                                         <div className="grid w-full grid-cols-12 gap-1">
-                                            <div className="col-span-4 col-start-1">
+                                            <div className="col-span-5 col-start-1">
                                                 <p className="text-sm font-semibold">
                                                     {employee.name}
                                                 </p>
@@ -789,27 +789,27 @@ export default function MyEmployee(props) {
                                                     {employee.email}
                                                 </p>
                                             </div>
-                                            <div className="flex items-center justify-end col-span-8 col-end-13">
+                                            <div className="flex items-center justify-end col-span-7 col-end-13 gap-x-1">
                                                 {employee.approved == 1 ? (
                                                     <>
                                                         {employee.model_has_roles_model_type ? (
                                                             <ThirdButtonSmallNoLink
                                                                 color="teal"
-                                                                className="mx-2"
+                                                                className=""
                                                             >
-                                                                Sudah jadi kasir
+                                                                Kasir <IconChecks className="w-4 h-4"/>
                                                             </ThirdButtonSmallNoLink>
                                                         ) : (
                                                             <ThirdButtonSmallNoLink
                                                                 color="secondary"
-                                                                className="mx-2"
+                                                                className=""
                                                                 onClick={() =>
                                                                     openCashierDialog(
                                                                         employee
                                                                     )
                                                                 }
                                                             >
-                                                                Tunjuk Sebagai
+                                                                Jadikan
                                                                 Kasir
                                                             </ThirdButtonSmallNoLink>
                                                         )}

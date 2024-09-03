@@ -110,6 +110,9 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
     // Route::put('/acceptinvitation/{id}', [ReservationController::class, 'acceptinvitation'])->name('reservation.acceptinvitation');
     Route::get('/myemployeerequestoff', [ReservationController::class, 'myemployeerequestoff'])->name('reservation.myemployeerequestoff');
+    // Route::post('/reservations/setbreaktime', [ReservationController::class, 'setbreaktime'])->name('reservation.setbreaktime');
+    Route::get('/reservations/myemployeebreaksetting', [ReservationController::class, 'myemployeebreaksetting'])->name('reservation.myemployeebreaksetting');
+    Route::post('/reservations/storesetbreaktime', [ReservationController::class, 'storesetbreaktime'])->name('reservation.storesetbreaktime');
     Route::get('/reservations/mycustomers', [ReservationController::class, 'mycustomers'])->name('reservation.mycustomers');
     // Route::get('/reservations/myemployees', [ReservationController::class, 'myemployees'])->name('reservation.myemployees');
     Route::get('/reservations/mycompanycustomers', [ReservationController::class, 'mycompanycustomers'])->name('reservation.mycompanycustomers');
