@@ -501,26 +501,31 @@ class ReservationController extends Controller
     }
     public function myemployeebreaksetting(Request $request)
     {
-        $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->with(["company" => function ($q) {
-            $q->where('user_id', auth()->user()->id);
-        }])
-            ->select('*', DB::raw("STR_TO_DATE(date, '%d/%m/%Y') as date_cast"))
-            ->orderBy('date_cast', 'DESC')
-            ->get();
+        $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
+        $myEmployeeBreakSetting = ReservationBreakTimeSetting::where('reservation_company_id',$company->id)->first();
+        // $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->with(["company" => function ($q) {
+        //     $q->where('user_id', auth()->user()->id);
+        // }])
+        //     ->select('*', DB::raw("STR_TO_DATE(date, '%d/%m/%Y') as date_cast"))
+        //     ->orderBy('date_cast', 'DESC')
+        //     ->get();
         return inertia('Reservation/Profile/MyEmployeeBreakSetting', [
-            'myEmployeeRequestOff' => $myEmployeeRequestOff,
+            'myEmployeeBreakSetting' => $myEmployeeBreakSetting,
         ]);
     }
-    public function storesetbreaktime(Request $request)
+    public function storesetbreaktime(Request $request) 
     {
-        dd($request->all());
+        // dd($request->all());
         $validated = $request->validate([
             'break_time' => 'required',
         ]);
-        $company = ReservationCompany::findOrfail(auth()->user()->id);
+        // dd("test");
+
+        $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
         // $data = ReservationEmployeeDayOff::findOrfail($company->id);
+        // dd($company);
        
-        $reservationBreak = ReservationBreakTimeSetting::updateOrCreate(['reservation_company_id' => $company->id], ['break_time' => $$request->break_time]);
+        $reservationBreak = ReservationBreakTimeSetting::updateOrCreate(['reservation_company_id' => $company->id], ['break_time' => $request->break_time]);
         // $userId = User::where('email', $data->email)->pluck('id')->first();
         // ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
         // $data->update(['approved' => 1]);

@@ -153,7 +153,7 @@ export default function MyEmployee(props) {
     };
     const handleCashierReservation = (e) => {
         e.preventDefault();
-        // console.log(state.id)
+        // console.log(state.team_detail_user_id)
         put(route("reservation.makecashier", state.team_detail_user_id), {
             onSuccess: () => {
                 return Promise.all([setIsOpenCashierDialog(false), reset()]);

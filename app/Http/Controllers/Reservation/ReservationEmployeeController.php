@@ -69,7 +69,7 @@ class ReservationEmployeeController extends Controller
                 'reservation_employees.id as employee_record_id',
                 'reservation_employees.approved',
                 'reservation_employees.created_at',
-                'reservation_team_details.user_id as team_detail_user_id',
+                'reservation_employees.user_id as team_detail_user_id',
                 'users.name',
                 'users.email',
                 'users.phone',

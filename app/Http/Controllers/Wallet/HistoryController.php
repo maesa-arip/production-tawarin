@@ -10,6 +10,7 @@ use App\Models\Reservation\ReservationCounter;
 use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationEmployee;
 use App\Models\Reservation\ReservationTeam;
+use App\Models\User;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -204,39 +205,39 @@ class HistoryController extends Controller
     public function summary(Request $request)
     {
         $withdrawQuery = Transaction::query()
-        ->where('confirmed', 1)
-        ->where('type', 'withdraw')
-        ->whereJsonContains('transactions.meta->type', 'deposit')
-        ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
-        ->join('users', 'wallets.holder_id', '=', 'users.id')
-        ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
-        ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as withdraw_amount'));
+            ->where('confirmed', 1)
+            ->where('type', 'withdraw')
+            ->whereJsonContains('transactions.meta->type', 'deposit')
+            ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+            ->join('users', 'wallets.holder_id', '=', 'users.id')
+            ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
+            ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as withdraw_amount'));
 
-    // Initial complex query for deposit transactions
-    $depositQuery = Transaction::query()
-        ->where('confirmed', 1)
-        ->where('type', 'deposit')
-        ->whereJsonContains('transactions.meta->type', 'deposit_withdraw')
-        ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
-        ->join('users', 'wallets.holder_id', '=', 'users.id')
-        ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
-        ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as deposit_amount'));
+        // Initial complex query for deposit transactions
+        $depositQuery = Transaction::query()
+            ->where('confirmed', 1)
+            ->where('type', 'deposit')
+            ->whereJsonContains('transactions.meta->type', 'deposit_withdraw')
+            ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+            ->join('users', 'wallets.holder_id', '=', 'users.id')
+            ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
+            ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as deposit_amount'));
 
-    // Raw SQL for both subqueries
-    // $withdrawSql = $withdrawQuery->toSql();
-    // $depositSql = $depositQuery->toSql();
+        // Raw SQL for both subqueries
+        // $withdrawSql = $withdrawQuery->toSql();
+        // $depositSql = $depositQuery->toSql();
 
-    // Combine the queries using a union and handle both left and right joins
-    $combinedQuery = DB::query()
-        ->fromSub($withdrawQuery, 'withdraws')
-        ->leftJoinSub($depositQuery, 'deposits', 'withdraws.user_id', '=', 'deposits.user_id')
-        ->select(DB::raw('withdraws.user_id, withdraws.user_name, withdraws.holder_id, withdraws.created_at, COALESCE(withdraws.withdraw_amount, 0) - COALESCE(deposits.deposit_amount, 0) as total_amount'))
-        ->union(
-            DB::query()
-                ->fromSub($depositQuery, 'deposits')
-                ->leftJoinSub($withdrawQuery, 'withdraws', 'deposits.user_id', '=', 'withdraws.user_id')
-                ->select(DB::raw('deposits.user_id, deposits.user_name, deposits.holder_id, deposits.created_at, COALESCE(withdraws.withdraw_amount, 0) - COALESCE(deposits.deposit_amount, 0) as total_amount'))
-        );
+        // Combine the queries using a union and handle both left and right joins
+        $combinedQuery = DB::query()
+            ->fromSub($withdrawQuery, 'withdraws')
+            ->leftJoinSub($depositQuery, 'deposits', 'withdraws.user_id', '=', 'deposits.user_id')
+            ->select(DB::raw('withdraws.user_id, withdraws.user_name, withdraws.holder_id, withdraws.created_at, COALESCE(withdraws.withdraw_amount, 0) - COALESCE(deposits.deposit_amount, 0) as total_amount'))
+            ->union(
+                DB::query()
+                    ->fromSub($depositQuery, 'deposits')
+                    ->leftJoinSub($withdrawQuery, 'withdraws', 'deposits.user_id', '=', 'withdraws.user_id')
+                    ->select(DB::raw('deposits.user_id, deposits.user_name, deposits.holder_id, deposits.created_at, COALESCE(withdraws.withdraw_amount, 0) - COALESCE(deposits.deposit_amount, 0) as total_amount'))
+            );
         // dd($depositQuery);
         // dd($combinedQuery);
         // if ($request->q) {
@@ -275,7 +276,7 @@ class HistoryController extends Controller
             ->where('transactions.meta', NULL)
             ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
             ->join('users', 'wallets.holder_id', '=', 'users.id')
-            ->select('transactions.*', 'users.id as user_id', 'users.name as user_name')->orderBy('transactions.id','DESC');
+            ->select('transactions.*', 'users.id as user_id', 'users.name as user_name')->orderBy('transactions.id', 'DESC');
         // dd($query);
         if ($request->q) {
             $query->where('payable_type', 'like', '%' . $request->q . '%')
@@ -375,15 +376,43 @@ class HistoryController extends Controller
             ->get();
 
         return inertia('Wallets/History/TawarinSummary', [
-            'topUpBelumKonfirmasi' => $topUpBelumKonfirmasi, 'topUpSudahKonfirmasi' => $topUpSudahKonfirmasi, 'topUpSudahKonfirmasiNULL' => $topUpSudahKonfirmasiNULL, 'totalTopUp' => $totalTopUp, 'topUpDitolak' => $topUpDitolak, 'withdrawBelumKonfirmasi' => $withdrawBelumKonfirmasi, 'withdrawSudahKonfirmasi' => $withdrawSudahKonfirmasi, 'withdrawDitolak' => $withdrawDitolak, 'referral' => $referral, 'fee' => $fee, 'bonus' => $bonus
+            'topUpBelumKonfirmasi' => $topUpBelumKonfirmasi,
+            'topUpSudahKonfirmasi' => $topUpSudahKonfirmasi,
+            'topUpSudahKonfirmasiNULL' => $topUpSudahKonfirmasiNULL,
+            'totalTopUp' => $totalTopUp,
+            'topUpDitolak' => $topUpDitolak,
+            'withdrawBelumKonfirmasi' => $withdrawBelumKonfirmasi,
+            'withdrawSudahKonfirmasi' => $withdrawSudahKonfirmasi,
+            'withdrawDitolak' => $withdrawDitolak,
+            'referral' => $referral,
+            'fee' => $fee,
+            'bonus' => $bonus
         ]);
     }
     public function companysummary(Request $request)
     {
-      
-        $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
-        $employees = ReservationEmployee::with('user')->where('reservation_company_id',$company->id)->get();
-        $counters = ReservationCounter::where('reservation_company_id',$company->id)->get();
+        
+        $user = User::findOrFail(auth()->user()->id);
+        $roles = $user->getRoleNames();
+        // dd($roles);
+        // Convert the roles to an array if it's an object that holds an array
+        $rolesArray = is_object($roles) ? $roles->toArray() : (array) $roles;
+
+        // Check if the array contains a specific text
+        $searchText = 'owner reservasi'; // Replace 'sometext' with the text you are looking for
+
+        if (in_array($searchText, $rolesArray)) {
+            $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
+            
+        } else {
+            $cekCompany = ReservationEmployee::where('user_id', auth()->user()->id)->first();
+            $company = ReservationCompany::where('id', $cekCompany->reservation_company_id)->first();
+            // $userWallet = User::where('id',$company->user_id)->first();
+        }
+        $userWallet = User::where('id',$company->user_id)->first();
+        $employees = ReservationEmployee::with('user')->where('reservation_company_id', $company->id)->get();
+        // dd($company,$employees);
+        $counters = ReservationCounter::where('reservation_company_id', $company->id)->get();
         $cekIDOwner = ReservationEmployee::select(
             'reservation_employees.id as employee_id',
             'users.name as employee_name',
@@ -399,30 +428,30 @@ class HistoryController extends Controller
             // DB::raw('SUM(reservation_counters.jasa) as total_jasa'),
             // DB::raw('SUM(transactions.amount) as total_uang')
         )
-        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
-        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
-        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
-        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
-        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-        ->join('reservation_team_details', function($join) {
-            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
-                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
-        })
-        ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
-        ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
-        ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
-        // ->where('reservation_customers.selesai_customer', '=', 1)
-        ->where('reservation_companies.user_id', '=', auth()->user()->id)
-        // ->where('users.id',26)
-       
-        ->where('wallets.holder_type','App\Models\User')
-        ->where('wallets.slug','default')
-        // ->where('reservation_customers.id',1873)
-        ->whereJsonContains('transactions.meta->type', 'uang keluar')
-        // ->groupBy('reservation_employees.id', 'users.name')
-        ->orderBy('transactions.id','DESC')
-        ->orderBy('reservation_employees.id')
-        ->orderBy('reservation_counters.id')->first();
+            ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+            ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+            ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+            ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_customers', 'reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+            ->join('reservation_team_details', function ($join) {
+                $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                    ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+            })
+            ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
+            ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
+            ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
+            // ->where('reservation_customers.selesai_customer', '=', 1)
+            ->where('reservation_companies.user_id', '=', $userWallet->id)
+            // ->where('users.id',26)
+
+            ->where('wallets.holder_type', 'App\Models\User')
+            ->where('wallets.slug', 'default')
+            // ->where('reservation_customers.id',1873)
+            ->whereJsonContains('transactions.meta->type', 'uang keluar')
+            // ->groupBy('reservation_employees.id', 'users.name')
+            ->orderBy('transactions.id', 'DESC')
+            ->orderBy('reservation_employees.id')
+            ->orderBy('reservation_counters.id')->first();
         // dd($cekIDOwner);
         $query = ReservationEmployee::select(
             'reservation_employees.id as employee_id',
@@ -435,33 +464,33 @@ class HistoryController extends Controller
             DB::raw('SUM(reservation_counters.jasa) as total_jasa'),
             DB::raw('SUM(transactions.amount) as total_uang')
         )
-        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
-        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
-        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
-        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
-        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-        ->join('reservation_team_details', function($join) {
-            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
-                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
-        })
-        ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
-        ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
-        ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
-        // ->where('reservation_customers.selesai_customer', '=', 1)
-        ->where('reservation_companies.user_id', '=', auth()->user()->id)
-        ->where('transfers.to_id','<>',$cekIDOwner->wallets_id)
-        // ->where('users.id',30)
-        ->where('wallets.holder_type','App\Models\User')
-        ->where('wallets.slug','default')
-        ->where('reservation_customers.id', '>',100)
-        ->whereJsonContains('transactions.meta->type', 'uang keluar')
-        // ->groupBy('reservation_employees.id', 'users.name' )
-        
-        ->where('reservation_customers.selesai_customer', '=', 1)
-        ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
-        ->orderBy('transactions.id','DESC')
-        ->orderBy('reservation_employees.id')
-        ->orderBy('reservation_counters.id');
+            ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+            ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+            ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+            ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_customers', 'reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+            ->join('reservation_team_details', function ($join) {
+                $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                    ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+            })
+            ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
+            ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
+            ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
+            // ->where('reservation_customers.selesai_customer', '=', 1)
+            ->where('reservation_companies.user_id', '=', $userWallet->id)
+            ->where('transfers.to_id', '<>', $cekIDOwner->wallets_id)
+            // ->where('users.id',30)
+            ->where('wallets.holder_type', 'App\Models\User')
+            ->where('wallets.slug', 'default')
+            ->where('reservation_customers.id', '>', 100)
+            ->whereJsonContains('transactions.meta->type', 'uang keluar')
+            // ->groupBy('reservation_employees.id', 'users.name' )
+
+            ->where('reservation_customers.selesai_customer', '=', 1)
+            ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+            ->orderBy('transactions.id', 'DESC')
+            ->orderBy('reservation_employees.id')
+            ->orderBy('reservation_counters.id');
 
         $sumQuery = ReservationEmployee::select(
             'reservation_employees.id as employee_id',
@@ -472,23 +501,23 @@ class HistoryController extends Controller
             DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
             DB::raw('SUM(reservation_counters.jasa) as total_jasa')
         )
-        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
-        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
-        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
-        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
-        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-        ->join('reservation_team_details', function($join) {
-            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
-                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
-        })
-        ->where('reservation_customers.selesai_customer', '=', 1)
-        ->where('reservation_companies.user_id', '=', auth()->user()->id)
-        // ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
-        ->groupBy('reservation_employees.id', 'users.name')
-        ->orderBy('reservation_employees.id')
-        ->orderBy('reservation_counters.id');
+            ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+            ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+            ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+            ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_customers', 'reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+            ->join('reservation_team_details', function ($join) {
+                $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                    ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+            })
+            ->where('reservation_customers.selesai_customer', '=', 1)
+            ->where('reservation_companies.user_id', '=', $userWallet->id)
+            // ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+            ->groupBy('reservation_employees.id', 'users.name')
+            ->orderBy('reservation_employees.id')
+            ->orderBy('reservation_counters.id');
 
-        
+
 
         $sumPendapatan = ReservationEmployee::select(
             'reservation_employees.id as employee_id',
@@ -507,38 +536,38 @@ class HistoryController extends Controller
             DB::raw('SUM(reservation_counters.jasa) as total_jasa'),
             DB::raw('SUM(transactions.amount) as total_uang')
         )
-        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
-        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
-        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
-        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
-        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-        ->join('reservation_team_details', function($join) {
-            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
-                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
-        })
-        ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
-        ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
-        ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
-        // ->where('reservation_customers.selesai_customer', '=', 1)
-        ->where('reservation_companies.user_id', '=', auth()->user()->id)
-        ->where('transfers.to_id','<>',$cekIDOwner->wallets_id)
-        // ->where('users.id',30)
-        ->where('wallets.holder_type','App\Models\User')
-        ->where('wallets.slug','default')
-        ->where('reservation_customers.id', '>',100)
-        ->whereJsonContains('transactions.meta->type', 'uang keluar')
-        ->groupBy('reservation_employees.id', 'users.name' )
-        ->orderBy('transactions.id','DESC')
-        ->orderBy('reservation_employees.id')
-        ->orderBy('reservation_counters.id');
+            ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+            ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+            ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+            ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_customers', 'reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+            ->join('reservation_team_details', function ($join) {
+                $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                    ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+            })
+            ->join('transactions', 'reservation_customers.id', '=', 'transactions.payable_id')
+            ->join('transfers', 'transactions.id', '=', 'transfers.withdraw_id')
+            ->join('wallets', 'reservation_companies.user_id', '=', 'wallets.holder_id')
+            // ->where('reservation_customers.selesai_customer', '=', 1)
+            ->where('reservation_companies.user_id', '=', $userWallet->id)
+            ->where('transfers.to_id', '<>', $cekIDOwner->wallets_id)
+            // ->where('users.id',30)
+            ->where('wallets.holder_type', 'App\Models\User')
+            ->where('wallets.slug', 'default')
+            ->where('reservation_customers.id', '>', 100)
+            ->whereJsonContains('transactions.meta->type', 'uang keluar')
+            ->groupBy('reservation_employees.id', 'users.name')
+            ->orderBy('transactions.id', 'DESC')
+            ->orderBy('reservation_employees.id')
+            ->orderBy('reservation_counters.id');
 
         // dd($sumPendapatan);
 
-        if ($request->q && $request->q<>'Semua Karyawan') {
+        if ($request->q && $request->q <> 'Semua Karyawan') {
             $query->where('users.name', 'like', '%' . $request->q . '%');
             $sumPendapatan->where('users.name', 'like', '%' . $request->q . '%');
         }
-        if ($request->r && $request->r<>'Semua Layanan') {
+        if ($request->r && $request->r <> 'Semua Layanan') {
             $query->where('reservation_counters.name', $request->r);
             $sumPendapatan->where('reservation_counters.name', $request->r);
         }
@@ -597,7 +626,7 @@ class HistoryController extends Controller
 
             ]
         ]);
-        return inertia('Wallets/History/CompanySummary', ['transactions' => $transactions,'sumTransactions' => $sumTransactions, 'employees' => $employees,'counters'=>$counters]);
+        return inertia('Wallets/History/CompanySummary', ['transactions' => $transactions, 'sumTransactions' => $sumTransactions, 'employees' => $employees, 'counters' => $counters]);
     }
     public function employeesummary(Request $request)
     {
@@ -613,20 +642,20 @@ class HistoryController extends Controller
             DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
             DB::raw('SUM(reservation_counters.jasa) as total_jasa')
         )
-        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
-        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
-        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
-        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
-        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-        ->join('reservation_team_details', function($join) {
-            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
-                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
-        })
-        ->where('reservation_customers.selesai_customer', '=', 1)
-        ->where('reservation_employees.user_id', '=', auth()->user()->id)
-        ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
-        ->orderBy('reservation_employees.id')
-        ->orderBy('reservation_counters.id');
+            ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+            ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+            ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+            ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_customers', 'reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+            ->join('reservation_team_details', function ($join) {
+                $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                    ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+            })
+            ->where('reservation_customers.selesai_customer', '=', 1)
+            ->where('reservation_employees.user_id', '=', auth()->user()->id)
+            ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+            ->orderBy('reservation_employees.id')
+            ->orderBy('reservation_counters.id');
         $sumQuery = ReservationEmployee::select(
             'reservation_employees.id as employee_id',
             'users.name as employee_name',
@@ -636,23 +665,23 @@ class HistoryController extends Controller
             DB::raw('SUM(reservation_counters.price_user) as total_price_user'),
             DB::raw('SUM(reservation_counters.jasa) as total_jasa')
         )
-        ->join('users', 'reservation_employees.user_id', '=', 'users.id')
-        ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
-        ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
-        ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
-        ->join('reservation_customers','reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-        ->join('reservation_team_details', function($join) {
-            $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
-                 ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
-        })
-        ->where('reservation_customers.selesai_customer', '=', 1)
-        ->where('reservation_employees.user_id', '=', auth()->user()->id)
-        // ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
-        ->groupBy('reservation_employees.id', 'users.name')
-        ->orderBy('reservation_employees.id')
-        ->orderBy('reservation_counters.id');
+            ->join('users', 'reservation_employees.user_id', '=', 'users.id')
+            ->join('reservation_companies', 'reservation_employees.reservation_company_id', '=', 'reservation_companies.id')
+            ->join('reservation_counters', 'reservation_companies.id', '=', 'reservation_counters.reservation_company_id')
+            ->join('reservation_teams', 'reservation_counters.id', '=', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_customers', 'reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
+            ->join('reservation_team_details', function ($join) {
+                $join->on('reservation_teams.id', '=', 'reservation_team_details.reservation_team_id')
+                    ->on('reservation_team_details.user_id', '=', 'reservation_employees.user_id');
+            })
+            ->where('reservation_customers.selesai_customer', '=', 1)
+            ->where('reservation_employees.user_id', '=', auth()->user()->id)
+            // ->groupBy('reservation_employees.id', 'users.name', 'reservation_counters.id', 'reservation_counters.name')
+            ->groupBy('reservation_employees.id', 'users.name')
+            ->orderBy('reservation_employees.id')
+            ->orderBy('reservation_counters.id');
         // dd($query2->get());
-        
+
         if ($request->q) {
             $query->where('payable_type', 'like', '%' . $request->q . '%')
                 ->orWhere('type', 'like', '%' . $request->q . '%')
@@ -717,6 +746,6 @@ class HistoryController extends Controller
 
             ]
         ]);
-        return inertia('Wallets/History/EmployeeSummary', ['transactions' => $transactions,'sumTransactions' => $sumTransactions, 'employees' => $employees]);
+        return inertia('Wallets/History/EmployeeSummary', ['transactions' => $transactions, 'sumTransactions' => $sumTransactions, 'employees' => $employees]);
     }
 }

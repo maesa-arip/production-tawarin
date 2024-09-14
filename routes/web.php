@@ -254,6 +254,9 @@ Route::group(['middleware' => ['permission:lihat menu owner reservasi']], functi
     Route::put('reservation/declinedayoff/{id}/decline', [ReservationEmployeeController::class, 'declinedayoff'])->name('reservation.declinedayoff');
     Route::put('reservation/makecashier/{id}/update', [ReservationEmployeeController::class, 'makecashier'])->name('reservation.makecashier');
     Route::Resource('owneradmindeposits', WithdrawOwnerController::class);
+});
+
+Route::group(['middleware' => ['permission:lihat menu kasir reservasi']], function () {
     Route::get('/companychart', [ChartController::class, 'index'])->name('company.chart');
     Route::get('company/summary', [WalletHistoryController::class, 'companysummary'])->name('company.summary');
 });

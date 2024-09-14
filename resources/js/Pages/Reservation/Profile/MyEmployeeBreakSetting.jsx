@@ -18,19 +18,20 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import InputError from "@/Components/InputError";
 
 export default function MyEmployeeBreakSetting({
-    auth,
-    mustVerifyEmail,
-    status,
-    myEmployeeRequestOff,
+    myEmployeeBreakSetting,
 }) {
+    console.log(myEmployeeBreakSetting)
     const { data, setData, patch, post, put, processing, errors, reset } =
-        useForm({});
+        useForm({
+            break_time : myEmployeeBreakSetting.break_time,
+        });
     const onChange = (e) => {
         setData({
             ...data,
-            [e.target.name]: e.target.value,
+            [e.target.id]: e.target.value,
         });
     };
+    // console.log(myEmployeeBreakSetting)
     const onSubmitHandler = (e) => {
         e.preventDefault();
         // console.log(data);

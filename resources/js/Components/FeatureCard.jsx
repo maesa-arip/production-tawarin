@@ -1,7 +1,13 @@
 import { numberFormat } from "@/Libs/helper";
+import { usePage } from "@inertiajs/inertia-react";
 import React from "react";
 
-export default function FeatureCard({balance, bonus, referral, feewithdraw}) {
+export default function FeatureCard({ balance, bonus, referral, feewithdraw }) {
+    const { auth, permissions, requestTopUp, requestWithdraw, customer_count } =
+        usePage().props;
+    const permission_name = permissions
+        ? permissions.map((permission) => permission.name)
+        : "null";
     return (
         <div className="flex flex-col px-2 pb-6 mt-4 bg-white border shadow-lg rounded-xl ">
             <h2 className="mb-4 text-2xl font-bold">{/* Feature Cards */}</h2>
@@ -25,7 +31,9 @@ export default function FeatureCard({balance, bonus, referral, feewithdraw}) {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <p className="mt-3 text-xs font-semibold">Rp {numberFormat(balance)} Saldo</p>
+                        <p className="mt-3 text-xs font-semibold">
+                            Rp {numberFormat(balance)} Saldo
+                        </p>
                         {/* <p className="mt-2 text-sm text-gray-500">Last opened 4 days ago</p> */}
                     </div>
                 </div>
@@ -50,7 +58,9 @@ export default function FeatureCard({balance, bonus, referral, feewithdraw}) {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <h2 className="mt-3 text-xs font-semibold">Rp {numberFormat(bonus)} Bonus</h2>
+                        <h2 className="mt-3 text-xs font-semibold">
+                            Rp {numberFormat(bonus)} Bonus
+                        </h2>
                         {/* <p className="mt-2 text-sm text-gray-500">Last checked 3 days ago</p> */}
                     </div>
                 </div>
@@ -73,40 +83,52 @@ export default function FeatureCard({balance, bonus, referral, feewithdraw}) {
                         </svg>
                     </div>
                     <div className="ml-4">
-                        <h2 className="mt-3 text-xs font-semibold">{referral} Referal</h2>
+                        <h2 className="mt-3 text-xs font-semibold">
+                            {referral} Referal
+                        </h2>
                         {/* <p className="mt-2 text-sm text-gray-500">Last authored 1 day ago</p> */}
                     </div>
                 </div>
-                <div className="flex items-start p-4 bg-white border rounded-xl">
-                    <div className="flex items-center justify-center w-12 h-12 border border-indigo-100 rounded-full bg-indigo-50">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-6 h-6 text-indigo-400 icon icon-tabler icon-tabler-building-bank"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3 21l18 0" />
-                            <path d="M3 10l18 0" />
-                            <path d="M5 6l7 -3l7 3" />
-                            <path d="M4 10l0 11" />
-                            <path d="M20 10l0 11" />
-                            <path d="M8 14l0 3" />
-                            <path d="M12 14l0 3" />
-                            <path d="M16 14l0 3" />
-                        </svg>
-                    </div>
-                    <div className="ml-4">
-                        <h2 className="mt-3 text-xs font-semibold">Rp {numberFormat(feewithdraw)} Fee Withdraw</h2>
-                        {/* <p className="mt-2 text-sm text-gray-500">Last commented 8 days ago</p> */}
-                    </div>
-                </div>
+                {permission_name.indexOf("lihat menu admin saldo") > -1 && (
+                    <>
+                        <div className="flex items-start p-4 bg-white border rounded-xl">
+                            <div className="flex items-center justify-center w-12 h-12 border border-indigo-100 rounded-full bg-indigo-50">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-6 h-6 text-indigo-400 icon icon-tabler icon-tabler-building-bank"
+                                    width={24}
+                                    height={24}
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    />
+                                    <path d="M3 21l18 0" />
+                                    <path d="M3 10l18 0" />
+                                    <path d="M5 6l7 -3l7 3" />
+                                    <path d="M4 10l0 11" />
+                                    <path d="M20 10l0 11" />
+                                    <path d="M8 14l0 3" />
+                                    <path d="M12 14l0 3" />
+                                    <path d="M16 14l0 3" />
+                                </svg>
+                            </div>
+                            <div className="ml-4">
+                                <h2 className="mt-3 text-xs font-semibold">
+                                    Rp {numberFormat(feewithdraw)} Fee Withdraw
+                                </h2>
+                                {/* <p className="mt-2 text-sm text-gray-500">Last commented 8 days ago</p> */}
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
