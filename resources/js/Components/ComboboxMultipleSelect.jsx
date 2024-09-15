@@ -48,6 +48,8 @@ export default function ComboboxMultipleSelect({
         ...ShouldMap.map((option) => ({
             value: option.id,
             label: option.name,
+            email: option.email,
+            phone: option.phone,
             isDisabled: false,
         })),
     ]);

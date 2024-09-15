@@ -39,9 +39,11 @@ export default function Create({ users }) {
     const [selected, setSelected] = useState(defaultValue[0]);
 
     const onContactChange = (e) => {
-        setData({ ...data, ["transfer_id"]: e.id });
+        setData({ ...data, ["transfer_id"]: e.value });
+        // console.log(data);
     };
-
+    // console.log(data);
+    // console.log(selected);
     const onSubmitHandler = (e) => {
         e.preventDefault();
         post(route("wallet.transferstore"), {
@@ -88,7 +90,7 @@ export default function Create({ users }) {
                 <p className="my-4 text-left text-wrap">Yakin Transfer Dana kepada ?</p>
                 <div className="px-2 mb-4 overflow-auto border rounded-xl ">
                     
-                    <p className="my-4 text-left text-wrap">Nama: <br /> {selected.name}</p>
+                    <p className="my-4 text-left text-wrap">Nama: <br /> {selected.label}</p>
                     <p className="my-4 text-left text-wrap">Email: <br />{selected.email}</p>
                     <p className="my-4 text-left text-wrap">Phone Number: <br />{selected.phone}</p>
                     <p className="my-4 text-left text-wrap">Jumlah: <br /> {formatRupiahAmount}</p>
@@ -158,17 +160,22 @@ export default function Create({ users }) {
                                             >
                                                 Pilih Kontak
                                             </label>
-                                            <ListBoxPage
+                                            {/* <ListBoxPage
                                                 ShouldMap={users}
                                                 selected={selected}
                                                 onChange={(e) => {
                                                     onContactChange(e);
                                                     setSelected(e);
                                                 }}
-                                            />
-                                            {/* <ComboboxMultipleSelect
+                                            /> */}
+                                            <ComboboxMultipleSelect
                                                     ShouldMap={users}
-                                                    name={"pic_id"}
+                                                    // selected={selected}
+                                                    name={"transfer_id"}
+                                                    // onChange={(e) => {
+                                                    //     onContactChange(e);
+                                                    //     setSelected(e);
+                                                    // }}
                                                     // onChange={(e) => {
                                                     //     onContactChange(e);
                                                     //     setSelected(e);
@@ -176,15 +183,14 @@ export default function Create({ users }) {
                                                     onChange={(e) => {
                                                         onContactChange(e);
                                                         setSelected(e);
+                                                        
+                                                        // setData({
+                                                        //     ...data,
+                                                        //     ["transfer_id"]: selectedIdsString.value,
+                                                        // });
                                                     }}
-                                                    // onChange={(selectedIdsString) => {
-                                                    //     setData({
-                                                    //         ...data,
-                                                    //         ["pic_id"]: selectedIdsString,
-                                                    //     });
-                                                    // }}
                                                     // defaultValues={defaultPicIdStrings}
-                                                /> */}
+                                                />
 
                                             {errors && (
                                                 <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">

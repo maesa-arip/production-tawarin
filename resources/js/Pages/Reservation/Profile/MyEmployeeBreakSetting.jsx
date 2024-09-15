@@ -23,7 +23,7 @@ export default function MyEmployeeBreakSetting({
     console.log(myEmployeeBreakSetting)
     const { data, setData, patch, post, put, processing, errors, reset } =
         useForm({
-            break_time : myEmployeeBreakSetting.break_time,
+            break_time : myEmployeeBreakSetting?.break_time,
         });
     const onChange = (e) => {
         setData({

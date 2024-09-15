@@ -262,6 +262,16 @@ export default function Aside() {
                                             <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                 <Link
                                                     onClick={toggleMenu}
+                                                    href="/adminspendings"
+                                                    className="text-white"
+                                                >
+                                                    {" "}
+                                                    Pengeluaran
+                                                </Link>
+                                            </li>
+                                            <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                <Link
+                                                    onClick={toggleMenu}
                                                     href="/adminplans"
                                                     className="text-white"
                                                 >

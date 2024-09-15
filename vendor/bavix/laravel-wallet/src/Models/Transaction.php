@@ -12,8 +12,6 @@ use function config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class Transaction.
@@ -33,9 +31,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @method int getKey()
  */
-class Transaction extends Model implements HasMedia
+class Transaction extends Model
 {
-    use InteractsWithMedia;
     public const TYPE_DEPOSIT = 'deposit';
 
     public const TYPE_WITHDRAW = 'withdraw';

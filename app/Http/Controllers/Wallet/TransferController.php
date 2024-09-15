@@ -20,6 +20,7 @@ class TransferController extends Controller
     }
     public function transferstore(Request $request)
     {
+        // dd($request->all());
         $from = User::find(auth()->user()->id);
         $to = User::find($request->transfer_id);
         // dd($request->all());

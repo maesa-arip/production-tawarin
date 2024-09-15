@@ -44,6 +44,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserBankController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Wallet\Admin\DepositAdminController;
+use App\Http\Controllers\Wallet\Admin\SpendingAdminController;
 use App\Http\Controllers\Wallet\DepositController;
 use App\Http\Controllers\Wallet\TransferController;
 use App\Http\Controllers\Wallet\WalletController;
@@ -246,6 +247,7 @@ Route::group(['middleware' => ['permission:lihat menu admin saldo']], function (
     Route::patch('adminwithdraw/{id}/decline', [WithdrawAdminController::class, 'decline'])->name('adminwithdraw.decline');
     Route::Resource('admindeposits', DepositAdminController::class);
     Route::Resource('adminwithdraws', WithdrawAdminController::class);
+    Route::Resource('adminspendings', SpendingAdminController::class);
 });
 
 Route::group(['middleware' => ['permission:lihat menu owner reservasi']], function () {
