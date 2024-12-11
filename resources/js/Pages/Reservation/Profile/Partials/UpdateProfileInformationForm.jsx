@@ -76,6 +76,7 @@ export default function UpdateProfileInformation({
               )
             : "";
     });
+    // console.log(reservation_categories)
     const defaultValue = [{ name: "Pilih" }];
     const [selected, setSelected] = useState(defaultValue[0]);
     const onChangeReservationCategoryId = (e) => {

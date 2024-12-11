@@ -16,7 +16,11 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 
-export default function MyReservation({ myReservations, tips }) {
+export default function MyReservation({
+    myReservations,
+    ratingCategories,
+    tips,
+}) {
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
@@ -251,6 +255,154 @@ export default function MyReservation({ myReservations, tips }) {
                     </label>
                 </div>
                 {/* End Rating */}
+                {ratingCategories.map((item, index) => (
+                    <div className="px-2 pt-2 my-2 border rounded-lg">
+                        <p className="text-left">{item.name}</p>
+
+                        <div className="flex flex-row-reverse items-center justify-center pb-8">
+                            <input
+                                id="hs-ratings-readonly-1"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name={item.id}
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        [item.id]: 5,
+                                    });
+                                }}
+                                defaultValue={1}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-1"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-2"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name={item.id}
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        [item.id]: 4,
+                                    });
+                                }}
+                                defaultValue={2}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-2"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-3"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name={item.id}
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        [item.id]: 3,
+                                    });
+                                }}
+                                defaultValue={3}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-3"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-4"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name={item.id}
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        [item.id]: 2,
+                                    });
+                                }}
+                                defaultValue={4}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-4"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-5"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name={item.id}
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        [item.id]: 1,
+                                    });
+                                }}
+                                defaultValue={5}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-5"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                        </div>
+                        </div>
+                ))}
 
                 <TextAreaInput
                     placeholder="Komentar"
@@ -321,7 +473,7 @@ export default function MyReservation({ myReservations, tips }) {
                 setIsOpenInfoDialog={setIsOpenComplaintDialog}
                 size="2xl"
                 closeButton="false"
-                title={"Yakin Laporkan Barber ?"}
+                title={"Yakin Laporkan Pekerja ?"}
             >
                 <p className="p-4 text-left border rounded-lg">
                     Jika melakukan komplain maka secara otomatis layanan akan
@@ -414,6 +566,7 @@ export default function MyReservation({ myReservations, tips }) {
                                                 Nama Layanan
                                             </p>
                                             <p className="rounded-full bg-amber-500 px-2 py-0.5 text-xs font-semibold text-white">
+                                                {item.counterCategoryName}{" "}
                                                 {item.counterName}
                                             </p>
                                         </div>
@@ -464,15 +617,29 @@ export default function MyReservation({ myReservations, tips }) {
                                         ) : (
                                             <></>
                                         )}
+                                        {item.answers.map((item, index) => (
+                                            <div className="py-1" key={index}>
+                                                <div className="relative p-2 overflow-hidden duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                                    <div>
+                                                        <div className="flex items-center justify-between ">
+                                                            <p className="text-sm font-semibold text-gray-500">
+                                                                {
+                                                                    item
+                                                                        .question
+                                                                        .question
+                                                                }
+                                                            </p>
+                                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                                {
+                                                                    item.description
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
 
-                                        {/* <div className="flex items-center justify-between px-4 my-4">
-                                        <p className="text-sm font-semibold text-gray-500">
-                                            Status
-                                        </p>
-                                        <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                        {item.id}
-                                        </p>
-                                    </div> */}
                                         <div className="flex items-center px-4 my-4 justify-evenly">
                                             {item.batal_customer == 1 ? (
                                                 <ThirdButtonNoLink
@@ -490,13 +657,15 @@ export default function MyReservation({ myReservations, tips }) {
                                                     Komplain Ditolak{" "}
                                                     <IconChecks className="w-4 h-4" />
                                                 </ThirdButtonNoLink>
-                                            ) : item.punishment == 1 ? (<ThirdButtonNoLink
-                                                className="cursor-not-allowed"
-                                                color="teal"
-                                            >
-                                                Komplain Diterima{" "}
-                                                <IconChecks className="w-4 h-4" />
-                                            </ThirdButtonNoLink>) : item.complaint == 1 ? (
+                                            ) : item.punishment == 1 ? (
+                                                <ThirdButtonNoLink
+                                                    className="cursor-not-allowed"
+                                                    color="teal"
+                                                >
+                                                    Komplain Diterima{" "}
+                                                    <IconChecks className="w-4 h-4" />
+                                                </ThirdButtonNoLink>
+                                            ) : item.complaint == 1 ? (
                                                 <ThirdButtonNoLink
                                                     className="cursor-not-allowed"
                                                     color="red"
@@ -570,7 +739,8 @@ export default function MyReservation({ myReservations, tips }) {
                                                                         }
                                                                         color="danger"
                                                                     >
-                                                                        Laporkan Barber
+                                                                        Laporkan
+                                                                        Pekerja
                                                                     </ThirdButtonNoLink>
                                                                 </>
                                                             )}

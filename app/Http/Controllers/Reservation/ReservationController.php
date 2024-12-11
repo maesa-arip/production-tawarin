@@ -5,20 +5,26 @@ namespace App\Http\Controllers\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyProfileUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\ArrayResource;
+use App\Http\Resources\Reservation\ReservationCounterCarResource;
 use App\Http\Resources\Reservation\ReservationCounterResource;
 use App\Http\Resources\Reservation\ReservationResource;
 use App\Models\Auth\JoinAs;
 use App\Models\Reservation\DaftarCounter;
 use App\Models\Reservation\ReservationBreakTimeSetting;
+use App\Models\Reservation\ReservationCarAnswer;
 use App\Models\Reservation\ReservationCategory;
 use App\Models\Reservation\ReservationCompany;
 use App\Models\Reservation\ReservationCounter;
+use App\Models\Reservation\ReservationCounterCar;
 use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationDaftarCounter;
 use App\Models\Reservation\ReservationEmployee;
 use App\Models\Reservation\ReservationEmployeeDayOff;
 use App\Models\Reservation\ReservationJoinCounter;
 use App\Models\Reservation\ReservationRating;
+use App\Models\Reservation\ReservationRatingCategory;
+use App\Models\Reservation\ReservationRatingDetail;
 use App\Models\Reservation\ReservationTeam;
 use App\Models\Reservation\ReservationTeamDetail;
 use App\Models\TemporaryFile;
@@ -48,7 +54,7 @@ class ReservationController extends Controller
     {
         $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
         $reservation_categories = ReservationCategory::get();
-        $media = $company->getMedia('reservationcompany');
+        $media = $company?->getMedia('reservationcompany');
         return Inertia::render('Reservation/Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -101,38 +107,71 @@ class ReservationController extends Controller
     public $loadDefault = 10;
     public function show(ReservationCompany $reservationCompany, Request $request)
     {
-        // dd($reservationCompany);
         $reservation_categories = ReservationCategory::get();
-        $reservations = ReservationCounter::query()
-            ->with('company')
-            ->where('reservation_counters.is_active', 1)
-            ->where('reservation_company_id', $reservationCompany->id)
-            // ->when($request->reservation_category, fn ($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
-            ->select('*');
-        if ($request->q) {
-            $reservations->where('name', 'like', '%' . $request->q . '%')
-                ->orWhere('slug', 'like', '%' . $request->q . '%')
-                ->orWhere('formattedAddress', 'like', '%' . $request->q . '%')
-                ->orWhere('reservation_category_id', 'like', '%' . $request->q . '%');
-        }
-        if ($request->has(['field', 'direction'])) {
-            $reservations->orderBy($request->field, $request->direction);
-        }
-        $reservations = (ReservationCounterResource::collection($reservations->latest()->fastPaginate($request->load)->withQueryString())
-        )->additional([
-            'attributes' => [
-                'total' => 1100,
-                'per_page' => 10,
-            ],
-            'filtered' => [
-                'load' => $request->load ?? $this->loadDefault,
-                'q' => $request->q ?? '',
-                'page' => $request->page ?? 1,
-                'field' => $request->field ?? '',
-                'direction' => $request->direction ?? '',
-            ]
-        ]);
-        return inertia('Reservation/Company/Public/List', ['reservations' => $reservations, 'reservationCompany' => $reservationCompany, 'reservation_categories' => $reservation_categories]);
+        if ($reservationCompany->reservationcategory->name == 'Cuci Mobil') {
+            $reservations = ReservationCounter::join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+                ->join('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
+                ->join('reservation_counter_cars', 'reservation_counter_cars.reservation_counter_id', 'reservation_counters.id')
+                ->join('cars', 'cars.id', 'reservation_counter_cars.car_id')
+                ->join('reservation_categories', 'reservation_categories.id', 'reservation_companies.reservation_category_id')
+                ->select('reservation_companies.name as company_name', 'reservation_companies.slug as company_slug', 'reservation_counters.name as counter_name', 'reservation_counters.slug as counter_slug', 'reservation_categories.name as category_name', 'cars.name as car_name', 'reservation_counters.description', 'reservation_counters.price', 'reservation_counters.service_duration', 'reservation_car_categories.name as category_counter_name')
+                ->where('reservation_counters.is_active', '1')
+                ->orderBy('cars.name', 'ASC');
+            if ($request->q) {
+                $reservations->where('cars.name', 'like', '%' . $request->q . '%');
+            }
+            $reservations = (ArrayResource::collection($reservations->fastPaginate($request->load)->withQueryString())
+            )->additional([
+                'attributes' => [
+                    'total' => 1100,
+                    'per_page' => 10,
+                ],
+                'filtered' => [
+                    'load' => $request->load ?? $this->loadDefault,
+                    'q' => $request->q ?? '',
+                    'page' => $request->page ?? 1,
+                    'field' => $request->field ?? '',
+                    'direction' => $request->direction ?? '',
+                ]
+            ]);
+            return inertia('Reservation/Company/Public/ListCar', ['reservations' => $reservations, 'reservationCompany' => $reservationCompany, 'reservation_categories' => $reservation_categories]);
+        };
+
+        if ($reservationCompany->reservationcategory->name == 'Barber Shop') {
+            $reservations = ReservationCounter::query()
+                ->with('company')
+                ->with('cars')
+                ->with('category')
+                ->where('reservation_counters.is_active', 1)
+                ->where('reservation_company_id', $reservationCompany->id)
+                // ->when($request->reservation_category, fn ($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
+                ->select('*');
+
+            if ($request->q) {
+                $reservations->where('name', 'like', '%' . $request->q . '%')
+                    ->orWhere('slug', 'like', '%' . $request->q . '%')
+                    ->orWhere('formattedAddress', 'like', '%' . $request->q . '%')
+                    ->orWhere('reservation_category_id', 'like', '%' . $request->q . '%');
+            }
+            if ($request->has(['field', 'direction'])) {
+                $reservations->orderBy($request->field, $request->direction);
+            }
+            $reservations = (ReservationCounterResource::collection($reservations->latest()->fastPaginate($request->load)->withQueryString())
+            )->additional([
+                'attributes' => [
+                    'total' => 1100,
+                    'per_page' => 10,
+                ],
+                'filtered' => [
+                    'load' => $request->load ?? $this->loadDefault,
+                    'q' => $request->q ?? '',
+                    'page' => $request->page ?? 1,
+                    'field' => $request->field ?? '',
+                    'direction' => $request->direction ?? '',
+                ]
+            ]);
+            return inertia('Reservation/Company/Public/List', ['reservations' => $reservations, 'reservationCompany' => $reservationCompany, 'reservation_categories' => $reservation_categories]);
+        };
     }
     public function change(ReservationCompany $reservationCompany, $id, Request $request)
     {
@@ -240,6 +279,7 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
 
+
         $date = Carbon::parse(strtotime($request->date));
         $atrributes = ([
             'reservation_team_id' => $request->reservation_team_id,
@@ -274,6 +314,22 @@ class ReservationController extends Controller
                         'slug' => 'default',
                     ]
                 );
+
+                $data = $request->all();
+                // Extract question-answer pairs
+                $answers = collect($data)->filter(function ($value, $key) {
+                    return is_numeric($key); // Only keep numeric keys
+                });
+                if ($answers) {
+                    foreach ($answers as $questionId => $description) {
+                        ReservationCarAnswer::create([
+                            'reservation_customer_id' => $reservation->id,
+                            'reservation_car_question_id' => $questionId,
+                            'description' => $description,
+                        ]);
+                    }
+                }
+
                 $user = User::find(auth()->user()->id);
                 $user->transfer($reservation, $harga, new Extra(
                     deposit: ['message' => 'Pembayaran untuk ' . $reservationRecently->companyName . ' Layanan ' . $reservationRecently->counterName, 'type' => 'uang masuk'],
@@ -281,8 +337,8 @@ class ReservationController extends Controller
                 ));
                 //Email
                 $reservationTeamDetail = ReservationTeamDetail::where('reservation_team_id', $request->reservation_team_id)->first();
-                $pekerja = User::find($reservationTeamDetail->user_id);
-                $pekerja->notify(new ReservationNotification($reservation, $user, $reservationTeam));
+                // $pekerja = User::find($reservationTeamDetail->user_id);
+                // $pekerja->notify(new ReservationNotification($reservation, $user, $reservationTeam));
                 Cache::forget('notifications_count');
                 return redirect('myreservations')->with([
                     'type' => 'success',
@@ -385,26 +441,32 @@ class ReservationController extends Controller
     public function myreservations(Request $request)
     {
         $tips = Tip::get();
-        $myReservations = ReservationCustomer::where('reservation_customers.user_id', auth()->user()->id)
+        $myReservations = ReservationCustomer::with('answers')->with('answers.question')->where('reservation_customers.user_id', auth()->user()->id)
             ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug', 'reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.created_at', 'DESC')->get();
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_car_categories.name as counterCategoryName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug', 'reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.created_at', 'DESC')
+            ->get();
+        // dd($myReservations);
+        $ratingCategories = ReservationRatingCategory::where('reservation_company_id', 6)->get();
         return Inertia::render('Reservation/Profile/MyReservation', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'myReservations' => $myReservations,
+            'ratingCategories' => $ratingCategories,
             'tips' => $tips,
         ]);
     }
     public function mycustomers(Request $request)
     {
-        $myCustomers = ReservationCustomer::with('user')->where('reservation_team_details.user_id', auth()->user()->id)
+        $myCustomers = ReservationCustomer::with('user')->with('answers')->with('answers.question')->where('reservation_team_details.user_id', auth()->user()->id)
             ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_companies.name as companyName')->orderBy('reservation_customers.created_at', 'DESC')->get();
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_car_categories.name as counterCategoryName', 'reservation_companies.name as companyName', 'reservation_team_details.leader')->orderBy('reservation_customers.created_at', 'DESC')->get();
         return Inertia::render('Reservation/Profile/MyCustomer', [
             'myCustomers' => $myCustomers,
         ]);
@@ -502,7 +564,7 @@ class ReservationController extends Controller
     public function myemployeebreaksetting(Request $request)
     {
         $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
-        $myEmployeeBreakSetting = ReservationBreakTimeSetting::where('reservation_company_id',$company->id)->first();
+        $myEmployeeBreakSetting = ReservationBreakTimeSetting::where('reservation_company_id', $company->id)->first();
         // $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->with(["company" => function ($q) {
         //     $q->where('user_id', auth()->user()->id);
         // }])
@@ -513,7 +575,7 @@ class ReservationController extends Controller
             'myEmployeeBreakSetting' => $myEmployeeBreakSetting,
         ]);
     }
-    public function storesetbreaktime(Request $request) 
+    public function storesetbreaktime(Request $request)
     {
         // dd($request->all());
         $validated = $request->validate([
@@ -524,7 +586,7 @@ class ReservationController extends Controller
         $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
         // $data = ReservationEmployeeDayOff::findOrfail($company->id);
         // dd($company);
-       
+
         $reservationBreak = ReservationBreakTimeSetting::updateOrCreate(['reservation_company_id' => $company->id], ['break_time' => $request->break_time]);
         // $userId = User::where('email', $data->email)->pluck('id')->first();
         // ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
@@ -564,6 +626,7 @@ class ReservationController extends Controller
         $reservation_counter_id = ReservationCounter::where('slug', $slug)->first();
         $validated['reservation_counter_id'] = $reservation_counter_id->id;
         // dd($reservation_counter_id->id);
+        // dd($validated);
         ReservationTeam::create($validated);
         return back()->with([
             'type' => 'success',
@@ -628,6 +691,8 @@ class ReservationController extends Controller
     public function finishcustomer(Request $request, $id)
     {
 
+        
+
         $reservationCustomer1 = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
@@ -662,15 +727,6 @@ class ReservationController extends Controller
             ->where('reservation_customers.id', '>', $lastBonusId)
             ->count();
 
-        // $reservationCustomer2 = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
-        //     ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
-        //     ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
-        //     ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-        //     ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.jasa', 'reservation_counters.percent_owner', 'percent_employe', 'deposit', 'reservation_companies.name as CompanyName', 'reservation_counters.name as CounterName', 'reservation_companies.slug as CompanySlug', 'reservation_counters.slug as CounterSlug')
-        //     ->where('reservation_customers.user_id', auth()->user()->id)->where('reservation_counters.slug', $reservationCustomer1->CounterSlug)->where('selesai_customer', 1)
-        //     ->count();
-        // $layananKe = ReservationCustomer::where('user_id', auth()->user()->id)->where('selesai_customer', 1)->count();
-        // dd($reservationCustomer2,$reservationCustomer1);
         $tip = Tip::find($request->tip);
         $reservationCustomer = ReservationCustomer::findOrfail($id);
 
@@ -703,260 +759,652 @@ class ReservationController extends Controller
         }
         $checkPegawai = ReservationEmployee::where('user_id', auth()->user()->id)->where('reservation_company_id', $reservationCustomer1->IDCompany);
 
-        // dd($reservationCustomer1->jumlahlayanandiskon,$reservationCustomer2,$checkPegawai);
-        // dd($reservationCustomer1->jumlahlayanandiskon,$reservationCustomer2,$reservationCustomer1->jumlahlayanandiskon === 0,$reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && !$checkPegawai,$reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && $checkPegawai,$reservationCustomer2 + 1 < $reservationCustomer1->jumlahlayanandiskon);
-        // Tidak ada layanan gratis
-        if ($reservationCustomer1->jumlahlayanandiskon === 0) {
-            // Tidak ada diskon
-            // dd("Tidak ada diskon");
-            DB::beginTransaction();
-            try {
-                $reservationCustomer->update(['selesai_customer' => 1]);
 
-                if ($tip) {
-                    $userTipFrom = auth()->user()->name;
-                    $customer->transfer($team, $tip->tip, new Extra(
-                        deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
-                        withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
-                    ));
-                }
-                $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
-                    deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
-                    withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
-                    deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                    withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($team, $tfTeam, new Extra(
-                    deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                    withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
-                    deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
-                    withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
-                ));
-                if ($tfBahan > 0) {
-                    $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
-                        deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
-                        withdraw: new Option(meta: ['message' => 'Uang Bahan ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'], confirmed: true)
-                    ));
-                }
 
-                if ($reservationCounter->deposit > 0) {
-                    if ($pemilik->hasWallet('deposit')) {
-                        $depositpemilik = $pemilik->getWallet('deposit');
-                    } else {
-                        $depositpemilik = $pemilik->createWallet([
-                            'name' => 'deposit',
-                            'slug' => 'deposit',
-                        ]);
+        $cekTeam = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
+            ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
+            ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+            ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+            ->select('reservation_team_details.user_id', 'reservation_counters.reservation_company_id')
+            ->where('reservation_customers.id', $id)
+            ->get();
+        // dd($cekTeam);
+        $reservationCompany = ReservationCompany::find($cekTeam[0]->reservation_company_id);
+        if ($reservationCompany->reservationcategory->name == 'Cuci Mobil') {
+            // Tidak ada layanan gratis
+            if ($reservationCustomer1->jumlahlayanandiskon === 0) {
+                // Tidak ada diskon
+                // dd("Tidak ada diskon");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $customer->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                                deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                                withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
+                            ));
+                        }
                     }
-                    $team->transfer($depositpemilik, $tfDeposit, new Extra(
-                        deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
-                        withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
                     ));
-                }
-                $atrribute = ([
-                    'reservation_team_id' => $reservationCustomer->reservation_team_id,
-                    'user_id' => $team->id,
-                    'comments' => $request->comments,
-                    'star_rating' => $request->rating,
-                ]);
-                if ($request->rating) {
-                    $rating = ReservationRating::create($atrribute);
-                }
-                DB::commit();
-                return redirect('myreservations')->with([
-                    'type' => 'success',
-                    'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
-                ]);
-            } catch (\Exception $e) {
-                DB::rollback();
-                return redirect('myreservations')->with([
-                    'type' => 'error',
-                    'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
-                ]);
-            }
-        }
-        // Pas dengan layanan gratis dan bukan pegawai
-        if ($reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && !$checkPegawai) {
-            // Ambil Bonus
-            // dd("ambil bonus");
-            DB::beginTransaction();
-            try {
-                $reservationCustomer->update(['selesai_customer' => 1]);
-                $reservationCustomer->update(['ambil_bonus' => 1]);
-                if ($reservationCustomer1->jumlahlayanandiskon > 0) {
-                    $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
-                }
-                if ($tip) {
-                    $userTipFrom = auth()->user()->name;
-                    $customer->transfer($team, $tip->tip, new Extra(
-                        deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
-                        withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                    $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
+                        deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                        withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
                     ));
-                }
-                $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
-                    deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
-                    withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
-                    deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
-                    withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
-                    deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
-                    withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
-                ));
-                $atrribute = ([
-                    'reservation_team_id' => $reservationCustomer->reservation_team_id,
-                    'user_id' => $team->id,
-                    'comments' => $request->comments,
-                    'star_rating' => $request->rating,
-                ]);
-                if ($request->rating) {
-                    $rating = ReservationRating::create($atrribute);
-                }
-                DB::commit();
-                return redirect('myreservations')->with([
-                    'type' => 'success',
-                    'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
-                ]);
-            } catch (\Exception $e) {
-                DB::rollback();
-                return redirect('myreservations')->with([
-                    'type' => 'error',
-                    'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
-                ]);
-            }
-        }
-        // Pas dengan layanan gratis dan pegawai
-        if ($reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && $checkPegawai) {
-            // Ambil Bonus
-            // dd("ambil bonus");
-            DB::beginTransaction();
-            try {
-                $reservationCustomer->update(['selesai_customer' => 1]);
-                // $reservationCustomer->update(['ambil_bonus' => 1]);
-                // if ($reservationCustomer1->jumlahlayanandiskon > 0) {
-                //     $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
-                // }
-                if ($tip) {
-                    $userTipFrom = auth()->user()->name;
-                    $customer->transfer($team, $tip->tip, new Extra(
-                        deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
-                        withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
-                    ));
-                }
-                $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
-                    deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
-                    withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
-                    deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
-                    withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
-                    deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
-                    withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
-                ));
-                $atrribute = ([
-                    'reservation_team_id' => $reservationCustomer->reservation_team_id,
-                    'user_id' => $team->id,
-                    'comments' => $request->comments,
-                    'star_rating' => $request->rating,
-                ]);
-                if ($request->rating) {
-                    $rating = ReservationRating::create($atrribute);
-                }
-                DB::commit();
-                return redirect('myreservations')->with([
-                    'type' => 'success',
-                    'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
-                ]);
-            } catch (\Exception $e) {
-                DB::rollback();
-                return redirect('myreservations')->with([
-                    'type' => 'error',
-                    'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
-                ]);
-            }
-        }
-        //Masih kurang dari layanan gratis
-        if ($reservationCustomer2 + 1 < $reservationCustomer1->jumlahlayanandiskon) {
-            // Layanan Biasa
-            // dd("layanan biasa");
-            DB::beginTransaction();
-            try {
-                $reservationCustomer->update(['selesai_customer' => 1]);
-                if ($reservationCustomer1->jumlahlayanandiskon > 0) {
-                    $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
-                }
-                if ($tip) {
-                    $userTipFrom = auth()->user()->name;
-                    $customer->transfer($team, $tip->tip, new Extra(
-                        deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
-                        withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
-                    ));
-                }
-                $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
-                    deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
-                    withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
-                    deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                    withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($team, $tfTeam, new Extra(
-                    deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
-                    withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
-                ));
-                $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
-                    deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
-                    withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
-                ));
-                if ($tfBahan > 0) {
-                    $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
-                        deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
-                        withdraw: new Option(meta: ['message' => 'Uang Bahan ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'], confirmed: true)
-                    ));
-                }
-
-                if ($reservationCounter->deposit > 0) {
-                    if ($pemilik->hasWallet('deposit')) {
-                        $depositpemilik = $pemilik->getWallet('deposit');
-                    } else {
-                        $depositpemilik = $pemilik->createWallet([
-                            'name' => 'deposit',
-                            'slug' => 'deposit',
-                        ]);
+                    foreach ($cekTeam as $teamd) {
+                        $teamdetail = User::find($teamd->user_id);
+                        $reservationCustomer->transfer($teamdetail, $tfTeam / count($cekTeam), new Extra(
+                            deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                            withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                        ));
                     }
-                    $team->transfer($depositpemilik, $tfDeposit, new Extra(
-                        deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
-                        withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
                     ));
+                    if ($tfBahan > 0) {
+                        $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
+                            deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
+                            withdraw: new Option(meta: ['message' => 'Uang Bahan ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'], confirmed: true)
+                        ));
+                    }
+
+                    if ($reservationCounter->deposit > 0) {
+                        if ($pemilik->hasWallet('deposit')) {
+                            $depositpemilik = $pemilik->getWallet('deposit');
+                        } else {
+                            $depositpemilik = $pemilik->createWallet([
+                                'name' => 'deposit',
+                                'slug' => 'deposit',
+                            ]);
+                        }
+                        $team->transfer($depositpemilik, $tfDeposit, new Extra(
+                            deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                            withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                        ));
+                    }
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        // dd($rating->id);
+                        if ($rating->wasRecentlyCreated) {
+                            $data = $request->all();
+                            // Extract question-answer pairs
+                            $answers = collect($data)->filter(function ($value, $key) {
+                                return is_numeric($key); // Only keep numeric keys
+                            });
+                            if ($answers) {
+                                foreach ($answers as $questionId => $description) {
+                                    ReservationRatingDetail::create([
+                                        'reservation_rating_id' => $rating->id,
+                                        'reservation_rating_category_id' => $questionId,
+                                        'star_rating' => $description,
+                                    ]);
+                                }
+                            }
+                        }
+                        
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
                 }
-                $atrribute = ([
-                    'reservation_team_id' => $reservationCustomer->reservation_team_id,
-                    'user_id' => $team->id,
-                    'comments' => $request->comments,
-                    'star_rating' => $request->rating,
-                ]);
-                if ($request->rating) {
-                    $rating = ReservationRating::create($atrribute);
+            }
+            // Pas dengan layanan gratis dan bukan pegawai
+            if ($reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && !$checkPegawai) {
+                // Ambil Bonus
+                // dd("ambil bonus");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+                    $reservationCustomer->update(['ambil_bonus' => 1]);
+                    if ($reservationCustomer1->jumlahlayanandiskon > 0) {
+                        $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
+                    }
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        $customer->transfer($team, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                        ));
+                    }
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
+                        deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
+                    ));
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        $data = $request->all();
+                        // Extract question-answer pairs
+                        $ratingDetails = collect($data)->filter(function ($value, $key) {
+                            return is_numeric($key); // Only keep numeric keys
+                        });
+                        if ($ratingDetails) {
+                            foreach ($ratingDetails as $ratingId => $star_rating) {
+                                ReservationRatingDetail::create([
+                                    'reservation_rating_id' => $rating->id,
+                                    'reservation_rating_category_id' => $ratingId,
+                                    'star_rating' => $star_rating,
+                                ]);
+                            }
+                        }
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
                 }
-                DB::commit();
-                return redirect('myreservations')->with([
-                    'type' => 'success',
-                    'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
-                ]);
-            } catch (\Exception $e) {
-                DB::rollback();
-                return redirect('myreservations')->with([
-                    'type' => 'error',
-                    'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
-                ]);
+            }
+            // Pas dengan layanan gratis dan pegawai
+            if ($reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && $checkPegawai) {
+                // Ambil Bonus
+                // dd("ambil bonus");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+                    // $reservationCustomer->update(['ambil_bonus' => 1]);
+                    // if ($reservationCustomer1->jumlahlayanandiskon > 0) {
+                    //     $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
+                    // }
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        $customer->transfer($team, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                        ));
+                    }
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
+                        deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
+                    ));
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        $data = $request->all();
+                        // Extract question-answer pairs
+                        $ratingDetails = collect($data)->filter(function ($value, $key) {
+                            return is_numeric($key); // Only keep numeric keys
+                        });
+                        if ($ratingDetails) {
+                            foreach ($ratingDetails as $ratingId => $star_rating) {
+                                ReservationRatingDetail::create([
+                                    'reservation_rating_id' => $rating->id,
+                                    'reservation_rating_category_id' => $ratingId,
+                                    'star_rating' => $star_rating,
+                                ]);
+                            }
+                        }
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
+                }
+            }
+            //Masih kurang dari layanan gratis
+            if ($reservationCustomer2 + 1 < $reservationCustomer1->jumlahlayanandiskon) {
+                // Layanan Biasa
+                // dd("layanan biasa");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+                    if ($reservationCustomer1->jumlahlayanandiskon > 0) {
+                        $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
+                    }
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        $customer->transfer($team, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                        ));
+                    }
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
+                        deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                        withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($team, $tfTeam, new Extra(
+                        deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                        withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    if ($tfBahan > 0) {
+                        $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
+                            deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
+                            withdraw: new Option(meta: ['message' => 'Uang Bahan ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'], confirmed: true)
+                        ));
+                    }
+
+                    if ($reservationCounter->deposit > 0) {
+                        if ($pemilik->hasWallet('deposit')) {
+                            $depositpemilik = $pemilik->getWallet('deposit');
+                        } else {
+                            $depositpemilik = $pemilik->createWallet([
+                                'name' => 'deposit',
+                                'slug' => 'deposit',
+                            ]);
+                        }
+                        $team->transfer($depositpemilik, $tfDeposit, new Extra(
+                            deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                            withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                        ));
+                    }
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        $data = $request->all();
+                        // Extract question-answer pairs
+                        $ratingDetails = collect($data)->filter(function ($value, $key) {
+                            return is_numeric($key); // Only keep numeric keys
+                        });
+                        if ($ratingDetails) {
+                            foreach ($ratingDetails as $ratingId => $star_rating) {
+                                ReservationRatingDetail::create([
+                                    'reservation_rating_id' => $rating->id,
+                                    'reservation_rating_category_id' => $ratingId,
+                                    'star_rating' => $star_rating,
+                                ]);
+                            }
+                        }
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
+                }
+            }
+        }
+
+        if ($reservationCompany->reservationcategory->name == 'Barber Shop') {
+
+            // Tidak ada layanan gratis
+            if ($reservationCustomer1->jumlahlayanandiskon === 0) {
+                // Tidak ada diskon
+                // dd("Tidak ada diskon");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        $customer->transfer($team, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                        ));
+                    }
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
+                        deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                        withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($team, $tfTeam, new Extra(
+                        deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                        withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    if ($tfBahan > 0) {
+                        $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
+                            deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
+                            withdraw: new Option(meta: ['message' => 'Uang Bahan ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'], confirmed: true)
+                        ));
+                    }
+
+                    if ($reservationCounter->deposit > 0) {
+                        if ($pemilik->hasWallet('deposit')) {
+                            $depositpemilik = $pemilik->getWallet('deposit');
+                        } else {
+                            $depositpemilik = $pemilik->createWallet([
+                                'name' => 'deposit',
+                                'slug' => 'deposit',
+                            ]);
+                        }
+                        $team->transfer($depositpemilik, $tfDeposit, new Extra(
+                            deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                            withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                        ));
+                    }
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        $data = $request->all();
+                        // Extract question-answer pairs
+                        $ratingDetails = collect($data)->filter(function ($value, $key) {
+                            return is_numeric($key); // Only keep numeric keys
+                        });
+                        if ($ratingDetails) {
+                            foreach ($ratingDetails as $ratingId => $star_rating) {
+                                ReservationRatingDetail::create([
+                                    'reservation_rating_id' => $rating->id,
+                                    'reservation_rating_category_id' => $ratingId,
+                                    'star_rating' => $star_rating,
+                                ]);
+                            }
+                        }
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
+                }
+            }
+            // Pas dengan layanan gratis dan bukan pegawai
+            if ($reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && !$checkPegawai) {
+                // Ambil Bonus
+                // dd("ambil bonus");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+                    $reservationCustomer->update(['ambil_bonus' => 1]);
+                    if ($reservationCustomer1->jumlahlayanandiskon > 0) {
+                        $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
+                    }
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        $customer->transfer($team, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                        ));
+                    }
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
+                        deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
+                    ));
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        $data = $request->all();
+                        // Extract question-answer pairs
+                        $ratingDetails = collect($data)->filter(function ($value, $key) {
+                            return is_numeric($key); // Only keep numeric keys
+                        });
+                        if ($ratingDetails) {
+                            foreach ($ratingDetails as $ratingId => $star_rating) {
+                                ReservationRatingDetail::create([
+                                    'reservation_rating_id' => $rating->id,
+                                    'reservation_rating_category_id' => $ratingId,
+                                    'star_rating' => $star_rating,
+                                ]);
+                            }
+                        }
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
+                }
+            }
+            // Pas dengan layanan gratis dan pegawai
+            if ($reservationCustomer2 + 1 === $reservationCustomer1->jumlahlayanandiskon && $checkPegawai) {
+                // Ambil Bonus
+                // dd("ambil bonus");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+                    // $reservationCustomer->update(['ambil_bonus' => 1]);
+                    // if ($reservationCustomer1->jumlahlayanandiskon > 0) {
+                    //     $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
+                    // }
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        $customer->transfer($team, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                        ));
+                    }
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
+                        deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
+                    ));
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        $data = $request->all();
+                        // Extract question-answer pairs
+                        $ratingDetails = collect($data)->filter(function ($value, $key) {
+                            return is_numeric($key); // Only keep numeric keys
+                        });
+                        if ($ratingDetails) {
+                            foreach ($ratingDetails as $ratingId => $star_rating) {
+                                ReservationRatingDetail::create([
+                                    'reservation_rating_id' => $rating->id,
+                                    'reservation_rating_category_id' => $ratingId,
+                                    'star_rating' => $star_rating,
+                                ]);
+                            }
+                        }
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
+                }
+            }
+            //Masih kurang dari layanan gratis
+            if ($reservationCustomer2 + 1 < $reservationCustomer1->jumlahlayanandiskon) {
+                // Layanan Biasa
+                // dd("layanan biasa");
+                DB::beginTransaction();
+                try {
+                    $reservationCustomer->update(['selesai_customer' => 1]);
+                    if ($reservationCustomer1->jumlahlayanandiskon > 0) {
+                        $reservationCustomer->update(['layanan_ke' => $reservationCustomer2 + 1]);
+                    }
+                    if ($tip) {
+                        $userTipFrom = auth()->user()->name;
+                        $customer->transfer($team, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                        ));
+                    }
+                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
+                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
+                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
+                        deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                        withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($team, $tfTeam, new Extra(
+                        deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                        withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
+                        deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
+                        withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    if ($tfBahan > 0) {
+                        $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
+                            deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
+                            withdraw: new Option(meta: ['message' => 'Uang Bahan ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'], confirmed: true)
+                        ));
+                    }
+
+                    if ($reservationCounter->deposit > 0) {
+                        if ($pemilik->hasWallet('deposit')) {
+                            $depositpemilik = $pemilik->getWallet('deposit');
+                        } else {
+                            $depositpemilik = $pemilik->createWallet([
+                                'name' => 'deposit',
+                                'slug' => 'deposit',
+                            ]);
+                        }
+                        $team->transfer($depositpemilik, $tfDeposit, new Extra(
+                            deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                            withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                        ));
+                    }
+                    $atrribute = ([
+                        'reservation_team_id' => $reservationCustomer->reservation_team_id,
+                        'user_id' => $team->id,
+                        'comments' => $request->comments,
+                        'star_rating' => $request->rating,
+                    ]);
+                    if ($request->rating) {
+                        $rating = ReservationRating::create($atrribute);
+                        $data = $request->all();
+                        // Extract question-answer pairs
+                        $ratingDetails = collect($data)->filter(function ($value, $key) {
+                            return is_numeric($key); // Only keep numeric keys
+                        });
+                        if ($ratingDetails) {
+                            foreach ($ratingDetails as $ratingId => $star_rating) {
+                                ReservationRatingDetail::create([
+                                    'reservation_rating_id' => $rating->id,
+                                    'reservation_rating_category_id' => $ratingId,
+                                    'star_rating' => $star_rating,
+                                ]);
+                            }
+                        }
+                    }
+                    DB::commit();
+                    return redirect('myreservations')->with([
+                        'type' => 'success',
+                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('myreservations')->with([
+                        'type' => 'error',
+                        'message' => 'Konfirmasi pelayanan gagal, silakan coba kembali',
+                    ]);
+                }
             }
         }
     }
@@ -1012,8 +1460,8 @@ class ReservationController extends Controller
             deposit: ['message' => 'Pengembalian dana dari ' . $reservation->companyName . ' untuk Layanan ' . $reservation->counterName, 'type' => 'refund_cancel_layanan'],
             withdraw: new Option(meta: ['message' => 'Pengembalian dana dari ' . $reservation->companyName . ' untuk Layanan ' . $reservation->counterName, 'type' => 'refund_cancel_layanan'], confirmed: true)
         ));
-            $reservationCustomer->update(['complaint' => 1, 'complaint_reason' => $validated['complaint_reason']]);
-            
+        $reservationCustomer->update(['complaint' => 1, 'complaint_reason' => $validated['complaint_reason']]);
+
         return redirect(route('reservation.myreservations'))->with([
             'type' => 'success',
             'message' => 'Komplain berhasil dikirim',
@@ -1022,7 +1470,7 @@ class ReservationController extends Controller
     public function nopunishment(Request $request, $id)
     {
 
-        
+
         $validated = $request->validate([
             'complaint_decline_reason' => 'required',
         ]);
@@ -1039,13 +1487,13 @@ class ReservationController extends Controller
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
             ->join('users', 'users.id', 'reservation_customers.user_id')
-            ->select('users.*', 'reservation_companies.name as companyName', 'reservation_counters.name as counterName','reservation_customers.date','reservation_customers.time','reservation_customers.complaint_reason','reservation_customers.complaint_decline_reason')->first();
+            ->select('users.*', 'reservation_companies.name as companyName', 'reservation_counters.name as counterName', 'reservation_customers.date', 'reservation_customers.time', 'reservation_customers.complaint_reason', 'reservation_customers.complaint_decline_reason')->first();
         $user = User::findOrfail($barber->id);
         $customer = User::findOrfail($reservation->id);
 
-        
 
-        $customer->notify(new ReservationDeclineComplaintNotification($reservation,$user));
+
+        $customer->notify(new ReservationDeclineComplaintNotification($reservation, $user));
 
         Cache::forget('notifications_count');
 
@@ -1071,7 +1519,7 @@ class ReservationController extends Controller
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
             ->join('users', 'users.id', 'reservation_customers.user_id')
-            ->select('users.*', 'reservation_companies.name as companyName', 'reservation_counters.name as counterName','reservation_customers.date','reservation_customers.time','reservation_customers.complaint_reason')->first();
+            ->select('users.*', 'reservation_companies.name as companyName', 'reservation_counters.name as counterName', 'reservation_customers.date', 'reservation_customers.time', 'reservation_customers.complaint_reason')->first();
         $user = User::findOrfail($barber->id);
         $customer = User::findOrfail($reservation->id);
         $balance = 5000;
@@ -1082,7 +1530,7 @@ class ReservationController extends Controller
         ));
         $reservationCustomer->update(['punishment' => 1, 'punishment_comment' => $validated['punishment_comment']]);
 
-        $customer->notify(new ReservationAcceptComplaintNotification($reservation,$user));
+        $customer->notify(new ReservationAcceptComplaintNotification($reservation, $user));
 
         Cache::forget('notifications_count');
         return redirect(route('reservation.mycompanycomplaintcustomers'))->with([

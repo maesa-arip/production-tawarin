@@ -30,10 +30,13 @@ use App\Http\Controllers\Plan\PlanRevisionController;
 use App\Http\Controllers\PlanRevisionResultController;
 use App\Http\Controllers\Portofolio\PortofolioController;
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Reservation\ReservationCarCategoryController;
 use App\Http\Controllers\Reservation\ReservationController;
 use App\Http\Controllers\Reservation\ReservationCounterController;
 use App\Http\Controllers\Reservation\ReservationDayOffBreakController;
 use App\Http\Controllers\Reservation\ReservationEmployeeController;
+use App\Http\Controllers\Reservation\ReservationRatingCategoryController;
+use App\Http\Controllers\ReservationCarQuestionController;
 use App\Http\Controllers\ReservationRatingController;
 use App\Http\Controllers\Toko\CartController;
 use App\Http\Controllers\Toko\HistoryController;
@@ -100,6 +103,8 @@ Route::get('/reservationlist', [ReservationController::class, 'list'])->name('re
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/reservation/employee/rating/{user_id}', [ReservationRatingController::class, 'getallemployeerating'])->name('reservationrating.employeerating');
     Route::Resource('contacts', ContactController::class);
+    Route::get('reservationemployees/index_team', [ReservationEmployeeController::class,'index_team'])->name('reservation.teamheader');
+    Route::post('reservationemployees/index_team', [ReservationEmployeeController::class,'store_team'])->name('reservation.store_teamheader');
     Route::Resource('reservationemployees', ReservationEmployeeController::class);
     Route::Resource('reservationemployeedayoff', ReservationDayOffBreakController::class);
     Route::post('reservationemployeebreak', [ReservationDayOffBreakController::class, 'store_break'])->name('reservationemployeebreak.store_break');
@@ -211,11 +216,15 @@ Route::get('public/reservationCounters/{reservationCounter}', [ReservationCounte
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::post('public/reservationCounters', [ReservationController::class, 'store'])->name('reservationCounters.storecustomer');
+    Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}/car', [ReservationCounterController::class, 'show_car'])->name('reservationCounters.show_car');
     Route::post('public/reservationCounters/{reservationCompany}/{reservationCounter}/{id}/change', [ReservationController::class, 'storechange'])->name('reservationCounters.storechangecustomer');
     Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class, 'show'])->name('reservationCounters.show');
     Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}/{id}/change', [ReservationCounterController::class, 'change'])->name('reservationCounters.change');
     
     Route::resource('userBanks', UserBankController::class);
+    Route::resource('reservationQuestions', ReservationCarQuestionController::class);
+    Route::resource('reservationRatingCategories', ReservationRatingCategoryController::class);
+    Route::resource('reservationCarCategories', ReservationCarCategoryController::class);
 });
 
 

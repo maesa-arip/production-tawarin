@@ -29,6 +29,7 @@ export default function Show({
     reservationCounter,
     team,
     offDay,
+    question,
     workBreak,
     endDate,
 }) {
@@ -58,7 +59,7 @@ export default function Show({
     const [isOpenTimeDialog, setIsOpenTimeDialog] = useState(false);
     const [state, setState] = useState([]);
     const openTimeDialog = (reservationCompany, date) => {
-        setState({ reservationCompany, date, reservationCounter,team,offDay,workBreak });
+        setState({ reservationCompany, date, reservationCounter,team,offDay,workBreak,question });
         setIsOpenTimeDialog(true);
     };
 
@@ -72,7 +73,7 @@ export default function Show({
                 reservationCompany,
                 date.toLocaleDateString('en-GB'),
                 reservationCounter,
-                team,offDay,workBreak
+                team,offDay,workBreak,question
             );
         }
     };

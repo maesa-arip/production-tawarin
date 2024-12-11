@@ -4,6 +4,8 @@ import { Head, Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
+import AddModal from "@/Components/Modal/AddModal";
+import EditModal from "@/Components/Modal/EditModal";
 import DestroyModal from "@/Components/Modal/DestroyModal";
 import Button from "@/Components/Button";
 import { numberFormat } from "@/Libs/helper";
@@ -16,6 +18,8 @@ import ThirdButton from "@/Components/ThirdButton";
 import Pagination from "@/Components/Pagination";
 import Table from "@/Components/Table";
 import ThirdButtonSmall from "@/Components/ThirdButtonSmall";
+import Create from "./Form/Create";
+import Edit from "./Form/Edit";
 
 const UpIcon = () => (
     <svg
@@ -53,6 +57,10 @@ export default function Index(props) {
         filtered,
         attributes,
     } = props.reservationCounters;
+    const cars = props.cars;
+    const reservationCarCategories = props.reservationCarCategories;
+    // console.log(cars)
+    // console.log(reservationCounters)
     const reservationCounterRejectCount = props.reservationCounterRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -119,11 +127,47 @@ export default function Index(props) {
 
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
     const [state, setState] = useState([]);
+
+    const openAddDialog = () => {
+        setIsOpenAddDialog(true);
+    };
+    const openEditDialog = (person) => {
+        setState(person);
+        setIsOpenEditDialog(true);
+    };
+    const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
+    const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     return (
         <>
             <Head title="Reservation Counter" />
             <Header title="Layanan" description="List Layanan Saya." />
             <Container>
+                <AddModal
+                    isOpenAddDialog={isOpenAddDialog}
+                    setIsOpenAddDialog={setIsOpenAddDialog}
+                    size="max-w-4xl"
+                    title="Atur Kendaraan"
+                >
+                    <Create
+                        cars={cars}
+                        isOpenAddDialog={isOpenAddDialog}
+                        setIsOpenAddDialog={setIsOpenAddDialog}
+                    />
+                </AddModal>
+                <EditModal
+                    isOpenEditDialog={isOpenEditDialog}
+                    setIsOpenEditDialog={setIsOpenEditDialog}
+                    size="max-w-4xl"
+                    title={"Edit User"}
+                >
+                    <Edit
+                        cars={cars}
+                        model={state}
+                        isOpenEditDialog={isOpenEditDialog}
+                        setIsOpenEditDialog={setIsOpenEditDialog}
+                    />
+                </EditModal>
+
                 <DestroyModal
                     isOpenDestroyDialog={isOpenDestroyDialog}
                     setIsOpenDestroyDialog={setIsOpenDestroyDialog}
@@ -134,6 +178,63 @@ export default function Index(props) {
                         Non Aktifkan
                     </Button>
                 </DestroyModal>
+                <ul
+                    role="list"
+                    className="border divide-y divide-gray-100 rounded-lg"
+                >
+                    <div className="p-4 sm:px-0">
+                        <h3 className="font-semibold text-gray-900 text-base/7">
+                            Kategori
+                        </h3>
+                        <p className="max-w-2xl mt-1 text-gray-500 text-sm/6">
+                            Kategori Wasco.
+                        </p>
+                    </div>
+                    {reservationCarCategories.map((item) => (
+                        <li
+                            key={item.email}
+                            className="flex justify-between py-5 gap-x-6"
+                        >
+                            <div className="flex min-w-0 gap-x-4">
+                                <img
+                                    alt=""
+                                    src={item.imageUrl}
+                                    className="flex-none rounded-full size-12 bg-gray-50"
+                                />
+                                <div className="flex-auto min-w-0">
+                                    <p className="font-semibold text-gray-900 text-sm/6">
+                                        {item.name}
+                                    </p>
+                                    <p className="mt-1 text-gray-500 truncate text-xs/5">
+                                        {item.email}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                                <p className="text-gray-900 text-sm/6">
+                                    Atur Kendaraan
+                                </p>
+                                {item.lastSeen ? (
+                                    <p className="mt-1 text-gray-500 text-xs/5">
+                                        Last seen{" "}
+                                        <time dateTime={item.lastSeenDateTime}>
+                                            {item.lastSeen}
+                                        </time>
+                                    </p>
+                                ) : (
+                                    <div className="mt-1 flex items-center gap-x-1.5">
+                                        <div className="flex-none p-1 rounded-full bg-emerald-500/20">
+                                            <div className="size-1.5 rounded-full bg-emerald-500" />
+                                        </div>
+                                        <p className="text-gray-500 text-xs/5">
+                                        Atur Kendaraan
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        </li>
+                    ))}
+                </ul>
                 <div className="hidden lg:block">
                     {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
                     <div className="flex items-center justify-end">
@@ -336,7 +437,7 @@ export default function Index(props) {
                                                             )}
                                                     </div>
                                                 </th>
-                                                
+
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
@@ -427,29 +528,29 @@ export default function Index(props) {
                                                             }
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex mt-1 rounded-md shadow-sm">
-                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
-                                                                Rp
-                                                            </span>
-                                                            <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                                {numberFormat(
-                                                                    reservationCounter.price
-                                                                )}
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
+                                                                    Rp
+                                                                </span>
+                                                                <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {numberFormat(
+                                                                        reservationCounter.price
+                                                                    )}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex mt-1 rounded-md shadow-sm">
-                                                            <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
-                                                                Rp
-                                                            </span>
-                                                            <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
-                                                                {numberFormat(
-                                                                    reservationCounter.price_user
-                                                                )}
+                                                            <div className="flex mt-1 rounded-md shadow-sm">
+                                                                <span className="inline-flex items-center px-3 text-base text-gray-500 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
+                                                                    Rp
+                                                                </span>
+                                                                <div className="flex-1 block w-full px-2 py-1 text-base border border-l-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500">
+                                                                    {numberFormat(
+                                                                        reservationCounter.price_user
+                                                                    )}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <div className="flex mt-1 rounded-md shadow-sm">
                                                                 <div className="flex-1 block w-full px-4 py-1 text-base border border-r-0 border-gray-300 rounded-none rounded-l-md focus:border-indigo-500 focus:ring-indigo-500">
@@ -498,7 +599,6 @@ export default function Index(props) {
                                                                 </span>
                                                             </div>
                                                         </td>
-
 
                                                         {/* <td className="px-6 py-4 whitespace-nowrap">
                                                         {reservationCounter.created_at}
@@ -582,27 +682,49 @@ export default function Index(props) {
                             </div>
                         </div>
                     </div>
-                   
+
                     <Pagination meta={meta} />
-                    
                 </div>
                 <div className="lg:hidden">
                     <div className="flex items-center justify-between">
-                        <div className="w-1/2">
+                        <div className="w-3/4">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
-                                <ThirdButton
+                            <ThirdButton
                                     type="button"
                                     href={"reservationCounters/create"}
                                 >
                                     Tambah
                                     {/* <IconCirclePlus className="flex w-3 h-3" /> */}
                                 </ThirdButton>
+                                <ThirdButton
+                                    type="button"
+                                    href={route("reservationCarCategories.index")}
+                                >
+                                    Kategori
+                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
+                                </ThirdButton>
+                                
+                                <ThirdButton
+                                    type="button"
+                                    href={route("reservationQuestions.index")}
+                                >
+                                    Question
+                                    
+                                </ThirdButton>
+                                <ThirdButton
+                                    type="button"
+                                    href={route("reservationRatingCategories.index")}
+                                >
+                                    Rating
+                                    
+                                </ThirdButton>
+
                                 {/* <ThirdButton type="button" color="red" href={"#"}>Ditolak({reservationCounterRejectCount})</ThirdButton> */}
                             </div>
                         </div>
-                        <div className="w-1/2">
+                        <div className="w-1/4">
                             <div className="flex items-center justify-between mt-2 mb-0 gap-x-1">
-                                <select
+                                {/* <select
                                     name="load"
                                     id="load"
                                     onChange={onChange}
@@ -612,7 +734,7 @@ export default function Index(props) {
                                     {pageNumber.map((page, index) => (
                                         <option key={index}>{page}</option>
                                     ))}
-                                </select>
+                                </select> */}
                                 <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
                                     <svg
                                         className="inline w-5 h-5 text-gray-500"
@@ -658,9 +780,11 @@ export default function Index(props) {
                                                         }
                                                     </p> */}
                                                     <p className="p-1 text-sm font-semibold rounded-full">
-                                                        {reservationCounter.name}
+                                                        {
+                                                            reservationCounter.category.name
+                                                        }
                                                     </p>
-                                                    
+
                                                     {/* <p className="p-1 ml-4 text-sm font-semibold text-white bg-yellow-700 rounded-full">
                                                         {"Kode : " + reservationCounter.code}
                                                     </p> */}
@@ -708,8 +832,32 @@ export default function Index(props) {
                                                                                 `${reservationCounter.slug}`
                                                                             )}
                                                                         >
-                                                                            EditLayanan
+                                                                            Edit
+                                                                            Layanan
                                                                         </DropdownMobile.Link>
+                                                                        {reservationCounter
+                                                                            .company
+                                                                            .reservation_category_id ==
+                                                                        2 ? (
+                                                                            <>
+                                                                                <button
+                                                                                    className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
+                                                                                    onClick={() =>
+                                                                                        openEditDialog(
+                                                                                            reservationCounter
+                                                                                        )
+                                                                                    }
+                                                                                >
+                                                                                    Atur
+                                                                                    Kendaraan
+                                                                                </button>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+
+                                                                            </>
+                                                                        )}
+
                                                                         <button
                                                                             className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                             onClick={() =>
@@ -725,14 +873,13 @@ export default function Index(props) {
                                                                 )}
 
                                                                 <DropdownMobile.Link
-                                                                href={route(
-                                                                    "reservationCounters.settingteam",
-                                                                    `${reservationCounter.slug}`
-                                                                )}
+                                                                    href={route(
+                                                                        "reservationCounters.settingteam",
+                                                                        `${reservationCounter.slug}`
+                                                                    )}
                                                                 >
                                                                     Atur Tim
                                                                 </DropdownMobile.Link>
-                                                                
                                                             </DropdownMobile.Content>
                                                         </DropdownMobile>
                                                     </span>
@@ -766,11 +913,14 @@ export default function Index(props) {
                                                     <p className="text-xs font-medium text-gray-500">
                                                         Jam Buka{" "}
                                                         {
-                                                            reservationCounter.company.open_at
+                                                            reservationCounter
+                                                                .company.open_at
                                                         }
                                                         {" - "}
                                                         {
-                                                            reservationCounter.company.close_at
+                                                            reservationCounter
+                                                                .company
+                                                                .close_at
                                                         }
                                                     </p>
                                                 </div>
@@ -802,10 +952,15 @@ export default function Index(props) {
                                                             <>
                                                                 {reservationCounter.is_active ==
                                                                 1 ? (
-                                                                    <ThirdButtonSmall href={route(
-                                                                        "reservationCounters.settingteam",
-                                                                        `${reservationCounter.slug}`
-                                                                    )}>Atur Tim</ThirdButtonSmall>
+                                                                    <ThirdButtonSmall
+                                                                        href={route(
+                                                                            "reservationCounters.settingteam",
+                                                                            `${reservationCounter.slug}`
+                                                                        )}
+                                                                    >
+                                                                        Atur Tim
+                                                                    </ThirdButtonSmall>
+                                                                ) : (
                                                                     // <Link
                                                                     // href={route(
                                                                     //     "reservationCounters.settingteam",
@@ -815,7 +970,6 @@ export default function Index(props) {
                                                                     // >
                                                                     //     Atur Tim
                                                                     // </Link>
-                                                                ) : (
                                                                     <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
                                                                         Edit
                                                                     </Link>

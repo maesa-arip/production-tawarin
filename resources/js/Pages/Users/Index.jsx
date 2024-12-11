@@ -51,7 +51,7 @@ export default function Index(props) {
     const roles = props.roles;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
-
+    // console.log(roles)
     const [isInitialRender, setIsInitialRender] = useState(true);
     const reload = useCallback(
         debounce((query) => {

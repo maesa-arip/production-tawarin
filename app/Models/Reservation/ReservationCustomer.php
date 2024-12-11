@@ -29,4 +29,13 @@ class ReservationCustomer extends Model implements Wallet, Confirmable
     {
         return $this->belongsTo(User::class);
     }
+    /**
+     * Get all of the comments for the ReservationCustomer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function answers()
+    {
+        return $this->hasMany(ReservationCarAnswer::class);
+    }
 }

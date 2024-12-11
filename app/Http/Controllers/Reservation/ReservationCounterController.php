@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\ReservationCounterRequest;
 use App\Http\Resources\Reservation\ReservationCounterResource;
 use App\Models\Auth\JoinAs;
+use App\Models\Reservation\Car;
+use App\Models\Reservation\ReservationCarCategory;
+use App\Models\Reservation\ReservationCarQuestion;
 use App\Models\Reservation\ReservationCompany;
 use App\Models\Reservation\ReservationCounter;
 use App\Models\Reservation\ReservationCustomer;
@@ -20,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class ReservationCounterController extends Controller
 {
@@ -29,7 +33,9 @@ class ReservationCounterController extends Controller
         $reservationCounters = ReservationCounter::query()
             ->with('team')
             ->with('media')
+            ->with('cars')
             ->with('company')
+            ->with('category')
             ->where('is_active',1)
             ->where('user_id', auth()->user()->id);
         if ($request->q) {
@@ -52,13 +58,17 @@ class ReservationCounterController extends Controller
                 'direction' => $request->direction ?? '',
             ]
         ]);
-        return inertia('Reservation/Counter/Basic/Index', ['reservationCounters' => $reservationCounters]);
+        $cars = Car::get();
+        $reservationCarCategories = ReservationCarCategory::where('reservation_company_id',auth()->user()->company->id)->get();
+        return inertia('Reservation/Counter/Basic/Index', ['reservationCounters' => $reservationCounters,'cars'=>$cars,'reservationCarCategories'=>$reservationCarCategories]);
     }
     public function create()
     {
         $joinas = JoinAs::get();
+        $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
+        $reservationCarCategories = ReservationCarCategory::where('reservation_company_id',auth()->user()->company->id)->get();
         $onOff = ReservationOnOff::select('id', 'value', 'name')->get();
-        return inertia('Reservation/Counter/Basic/Create', ['onOff' => $onOff]);
+        return inertia('Reservation/Counter/Basic/Create', ['onOff' => $onOff,'reservationCarCategories'=>$reservationCarCategories,'company'=>$company]);
     }
 
     public function store(ReservationCounterRequest $request)
@@ -157,6 +167,35 @@ class ReservationCounterController extends Controller
         return inertia('Reservation/Counter/Basic/Show', ['reservationCompany' => $reservationCompany, 'team' => $team, 'offDay' => $offDay,'workBreak' => $workBreak,'reservationCounter' => $reservationCounter, 'endDate' => $endDate->toDateString()]);
     }
 
+    public function show_car(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter, Car $car)
+    {
+        // dd("test");
+            $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
+            ->withCount('customers')
+            ->with('teamdetail')
+            ->join('reservation_team_details', 'reservation_team_details.reservation_team_id', '=', 'reservation_teams.id')
+            ->leftJoin('media', function ($join) {
+                $join->on('media.model_id', '=', 'reservation_team_details.user_id')
+                    ->where('media.model_type', '=', 'App\Models\User');
+            })
+            ->leftJoin('reservation_ratings', 'reservation_ratings.user_id', '=', 'reservation_team_details.user_id')
+            ->select('reservation_teams.*', 'media.file_name', 'media.id as media_id')
+            ->selectRaw('COUNT(reservation_ratings.id) as ratings_count')
+            ->selectRaw('AVG(reservation_ratings.star_rating) as ratings_avg_star_rating')
+            
+            ->groupBy('reservation_teams.id', 'media.file_name', 'media.id')
+            ->orderBy('ratings_avg_star_rating', 'DESC')
+            // ->distinct()
+            ->get();
+            // dd($team);
+        $offDay = ReservationEmployeeDayOff::where('reservation_company_id',$reservationCompany->id)->where('approved',1)->where('batal',0)->get();
+        $workBreak = ReservationEmployeeBreak::where('reservation_company_id',$reservationCompany->id)->get();
+        $currentDate = Carbon::now(); // Get the current date and time
+        $endDate = $currentDate->copy()->addDays($reservationCounter->period);
+        $question = ReservationCarQuestion::where('reservation_company_id',$reservationCompany->id)->get();
+        return inertia('Reservation/Counter/Basic/Show', ['reservationCompany' => $reservationCompany, 'team' => $team, 'offDay' => $offDay,'workBreak' => $workBreak,'reservationCounter' => $reservationCounter, 'question'=>$question, 'endDate' => $endDate->toDateString()]);
+    }
+
     public function change(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter, $id)
     {
         $team = ReservationTeam::where('reservation_counter_id', $reservationCounter->id)
@@ -183,10 +222,12 @@ class ReservationCounterController extends Controller
     public function edit(ReservationCounter $reservationCounter)
     {
         $media = $reservationCounter->getMedia('reservationcounter');
+        $reservationCarCategories = ReservationCarCategory::where('reservation_company_id',auth()->user()->company->id)->get();
         // dd($reservationCounter);
         return inertia('Reservation/Counter/Basic/Edit', [
             'reservationCounter' => $reservationCounter,
             'media' => $media,
+            'reservationCarCategories' => $reservationCarCategories,
         ]);
     }
 
@@ -207,6 +248,7 @@ class ReservationCounterController extends Controller
             'deposit' => $request->deposit,
             'service_duration' => $request->service_duration,
             'period' => $request->period,
+            'reservation_car_category_id' => $request->reservation_car_category_id,
         ]);
 
         $reservationCounter->update($atrributes);
@@ -280,34 +322,31 @@ class ReservationCounterController extends Controller
     }
     public function settingteam(ReservationCounter $reservationCounter, ReservationTeam $reservationTeam)
     {
+        if (auth()->user()->company->reservationcategory->name == 'Cuci Mobil') {
+            $employees = ReservationEmployee::with('user')->leftJoin('media', function ($join) {
+                $join->on('media.model_id', '=', 'reservation_employees.user_id')
+                    ->where('media.model_type', '=', 'App\Models\User');
+            })
+            ->addSelect('reservation_employees.id','media.file_name', 'media.id as media_id','reservation_employees.user_id')->where('reservation_company_id',$reservationCounter->reservation_company_id)->get();
+            $reservationCounter = ReservationCounter::with('team.joincounter')
+                ->where('reservation_counters.id', $reservationCounter->id)
+                ->first();
+            return inertia('Reservation/Counter/Basic/SettingTeamCar', ['reservationTeam' => $reservationTeam, 'reservationCounter' => $reservationCounter,'employees' => $employees]);
+        }
+
+        if (auth()->user()->company->reservationcategory->name == 'Barber Shop') {
+            $employees = ReservationEmployee::with('user')->leftJoin('media', function ($join) {
+                $join->on('media.model_id', '=', 'reservation_employees.user_id')
+                    ->where('media.model_type', '=', 'App\Models\User');
+            })
+            ->addSelect('reservation_employees.id','media.file_name', 'media.id as media_id','reservation_employees.user_id')->where('reservation_company_id',$reservationCounter->reservation_company_id)->get();
+            $reservationCounter = ReservationCounter::with('team.joincounter')
+                ->where('reservation_counters.id', $reservationCounter->id)
+                ->first();
+            return inertia('Reservation/Counter/Basic/SettingTeam', ['reservationTeam' => $reservationTeam, 'reservationCounter' => $reservationCounter,'employees' => $employees]);
+        }
         
-        $employees = ReservationEmployee::with('user')->leftJoin('media', function ($join) {
-            $join->on('media.model_id', '=', 'reservation_employees.user_id')
-                ->where('media.model_type', '=', 'App\Models\User');
-        })
-        ->addSelect('reservation_employees.id','media.file_name', 'media.id as media_id','reservation_employees.user_id')->where('reservation_company_id',$reservationCounter->reservation_company_id)->get();
-        // // dd($employees);
-        // $employees = ReservationEmployee::join('reservation_companies', 'reservation_companies.id','reservation_employees.reservation_company_id')
-        // ->join('reservation_team_details', 'reservation_team_details.user_id','users.id')
-        // ->join('reservation_team_details', 'reservation_team_details.user_id','users.id')
-        // ->join('reservation_teams', 'reservation_teams.id','reservation_team_details.reservation_team_id')
-        // ->join('users','users.id','reservation_employees.user_id')
-        // // ->leftjoin('reservation_join_counters','reservation_join_counters.reservation_team_id','reservation_teams.id')
-        // // ->select('users.name')
-        // // ->where('reservation_counters.slug',$reservationCounter->slug)
-        // ->where('reservation_company_id',$reservationCounter->reservation_company_id)
-        // // ->where('reservation_companies.user_id',auth()->user()->id)
-        // ->get();
-        // dd();
-        $reservationCounter = ReservationCounter::with('team.joincounter')
-            ->where('reservation_counters.id', $reservationCounter->id)
-            ->first();
-        
-        // $team = ReservationCounter::leftjoin('reservation_teams','reservation_teams.reservation_counter_id','reservation_counters.id')
-        // ->where('reservation_counters.id',$reservationCounter->id)
-        // ->select('reservation_counters.*','reservation_teams.name as teamName','reservation_teams.slug as teamSlug')
-        // ->first();
-        // ReservationTeam::where('reservation_counter_id', $reservationCounter->id)->get();
-        return inertia('Reservation/Counter/Basic/SettingTeam', ['reservationTeam' => $reservationTeam, 'reservationCounter' => $reservationCounter,'employees' => $employees]);
     }
+
+    
 }

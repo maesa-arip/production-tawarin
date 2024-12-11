@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Reservation;
 
+use App\Http\Resources\ArrayResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ReservationCounterResource extends JsonResource
@@ -15,6 +16,7 @@ class ReservationCounterResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'cars' => ArrayResource::collection($this->whenLoaded('cars')),
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
@@ -29,10 +31,13 @@ class ReservationCounterResource extends JsonResource
             'company' => [
                 'open_at' => $this->company->open_at,
                 'close_at' => $this->company->close_at,
+                'reservation_category_id' => $this->company->reservation_category_id,
+            ],
+            'category' => [
+                'name' => $this->category?->name,
             ],
             'created_at' => $this->created_at->diffForHumans(),
             'media'  => $this->getFirstMediaUrl('reservationcounter'),
-            // 'media' => PlanResource::collection($this->whenLoaded('media')),
         ];
     }
 }

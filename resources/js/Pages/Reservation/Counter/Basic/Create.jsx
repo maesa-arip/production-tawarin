@@ -21,7 +21,7 @@ import Tooltip from "@/Components/Tooltip";
 import BaseModal from "@/Components/Modal/BaseModal";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
-export default function Create({ onOff }) {
+export default function Create({ onOff,reservationCarCategories,company }) {
     const set_dayoff = [
         { id: 1, name: "OFF" },
         { id: 2, name: "ON" },
@@ -31,7 +31,7 @@ export default function Create({ onOff }) {
         { id: 2, value:1, name: "PerOrangan" },
     ];
 
-
+    
     const [priceUser, setPriceUser] = useState(0);
     const [bhp, setBhp] = useState(0);
     const [jasa, setJasa] = useState(0);
@@ -148,7 +148,7 @@ export default function Create({ onOff }) {
         style: "currency",
         currency: "IDR",
     }).format(Math.ceil((data.price_user * (100 + 5)) / 100));
-    console.log(data)
+    // console.log(data)
     const openDiskonDialog = () => {
         setIsOpenDiskonDialog(true);
     };
@@ -163,10 +163,16 @@ export default function Create({ onOff }) {
     useEffect(() => {
         openDiskonDialog();
     }, [])
+    const onChangeReservationCarCategoryId = (e) => {
+        setData({ ...data, ["reservation_car_category_id"]: e.id });
+    };
+    const defaultValue = [{ name: "Pilih" }];
+    const [selected, setSelected] = useState(defaultValue[0]);
+    // console.log(data)
     return (
         <div>
             <Head title="Plan Create" />
-            <BaseModal
+            {/* <BaseModal
                 isOpenInfoDialog={isOpenKomisiDialog}
                 setIsOpenInfoDialog={setIsOpenKomisiDialog}
                 size="max-w-2xl"
@@ -176,8 +182,8 @@ export default function Create({ onOff }) {
                 <p>Apakah anda akan memberikan komisi kepada pegawai untuk layanan ini ?</p>
                 <ThirdButtonNoLink type="button" color="secondary" onClick={noKomisiDialog}>Tidak</ThirdButtonNoLink>
                 <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesKomisiDialog}>Iya</ThirdButtonNoLink>
-            </BaseModal>
-            <BaseModal
+            </BaseModal> */}
+            {/* <BaseModal
                 isOpenInfoDialog={isOpenDiskonDialog}
                 setIsOpenInfoDialog={setIsOpenDiskonDialog}
                 size="max-w-2xl"
@@ -188,7 +194,7 @@ export default function Create({ onOff }) {
                 
                 <ThirdButtonNoLink type="button" color="secondary" onClick={noDiskonDialog}>Tidak</ThirdButtonNoLink>
                 <ThirdButtonNoLink className="mx-2 mt-2" type="button" onClick={yesDiskonDialog}>Iya</ThirdButtonNoLink>
-            </BaseModal>
+            </BaseModal> */}
             <Container>
                 <form onSubmit={onSubmitHandler}>
                     <div className="mt-10 sm:mt-0">
@@ -209,6 +215,27 @@ export default function Create({ onOff }) {
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 bg-white sm:p-6">
                                         <div className="grid grid-cols-12 gap-6">
+                                        <div className="col-span-12 md:col-span-6">
+                                    <label
+                                        htmlFor="reservation_category_id"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Pilih Kategori
+                                    </label>
+                                    <ListBoxPage
+                                        ShouldMap={reservationCarCategories}
+                                        selected={selected}
+                                        onChange={(e) => {
+                                            onChangeReservationCarCategoryId(e);
+                                            setSelected(e);
+                                        }}
+                                    />
+                                    {errors && (
+                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                            {errors.reservation_category_id}
+                                        </span>
+                                    )}
+                                </div>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="name"

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Auth\JoinAs;
 use App\Models\Plan\Plan;
+use App\Models\Reservation\ReservationCompany;
 use App\Models\Reservation\ReservationCustomer;
 use App\Models\Reservation\ReservationEmployee;
 use App\Models\Reservation\ReservationEmployeeBreak;
@@ -116,5 +117,23 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
     public function customers()
     {
         return $this->hasMany(ReservationCustomer::class);
+    }
+    /**
+     * Get the user associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function company()
+    {
+        return $this->hasOne(ReservationCompany::class);
+    }
+    /**
+     * Get all of the comments for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teamdetails()
+    {
+        return $this->hasMany(ReservationTeamDetail::class);
     }
 }

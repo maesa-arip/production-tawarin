@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class ReservationCounter extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-    protected $fillable = ['reservation_company_id','user_id','name','slug','code','description','jumlahlayanandiskon','open_at','close_at','service_duration','price','price_user','bhp','jasa','percent_owner','percent_employe','deposit','set_dayoff','period','need_image_reservation','need_image_before_after','is_active'];
+    protected $fillable = ['reservation_company_id','user_id','name','slug','code','description','jumlahlayanandiskon','open_at','close_at','service_duration','reservation_car_category_id','price','price_user','bhp','jasa','percent_owner','percent_employe','deposit','set_dayoff','period','need_image_reservation','need_image_before_after','is_active'];
     public function resolveRouteBinding($value, $field = null)
     {
         // Assuming 'slug' is the field you want to use for binding
@@ -19,6 +19,10 @@ class ReservationCounter extends Model implements HasMedia
     public function team()
     {
         return $this->hasMany(ReservationTeam::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(ReservationCarCategory::class,'reservation_car_category_id');
     }
     /**
      * Get the user that owns the ReservationCounter
@@ -29,4 +33,13 @@ class ReservationCounter extends Model implements HasMedia
     {
         return $this->belongsTo(ReservationCompany::class, 'reservation_company_id');
     }
+
+    // public function cars()
+    // {
+    //     return $this->hasMany(ReservationCounterCar::class,'reservation_counter_id');
+    // }
+    public function cars()
+{
+    return $this->belongsToMany(Car::class, 'reservation_counter_cars', 'reservation_counter_id', 'car_id');
+}
 }

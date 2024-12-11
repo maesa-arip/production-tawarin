@@ -4,13 +4,14 @@ import ThirdButton from "@/Components/ThirdButton";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { useForm, usePage } from "@inertiajs/inertia-react";
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
+import TextAreaInput from "@/Components/TextAreaInput";
 
-export default function Team({ setIsOpenDialog, model,resultteam }) {
+export default function Team({ setIsOpenDialog, model, resultteam }) {
     const { auth, flash_simple } = usePage().props;
     const [state, setState] = useState({});
     const model2 = model.model;
-    // console.log(model2);
+    // console.log(model);
     // console.log(model.timeRange.timeRange);
     const { data, setData, get, post, processing, reset, errors } = useForm({});
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
@@ -48,7 +49,7 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
     const openRatingDialog = (resultteam) => {
         setIsOpenRatingDialog(true);
         fetchReviews(resultteam, currentPage);
-        setUserID(resultteam.teamdetail[0].user_id)
+        setUserID(resultteam.teamdetail[0].user_id);
         // console.log(userID)
     };
 
@@ -59,21 +60,22 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
     }, [userID, isOpenRatingDialog, currentPage]);
 
     const fetchReviews = (resultteam, page) => {
-        axios.get(route("reservationrating.employeerating", userID), {
-            params: { page }
-        })
-        .then(response => {
-            setEmployeeRating(response.data.data);
-            setTotalPages(response.data.last_page);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    };  
-    
-    const closeRatingDialog = () =>{
+        axios
+            .get(route("reservationrating.employeerating", userID), {
+                params: { page },
+            })
+            .then((response) => {
+                setEmployeeRating(response.data.data);
+                setTotalPages(response.data.last_page);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const closeRatingDialog = () => {
         setIsOpenRatingDialog(false);
-    }
+    };
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
         fetchReviews(resultteam, newPage);
@@ -138,7 +140,8 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
     };
     const userDateMatches = (userId, date) => {
         const match = model2.offDay.some(
-            (offDay) => offDay.user_id === userId && dateMatches(offDay.date, date)
+            (offDay) =>
+                offDay.user_id === userId && dateMatches(offDay.date, date)
         );
         // console.log(`User Date Match Check: userId=${userId}, date=${date} -> ${match}`);
         return match;
@@ -147,8 +150,12 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
         return userDateMatches(userId, date);
     };
     const timeRangeMatches = (timeRange1, timeRange2) => {
-        const [start1, end1] = timeRange1.split(" - ").map(t => new Date(`2000-01-01T${t}`));
-        const [start2, end2] = timeRange2.split(" - ").map(t => new Date(`2000-01-01T${t}`));
+        const [start1, end1] = timeRange1
+            .split(" - ")
+            .map((t) => new Date(`2000-01-01T${t}`));
+        const [start2, end2] = timeRange2
+            .split(" - ")
+            .map((t) => new Date(`2000-01-01T${t}`));
         const match = start1 < end2 && end1 > start2;
         // console.log(`Time Range Match Check: ${timeRange1} vs ${timeRange2} -> ${match}`);
         return match;
@@ -156,7 +163,12 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
 
     const userWorkBreakMatches = (userId, timeRange) => {
         const match = model2.workBreak.some(
-            (workBreak) => workBreak.user_id === userId && timeRangeMatches(workBreak.start + " - " + workBreak.end, timeRange)
+            (workBreak) =>
+                workBreak.user_id === userId &&
+                timeRangeMatches(
+                    workBreak.start + " - " + workBreak.end,
+                    timeRange
+                )
         );
         // console.log(`User Work Break Match Check: userId=${userId}, timeRange=${timeRange} -> ${match}`);
         return match;
@@ -171,99 +183,110 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
         dateMatches(data.user_id, model2.user_id)
     );
 
+    const onChange = (e) => {
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+
+
     return (
         <>
-        <InfoModal
-    isOpenInfoDialog={isOpenRatingDialog}
-    setIsOpenInfoDialog={setIsOpenRatingDialog}
-    size="2xl"
-    closeButton="false"
-    title={"Review"}
->
-    {employeeRating.length > 0 ? (
-        <div>
-            {employeeRating.map((rating,index) => (
-                <div key={index} className="relative w-full mx-auto">
-                <div className="flex flex-col my-4 bg-white border rounded-lg">
-                    <div className="flex flex-col items-center justify-center flex-auto p-2">
-                        <div className="grid w-full grid-cols-12 gap-2">
-                            <div className="col-span-12 mx-2">
-                                <p className="flex items-start text-left">
-                                    {rating.comments}
-                                </p>
-                            </div>
-                            <div className="col-span-9 mx-2">
-                                <div className="flex items-start cursor-pointer" >
-                                    {[1, 2, 3, 4, 5].map((index) => (
-                                        <div
-                                            key={index}
-                                            className={`w-5 h-5 relative`}
-                                        >
-                                            {index <=
-                                            rating.star_rating ? (
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="w-5 h-auto text-yellow-500 fill-current"
-                                                    viewBox="0 0 16 16"
-                                                >
-                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                                </svg>
-                                            ) : index - 0.95 <
-                                            rating.star_rating ? (
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="w-5 h-auto text-yellow-500 fill-current"
-                                                    viewBox="0 0 16 16"
-                                                >
-                                                    <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
-                                                </svg>
-                                            ) : (
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="w-5 h-auto text-yellow-500 fill-current"
-                                                    viewBox="0 0 16 16"
-                                                >
-                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                </svg>
-                                            )}
+            <InfoModal
+                isOpenInfoDialog={isOpenRatingDialog}
+                setIsOpenInfoDialog={setIsOpenRatingDialog}
+                size="2xl"
+                closeButton="false"
+                title={"Review"}
+            >
+                {employeeRating.length > 0 ? (
+                    <div>
+                        {employeeRating.map((rating, index) => (
+                            <div
+                                key={index}
+                                className="relative w-full mx-auto"
+                            >
+                                <div className="flex flex-col my-4 bg-white border rounded-lg">
+                                    <div className="flex flex-col items-center justify-center flex-auto p-2">
+                                        <div className="grid w-full grid-cols-12 gap-2">
+                                            <div className="col-span-12 mx-2">
+                                                <p className="flex items-start text-left">
+                                                    {rating.comments}
+                                                </p>
+                                            </div>
+                                            <div className="col-span-9 mx-2">
+                                                <div className="flex items-start cursor-pointer">
+                                                    {[1, 2, 3, 4, 5].map(
+                                                        (index) => (
+                                                            <div
+                                                                key={index}
+                                                                className={`w-5 h-5 relative`}
+                                                            >
+                                                                {index <=
+                                                                rating.star_rating ? (
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-5 h-auto text-yellow-500 fill-current"
+                                                                        viewBox="0 0 16 16"
+                                                                    >
+                                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                                    </svg>
+                                                                ) : index -
+                                                                      0.95 <
+                                                                  rating.star_rating ? (
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-5 h-auto text-yellow-500 fill-current"
+                                                                        viewBox="0 0 16 16"
+                                                                    >
+                                                                        <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="w-5 h-auto text-yellow-500 fill-current"
+                                                                        viewBox="0 0 16 16"
+                                                                    >
+                                                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                                                    </svg>
+                                                                )}
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                                <span className="flex items-start text-xs font-medium text-left text-slate-400">
+                                                    {rating.star_rating
+                                                        ? Math.round(
+                                                              rating.star_rating *
+                                                                  100
+                                                          ) / 100
+                                                        : 0}{" "}
+                                                    out of 5 stars
+                                                    <br />
+                                                </span>
+                                            </div>
                                         </div>
-                                    ))}
+                                    </div>
                                 </div>
-                                <span className="flex items-start text-xs font-medium text-left text-slate-400">
-                                    {rating.star_rating
-                                        ? Math.round(
-                                              rating.star_rating *
-                                                  100
-                                          ) / 100
-                                        : 0}{" "}
-                                    out of 5 stars
-                                    <br />
-                                    
-                                </span>
                             </div>
-                            
-                           
-                        </div>
+                        ))}
                     </div>
-                </div>
-            </div>
-            ))}
-        </div>
-    ) : (
-        <p>No reviews available.</p>
-    )}
-    
+                ) : (
+                    <p>No reviews available.</p>
+                )}
 
-     <div className="flex items-center mt-10 pagination gap-x-1">
-     <button>Page {currentPage} of {totalPages}</button>
-                    <button className="flex items-center justify-center w-12 bg-white border rounded-lg h-9"
+                <div className="flex items-center mt-10 pagination gap-x-1">
+                    <button>
+                        Page {currentPage} of {totalPages}
+                    </button>
+                    <button
+                        className="flex items-center justify-center w-12 bg-white border rounded-lg h-9"
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
                     >
                         {"<<"}
                     </button>
-                    
-                    <button className="flex items-center justify-center w-12 bg-white border rounded-lg h-9"
+
+                    <button
+                        className="flex items-center justify-center w-12 bg-white border rounded-lg h-9"
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
                     >
@@ -271,14 +294,14 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
                     </button>
                 </div>
 
-    <ThirdButtonNoLink
-        className="mx-2 mt-2"
-        color="gray"
-        onClick={closeRatingDialog}
-    >
-        Close
-    </ThirdButtonNoLink>
-</InfoModal>
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="gray"
+                    onClick={closeRatingDialog}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
 
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
@@ -288,7 +311,33 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
                 title={"Sudah Yakin dengan Pilihan Anda ?"}
             >
                 {" "}
-                <div className="p-4 mb-4 text-left border rounded-lg">
+                {model2.question?.map((question, i) => (
+                    <div key={question.id} className="py-3">
+                        <label
+                            htmlFor={question.id}
+                            className="block text-sm font-medium text-left text-gray-700"
+                        >
+                            {question.question}
+                        </label>
+                        <div className="mt-1">
+                            <textarea
+                                key={question.id}
+                                id={question.id}
+                                name={question.id}
+                                rows={3}
+                                onChange={onChange}
+                                className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder=""
+                                required="true"
+                                defaultValue={""}
+                            />
+                        </div>
+                        <p className="mt-2 text-sm text-left text-gray-500">
+                            Masukan Keterangan {question.question} .
+                        </p>
+                    </div>
+                ))}
+                <div className="p-4 mt-8 mb-4 text-left border rounded-lg">
                     <p className="mb-2 text-lg font-medium text-left">
                         {isDescription}
                     </p>
@@ -353,11 +402,12 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
                                     </p>
                                 </div>
                                 <div className="col-span-9 mx-2">
-                                    <div className="flex items-start cursor-pointer" onClick={() =>
-                                                                openRatingDialog(
-                                                                    resultteam
-                                                                )
-                                                            }>
+                                    <div
+                                        className="flex items-start cursor-pointer"
+                                        onClick={() =>
+                                            openRatingDialog(resultteam)
+                                        }
+                                    >
                                         {[1, 2, 3, 4, 5].map((index) => (
                                             <div
                                                 key={index}
@@ -424,14 +474,19 @@ export default function Team({ setIsOpenDialog, model,resultteam }) {
                                     />
                                 </div>
                                 <div className="col-span-12">
-                                    
-                                {isUserDateMatched(resultteam.user_id, model2.date) ? (
+                                    {isUserDateMatched(
+                                        resultteam.user_id,
+                                        model2.date
+                                    ) ? (
                                         <div className="col-span-12">
                                             <ThirdButtonNoLink color="secondary">
                                                 Libur
                                             </ThirdButtonNoLink>
                                         </div>
-                                    ) : isUserWorkBreakMatched(resultteam.user_id, model.timeRange.timeRange) ? (
+                                    ) : isUserWorkBreakMatched(
+                                          resultteam.user_id,
+                                          model.timeRange.timeRange
+                                      ) ? (
                                         <div className="col-span-12">
                                             <ThirdButtonNoLink color="secondary">
                                                 Istirahat

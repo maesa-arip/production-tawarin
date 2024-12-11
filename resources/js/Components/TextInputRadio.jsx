@@ -15,7 +15,7 @@ export default forwardRef(function TextInputRadio(
     return (
         <div className="flex flex-col items-start w-5 h-5">
             <input
-            defaultChecked
+            
                 type={type}
                 name={name}
                 id={id}

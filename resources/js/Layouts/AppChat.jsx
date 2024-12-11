@@ -4,6 +4,7 @@ import React from "react";
 import Header from "./Header";
 import Aside from "./Aside";
 import { Toaster } from "react-hot-toast";
+import AsideReservasi from "./AsideReservasi";
 
 
 export default function AppChat({ title, children }) {
@@ -11,7 +12,7 @@ export default function AppChat({ title, children }) {
     return (
         <div className="h-screen antialiased text-gray-800 ">
             <Header/>
-            <Aside/>
+            <AsideReservasi/>
                 
            <Toaster
             position="top-center"

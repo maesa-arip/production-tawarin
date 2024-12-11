@@ -23,7 +23,7 @@ import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import DestroyModal from "@/Components/Modal/DestroyModal";
 import { Inertia } from "@inertiajs/inertia";
 
-export default function Edit({ reservationCounter,media }) {
+export default function Edit({ reservationCounter,reservationCarCategories,media }) {
     const set_dayoff = [
         { id: 1, name: "OFF" },
         { id: 2, name: "ON" },
@@ -65,6 +65,7 @@ export default function Edit({ reservationCounter,media }) {
         deposit: reservationCounter.deposit,
         service_duration: reservationCounter.service_duration,
         period: reservationCounter.period,
+        reservation_car_category_id: reservationCounter.reservation_car_category_id,
         
         
     });
@@ -184,6 +185,19 @@ export default function Edit({ reservationCounter,media }) {
         });
     };
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
+    const onChangeReservationCarCategoryId = (e) => {
+        setData({ ...data, ["reservation_car_category_id"]: e.id });
+    };
+    const defaultValue = [{ name: "Pilih" }];
+    const [selected, setSelected] = useState(defaultValue[0]);
+    const [selectedCategory, setSelectedCategory] = useState(() => {
+        return reservationCounter
+            ? reservationCarCategories.find(
+                  (x) => x.id === reservationCounter.reservation_car_category_id
+              )
+            : "";
+    });
+    console.log(data)
     return (
         <div>
             <Head title="Plan Create" />
@@ -261,6 +275,27 @@ export default function Edit({ reservationCounter,media }) {
                                 <div className="overflow-hidden shadow sm:rounded-md">
                                     <div className="px-4 py-5 bg-white sm:p-6">
                                         <div className="grid grid-cols-12 gap-6">
+                                        <div className="col-span-12 md:col-span-6">
+                                    <label
+                                        htmlFor="reservation_category_id"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Pilih Kategori
+                                    </label>
+                                    <ListBoxPage
+                                        ShouldMap={reservationCarCategories}
+                                        selected={selectedCategory}
+                                        onChange={(e) => {
+                                            onChangeReservationCarCategoryId(e);
+                                            setSelectedCategory(e);
+                                        }}
+                                    />
+                                    {errors && (
+                                        <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                            {errors.reservation_car_category_id}
+                                        </span>
+                                    )}
+                                </div>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="name"

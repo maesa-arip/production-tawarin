@@ -20,6 +20,10 @@ class ReservationCompany extends Model implements HasMedia
     {
         return $this->belongsTo(ReservationCategory::class);
     }
+    public function reservation_car_category()
+    {
+        return $this->belongsTo(ReservationCarCategory::class);
+    }
     public function reservationcategory()
     {
         return $this->belongsTo(ReservationCategory::class,'reservation_category_id');

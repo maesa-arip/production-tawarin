@@ -13,7 +13,7 @@ export default forwardRef(function TextAreaInput(
     }, []);
 
     return (
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start resize">
             <textarea
                 type={type}
                 name={name}
@@ -22,7 +22,7 @@ export default forwardRef(function TextAreaInput(
                 placeholder={placeholder}
                 value={value}
                 className={
-                    `border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ` +
+                    `border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full ` +
                     className
                 }
                 ref={input}

@@ -112,6 +112,7 @@ export default function MyCustomer({
                                                 Nama Layanan
                                             </p>
                                             <p className="rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
+                                                {item.counterCategoryName}{" "}
                                                 {item.counterName}
                                             </p>
                                         </div>
@@ -147,15 +148,41 @@ export default function MyCustomer({
                                                 {item.user.name}
                                             </p>
                                         </div>
-                                        {item.complaint == 1 ? <div className="flex items-center justify-between px-4 my-4">
-                                            <p className="text-sm font-semibold text-gray-500">
-                                                Alasan Komplain
-                                            </p>
-                                            <p className="rounded-full bg-red-200 px-2 py-0.5 text-xs font-semibold text-red-600">
-                                                {item.complaint_reason}
-                                            </p>
-                                        </div> : <></>}
-                                        
+                                        {item.complaint == 1 ? (
+                                            <div className="flex items-center justify-between px-4 my-4">
+                                                <p className="text-sm font-semibold text-gray-500">
+                                                    Alasan Komplain
+                                                </p>
+                                                <p className="rounded-full bg-red-200 px-2 py-0.5 text-xs font-semibold text-red-600">
+                                                    {item.complaint_reason}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <></>
+                                        )}
+
+                                        {item.answers.map((item, index) => (
+                                            <div className="py-1" key={index}>
+                                                <div className="relative p-2 overflow-hidden duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                                    <div>
+                                                        <div className="flex items-center justify-between ">
+                                                            <p className="text-sm font-semibold text-gray-500">
+                                                                {
+                                                                    item
+                                                                        .question
+                                                                        .question
+                                                                }
+                                                            </p>
+                                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                                {
+                                                                    item.description
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                         {item.batal_customer == 1 ? (
                                             <div className="flex items-center justify-between px-4 my-4">
                                                 <p className="text-sm font-semibold text-gray-500">
@@ -195,12 +222,15 @@ export default function MyCustomer({
                                                             Menunggu Konfirmasi
                                                             Pelanggan
                                                         </ThirdButtonNoLink>
-                                                    ) : item.complaint == 1 ? (<ThirdButtonNoLink
-                                                        color="red"
-                                                        className="cursor-not-allowed"
-                                                    >
-                                                        Pelanggan Komplain <IconMoodSad className="w-5 h-5 ml-2"/>
-                                                    </ThirdButtonNoLink>) : (
+                                                    ) : item.complaint == 1 ? (
+                                                        <ThirdButtonNoLink
+                                                            color="red"
+                                                            className="cursor-not-allowed"
+                                                        >
+                                                            Pelanggan Komplain{" "}
+                                                            <IconMoodSad className="w-5 h-5 ml-2" />
+                                                        </ThirdButtonNoLink>
+                                                    ) : (
                                                         <>
                                                             {item.dikerjakan ==
                                                             1 ? (
@@ -211,10 +241,20 @@ export default function MyCustomer({
                                                                 </ThirdButtonNoLink>
                                                             ) : (
                                                                 <ThirdButtonNoLink
-                                                                    onClick={() =>
-                                                                        openInfoDialog(
-                                                                            item
-                                                                        )
+                                                                    onClick={
+                                                                        item.leader ===
+                                                                        1
+                                                                            ? () =>
+                                                                                  openInfoDialog(
+                                                                                      item
+                                                                                  )
+                                                                            : undefined
+                                                                    }
+                                                                    className={
+                                                                        item.leader ===
+                                                                        1
+                                                                            ? ""
+                                                                            : "cursor-not-allowed"
                                                                     }
                                                                 >
                                                                     Mulai
@@ -223,11 +263,26 @@ export default function MyCustomer({
                                                             {item.dikerjakan ==
                                                             1 ? (
                                                                 <ThirdButtonNoLink
-                                                                    onClick={() =>
-                                                                        openInfoDialog2(
-                                                                            item
-                                                                        )
+                                                                    onClick={
+                                                                        item.leader ===
+                                                                        1
+                                                                            ? () =>
+                                                                                  openInfoDialog2(
+                                                                                      item
+                                                                                  )
+                                                                            : undefined
                                                                     }
+                                                                    className={
+                                                                        item.leader ===
+                                                                        1
+                                                                            ? ""
+                                                                            : "cursor-not-allowed"
+                                                                    }
+                                                                    // onClick={() =>
+                                                                    //     openInfoDialog2(
+                                                                    //         item
+                                                                    //     )
+                                                                    // }
                                                                     color="cyan"
                                                                 >
                                                                     Selesai

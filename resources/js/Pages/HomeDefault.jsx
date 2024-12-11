@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AppDefault from "@/Layouts/AppDefault";
+import AppReservasi from "@/Layouts/AppReservasi";
 import { Head, Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import RadioCard from "@/Components/RadioCard";
@@ -751,4 +751,4 @@ export default function HomeDefault(props) {
     );
 }
 
-HomeDefault.layout = (page) => <AppDefault children={page}></AppDefault>;
+HomeDefault.layout = (page) => <AppReservasi children={page}></AppReservasi>;

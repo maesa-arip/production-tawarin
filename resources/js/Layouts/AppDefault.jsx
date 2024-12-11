@@ -9,6 +9,7 @@ import Header from './Header';
 import Aside from './Aside';
 import "../../css/static/style.css";
 import "../../css/static/index_responsive.css";
+import AsideReservasi from './AsideReservasi';
 
 export default function App({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -23,7 +24,7 @@ export default function App({ auth, header, children }) {
         <div className="min-h-screen">
            {/* <NavbarDefault/> */}
             <Header/>
-            <Aside/>
+            <AsideReservasi/>
            <Toaster
             position="top-center"
             reverseOrder={false}

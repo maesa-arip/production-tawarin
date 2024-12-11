@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reservation;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ArrayResource;
 use App\Http\Resources\Reservation\ReservationEmployeeResource;
 use App\Models\Reservation\ReservationBreakTimeSetting;
 use App\Models\Reservation\ReservationCompany;
@@ -12,6 +13,8 @@ use App\Models\Reservation\ReservationEmployeeDayOff;
 use App\Models\Reservation\ReservationJoinCounter;
 use App\Models\Reservation\ReservationTeam;
 use App\Models\Reservation\ReservationTeamDetail;
+use App\Models\Reservation\ReservationTeamHeaderDetail;
+use App\Models\ReservationTeamHeader;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -22,40 +25,11 @@ class ReservationEmployeeController extends Controller
     public $loadDefault = 10;
     public function index(Request $request)
     {
-        // $reservationEmployees = ReservationEmployee::query()
-        //     ->join('users','users.id','reservation_employees.user_id')
-        //     ->leftjoin('reservation_team_details', 'reservation_team_details.user_id','users.id')
-        //     ->leftjoin('reservation_teams', 'reservation_teams.id','reservation_team_details.reservation_team_id')
-        //     ->leftjoin('reservation_customers', function ($join) {
-        //         $join->on('reservation_customers.reservation_team_id', '=', 'reservation_teams.id')
-        //             ->where('reservation_customers.selesai_customer', '=', 1);
-        //     })
-        //     ->leftjoin('reservation_ratings', 'reservation_ratings.reservation_team_id', 'reservation_teams.id')
-        //     ->leftJoin('media', function ($join) {
-        //         $join->on('media.model_id', '=', 'reservation_employees.user_id')
-        //             ->where('media.model_type', '=', 'App\Models\User');
-        //     })
-        //     ->select(
-        //         'reservation_employees.id',
-        //         'reservation_employees.approved',
-        //         'reservation_employees.created_at',
-        //         'reservation_team_details.user_id',
-        //         'users.name',
-        //         'users.email',
-        //         'users.phone',
-        //         'media.file_name',
-        //         'media.id as media_id',
-        //         DB::raw('AVG(reservation_ratings.star_rating) as average_rating'),
-        //         DB::raw('COUNT(reservation_ratings.status) as count_rating'),
-        //         DB::raw('COUNT(reservation_customers.selesai_customer) as count_customer'),
-        //     )
-        //     ->groupBy('reservation_employees.id','users.name','users.email','users.phone','reservation_employees.created_at','reservation_employees.approved','file_name','media_id','user_id');
-
-        // $reservationEmployees = ReservationEmployee::with('company')->with('company.counter')->with('company.counter.team')->get();
         $reservationEmployees = ReservationEmployee::query()
             ->leftJoin('reservation_team_details', 'reservation_employees.user_id', '=', 'reservation_team_details.user_id')
             ->leftJoin('reservation_teams', 'reservation_team_details.reservation_team_id', '=', 'reservation_teams.id')
             ->leftJoin('reservation_counters', 'reservation_teams.reservation_counter_id', '=', 'reservation_counters.id')
+            ->leftJoin('reservation_companies', 'reservation_counters.reservation_company_id', '=', 'reservation_companies.id')
             ->leftJoin('users', 'reservation_employees.user_id', '=', 'users.id')
             ->leftJoin('media', function ($join) {
                 $join->on('media.model_id', '=', 'reservation_employees.user_id')
@@ -67,6 +41,7 @@ class ReservationEmployeeController extends Controller
             })
             ->select(
                 'reservation_employees.id as employee_record_id',
+                'reservation_companies.id as company_id',
                 'reservation_employees.approved',
                 'reservation_employees.created_at',
                 'reservation_employees.user_id as team_detail_user_id',
@@ -76,56 +51,11 @@ class ReservationEmployeeController extends Controller
                 'media.id as media_id',
                 'model_has_roles.model_type as model_has_roles_model_type',
                 'media.file_name',
-                // DB::raw('AVG(rr.star_rating) as average_rating'),
-                // DB::raw('COUNT(DISTINCT rc.id) as count_customer'),
-                // DB::raw('COUNT(DISTINCT rr.id) as count_rating')
             )
+            ->where('reservation_employees.reservation_company_id', auth()->user()->company->id)
             ->distinct();
-            // ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'rtd.user_id', 'users.name', 'users.email', 'users.phone', 'media.id','model_has_roles.model_type', 'media.file_name')
-            // ->get();
-            // dd($reservationEmployees);
-    //     $reservationEmployees = ReservationEmployee::query()
-    // ->leftJoin('reservation_team_details as rtd', 'reservation_employees.user_id', '=', 'rtd.user_id')
-    // ->leftJoin('users', 'reservation_employees.user_id', '=', 'users.id')
-    // ->leftJoin('media', function ($join) {
-    //     $join->on('media.model_id', '=', 'reservation_employees.user_id')
-    //          ->where('media.model_type', '=', 'App\\Models\\User');
-    // })
-    // ->leftJoinSub(
-    //     DB::table('reservation_teams as rt')
-    //         ->leftJoin('reservation_ratings as rr', 'rt.id', '=', 'rr.reservation_team_id')
-    //         ->select('rt.id as team_id', DB::raw('AVG(rr.star_rating) as average_rating'), DB::raw('COUNT(DISTINCT rr.id) as count_rating'))
-    //         ->groupBy('rt.id'),
-    //     'ratings_subquery', 'ratings_subquery.team_id', '=', 'rtd.reservation_team_id'
-    // )
-    // ->leftJoinSub(
-    //     DB::table('reservation_teams as rt')
-    //         ->leftJoin('reservation_customers as rc', function ($join) {
-    //             $join->on('rt.id', '=', 'rc.reservation_team_id')
-    //                  ->where('rc.selesai_customer', '=', 1);
-    //         })
-    //         ->select('rt.id as team_id', DB::raw('COUNT(DISTINCT rc.id) as count_customer'))
-    //         ->groupBy('rt.id'),
-    //     'customers_subquery', 'customers_subquery.team_id', '=', 'rtd.reservation_team_id'
-    // )
-    // ->select(
-    //     'reservation_employees.id as employee_record_id',
-    //     'reservation_employees.approved',
-    //     'reservation_employees.created_at',
-    //     'users.name',
-    //     'users.email',
-    //     'users.phone',
-    //     'media.id as media_id',
-    //     'media.file_name',
-    //     'ratings_subquery.average_rating',
-    //     'ratings_subquery.count_rating',
-    //     'customers_subquery.count_customer'
-    // )
-    // ->groupBy('reservation_employees.id', 'reservation_employees.user_id', 'reservation_employees.approved', 'reservation_employees.created_at', 'users.name', 'users.email', 'users.phone', 'media.id', 'media.file_name')
-    // ;
+        // dd($reservationEmployees);
 
-        // dd($employees);
-                // dd($reservationEmployees);
         if ($request->q) {
             $reservationEmployees->where('name', 'like', '%' . $request->q . '%');
         }
@@ -147,6 +77,42 @@ class ReservationEmployeeController extends Controller
             ]
         ]);
         return inertia('Reservation/Profile/MyEmployee', ['reservationEmployees' => $reservationEmployees]);
+    }
+    public function index_team(Request $request)
+    {
+        // $team = ReservationTeamHeader::get();
+        $team = ReservationTeam::query()->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+        ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
+        ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+        ->where('reservation_companies.id', auth()->user()->company->id)->with('teamdetail')->with('teamdetail.user')->select('reservation_teams.*','reservation_counters.name as counterName','reservation_car_categories.name as counterCategoryName')->orderBy('reservation_teams.name','ASC');
+        //         $teamDetail = ReservationTeamDetail::find(47); // Replace 1 with an actual ID
+        // dd($teamDetail->user);
+        // dd($team);
+        if ($request->q) {
+            $team->where('name', 'like', '%' . $request->q . '%');
+        }
+        if ($request->has(['field', 'direction'])) {
+            $team->orderBy($request->field, $request->direction);
+        }
+        $team = (
+            ArrayResource::collection($team->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => 1100,
+                'per_page' => 10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        $employees = ReservationEmployee::where('reservation_company_id', auth()->user()->company->id)->with('user')->get();
+        $counters = ReservationCounter::where('reservation_company_id', auth()->user()->company->id)->with('category')->get();
+        return inertia('Reservation/Company/Team/Index', ['team' => $team, 'employees' => $employees, 'counters' => $counters]);
     }
     public function create()
     {
@@ -192,6 +158,58 @@ class ReservationEmployeeController extends Controller
             'message' => 'Karyawan berhasil diundang, menunggu konfirmasi',
         ]);
     }
+    public function store_team(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'name' => ['required', 'string'],
+            'employees' => ['array'],
+            'counters' => ['array'],
+            'leader' => ['required'],
+        ]);
+        $counters = $request->input('counters');
+        $employees = $request->input('employees');
+
+        $reservationTeamHeader = ReservationTeamHeader::create([
+            'name' => $request->input('name'),
+            'reservation_company_id' => auth()->user()->company->id,
+        ]);
+        foreach ($employees as $employee) {
+            $reservationTeamHeaderDetail = ReservationTeamHeaderDetail::create([
+                'reservation_team_header_id' => $reservationTeamHeader->id,
+                'user_id' => $employee,
+                'leader' => $employee == $request->input('leader') ? 1 :0,
+            ]);
+        }
+        if (!empty($request->input('employees')) && !empty($request->input('counters'))) {
+            foreach ($counters as $counter) {
+                $validated['slug'] = str($request->input('name'))->slug() . '-' . Str::lower(Str::random(6));
+                $validated['code'] = Str::random(6);
+
+                $reservationTeam = ReservationTeam::create([
+                    'name' => $request->input('name'),
+                    'reservation_counter_id' => $counter,
+                    'slug' => $validated['slug'],
+                    'code' => $validated['code'],
+                    'is_team' => 1,
+                ]);
+                foreach ($employees as $employee) {
+                    $reservationTeamDetail = ReservationTeamDetail::create([
+                        'reservation_team_id' => $reservationTeam->id,
+                        'user_id' => $employee,
+                        'leader' => $employee == $request->input('leader') ? 1 :0,
+                    ]);
+                }
+                
+            }
+        }
+
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Tim berhasil dibuat',
+        ]);
+    }
     public function makecashier(Request $request,  $id)
     {
         // $validated = $request->validate([
@@ -200,7 +218,7 @@ class ReservationEmployeeController extends Controller
         // ]);
         // $user->update($validated);
         // dd($id,$user);
-        
+
         $user = User::findOrFail($id);
         // dd($user);
         $user->roles()->attach([0 => 13]);
@@ -285,15 +303,16 @@ class ReservationEmployeeController extends Controller
         $data = ReservationEmployeeDayOff::findOrfail($id);
         // $userId = User::where('email', $data->email)->pluck('id')->first();
         // ReservationTeamDetail::create(['reservation_team_id' => $data->reservation_team_id, 'user_id' => $userId, 'leader' => 1]);
-        $data->update(['decline' => 1,'decline_reason'=>$validated['reason']]);
+        $data->update(['decline' => 1, 'decline_reason' => $validated['reason']]);
         return redirect(route('reservation.myemployeerequestoff'))->with([
             'type' => 'success',
             'message' => 'Libur berhasil ditolak',
         ]);
     }
-    
+
     public function selectemployee(Request $request, $id, $slug)
     {
+        // dd($slug);
         $data = ReservationEmployee::findOrfail($id);
         $user = User::where('id', $data->user_id)->first();
         $validated['slug'] = str($user->name)->slug() . '-' . Str::lower(Str::random(6));
