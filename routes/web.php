@@ -105,6 +105,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::Resource('contacts', ContactController::class);
     Route::get('reservationemployees/index_team', [ReservationEmployeeController::class,'index_team'])->name('reservation.teamheader');
     Route::post('reservationemployees/index_team', [ReservationEmployeeController::class,'store_team'])->name('reservation.store_teamheader');
+    Route::get('reservationemployees/index_team_layanan', [ReservationEmployeeController::class,'index_team_layanan'])->name('reservation.teamlayanan');
+    Route::post('reservationemployees/index_team_layanan', [ReservationEmployeeController::class,'store_team_layanan'])->name('reservation.store_teamlayanan');
     Route::Resource('reservationemployees', ReservationEmployeeController::class);
     Route::Resource('reservationemployeedayoff', ReservationDayOffBreakController::class);
     Route::post('reservationemployeebreak', [ReservationDayOffBreakController::class, 'store_break'])->name('reservationemployeebreak.store_break');
@@ -128,6 +130,9 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::put('/nopunishment/{id}/edit', [ReservationController::class, 'nopunishment'])->name('reservation.nopunishment');
     Route::put('/punishmentreservation/{id}/edit', [ReservationController::class, 'punishmentreservation'])->name('reservation.punishmentreservation');
     Route::put('/finishservice/{id}/edit', [ReservationController::class, 'finishservice'])->name('reservation.finishservice');
+    Route::put('/declineanswer/{id}/edit', [ReservationController::class, 'declineanswer'])->name('reservation.declineanswer');
+    Route::put('/approvedanswer/{id}/edit', [ReservationController::class, 'approvedanswer'])->name('reservation.approvedanswer');
+    Route::put('/requestapproved/{id}/edit', [ReservationController::class, 'requestapproved'])->name('reservation.requestapproved');
     Route::put('/cancelreservation/{id}/edit', [ReservationController::class, 'cancelreservation'])->name('reservation.cancelreservation');
     Route::put('/complaintreservation/{id}/edit', [ReservationController::class, 'complaintreservation'])->name('reservation.complaintreservation');
     Route::put('/finishcustomer/{id}/edit', [ReservationController::class, 'finishcustomer'])->name('reservation.finishcustomer');
@@ -220,6 +225,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('public/reservationCounters/{reservationCompany}/{reservationCounter}/{id}/change', [ReservationController::class, 'storechange'])->name('reservationCounters.storechangecustomer');
     Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}', [ReservationCounterController::class, 'show'])->name('reservationCounters.show');
     Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}/{id}/change', [ReservationCounterController::class, 'change'])->name('reservationCounters.change');
+
+    Route::put('reservationCounters/{reservationCounter}/{id}/set_cars', [ReservationCounterController::class, 'update_set_cars'])->name('reservationCounters.update_set_cars');
     
     Route::resource('userBanks', UserBankController::class);
     Route::resource('reservationQuestions', ReservationCarQuestionController::class);

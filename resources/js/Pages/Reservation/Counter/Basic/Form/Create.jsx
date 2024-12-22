@@ -3,7 +3,7 @@ import React from 'react'
 import Form from './Form';
 
 export default function Create({setIsOpenAddDialog,cars}) {
-    // console.log(cars)
+    console.log(cars)
     const { data, setData, post, reset, errors } = useForm({
         name: "",
         email: "",

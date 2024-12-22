@@ -158,7 +158,7 @@ export default function Index(props) {
                     isOpenEditDialog={isOpenEditDialog}
                     setIsOpenEditDialog={setIsOpenEditDialog}
                     size="max-w-4xl"
-                    title={"Edit User"}
+                    title={"Pilih Kendaraan"}
                 >
                     <Edit
                         cars={cars}
@@ -687,42 +687,8 @@ export default function Index(props) {
                 </div>
                 <div className="lg:hidden">
                     <div className="flex items-center justify-between">
-                        <div className="w-3/4">
-                            <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
-                            <ThirdButton
-                                    type="button"
-                                    href={"reservationCounters/create"}
-                                >
-                                    Tambah
-                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
-                                </ThirdButton>
-                                <ThirdButton
-                                    type="button"
-                                    href={route("reservationCarCategories.index")}
-                                >
-                                    Kategori
-                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
-                                </ThirdButton>
-                                
-                                <ThirdButton
-                                    type="button"
-                                    href={route("reservationQuestions.index")}
-                                >
-                                    Question
-                                    
-                                </ThirdButton>
-                                <ThirdButton
-                                    type="button"
-                                    href={route("reservationRatingCategories.index")}
-                                >
-                                    Rating
-                                    
-                                </ThirdButton>
-
-                                {/* <ThirdButton type="button" color="red" href={"#"}>Ditolak({reservationCounterRejectCount})</ThirdButton> */}
-                            </div>
-                        </div>
-                        <div className="w-1/4">
+                        
+                        <div className="w-full">
                             <div className="flex items-center justify-between mt-2 mb-0 gap-x-1">
                                 {/* <select
                                     name="load"
@@ -762,6 +728,44 @@ export default function Index(props) {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <div className="w-full">
+                            <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
+                           
+                                <ThirdButton
+                                    type="button"
+                                    href={route("reservationCarCategories.index")}
+                                >
+                                    Kategori
+                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
+                                </ThirdButton>
+                                <ThirdButton
+                                    type="button"
+                                    href={"reservationCounters/create"}
+                                >
+                                    Tambah
+                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
+                                </ThirdButton>
+                                <ThirdButton
+                                    type="button"
+                                    href={route("reservationQuestions.index")}
+                                >
+                                    Question
+                                    
+                                </ThirdButton>
+                                <ThirdButton
+                                    type="button"
+                                    href={route("reservationRatingCategories.index")}
+                                >
+                                    Rating
+                                    
+                                </ThirdButton>
+
+                                {/* <ThirdButton type="button" color="red" href={"#"}>Ditolak({reservationCounterRejectCount})</ThirdButton> */}
+                            </div>
+                        </div>
+                        
                     </div>
                     <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                         {reservationCounters.map(

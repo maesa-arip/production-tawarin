@@ -80,14 +80,12 @@ class ReservationEmployeeController extends Controller
     }
     public function index_team(Request $request)
     {
-        // $team = ReservationTeamHeader::get();
-        $team = ReservationTeam::query()->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
-        ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
-        ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-        ->where('reservation_companies.id', auth()->user()->company->id)->with('teamdetail')->with('teamdetail.user')->select('reservation_teams.*','reservation_counters.name as counterName','reservation_car_categories.name as counterCategoryName')->orderBy('reservation_teams.name','ASC');
-        //         $teamDetail = ReservationTeamDetail::find(47); // Replace 1 with an actual ID
-        // dd($teamDetail->user);
-        // dd($team);
+        $team = ReservationTeamHeader::with('details')->with('details.user')->where('reservation_company_id', auth()->user()->company->id);
+
+        // $team = ReservationTeam::query()->leftjoin('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+        // ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
+        // ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+        // ->where('reservation_companies.id', auth()->user()->company->id)->with('teamdetail')->with('teamdetail.user')->select('reservation_teams.*','reservation_counters.name as counterName','reservation_car_categories.name as counterCategoryName')->orderBy('reservation_teams.name','ASC');
         if ($request->q) {
             $team->where('name', 'like', '%' . $request->q . '%');
         }
@@ -113,6 +111,41 @@ class ReservationEmployeeController extends Controller
         $employees = ReservationEmployee::where('reservation_company_id', auth()->user()->company->id)->with('user')->get();
         $counters = ReservationCounter::where('reservation_company_id', auth()->user()->company->id)->with('category')->get();
         return inertia('Reservation/Company/Team/Index', ['team' => $team, 'employees' => $employees, 'counters' => $counters]);
+    }
+    public function index_team_layanan(Request $request)
+    {
+        $teams = ReservationTeam::query()->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
+        ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
+        ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
+        ->where('reservation_companies.id', auth()->user()->company->id)->with('teamdetail')->with('teamdetail.user')->select('reservation_teams.*','reservation_counters.name as counterName','reservation_car_categories.name as counterCategoryName')->orderBy('reservation_teams.name','ASC');
+        // dd($team->get());
+        if ($request->q) {
+            $teams->where('name', 'like', '%' . $request->q . '%');
+        }
+        if ($request->has(['field', 'direction'])) {
+            $teams->orderBy($request->field, $request->direction);
+        }
+        $team = (
+            ArrayResource::collection($teams->fastPaginate($request->load)->withQueryString())
+        )->additional([
+            'attributes' => [
+                'total' => 1100,
+                'per_page' => 10,
+            ],
+            'filtered' => [
+                'load' => $request->load ?? $this->loadDefault,
+                'q' => $request->q ?? '',
+                'page' => $request->page ?? 1,
+                'field' => $request->field ?? '',
+                'direction' => $request->direction ?? '',
+
+            ]
+        ]);
+        
+        $teamheader = ReservationTeamHeader::with('details')->with('details.user')->where('reservation_company_id', auth()->user()->company->id)->get();
+        
+        $counters = ReservationCounter::where('reservation_company_id', auth()->user()->company->id)->with('category')->get();
+        return inertia('Reservation/Company/TeamLayanan/Index', ['team' => $team, 'teamheader' => $teamheader, 'counters' => $counters]);
     }
     public function create()
     {
@@ -194,6 +227,58 @@ class ReservationEmployeeController extends Controller
                     'is_team' => 1,
                 ]);
                 foreach ($employees as $employee) {
+                    $reservationTeamDetail = ReservationTeamDetail::create([
+                        'reservation_team_id' => $reservationTeam->id,
+                        'user_id' => $employee,
+                        'leader' => $employee == $request->input('leader') ? 1 :0,
+                    ]);
+                }
+                
+            }
+        }
+
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Tim berhasil dibuat',
+        ]);
+    }
+    public function store_team_layanan(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'name' => ['required', 'string'],
+            'teamheader' => ['array'],
+            'counters' => ['array'],
+            'leader' => ['required'],
+        ]);
+        $counters = $request->input('counters');
+        $teamheader = $request->input('teamheader');
+
+        $reservationTeamHeader = ReservationTeamHeader::create([
+            'name' => $request->input('name'),
+            'reservation_company_id' => auth()->user()->company->id,
+        ]);
+        foreach ($teamheader as $employee) {
+            $reservationTeamHeaderDetail = ReservationTeamHeaderDetail::create([
+                'reservation_team_header_id' => $reservationTeamHeader->id,
+                'user_id' => $employee,
+                'leader' => $employee == $request->input('leader') ? 1 :0,
+            ]);
+        }
+        if (!empty($request->input('teamheader')) && !empty($request->input('counters'))) {
+            foreach ($counters as $counter) {
+                $validated['slug'] = str($request->input('name'))->slug() . '-' . Str::lower(Str::random(6));
+                $validated['code'] = Str::random(6);
+
+                $reservationTeam = ReservationTeam::create([
+                    'name' => $request->input('name'),
+                    'reservation_counter_id' => $counter,
+                    'slug' => $validated['slug'],
+                    'code' => $validated['code'],
+                    'is_team' => 1,
+                ]);
+                foreach ($teamheader as $employee) {
                     $reservationTeamDetail = ReservationTeamDetail::create([
                         'reservation_team_id' => $reservationTeam->id,
                         'user_id' => $employee,

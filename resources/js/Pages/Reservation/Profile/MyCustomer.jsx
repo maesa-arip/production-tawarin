@@ -11,7 +11,19 @@ import InfoModal from "@/Components/Modal/InfoModal";
 import Button from "@/Components/Button";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks, IconMoodSad, IconX } from "@tabler/icons";
+import {
+    IconCheck,
+    IconChecks,
+    IconCircleCheck,
+    IconCircleX,
+    IconHelp,
+    IconMoodSad,
+    IconQuestionCircle,
+    IconX,
+    IconXboxX,
+} from "@tabler/icons";
+import TextInputCheckbox from "@/Components/TextInputCheckbox";
+import TextAreaInput from "@/Components/TextAreaInput";
 
 export default function MyCustomer({
     auth,
@@ -22,8 +34,19 @@ export default function MyCustomer({
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
     const [isOpenInfoDialog2, setIsOpenInfoDialog2] = useState(false);
+    const [isOpenInfoDialog3, setIsOpenInfoDialog3] = useState(false);
+    const [isOpenInfoDialog4, setIsOpenInfoDialog4] = useState(false);
     const { data, setData, patch, post, put, processing, errors, reset } =
         useForm({});
+
+    const onHandleChange = (event) => {
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
+    };
     const openInfoDialog = (item) => {
         setState(item);
         setIsOpenInfoDialog(true);
@@ -31,6 +54,14 @@ export default function MyCustomer({
     const openInfoDialog2 = (item) => {
         setState(item);
         setIsOpenInfoDialog2(true);
+    };
+    const openInfoDialog3 = (item) => {
+        setState(item);
+        setIsOpenInfoDialog3(true);
+    };
+    const openInfoDialog4 = (item) => {
+        setState(item);
+        setIsOpenInfoDialog4(true);
     };
     const startService = () => {
         put(route("reservation.startservice", state.id), {
@@ -42,11 +73,27 @@ export default function MyCustomer({
             onSuccess: () => setIsOpenInfoDialog2(false),
         });
     };
+    const declineanswer = () => {
+        put(route("reservation.declineanswer", state.id), {
+            onSuccess: () => setIsOpenInfoDialog3(false),
+        });
+    };
+    const approvedanswer = () => {
+        put(route("reservation.approvedanswer", state.id), {
+            onSuccess: () => setIsOpenInfoDialog4(false),
+        });
+    };
     const closeInfoDialog = () => {
         setIsOpenInfoDialog(false);
     };
     const closeInfoDialog2 = () => {
         setIsOpenInfoDialog2(false);
+    };
+    const closeInfoDialog3 = () => {
+        setIsOpenInfoDialog3(false);
+    };
+    const closeInfoDialog4 = () => {
+        setIsOpenInfoDialog4(false);
     };
     // console.log(myCustomers)
     return (
@@ -90,6 +137,84 @@ export default function MyCustomer({
                     className="mx-2 mt-2"
                     color="secondary"
                     onClick={closeInfoDialog2}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
+
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog3}
+                setIsOpenInfoDialog={setIsOpenInfoDialog3}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Tolak Jawaban Pelanggan ?"}
+            >
+                <TextAreaInput
+                    placeholder="Komentar"
+                    name="pekerja_comment"
+                    handleChange={onHandleChange}
+                ></TextAreaInput>
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={declineanswer}
+                    color="danger"
+                >
+                    Tolak
+                </ThirdButtonNoLink>
+
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeInfoDialog3}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog4}
+                setIsOpenInfoDialog={setIsOpenInfoDialog4}
+                size="2xl"
+                closeButton="false"
+                title={"Yakin Terima Jawaban Pelanggan ?"}
+            >
+                {state.request_approved == 1 ? (
+                    <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <circle cx={12} cy={12} r={9} />
+                            <line x1={12} y1={8} x2="12.01" y2={8} />
+                            <polyline points="11 12 12 12 12 16 13 16" />
+                        </svg>
+                        <span className="text-lg font-semibold text-left">
+                            {state.customer_comment}
+                        </span>
+                    </div>
+                ) : (
+                    <></>
+                )}
+
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={approvedanswer}
+                >
+                    Terima
+                </ThirdButtonNoLink>
+
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeInfoDialog4}
                 >
                     Close
                 </ThirdButtonNoLink>
@@ -162,8 +287,11 @@ export default function MyCustomer({
                                         )}
 
                                         {item.answers.map((item, index) => (
-                                            <div className="py-1" key={index}>
-                                                <div className="relative p-2 overflow-hidden duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                            <div
+                                                className="grid grid-cols-12 gap-1"
+                                                key={index}
+                                            >
+                                                <div className="col-span-10 p-1 mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
                                                     <div>
                                                         <div className="flex items-center justify-between ">
                                                             <p className="text-sm font-semibold text-gray-500">
@@ -178,10 +306,147 @@ export default function MyCustomer({
                                                                     item.description
                                                                 }
                                                             </p>
+                                                            {item.request_approved ==
+                                                            1 ? (
+                                                                <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-yellow-600">
+                                                                    {
+                                                                        item.customer_comment
+                                                                    }
+                                                                </p>
+                                                            ) : (
+                                                                <></>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
+                                                {item.approved == 0 &&
+                                                item.decline == 0 &&
+                                                item.request_approved == 0 ? (
+                                                    <>
+                                                        <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
+                                                            <div>
+                                                                <div className="flex items-center justify-between ">
+                                                                    {/* <p className="text-sm font-semibold text-yellow-500">
+                                                                <IconHelp/>
+                                                            </p> */}
+                                                                    <p className="text-sm font-semibold text-red-500">
+                                                                        <IconXboxX
+                                                                            onClick={() =>
+                                                                                openInfoDialog3(
+                                                                                    item
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
+                                                            <div>
+                                                                <div className="flex items-center justify-between ">
+                                                                    <p className="text-sm font-semibold text-green-500">
+                                                                        <IconCircleCheck
+                                                                            onClick={() =>
+                                                                                openInfoDialog4(
+                                                                                    item
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <></>
+                                                )}
+
+                                                {item.approved == 1 ? (
+                                                    <>
+                                                        <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
+                                                            <div>
+                                                                <div className="flex items-center justify-between ">
+                                                                    <p className="text-sm font-semibold text-green-500">
+                                                                        <IconCircleCheck
+                                                                            onClick={() =>
+                                                                                openInfoDialog4(
+                                                                                    item
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <></>
+                                                )}
+                                                {item.decline == 1 &&
+                                                item.request_approved == 1 && item.approved == 0 ? (
+                                                    <>
+                                                        <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
+                                                            <div>
+                                                                <div className="flex items-center justify-between ">
+                                                                    <p className="text-sm font-semibold text-yellow-500">
+                                                                        <IconQuestionCircle
+                                                                            onClick={() =>
+                                                                                openInfoDialog4(
+                                                                                    item
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <></>
+                                                )}
+                                                {item.decline == 1 && item.approved == 0 ? (
+                                                    <>
+                                                        <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
+                                                            <div>
+                                                                <div className="flex items-center justify-between ">
+                                                                    <p className="text-sm font-semibold text-red-500">
+                                                                        <IconCircleX
+                                                                            onClick={() =>
+                                                                                openInfoDialog3(
+                                                                                    item
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </div>
+                                            // <div className="py-1" key={index}>
+                                            //     <div className="relative p-2 overflow-hidden duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                            //         <div>
+                                            //             <div className="flex items-center justify-between ">
+                                            //                 <p className="text-sm font-semibold text-gray-500">
+                                            //                     {
+                                            //                         item
+                                            //                             .question
+                                            //                             .question
+                                            //                     }
+                                            //                 </p>
+                                            //                 <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            //                     {
+                                            //                         item.description
+                                            //                     }
+                                            //                 </p>
+                                            //             </div>
+
+                                            //         </div>
+                                            //     </div>
+                                            // </div>
                                         ))}
                                         {item.batal_customer == 1 ? (
                                             <div className="flex items-center justify-between px-4 my-4">

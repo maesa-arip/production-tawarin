@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ReservationCarAnswer extends Model
 {
     use HasFactory;
-    protected $fillable = ['reservation_customer_id','reservation_car_question_id','description'];
+    protected $fillable = ['reservation_customer_id','reservation_car_question_id','description','approved','decline','pekerja_comment','customer_comment','request_approved'];
 
     /**
      * Get the user that owns the ReservationCarAnswer

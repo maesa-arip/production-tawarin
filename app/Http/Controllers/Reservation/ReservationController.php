@@ -220,20 +220,14 @@ class ReservationController extends Controller
             ->with('reservationcategory')
             ->where('is_approved', 1)
             ->when($request->reservation_category, fn($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
-            ->select('id', 'name', 'formattedAddress', 'is_approved', 'reservation_category_id', 'slug', 'reservation_companies.created_at')
+            ->select('id','id as id_company', 'name', 'formattedAddress', 'is_approved', 'reservation_category_id', 'slug', 'reservation_companies.created_at')
             ->addSelect([
-                // Key is the alias, value is the sub-select
                 'reviews_count' => ReservationRating::query()
                     ->join('reservation_teams', 'reservation_teams.id', 'reservation_ratings.reservation_team_id')
                     ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
                     ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-                    // You can use eloquent methods here
-                    // ->select('reservation_teams.id')
                     ->selectRaw('COUNT(*)')
-                    ->whereColumn('reservation_company_id', 'reservation_companies.id')
-                // ->count()
-                // ->latest()
-                // ->take(1)
+                    ->whereColumn('id_company', 'reservation_companies.id')
             ])
             ->addSelect([
                 // Key is the alias, value is the sub-select
@@ -244,7 +238,7 @@ class ReservationController extends Controller
                     // You can use eloquent methods here
                     // ->select('reservation_teams.id')
                     ->selectRaw('AVG(star_rating)')
-                    ->whereColumn('reservation_company_id', 'reservation_companies.id')
+                    ->whereColumn('id_company', 'reservation_companies.id')
                 // ->count()
                 // ->latest()
                 // ->take(1)
@@ -688,11 +682,38 @@ class ReservationController extends Controller
             'message' => 'Undangan Telah diterima',
         ]);
     }
+    public function declineanswer(Request $request,$id)
+    {
+        // dd($request,$id);
+        $reservationCarAnswer = ReservationCarAnswer::findOrfail($id);
+        $reservationCarAnswer->update(['decline' => 1,'pekerja_comment'=>$request->pekerja_comment]);
+        return redirect(route('reservation.mycustomers'))->with([
+            'type' => 'success',
+            'message' => 'Jawaban sudah ditolak',
+        ]);
+    }
+    public function approvedanswer($id)
+    {
+        // dd($id);
+        $reservationCarAnswer = ReservationCarAnswer::findOrfail($id);
+        $reservationCarAnswer->update(['approved' => 1]);
+        return redirect(route('reservation.mycustomers'))->with([
+            'type' => 'success',
+            'message' => 'Jawaban sudah diterima',
+        ]);
+    }
+    public function requestapproved(Request $request,$id)
+    {
+        // dd($id);
+        $reservationCarAnswer = ReservationCarAnswer::findOrfail($id);
+        $reservationCarAnswer->update(['request_approved' => 1,'customer_comment' => $request->customer_comment]);
+        return redirect(route('reservation.myreservations'))->with([
+            'type' => 'success',
+            'message' => 'Permintaan sudah dikirim',
+        ]);
+    }
     public function finishcustomer(Request $request, $id)
     {
-
-        
-
         $reservationCustomer1 = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
@@ -740,6 +761,11 @@ class ReservationController extends Controller
 
         $pemilik = User::find($reservationCounter->pemilik);
         $team = User::find($reservationCounter->team);
+        $isTeam = ReservationTeam::find($reservationCustomer->reservation_team_id);
+        $walletIsTeam = $isTeam->getWallet('default');
+        if (!$walletIsTeam) {
+            $walletBonusReferral = $isTeam->createWallet(['name' => 'Default Wallet', 'slug' => 'default']);
+        };
         $tawarin = User::find(1);
         $customer = User::find(auth()->user()->id);
         $cekReferal = User::where('referral', $customer->from_referral)->first();
@@ -781,9 +807,13 @@ class ReservationController extends Controller
 
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
+                        $customer->transfer($isTeam, $tip->tip, new Extra(
+                            deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
+                        ));
                         foreach ($cekTeam as $teamd) {
                             $teamdetail = User::find($teamd->user_id);
-                            $customer->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
                                 deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                                 withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
                             ));
@@ -883,10 +913,17 @@ class ReservationController extends Controller
                     }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($team, $tip->tip, new Extra(
+                        $customer->transfer($isTeam, $tip->tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
-                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
                         ));
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                                deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                                withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
+                            ));
+                        }
                     }
                     $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
                         deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
@@ -949,10 +986,17 @@ class ReservationController extends Controller
                     // }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($team, $tip->tip, new Extra(
+                        $customer->transfer($isTeam, $tip->tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
-                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
                         ));
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                                deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                                withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
+                            ));
+                        }
                     }
                     $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
                         deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
@@ -1014,11 +1058,19 @@ class ReservationController extends Controller
                     }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($team, $tip->tip, new Extra(
+                        $customer->transfer($isTeam, $tip->tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
-                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
+                            withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
                         ));
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                                deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
+                                withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
+                            ));
+                        }
                     }
+                    
                     $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
                         deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
                         withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)

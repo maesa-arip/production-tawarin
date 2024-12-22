@@ -10,7 +10,7 @@ import ThirdButton from "@/Components/ThirdButton";
 import InfoModal from "@/Components/Modal/InfoModal";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks, IconX } from "@tabler/icons";
+import { IconChecks, IconCircleCheck, IconX, IconXboxX } from "@tabler/icons";
 import RadioCard from "@/Components/RadioCard";
 import TextAreaInput from "@/Components/TextAreaInput";
 import InputLabel from "@/Components/InputLabel";
@@ -23,6 +23,7 @@ export default function MyReservation({
 }) {
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
+    const [isOpenInfoDialog3, setIsOpenInfoDialog3] = useState(false);
     const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
     const [isOpenComplaintDialog, setIsOpenComplaintDialog] = useState(false);
     const { data, setData, patch, post, put, processing, errors, reset } =
@@ -31,9 +32,21 @@ export default function MyReservation({
         setState(item);
         setIsOpenInfoDialog(true);
     };
+    const openInfoDialog3 = (item) => {
+        setState(item);
+        setIsOpenInfoDialog3(true);
+    };
+    const closeInfoDialog3 = () => {
+        setIsOpenInfoDialog3(false);
+    };
     const finishCustomer = () => {
         put(route("reservation.finishcustomer", state.id), {
             onSuccess: () => setIsOpenInfoDialog(false),
+        });
+    };
+    const requestapproved = () => {
+        put(route("reservation.requestapproved", state.id), {
+            onSuccess: () => setIsOpenInfoDialog3(false),
         });
     };
 
@@ -60,6 +73,7 @@ export default function MyReservation({
         setIsOpenCancelDialog(false);
         setSelected();
     };
+
     const handleCancelReservation = (e) => {
         e.preventDefault();
         put(route("reservation.cancelreservation", state.id), {
@@ -88,9 +102,61 @@ export default function MyReservation({
             // onSuccess: () => setIsOpenCancelDialog(false),
         });
     };
+    // console.log(state)
 
     return (
         <>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoDialog3}
+                setIsOpenInfoDialog={setIsOpenInfoDialog3}
+                size="2xl"
+                closeButton="false"
+                title={"Berikut adalah tanggapan dari pekerja, silakan dijawab kembali"}
+            >
+                <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx={12} cy={12} r={9} />
+                        <line x1={12} y1={8} x2="12.01" y2={8} />
+                        <polyline points="11 12 12 12 12 16 13 16" />
+                    </svg>
+                    <span className="text-lg font-semibold text-red-500">{state.pekerja_comment}</span>
+                    
+                </div>
+                <span className="text-lg font-semibold">{state.question?.question}</span>
+                <TextAreaInput
+                    placeholder="Komentar"
+                    name="customer_comment"
+                    handleChange={onHandleChange}
+                ></TextAreaInput>
+                <ThirdButtonNoLink
+                    processing={processing}
+                    onClick={requestapproved}
+                    // color="danger"
+                >
+                    Jawab
+                </ThirdButtonNoLink>
+
+                <ThirdButtonNoLink
+                    className="mx-2 mt-2"
+                    color="secondary"
+                    onClick={closeInfoDialog3}
+                >
+                    Close
+                </ThirdButtonNoLink>
+            </InfoModal>
+            ;
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog}
                 setIsOpenInfoDialog={setIsOpenInfoDialog}
@@ -401,7 +467,7 @@ export default function MyReservation({
                                 </svg>
                             </label>
                         </div>
-                        </div>
+                    </div>
                 ))}
 
                 <TextAreaInput
@@ -514,7 +580,6 @@ export default function MyReservation({
                     Close
                 </ThirdButtonNoLink>
             </InfoModal>
-
             <Head title="Profile" />
             <div className="py-12">
                 <div className="mx-auto space-y-6 sm:px-6 lg:px-8">
@@ -618,8 +683,11 @@ export default function MyReservation({
                                             <></>
                                         )}
                                         {item.answers.map((item, index) => (
-                                            <div className="py-1" key={index}>
-                                                <div className="relative p-2 overflow-hidden duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                            <div
+                                                className="grid grid-cols-12 gap-1"
+                                                key={index}
+                                            >
+                                                <div className="col-span-10 p-1 mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
                                                     <div>
                                                         <div className="flex items-center justify-between ">
                                                             <p className="text-sm font-semibold text-gray-500">
@@ -637,7 +705,69 @@ export default function MyReservation({
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
+                                                    <div>
+                                                        <div className="flex items-center justify-between ">
+                                                            {item.approved ==
+                                                                0 &&
+                                                            item.decline ==
+                                                                0 ? (
+                                                                <p className="text-sm font-semibold text-yellow-500">
+                                                                    <IconHelp />
+                                                                </p>
+                                                            ) : (
+                                                                <></>
+                                                            )}
+
+                                                            {item.decline ==
+                                                            1 ? (
+                                                                <p className="text-sm font-semibold text-red-500">
+                                                                    <IconXboxX
+                                                                        onClick={() =>
+                                                                            openInfoDialog3(
+                                                                                item
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                </p>
+                                                            ) : (
+                                                                <p className="text-sm font-semibold text-green-500">
+                                                                    <IconCircleCheck />
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {/* <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
+                                                                                            <div>
+                                                                                                <div className="flex items-center justify-between ">
+                                                                                                    
+                                                                                                    
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div> */}
                                             </div>
+                                            // <div className="py-1" key={index}>
+                                            //     <div className="relative p-2 overflow-hidden duration-150 bg-white rounded-lg shadow cursor-pointer">
+                                            //         <div>
+                                            //             <div className="flex items-center justify-between ">
+                                            //                 <p className="text-sm font-semibold text-gray-500">
+                                            //                     {
+                                            //                         item
+                                            //                             .question
+                                            //                             .question
+                                            //                     }
+                                            //                 </p>
+                                            //                 <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                            //                     {
+                                            //                         item.description
+                                            //                     }
+                                            //                 </p>
+                                            //             </div>
+
+                                            //         </div>
+                                            //     </div>
+                                            // </div>
                                         ))}
 
                                         <div className="flex items-center px-4 my-4 justify-evenly">

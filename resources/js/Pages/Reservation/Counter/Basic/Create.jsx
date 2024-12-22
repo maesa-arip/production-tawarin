@@ -33,6 +33,7 @@ export default function Create({ onOff,reservationCarCategories,company }) {
 
     
     const [priceUser, setPriceUser] = useState(0);
+    const [bonusKhusus, setBonusKhusus] = useState(0);
     const [bhp, setBhp] = useState(0);
     const [jasa, setJasa] = useState(0);
     const [price, setPrice] = useState(0);
@@ -50,6 +51,12 @@ export default function Create({ onOff,reservationCarCategories,company }) {
         setData({ ...data, [e.target.id]: e.target.value });
     };
     const onChangeJasaHandler = (e) => {
+        setJasa(e.target.value);
+        // setPriceUser(bhp+jasa);
+        // setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    const onChangeBonusKhususHandler = (e) => {
         setJasa(e.target.value);
         // setPriceUser(bhp+jasa);
         // setPrice(Math.ceil((e.target.value * (100 + 5)) / 100));
@@ -419,6 +426,7 @@ export default function Create({ onOff,reservationCarCategories,company }) {
                                                 tersebut akan menjadi fee untuk
                                                 Tawarin.
                                             </div>
+                                            
                                             {hidePercent == true ? '' : 
                                             <>
                                             <div className="col-span-12 md:col-span-6">
@@ -479,6 +487,77 @@ export default function Create({ onOff,reservationCarCategories,company }) {
                                                         {errors.percent_employe}
                                                     </span>
                                                 )}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-6">
+                                                <label
+                                                    htmlFor="bonus_khusus"
+                                                    className="block text-sm font-medium text-gray-700"
+                                                >
+                                                    Bonus Khusus
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="bonus_khusus"
+                                                    id="bonus_khusus"
+                                                    onChange={
+                                                        onChangeBonusKhususHandler
+                                                    }
+                                                    onWheel={(e) =>
+                                                        e.target.blur()
+                                                    }
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                                {errors.bonus_khusus && (
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                                        {errors.bonus_khusus}
+                                                    </span>
+                                                )}
+                                                {/* <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {jasa &&
+                                                        formatRupiahHarga}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {jasa &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    price
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div> */}
+                                            </div>
+                                            <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                                    width={24}
+                                                    height={24}
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth={2}
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                >
+                                                    <path
+                                                        stroke="none"
+                                                        d="M0 0h24v24H0z"
+                                                        fill="none"
+                                                    />
+                                                    <circle
+                                                        cx={12}
+                                                        cy={12}
+                                                        r={9}
+                                                    />
+                                                    <line
+                                                        x1={12}
+                                                        y1={8}
+                                                        x2="12.01"
+                                                        y2={8}
+                                                    />
+                                                    <polyline points="11 12 12 12 12 16 13 16" />
+                                                </svg>
+                                                Bonus diambil dari persentase untuk owner, bonus diberikan jika pelanggan memberikan rating full 5 bintang untuk semua kategori .
                                             </div>
                                             <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
                                                 <svg

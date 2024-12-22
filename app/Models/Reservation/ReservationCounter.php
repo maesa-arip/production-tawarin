@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class ReservationCounter extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-    protected $fillable = ['reservation_company_id','user_id','name','slug','code','description','jumlahlayanandiskon','open_at','close_at','service_duration','reservation_car_category_id','price','price_user','bhp','jasa','percent_owner','percent_employe','deposit','set_dayoff','period','need_image_reservation','need_image_before_after','is_active'];
+    protected $fillable = ['reservation_company_id','user_id','name','slug','code','description','jumlahlayanandiskon','open_at','close_at','service_duration','reservation_car_category_id','price','price_user','bhp','jasa','bonus_khusus','percent_owner','percent_employe','deposit','set_dayoff','period','need_image_reservation','need_image_before_after','is_active'];
     public function resolveRouteBinding($value, $field = null)
     {
         // Assuming 'slug' is the field you want to use for binding

@@ -84,6 +84,7 @@ class ReservationCounterController extends Controller
             'price' => ceil($price_user * 105 / 100),
             'bhp' =>  $request->bhp,
             'jasa' =>  $request->jasa,
+            'bonus_khusus' =>  $request->bonus_khusus,
             'description' =>  $request->description,
             'percent_owner' =>  $request->percent_owner,
             'percent_employe' => $request->percent_employe,
@@ -97,6 +98,7 @@ class ReservationCounterController extends Controller
             'need_image_before_after' => 0,
             'need_team' => 0,
             'is_active' => 1,
+            'reservation_car_category_id' => $request->reservation_car_category_id,
         ]);
         // dd($atrributes);
         $reservationCounter = ReservationCounter::create($atrributes);
@@ -124,6 +126,11 @@ class ReservationCounterController extends Controller
             'type' => 'success',
             'message' => 'Pelayanan berhasil disimpan',
         ]);
+    }
+
+    public function update_set_cars(Request $request,$id)
+    {
+        dd($request,$id);
     }
 
     public function show(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter)
@@ -243,6 +250,7 @@ class ReservationCounterController extends Controller
             'description' =>  $request->description,
             'bhp' =>  $request->bhp,
             'jasa' =>  $request->jasa,
+            'bonus_khusus' =>  $request->bonus_khusus,
             'percent_owner' =>  $request->percent_owner,
             'percent_employe' => $request->percent_employe,
             'deposit' => $request->deposit,

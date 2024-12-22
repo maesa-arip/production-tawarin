@@ -3,12 +3,17 @@
 namespace App\Models\Reservation;
 
 use App\Models\ReservationTeamDetail;
+use Bavix\Wallet\Interfaces\Confirmable;
+use Bavix\Wallet\Interfaces\Wallet;
+use Bavix\Wallet\Traits\CanConfirm;
+use Bavix\Wallet\Traits\HasWallet;
+use Bavix\Wallet\Traits\HasWallets;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReservationTeam extends Model
+class ReservationTeam extends Model implements Wallet, Confirmable
 {
-    use HasFactory;
+    use HasFactory,HasWallet,HasWallets,CanConfirm;
     protected $guarded = [];
     public function counter()
     {

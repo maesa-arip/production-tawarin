@@ -4,26 +4,26 @@ import Form from './Form';
 
 export default function Edit({ setIsOpenEditDialog, model,cars }) {
     const { data, setData, put, reset, errors } = useForm({
-        name: model.name,
+        id: model.id,
         email: model.email,
         password: model.password,
     });
-   
+   console.log(model.id)
     const closeButton = (e) => setIsOpenEditDialog(false);
     const onSubmit = (e) => {
         e.preventDefault();
-        put(route("users.update", model.id), {
+        put(route("reservationCounters.update_set_cars", model.id), {
             data,
             onSuccess: () => {
                 reset(), setIsOpenEditDialog(false);
             },
         });
     };
-    console.log('ini 2')
+    // console.log('ini 2')
     useEffect(() => {
         setData({
             ...data,
-            name: model.name,
+            id: model.id,
             email: model.email,
             password: model.password,
         });

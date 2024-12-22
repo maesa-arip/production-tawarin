@@ -52,44 +52,53 @@ export default function Index(props) {
     const { permissions } = usePage().props;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
-    // console.log(team)
-
-    const reload = useCallback(
-        debounce((query) => {
-            Inertia.get(
-                route("reservation.teamheader"),
-                // {...pickBy({ search: query, page: query.page })},
-                { ...pickBy(query), page: query.page },
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                }
-            );
-        }, 150),
-        []
-    );
-
-    useEffect(() => reload(params), [params]);
-    useEffect(() => {
-        let numbers = [];
-        for (
-            let i = attributes.per_page;
-            i < attributes.total / attributes.per_page;
-            i = i + attributes.per_page
-        ) {
-            numbers.push(i);
-        }
-        numbers.length === 0 ? setPageNumber([10]) : setPageNumber(numbers);
-    }, []);
-    const onChange = (event) =>
-        setParams({ ...params, [event.target.name]: event.target.value });
-    const sort = (item) => {
-        setParams({
-            ...params,
-            field: item,
-            direction: params.direction == "asc" ? "desc" : "asc",
-        });
-    };
+    const [isInitialRender, setIsInitialRender] = useState(true);
+        const reload = useCallback(
+            debounce((query) => {
+                Inertia.get(
+                    route(route().current()),
+                    { ...pickBy(query), page: query.page },
+                    {
+                        preserveState: true,
+                        preserveScroll: true,
+                    }
+                );
+            }, 150),
+            []
+        );
+        useEffect(() => {
+            if (!isInitialRender) {
+                reload(params);
+            } else {
+                setIsInitialRender(false);
+            }
+        }, [params]);
+        useEffect(() => {
+            let numbers = [];
+            for (
+                let i = attributes.per_page;
+                i < attributes.total / attributes.per_page;
+                i = i + attributes.per_page
+            ) {
+                numbers.push(i);
+            }
+            setPageNumber(numbers);
+        }, []);
+        const onChange = (event) => {
+            const updatedParams = {
+                ...params,
+                [event.target.name]: event.target.value,
+                page: 1, // Set page number to 1
+            };
+            setParams(updatedParams);
+        };
+        const sort = (item) => {
+            setParams({
+                ...params,
+                field: item,
+                direction: params.direction == "asc" ? "desc" : "asc",
+            });
+        };
 
     // CRUD
 
@@ -301,22 +310,11 @@ export default function Index(props) {
                                                                 >
                                                                     {item.name}
                                                                 </span>
-                                                                <span
-                                                                    
-                                                                    className="block px-2 py-1 mx-1 my-2 text-xs text-gray-500 uppercase rounded-full bg-gray-50"
-                                                                >
-                                                                    {item.counterCategoryName}
-                                                                </span>
-                                                                <span
-                                                                    
-                                                                    className="block px-2 py-1 mx-1 my-2 text-xs text-gray-500 uppercase rounded-full bg-gray-50"
-                                                                >
-                                                                    {item.counterName}
-                                                                </span>
+                                                               
                                                     </td>
                                                     
                                                     <td>
-                                                        {item.teamdetail.map(
+                                                        {item.details.map(
                                                             (detail, index) => (
                                                                 <span
                                                                     key={index}

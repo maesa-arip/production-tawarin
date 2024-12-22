@@ -361,6 +361,18 @@ export default function AsideReservasi() {
                                                     <Link
                                                         onClick={toggleMenu}
                                                         href={route(
+                                                            "reservation.teamlayanan"
+                                                        )}
+                                                        className="text-white"
+                                                    >
+                                                        {" "}
+                                                        Atur Tim Untuk Layanan
+                                                    </Link>
+                                                </li>
+                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                    <Link
+                                                        onClick={toggleMenu}
+                                                        href={route(
                                                             "reservation.myemployeerequestoff"
                                                         )}
                                                         className="text-white"
