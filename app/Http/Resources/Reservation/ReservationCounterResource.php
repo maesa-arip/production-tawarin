@@ -21,6 +21,7 @@ class ReservationCounterResource extends JsonResource
             'name' => $this->name,
             'price' => $this->price,
             'price_user' => $this->price_user,
+            'bonus_khusus' => $this->bonus_khusus,
             'service_duration' => $this->service_duration,
             'period' => $this->period,
             'percent_owner' => $this->percent_owner,

@@ -714,6 +714,17 @@ class ReservationController extends Controller
     }
     public function finishcustomer(Request $request, $id)
     {
+        // dd($request,$id);
+        $data = $request->all();
+        // Extract question-answer pairs
+        $answers = collect($data)->filter(function ($value, $key) {
+            return is_numeric($key); // Only keep numeric keys
+        });
+        $all_rating = [];
+        foreach ($answers as $questionId => $rating) {
+            array_push($all_rating,$rating);
+        }
+        $rerataRatingCategory = array_sum($all_rating)/count($answers);
         $reservationCustomer1 = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
@@ -755,7 +766,7 @@ class ReservationController extends Controller
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price', 'reservation_counters.price_user', 'reservation_counters.jasa', 'reservation_counters.percent_owner', 'percent_employe', 'deposit', 'reservation_companies.name as CompanyName', 'reservation_counters.name as CounterName')
+            ->select('reservation_companies.user_id as pemilik', 'reservation_team_details.user_id as team', 'reservation_counters.price','reservation_counters.bhp', 'reservation_counters.bonus_khusus','reservation_counters.price_user', 'reservation_counters.jasa', 'reservation_counters.percent_owner', 'percent_employe', 'deposit', 'reservation_companies.name as CompanyName', 'reservation_counters.name as CounterName')
             ->where('reservation_customers.id', $id)
             ->first();
 
@@ -776,6 +787,8 @@ class ReservationController extends Controller
         };
         $tfTempTawarin = $reservationCounter->price - $reservationCounter->price_user;
         $tfBahan = $reservationCounter->bhp;
+        $tfBonusKhusus = $reservationCounter->bonus_khusus;
+        // dd($reservationCounter);
         $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->jasa;
         $tfReferral = (5 / 100 * $tfTempTawarin);
         $tfTawarin = $tfTempTawarin - $tfReferral;
@@ -886,6 +899,15 @@ class ReservationController extends Controller
                             }
                         }
                         
+                    }
+                    if ($rerataRatingCategory == 5) {
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $pemilik->transfer($teamdetail, $tfBonusKhusus / count($cekTeam), new Extra(
+                                deposit: ['message' => 'Bonus Khusus dari ' . $pemilik->name, 'type' => 'bonus_khusus'],
+                                withdraw: new Option(meta: ['message' => 'Uang Bonus Khusus untuk ' . $teamdetail->name, 'type' => 'bonus_khusus'], confirmed: true)
+                            ));
+                        }
                     }
                     DB::commit();
                     return redirect('myreservations')->with([

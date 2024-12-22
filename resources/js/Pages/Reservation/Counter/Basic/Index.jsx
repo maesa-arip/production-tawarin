@@ -135,6 +135,7 @@ export default function Index(props) {
         setState(person);
         setIsOpenEditDialog(true);
     };
+    // console.log(state.id)
     const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     return (

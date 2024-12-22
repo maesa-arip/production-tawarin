@@ -130,7 +130,17 @@ class ReservationCounterController extends Controller
 
     public function update_set_cars(Request $request,$id)
     {
-        dd($request,$id);
+        $reservationCounter = ReservationCounter::findOrFail($id);
+        $reservationCounter->cars()->sync($request->cars);
+        return redirect('reservationCounters')->with([
+            'type' => 'success',
+            'message' => 'Kendaraan berhasil di atur',
+        ]);
+        // dd($reservationCounter);
+        // foreach ($request->cars as $key => $value) {
+        //     # code...
+        // }
+        // dd($request,$id);
     }
 
     public function show(ReservationCompany $reservationCompany, ReservationCounter $reservationCounter)

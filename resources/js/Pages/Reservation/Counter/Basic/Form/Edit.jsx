@@ -8,11 +8,11 @@ export default function Edit({ setIsOpenEditDialog, model,cars }) {
         email: model.email,
         password: model.password,
     });
-   console.log(model.id)
+//    console.log(model.id)
     const closeButton = (e) => setIsOpenEditDialog(false);
     const onSubmit = (e) => {
         e.preventDefault();
-        put(route("reservationCounters.update_set_cars", model.id), {
+        put(route("reservationCounters.update_set_cars", 25), {
             data,
             onSuccess: () => {
                 reset(), setIsOpenEditDialog(false);

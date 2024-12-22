@@ -10,7 +10,7 @@ import ThirdButton from "@/Components/ThirdButton";
 import InfoModal from "@/Components/Modal/InfoModal";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks, IconCircleCheck, IconX, IconXboxX } from "@tabler/icons";
+import { IconChecks, IconCircleCheck, IconHelp, IconX, IconXboxX } from "@tabler/icons";
 import RadioCard from "@/Components/RadioCard";
 import TextAreaInput from "@/Components/TextAreaInput";
 import InputLabel from "@/Components/InputLabel";
