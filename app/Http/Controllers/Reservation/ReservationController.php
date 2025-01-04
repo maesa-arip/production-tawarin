@@ -724,7 +724,10 @@ class ReservationController extends Controller
         foreach ($answers as $questionId => $rating) {
             array_push($all_rating,$rating);
         }
-        $rerataRatingCategory = array_sum($all_rating)/count($answers);
+        if (count($answers) > 0) {
+            $rerataRatingCategory = array_sum($all_rating)/count($answers);
+        }
+        
         $reservationCustomer1 = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
