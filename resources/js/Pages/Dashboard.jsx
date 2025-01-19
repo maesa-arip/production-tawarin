@@ -14,6 +14,7 @@ import DropdownMobile from "@/Components/DropdownMobile";
 import {
     IconBan,
     IconCirclePlus,
+    IconClock,
     IconDotsVertical,
     IconHomeEdit,
     IconLicense,
@@ -101,6 +102,9 @@ export default function Dashboard(props) {
         useState(false);
     const [state, setState] = useState([]);
     const [selected, setSelected] = useState();
+        const permission_name = permissions
+            ? permissions.map((permission) => permission.name)
+            : "null";
 
     const { data, setData, put, processing, errors, reset } = useForm({
         join_as_id: "",
@@ -421,8 +425,103 @@ export default function Dashboard(props) {
                             </Link>
                         ))}
                     </div>
-                    <hr />
+                    {/* <hr />
+                    <div className="grid grid-cols-3 gap-2 p-4 ">
+                    {[
+                            {
+                                href: route("reservation.list"),
+                                icon: (
+                                    <SearchCircleIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Cari Reservasi",
+                            },
+                            {
+                                
+                                href: route("reservation.myreservations"),
+                                icon: (
+                                    <BookOpenIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Reservasi Saya",
+                            },
+                            {
+                                href: "/chat",
+                                icon: (
+                                    <ChatAlt2Icon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Live Chat",
+                            },
+                            
+                        ].map((item, index) => (
+                            <Link
+                                key={index}
+                                href={item.href}
+                                className="flex flex-col items-center "
+                            >
+                                <div className="flex items-center justify-center w-24 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                    {item.icon}
+                                </div>
+                                <p className="mt-2 text-xs font-semibold text-center">
+                                    {item.label}
+                                </p>
+                            </Link>
+                        ))}
+                    </div> */}
+                </div>
+                <div className="mt-2 border rounded-lg">
+                {permission_name.indexOf(
+                                "lihat menu pekerja reservasi"
+                            ) > -1 && (
+                                <>
+                    <div className="grid grid-cols-4 gap-4 p-4 ">
+                        {[
+                            {
+                                href: route("reservationemployeedayoff.index"),
+                                icon: (
+                                    <IconClock className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Libur dan Istirahat",
+                            },
+                            {
+                                href: route("reservation.myteaminvitations"),
+                                icon: (
+                                    <UsersIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Undangan",
+                            },
+                            {
+                                href: route("reservation.mycustomers"),
+                                icon: (
+                                    <DeviceTabletIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Pelanggan",
+                            },
+                            {
+                                href : route("reservation.mycounters"),
+                                icon: (
+                                    <UserIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Produk",
+                            },
 
+                            
+                        ].map((item, index) => (
+                            <Link
+                                key={index}
+                                href={item.href}
+                                className="flex flex-col items-center "
+                            >
+                                <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                    {item.icon}
+                                </div>
+                                <p className="mt-2 text-xs font-semibold text-center">
+                                    {item.label}
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
+                    <hr />
+                    </>
+                            )}
                     <div className="grid grid-cols-3 gap-2 p-4 ">
                     {[
                             {
