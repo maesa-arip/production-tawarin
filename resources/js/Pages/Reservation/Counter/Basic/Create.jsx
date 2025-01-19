@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppReservasi from "@/Layouts/AppReservasi";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { Switch } from "@headlessui/react";
 import DatePicker from "@/Components/DatePicker/DatePicker";
@@ -20,6 +20,7 @@ import RadioCard2 from "@/Components/RadioCard2";
 import Tooltip from "@/Components/Tooltip";
 import BaseModal from "@/Components/Modal/BaseModal";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
+import { StarIcon } from "@heroicons/react/outline";
 
 export default function Create({ onOff,reservationCarCategories,company }) {
     const set_dayoff = [
@@ -526,6 +527,51 @@ export default function Create({ onOff,reservationCarCategories,company }) {
                                                     </span>
                                                 </div> */}
                                             </div>
+                                            <div className="col-span-12 mt-2">
+                    <div className="">
+                        {[
+                            {
+                                href: route(
+                                    "reservationRatingCategories.index"
+                                ),
+                                icon: reservationCarCategories[0] ? (
+                                    <StarIcon className="w-6 h-6 text-orange-400" />
+                                ) : (
+                                    <StarIcon className="w-6 h-6 text-gray-400" />
+                                ),
+                                label: "Lihat Bonus Khusus",
+                            },
+                        ].map((item, index) =>
+                            reservationCarCategories[0] ? (
+                                <Link
+                                    key={index}
+                                    href={item.href}
+                                    className="flex flex-col items-center "
+                                >
+                                    <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-md bg-orange-50">
+                                        {item.icon}
+                                    </div>
+                                    <p className="mt-2 text-xs font-semibold text-center">
+                                        {item.label}
+                                    </p>
+                                </Link>
+                            ) : (
+                                <div
+                                    key={index}
+                                    href={item.href}
+                                    className="flex flex-col items-center "
+                                >
+                                    <div className="flex items-center justify-center w-full h-12 border border-gray-100 rounded-xl bg-gray-50">
+                                        {item.icon}
+                                    </div>
+                                    <p className="mt-2 text-xs font-semibold text-center">
+                                        {item.label}
+                                    </p>
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
                                             <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -590,14 +636,14 @@ export default function Create({ onOff,reservationCarCategories,company }) {
                                                     />
                                                     <polyline points="11 12 12 12 12 16 13 16" />
                                                 </svg>
-                                                Deposit akan dipotong dari Persentase Untuk Pekerja 
+                                                Persentase deposit pekerja adalah persentase maksimal yang akan disimpan, yang dipotong dari persentase untuk pekerja 
                                             </div>
                                             <div className="col-span-12 md:col-span-6">
                                                 <label
                                                     htmlFor="name"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Persentase untuk Deposit
+                                                    Persentase Deposit Pekerja
                                                 </label>
                                                 <div className="flex mt-1 rounded-md">
                                                     <div className="flex items-center w-full px-2 bg-white border border-gray-300 rounded-md shadow-sm gap-x-0 sm:text-sm focus-within:border-indigo-500 focus-within:ring-indigo-500 focus-within:ring-1">

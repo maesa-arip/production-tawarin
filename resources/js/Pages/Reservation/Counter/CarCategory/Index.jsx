@@ -128,12 +128,12 @@ export default function Index(props) {
     const [state, setState] = useState([]);
     return (
         <>
-            <Head title="question" />
+            <Head title="Kategori" />
             <AddModal
                 isOpenAddDialog={isOpenAddDialog}
                 setIsOpenAddDialog={setIsOpenAddDialog}
                 size="max-w-4xl"
-                title="Tambah Pertanyaan"
+                title="Tambah Kategori"
             >
                 <Create
                     employees={employees}
@@ -146,7 +146,7 @@ export default function Index(props) {
                 isOpenEditDialog={isOpenEditDialog}
                 setIsOpenEditDialog={setIsOpenEditDialog}
                 size="max-w-4xl"
-                title={"Edit question"}
+                title={"Edit Kategori"}
             >
                 <Edit
                     reservationCarCategories={reservationCarCategories}
@@ -159,7 +159,7 @@ export default function Index(props) {
                 isOpenDestroyDialog={isOpenDestroyDialog}
                 setIsOpenDestroyDialog={setIsOpenDestroyDialog}
                 size="max-w-4xl"
-                title="Delete question"
+                title="Delete Kategori"
                 warning="Yakin hapus data ini ?"
             >
                 <DangerButton className="ml-2" onClick={destroyquestion}>
@@ -247,7 +247,7 @@ export default function Index(props) {
                                                             sort("question")
                                                         }
                                                     >
-                                                        Pertanyaan
+                                                        Kategori
                                                         {params.field ==
                                                             "question" &&
                                                             params.direction ==

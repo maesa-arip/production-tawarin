@@ -27,7 +27,7 @@ export default function Form({
             <div className="px-4 py-5 bg-white sm:p-6">
                 <div className="grid grid-cols-12 gap-6">
                     <div className="col-span-12">
-                        <InputLabel for="name" value="Pertanyaan" />
+                        <InputLabel for="name" value="Kategori" />
                         <TextInput
                             id="name"
                             value={data.name}

@@ -55,18 +55,31 @@ class HistoryController extends Controller
     public function main(Request $request)
     {
         $query = Transaction::query()
-            ->where('payable_id', auth()->user()->id)
+            // ->where('payable_id', auth()->user()->id)
             // ->where('confirmed',1)
             // ->whereJsonContains('meta->type', 'uang masuk')
             // ->whereJsonContains('meta->type', 'tip')
             // ->whereJsonContains('meta->type', 'deposit')
             // ->whereJsonContains('meta->type', 'referral')
-            ->with('wallet');
+            ->with('wallet')
+            ->whereHas('wallet', function ($q) {
+                return $q->where('holder_id', '=', auth()->user()->id);
+            });
+            // ->with('wallet')->whereRelation('wallet', 'holder_id', auth()->user()->id);
+
+            // Event::whereHas('participants', function ($query) {
+            //     return $query->where('IDUser', '=', 1);
+            // })->get();
+            // dd($query);
+            // ->where('wallet.holder_id',auth()->user()->id);
         if ($request->q) {
-            $query->where('payable_type', 'like', '%' . $request->q . '%')
-                ->orWhere('type', 'like', '%' . $request->q . '%')
-                ->orWhere('amount', 'like', '%' . $request->q . '%')
-                ->orWhere('confirmed', 'like', '%' . $request->q . '%');
+            $query
+                // ->where('payable_type', 'like', '%' . $request->q . '%')
+                ->where('type', 'like', '%' . $request->q . '%')
+                // ->orWhere('amount', 'like', '%' . $request->q . '%')
+                ->orWhereJsonContains('meta->message',  '%' . $request->q . '%');
+                // ->orWhere('meta', 'like', '%' . $request->q . '%');
+                // ->orWhere('confirmed', 'like', '%' . $request->q . '%');
         }
         if ($request->has(['field', 'direction'])) {
             $query->orderBy($request->field, $request->direction);

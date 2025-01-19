@@ -440,7 +440,7 @@ class ReservationController extends Controller
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_car_categories.name as counterCategoryName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug', 'reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.created_at', 'DESC')
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_car_categories.name as counterCategoryName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug', 'reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.date', 'DESC')
             ->get();
         // dd($myReservations);
         $ratingCategories = ReservationRatingCategory::where('reservation_company_id', 6)->get();

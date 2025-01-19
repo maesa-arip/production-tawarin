@@ -12,7 +12,12 @@ import { numberFormat } from "@/Libs/helper";
 import NavLink from "@/Components/NavLink";
 import Dropdown from "@/Components/Dropdown";
 import DropdownMobile from "@/Components/DropdownMobile";
-import { IconBan, IconCirclePlus, IconDotsVertical } from "@tabler/icons";
+import {
+    IconBan,
+    IconCirclePlus,
+    IconDotsVertical,
+    IconLicense,
+} from "@tabler/icons";
 import Header from "@/Components/Header";
 import ThirdButton from "@/Components/ThirdButton";
 import Pagination from "@/Components/Pagination";
@@ -20,6 +25,15 @@ import Table from "@/Components/Table";
 import ThirdButtonSmall from "@/Components/ThirdButtonSmall";
 import Create from "./Form/Create";
 import Edit from "./Form/Edit";
+import {
+    CogIcon,
+    DeviceTabletIcon,
+    PlusCircleIcon,
+    StarIcon,
+    UserIcon,
+    UsersIcon,
+} from "@heroicons/react/outline";
+import ThirdButtonSmallNoLink from "@/Components/ThirdButtonSmallNoLink";
 
 const UpIcon = () => (
     <svg
@@ -60,7 +74,7 @@ export default function Index(props) {
     const cars = props.cars;
     const reservationCarCategories = props.reservationCarCategories;
     // console.log(cars)
-    // console.log(reservationCounters)
+    console.log(reservationCounters);
     const reservationCounterRejectCount = props.reservationCounterRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -135,13 +149,13 @@ export default function Index(props) {
         setState(person);
         setIsOpenEditDialog(true);
     };
-    // console.log(state.id)
+    // console.log(reservationCarCategories);
     const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     return (
         <>
             <Head title="Reservation Counter" />
-            <Header title="Layanan" description="List Layanan Saya." />
+            <Header title="Produk" description="List Produk." />
             <Container>
                 <AddModal
                     isOpenAddDialog={isOpenAddDialog}
@@ -179,63 +193,179 @@ export default function Index(props) {
                         Non Aktifkan
                     </Button>
                 </DestroyModal>
-                <ul
-                    role="list"
-                    className="border divide-y divide-gray-100 rounded-lg"
-                >
-                    <div className="p-4 sm:px-0">
-                        <h3 className="font-semibold text-gray-900 text-base/7">
-                            Kategori
-                        </h3>
-                        <p className="max-w-2xl mt-1 text-gray-500 text-sm/6">
-                            Kategori Wasco.
-                        </p>
-                    </div>
-                    {reservationCarCategories.map((item) => (
-                        <li
-                            key={item.email}
-                            className="flex justify-between py-5 gap-x-6"
-                        >
-                            <div className="flex min-w-0 gap-x-4">
-                                <img
-                                    alt=""
-                                    src={item.imageUrl}
-                                    className="flex-none rounded-full size-12 bg-gray-50"
-                                />
-                                <div className="flex-auto min-w-0">
-                                    <p className="font-semibold text-gray-900 text-sm/6">
-                                        {item.name}
-                                    </p>
-                                    <p className="mt-1 text-gray-500 truncate text-xs/5">
-                                        {item.email}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <p className="text-gray-900 text-sm/6">
-                                    Atur Kendaraan
-                                </p>
-                                {item.lastSeen ? (
-                                    <p className="mt-1 text-gray-500 text-xs/5">
-                                        Last seen{" "}
-                                        <time dateTime={item.lastSeenDateTime}>
-                                            {item.lastSeen}
-                                        </time>
-                                    </p>
-                                ) : (
-                                    <div className="mt-1 flex items-center gap-x-1.5">
-                                        <div className="flex-none p-1 rounded-full bg-emerald-500/20">
-                                            <div className="size-1.5 rounded-full bg-emerald-500" />
-                                        </div>
-                                        <p className="text-gray-500 text-xs/5">
-                                        Atur Kendaraan
+                {reservationCarCategories[0] ? (
+                    <ul
+                        role="list"
+                        className="border divide-y divide-gray-100 rounded-lg"
+                    >
+                        <div className="p-4 sm:px-0">
+                            <h3 className="font-semibold text-gray-900 text-base/7">
+                                Kategori
+                            </h3>
+                            <p className="max-w-2xl mt-1 text-gray-500 text-sm/6">
+                                Kategori Wasco.
+                            </p>
+                        </div>
+                        {reservationCarCategories.map((item) => (
+                            <li
+                                key={item.email}
+                                className="flex justify-between py-5 gap-x-6"
+                            >
+                                <div className="flex min-w-0 gap-x-4">
+                                    <img
+                                        alt=""
+                                        src={item.imageUrl}
+                                        className="flex-none rounded-full size-12 bg-gray-50"
+                                    />
+                                    <div className="flex-auto min-w-0">
+                                        <p className="font-semibold text-gray-900 text-sm/6">
+                                            {item.name}
+                                        </p>
+                                        <p className="mt-1 text-gray-500 truncate text-xs/5">
+                                            {item.email}
                                         </p>
                                     </div>
-                                )}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                                </div>
+                                <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                                    <p className="text-gray-900 text-sm/6">
+                                        Atur Kendaraan
+                                    </p>
+                                    {item.lastSeen ? (
+                                        <p className="mt-1 text-gray-500 text-xs/5">
+                                            Last seen{" "}
+                                            <time
+                                                dateTime={item.lastSeenDateTime}
+                                            >
+                                                {item.lastSeen}
+                                            </time>
+                                        </p>
+                                    ) : (
+                                        <div className="mt-1 flex items-center gap-x-1.5">
+                                            <div className="flex-none p-1 rounded-full bg-emerald-500/20">
+                                                <div className="size-1.5 rounded-full bg-emerald-500" />
+                                            </div>
+                                            <p className="text-gray-500 text-xs/5">
+                                                Atur Kendaraan
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </li>
+                        ))}
+                        <div className="grid grid-cols-1 gap-2 p-4 ">
+                            {[
+                                {
+                                    href: route(
+                                        "reservationCarCategories.index"
+                                    ),
+                                    icon: (
+                                        <CogIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Tambah Kategori",
+                                },
+                            ].map((item, index) => (
+                                <Link
+                                    key={index}
+                                    href={item.href}
+                                    className="flex flex-col items-center "
+                                >
+                                    <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                        {item.icon}
+                                    </div>
+                                    <p className="mt-2 text-xs font-semibold text-center">
+                                        {item.label}
+                                    </p>
+                                </Link>
+                            ))}
+                        </div>
+                    </ul>
+                ) : (
+                    <div className="p-2 border divide-y divide-gray-100 rounded-lg ">
+                        <h3 className="font-semibold text-gray-900 text-base/7">
+                            Silakan Buat Kategori Terlebih Dahulu
+                        </h3>
+                        <div className="grid grid-cols-1 gap-2 py-4 ">
+                            {[
+                                {
+                                    href: route(
+                                        "reservationCarCategories.index"
+                                    ),
+                                    icon: (
+                                        <CogIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Tambah Kategori",
+                                },
+                            ].map((item, index) => (
+                                <Link
+                                    key={index}
+                                    href={item.href}
+                                    className="flex flex-col items-center "
+                                >
+                                    <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                        {item.icon}
+                                    </div>
+                                    <p className="mt-2 text-xs font-semibold text-center">
+                                        {item.label}
+                                    </p>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                )}
+                <div className="mt-2 border rounded-lg">
+                    <div className="grid grid-cols-2 gap-2 p-4 ">
+                        {[
+                            {
+                                href: "reservationCounters/create",
+                                icon: reservationCarCategories[0] ? (
+                                    <PlusCircleIcon className="w-6 h-6 text-orange-400" />
+                                ) : (
+                                    <PlusCircleIcon className="w-6 h-6 text-gray-400" />
+                                ),
+                                label: "Tambah Produk",
+                            },
+                            {
+                                href: route(
+                                    "reservationRatingCategories.index"
+                                ),
+                                icon: reservationCarCategories[0] ? (
+                                    <StarIcon className="w-6 h-6 text-orange-400" />
+                                ) : (
+                                    <StarIcon className="w-6 h-6 text-gray-400" />
+                                ),
+                                label: "Bonus Rating",
+                            },
+                        ].map((item, index) =>
+                            reservationCarCategories[0] ? (
+                                <Link
+                                    key={index}
+                                    href={item.href}
+                                    className="flex flex-col items-center "
+                                >
+                                    <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                        {item.icon}
+                                    </div>
+                                    <p className="mt-2 text-xs font-semibold text-center">
+                                        {item.label}
+                                    </p>
+                                </Link>
+                            ) : (
+                                <div
+                                    key={index}
+                                    href={item.href}
+                                    className="flex flex-col items-center "
+                                >
+                                    <div className="flex items-center justify-center w-full h-12 border border-gray-100 rounded-xl bg-gray-50">
+                                        {item.icon}
+                                    </div>
+                                    <p className="mt-2 text-xs font-semibold text-center">
+                                        {item.label}
+                                    </p>
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
                 <div className="hidden lg:block">
                     {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
                     <div className="flex items-center justify-end">
@@ -688,20 +818,8 @@ export default function Index(props) {
                 </div>
                 <div className="lg:hidden">
                     <div className="flex items-center justify-between">
-                        
                         <div className="w-full">
-                            <div className="flex items-center justify-between mt-2 mb-0 gap-x-1">
-                                {/* <select
-                                    name="load"
-                                    id="load"
-                                    onChange={onChange}
-                                    value={params.load}
-                                    className="transition duration-150 ease-in-out border-gray-300 rounded-lg focus:ring-blue-200 focus:ring form-select"
-                                >
-                                    {pageNumber.map((page, index) => (
-                                        <option key={index}>{page}</option>
-                                    ))}
-                                </select> */}
+                            <div className="flex items-center justify-between w-full mt-2 mb-0 gap-x-1">
                                 <div className="flex items-center px-2 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg gap-x-2 focus-within:border-blue-400 focus-within:ring-blue-200 focus-within:ring">
                                     <svg
                                         className="inline w-5 h-5 text-gray-500"
@@ -730,7 +848,7 @@ export default function Index(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center justify-between">
+                    {/* <div className="flex items-center justify-between">
                         <div className="w-full">
                             <div className="flex items-center justify-start mt-2 mb-0 gap-x-1">
                            
@@ -739,21 +857,12 @@ export default function Index(props) {
                                     href={route("reservationCarCategories.index")}
                                 >
                                     Kategori
-                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
                                 </ThirdButton>
                                 <ThirdButton
                                     type="button"
                                     href={"reservationCounters/create"}
                                 >
                                     Tambah
-                                    {/* <IconCirclePlus className="flex w-3 h-3" /> */}
-                                </ThirdButton>
-                                <ThirdButton
-                                    type="button"
-                                    href={route("reservationQuestions.index")}
-                                >
-                                    Question
-                                    
                                 </ThirdButton>
                                 <ThirdButton
                                     type="button"
@@ -762,12 +871,10 @@ export default function Index(props) {
                                     Rating
                                     
                                 </ThirdButton>
-
-                                {/* <ThirdButton type="button" color="red" href={"#"}>Ditolak({reservationCounterRejectCount})</ThirdButton> */}
                             </div>
                         </div>
                         
-                    </div>
+                    </div> */}
                     <div className="grid w-full grid-cols-1 mt-4 gap-x-1 gap-y-4 md:gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                         {reservationCounters.map(
                             (reservationCounter, index) => (
@@ -786,7 +893,8 @@ export default function Index(props) {
                                                     </p> */}
                                                     <p className="p-1 text-sm font-semibold rounded-full">
                                                         {
-                                                            reservationCounter.category.name
+                                                            reservationCounter
+                                                                .category.name
                                                         }
                                                     </p>
 
@@ -956,7 +1064,11 @@ export default function Index(props) {
                                                         ) : (
                                                             <>
                                                                 {reservationCounter.is_active ==
-                                                                1 ? (
+                                                                    1 &&
+                                                                reservationCounter
+                                                                    .company
+                                                                    .reservation_category_id ==
+                                                                    1 ? (
                                                                     <ThirdButtonSmall
                                                                         href={route(
                                                                             "reservationCounters.settingteam",
@@ -966,23 +1078,128 @@ export default function Index(props) {
                                                                         Atur Tim
                                                                     </ThirdButtonSmall>
                                                                 ) : (
-                                                                    // <Link
-                                                                    // href={route(
-                                                                    //     "reservationCounters.settingteam",
-                                                                    //     `${reservationCounter.slug}`
-                                                                    // )}
-                                                                    //     className="px-2 py-1 text-xs font-semibold text-white rounded bg-sky-700"
-                                                                    // >
-                                                                    //     Atur Tim
+                                                                    <></>
+                                                                    // <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
+                                                                    //     Edit
                                                                     // </Link>
-                                                                    <Link className="px-2 py-1 text-xs font-semibold text-white bg-yellow-700 rounded">
-                                                                        Edit
-                                                                    </Link>
                                                                 )}
                                                             </>
                                                         )}
                                                     </div>
                                                 </div>
+                                                {reservationCounter.is_active ==
+                                                    1 &&
+                                                reservationCounter.company
+                                                    .reservation_category_id ==
+                                                    2 ? (
+                                                    <div className="flex col-span-12 col-start-1 gap-1 py-2 mx-auto border-t-2">
+                                                        <ThirdButtonSmall
+                                                            href={route(
+                                                                "reservationCounters.edit",
+                                                                `${reservationCounter.slug}`
+                                                            )}
+                                                        >
+                                                            Edit Layanan
+                                                        </ThirdButtonSmall>
+                                                        <ThirdButtonSmallNoLink
+                                                            // type="button"
+                                                            onClick={() =>
+                                                                openEditDialog(
+                                                                    reservationCounter
+                                                                )
+                                                            }
+                                                        >
+                                                            Atur Kendaraan
+                                                        </ThirdButtonSmallNoLink>
+                                                        <ThirdButtonSmall
+                                                            href={route(
+                                                                "reservation.teamheader"
+                                                            )}
+                                                        >
+                                                            Atur Tim
+                                                        </ThirdButtonSmall>
+                                                        <ThirdButtonSmallNoLink
+                                                            // type="button"
+                                                            onClick={() =>
+                                                                openDestroyDialog(
+                                                                    reservationCounter
+                                                                )
+                                                            }
+                                                        >
+                                                            Non Aktifkan
+                                                        </ThirdButtonSmallNoLink>
+                                                    </div>
+                                                    // <div className="col-span-12">
+                                                    //     <div className="grid grid-cols-4 gap-2 ">
+                                                    //         {[
+                                                    //             {
+                                                    //                 href: route(
+                                                    //                     "reservationprofile.edit"
+                                                    //                 ),
+                                                    //                 icon: (
+                                                    //                     <IconLicense className="w-6 h-6 text-orange-400" />
+                                                    //                 ),
+                                                    //                 label: "Perusahaan",
+                                                    //             },
+                                                    //             {
+                                                    //                 href: route(
+                                                    //                     "reservationemployees.index"
+                                                    //                 ),
+                                                    //                 icon: (
+                                                    //                     <UsersIcon className="w-6 h-6 text-orange-400" />
+                                                    //                 ),
+                                                    //                 label: "Karyawan",
+                                                    //             },
+                                                    //             {
+                                                    //                 href: route(
+                                                    //                     "reservationCounters.index"
+                                                    //                 ),
+                                                    //                 icon: (
+                                                    //                     <DeviceTabletIcon className="w-6 h-6 text-orange-400" />
+                                                    //                 ),
+                                                    //                 label: "Produk",
+                                                    //             },
+                                                    //             {
+                                                    //                 href: route(
+                                                    //                     "reservation.teamheader"
+                                                    //                 ),
+                                                    //                 icon: (
+                                                    //                     <UserIcon className="w-6 h-6 text-orange-400" />
+                                                    //                 ),
+                                                    //                 label: "Tim",
+                                                    //             },
+                                                    //         ].map(
+                                                    //             (
+                                                    //                 item,
+                                                    //                 index
+                                                    //             ) => (
+                                                    //                 <Link
+                                                    //                     key={
+                                                    //                         index
+                                                    //                     }
+                                                    //                     href={
+                                                    //                         item.href
+                                                    //                     }
+                                                    //                     className="flex flex-col items-center "
+                                                    //                 >
+                                                    //                     <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                                    //                         {
+                                                    //                             item.icon
+                                                    //                         }
+                                                    //                     </div>
+                                                    //                     <p className="mt-2 text-xs font-semibold text-center">
+                                                    //                         {
+                                                    //                             item.label
+                                                    //                         }
+                                                    //                     </p>
+                                                    //                 </Link>
+                                                    //             )
+                                                    //         )}
+                                                    //     </div>
+                                                    // </div>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

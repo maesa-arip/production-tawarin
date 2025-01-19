@@ -16,7 +16,9 @@ import {
     IconCirclePlus,
     IconDotsVertical,
     IconHomeEdit,
+    IconLicense,
     IconListNumbers,
+    IconSquareRoundedPlus,
 } from "@tabler/icons";
 import Header from "@/Components/Header";
 import InfoModal from "@/Components/Modal/InfoModal";
@@ -24,6 +26,26 @@ import ThirdButton from "@/Components/ThirdButton";
 import NavLinkMobile from "@/Components/NavLinkMobile";
 import RadioCard from "@/Components/RadioCard";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
+import {
+    ArchiveIcon,
+    ArrowCircleDownIcon,
+    ArrowCircleRightIcon,
+    ArrowCircleUpIcon,
+    ArrowNarrowDownIcon,
+    ArrowRightIcon,
+    BookOpenIcon,
+    ChatAlt2Icon,
+    ClipboardIcon,
+    ClipboardListIcon,
+    ClockIcon,
+    DeviceTabletIcon,
+    DocumentIcon,
+    InboxIcon,
+    SearchCircleIcon,
+    UserCircleIcon,
+    UserIcon,
+    UsersIcon,
+} from "@heroicons/react/outline";
 
 const UpIcon = () => (
     <svg
@@ -64,6 +86,7 @@ export default function Dashboard(props) {
     const balance = props.balance;
     const referral = props.referral;
     const bonus = props.bonus;
+    const user = props.user;
     const feewithdraw = props.feewithdraw;
     const { auth } = usePage().props;
     const [pageNumber, setPageNumber] = useState([]);
@@ -83,7 +106,7 @@ export default function Dashboard(props) {
         join_as_id: "",
     });
     // CRUD
-    // console.log(plans);
+    console.log(user.company);
 
     const openDestroyDialog = (plan) => {
         setState(plan);
@@ -123,19 +146,24 @@ export default function Dashboard(props) {
     const updateJoinas = () => {
         put(route("reservation.updatejoinas", auth.user.id), {
             onSuccess: () => {
-                return Promise.all([setIsOpenInfoDialog3(false),setIsOpenInfoDialogReservasi(false),setIsOpenInfoDialogKonstruksi(false), reset()]);
+                return Promise.all([
+                    setIsOpenInfoDialog3(false),
+                    setIsOpenInfoDialogReservasi(false),
+                    setIsOpenInfoDialogKonstruksi(false),
+                    reset(),
+                ]);
             },
         });
     };
     const closeOpenDialog2 = () => {
         setIsOpenInfoDialog2(false);
-    }
-    
+    };
+
     useEffect(() => {
         if (!auth.user.join_as_id) {
             openInfoDialog3();
         }
-    }, [])
+    }, []);
     return (
         <>
             <Head title="Dashboard" />
@@ -150,20 +178,7 @@ export default function Dashboard(props) {
                     Hapus
                 </Button>
             </DestroyModal>
-            {/* <InfoModal
-                isOpenInfoDialog={isOpenInfoDialog}
-                setIsOpenInfoDialog={setIsOpenInfoDialog}
-                size="max-w-2xl"
-                title={"Info"}
-                header={""}
-            >
-                Ayo lengkapi portofoliomu untuk menarik owner menggunakan jasamu
-                <Link href={"planportofolios/create"}>
-                    <ThirdButton className="flex mx-4">
-                        Tambah Portofolio
-                    </ThirdButton>
-                </Link>
-            </InfoModal> */}
+
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog2}
                 setIsOpenInfoDialog={setIsOpenInfoDialog2}
@@ -180,10 +195,9 @@ export default function Dashboard(props) {
                 >
                     Close
                 </ThirdButtonNoLink>
-                    <ThirdButton href={"/profile"} className="block mx-1 ">
-                        Lengkapi Profil
-                    </ThirdButton>
-                    
+                <ThirdButton href={"/profile"} className="block mx-1 ">
+                    Lengkapi Profil
+                </ThirdButton>
             </InfoModal>
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialogReservasi}
@@ -209,7 +223,9 @@ export default function Dashboard(props) {
                 >
                     Close
                 </ThirdButtonNoLink>
-                <ThirdButtonNoLink onClick={updateJoinas}>Simpan</ThirdButtonNoLink>
+                <ThirdButtonNoLink onClick={updateJoinas}>
+                    Simpan
+                </ThirdButtonNoLink>
             </InfoModal>
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialogKonstruksi}
@@ -235,7 +251,9 @@ export default function Dashboard(props) {
                 >
                     Close
                 </ThirdButtonNoLink>
-                <ThirdButtonNoLink onClick={updateJoinas}>Simpan</ThirdButtonNoLink>
+                <ThirdButtonNoLink onClick={updateJoinas}>
+                    Simpan
+                </ThirdButtonNoLink>
             </InfoModal>
             <InfoModal
                 isOpenInfoDialog={isOpenInfoDialog3}
@@ -246,9 +264,7 @@ export default function Dashboard(props) {
                 closeButton="false"
             >
                 <div className="grid items-center justify-between grid-cols-2 mt-4 gap-x-12 gap-y-4">
-                    <div
-                        onClick={() => setIsOpenInfoDialogReservasi(true)}
-                    >
+                    <div onClick={() => setIsOpenInfoDialogReservasi(true)}>
                         <IconListNumbers className="w-full h-full px-2 py-2 text-white bg-blue-200 rounded-full shadow cursor-pointer" />
                         <p className="flex items-center justify-center px-4 py-2 text-xs font-medium text-center text-blue-900 break-words border border-transparent rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-21">
                             Tawarin Reservasi
@@ -263,8 +279,199 @@ export default function Dashboard(props) {
                 </div>
             </InfoModal>
             <Container>
-                <FeatureCard balance={balance} bonus={bonus} feewithdraw={feewithdraw} referral={referral}  />
-                {portofolio.length > 0 ? (
+                <div className="mt-2 border rounded-lg">
+                    <p className="px-4 pt-2 pb-1 text-sm font-semibold text-left">
+                        Saldo saat ini :
+                    </p>
+                    <p className="px-4 pb-2 text-lg font-semibold text-left">
+                        Rp {numberFormat(balance)}
+                    </p>
+                    <hr />
+                    <div className="grid grid-cols-4 gap-4 p-4 mt-2 ">
+                        {[
+                            {
+                                href: "/deposits/create",
+                                icon: (
+                                    <ArrowCircleDownIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Top Up",
+                            },
+                            {
+                                href: "/withdraws/create",
+                                icon: (
+                                    <ArrowCircleUpIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Tarik",
+                            },
+                            {
+                                href: "/wallet/transfers",
+                                icon: (
+                                    <ArrowCircleRightIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Kirim",
+                            },
+                            {
+                                href: "/wallets",
+                                icon: (
+                                    <ClipboardIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Rincian",
+                            },
+                        ].map((item, index) => (
+                            <Link
+                                key={index}
+                                href={item.href}
+                                className="flex flex-col items-center "
+                            >
+                                <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                    {item.icon}
+                                </div>
+                                <p className="mt-2 text-xs font-semibold text-center">
+                                    {item.label}
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+                <div className="mt-2 border rounded-lg">
+                    <div className="grid grid-cols-4 gap-4 p-4 ">
+                        {[
+                            {
+                                href: route("reservationprofile.edit"),
+                                icon: (
+                                    <IconLicense className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Perusahaan",
+                            },
+                            {
+                                href: route("reservationemployees.index"),
+                                icon: (
+                                    <UsersIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Karyawan",
+                            },
+                            {
+                                href: route("reservationCounters.index"),
+                                icon: (
+                                    <DeviceTabletIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Produk",
+                            },
+                            {
+                                href : route("reservation.teamheader"),
+                                icon: (
+                                    <UserIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Tim",
+                            },
+
+                            {
+                                href:route("reservation.myemployeebreaksetting"),
+                                icon: (
+                                    <ClockIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Jam Libur",
+                            },
+
+                            {
+                                href : route("reservation.myemployeerequestoff"),
+                                icon: (
+                                    <InboxIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Permintaan Libur",
+                            },
+                            {
+                                href : route("company.summary"),
+                                icon: (
+                                    <ClipboardListIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Laporan",
+                            },
+                            {
+                                icon: (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6 text-orange-400"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"
+                                        />
+                                    </svg>
+                                ),
+                                label: "Lainnya",
+                            },
+                        ].map((item, index) => (
+                            <Link
+                                key={index}
+                                href={item.href}
+                                className="flex flex-col items-center "
+                            >
+                                <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                    {item.icon}
+                                </div>
+                                <p className="mt-2 text-xs font-semibold text-center">
+                                    {item.label}
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
+                    <hr />
+
+                    <div className="grid grid-cols-3 gap-2 p-4 ">
+                    {[
+                            {
+                                href: route("reservation.list"),
+                                icon: (
+                                    <SearchCircleIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Cari Reservasi",
+                            },
+                            {
+                                
+                                href: route("reservation.myreservations"),
+                                icon: (
+                                    <BookOpenIcon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Reservasi Saya",
+                            },
+                            {
+                                href: "/chat",
+                                icon: (
+                                    <ChatAlt2Icon className="w-6 h-6 text-orange-400" />
+                                ),
+                                label: "Live Chat",
+                            },
+                            
+                        ].map((item, index) => (
+                            <Link
+                                key={index}
+                                href={item.href}
+                                className="flex flex-col items-center "
+                            >
+                                <div className="flex items-center justify-center w-24 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                    {item.icon}
+                                </div>
+                                <p className="mt-2 text-xs font-semibold text-center">
+                                    {item.label}
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+
+                {/* <FeatureCard
+                    balance={balance}
+                    bonus={bonus}
+                    feewithdraw={feewithdraw}
+                    referral={referral}
+                /> */}
+                {/* {portofolio.length > 0 ? (
                     <> </>
                 ) : (
                     useEffect(() => {
@@ -277,27 +484,29 @@ export default function Dashboard(props) {
                     useEffect(() => {
                         openInfoDialog2();
                     }, [])
-                )}
-                <div className="flex flex-col px-6 py-6 mt-4 bg-white border shadow-lg rounded-xl ">
-                        <div className="">
-                            <div className="flex items-center justify-between">
-                                <div className="w-full">
-                                    <div className="flex items-center mb-0 justify-evenly gap-x-1">
-                                        <ThirdButton
-                                            type="button"
-                                            href={"/myreservations"}
-                                        >
-                                            History Reservasi
-                                        </ThirdButton>
-                                        <ThirdButton
-                                            type="button"
-                                            href={route("plan.list")}
-                                        >
-                                            History Konstruksi
-                                        </ThirdButton>
-                                    </div>
+                )} */}
+                {/* <div className="flex flex-col px-6 py-6 mt-4 bg-white border shadow-lg rounded-xl ">
+                    <div className="">
+                        <div className="flex items-center justify-between">
+                            <div className="w-full">
+                                <div className="flex items-center mb-0 justify-evenly gap-x-1">
+                                    <ThirdButton
+                                        type="button"
+                                        href={"/myreservations"}
+                                    >
+                                        History Reservasi
+                                    </ThirdButton>
+                                    <ThirdButton
+                                        type="button"
+                                        href={route("plan.list")}
+                                    >
+                                        History Konstruksi
+                                    </ThirdButton>
                                 </div>
-                            </div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
                 {/* {plans.length > 0 ? (
                     <div className="flex flex-col px-2 py-2 mt-4 bg-white border shadow-lg rounded-xl ">
                         <div className="">
