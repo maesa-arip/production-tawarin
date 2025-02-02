@@ -3,7 +3,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/solid";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
 import "../../css/static/stickymenu.css";
-import { IconBrandWechat } from "@tabler/icons";
+import { IconBrandWechat, IconHome } from "@tabler/icons";
 
 export default function AsideReservasi() {
     const { auth, permissions, requestTopUp, requestWithdraw, customer_count } =
@@ -118,7 +118,14 @@ export default function AsideReservasi() {
                 ) : (
                     <></>
                 )}
-                Menu
+                {auth.user ? (
+                    <Link href="/dashboard">
+                        <IconHome/>
+                    </Link>
+                ) : (
+                    "Menu"
+                )}
+                
                 <span
                     onClick={toggleMenu}
                     id="menuIcon"

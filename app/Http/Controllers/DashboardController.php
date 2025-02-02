@@ -56,7 +56,11 @@ class DashboardController extends Controller
         ]);
         $joinas_reservasi = JoinAs::where('name', 'like', '%Reservasi%')->get();
         $joinas_konstruksi = JoinAs::where('name', 'not like', '%Reservasi%')->get();
-        $user = User::where('id',auth()->user()->id)->with('company')->first();
+        // $user = User::where('id',auth()->user()->id)->with('company')->with('employees')->where('employees.approved', 1)->first();
+        $user = User::where('id', auth()->user()->id)
+            ->with(['company', 'employees' => function ($query) {
+                $query->where('approved', 1);}
+            ])->first();
         $referral = User::where('from_referral', $user->referral)->count();
         $balance = auth()->user()->balance;
         $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;

@@ -186,6 +186,7 @@ class ReservationEmployeeController extends Controller
             ]);
         }
         $employee = ReservationEmployee::create(['user_id' => $user->id, 'reservation_company_id' => $company->id]);
+        $user->assignRole(11);
         return back()->with([
             'type' => 'success',
             'message' => 'Karyawan berhasil diundang, menunggu konfirmasi',

@@ -52,6 +52,7 @@ export default function Navbar() {
     const permission_name = permissions
         ? permissions.map((permission) => permission.name)
         : "null";
+        // console.log(auth)
     return (
         <>
             <InfoModal
@@ -67,7 +68,7 @@ export default function Navbar() {
                 <div className="px-4 mx-auto sm:px-6">
                     <div className="flex items-center justify-between py-6 border-b-2 border-gray-100 md:justify-start md:space-x-10">
                         <div className="flex justify-start">
-                            <NavLink href="/">
+                            <NavLink href={auth ? "/dasboard" : "/"}>
                                 <span className="sr-only"></span>
                                 <img
                                     className="w-8 h-8"

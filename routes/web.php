@@ -30,6 +30,7 @@ use App\Http\Controllers\Plan\PlanRevisionController;
 use App\Http\Controllers\PlanRevisionResultController;
 use App\Http\Controllers\Portofolio\PortofolioController;
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Reservation\CarController;
 use App\Http\Controllers\Reservation\ReservationCarCategoryController;
 use App\Http\Controllers\Reservation\ReservationController;
 use App\Http\Controllers\Reservation\ReservationCounterController;
@@ -113,6 +114,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('reservationemployee_cancel/{id}', [ReservationDayOffBreakController::class, 'cancel_dayoff'])->name('reservationemployee_cancel.cancel_dayoff');
     Route::get('/reservationprofile', [ReservationController::class, 'edit'])->name('reservationprofile.edit');
     Route::patch('/reservationprofile', [ReservationController::class, 'update'])->name('reservationprofile.update');
+    Route::patch('/reservationpernyataancompany', [ReservationController::class, 'updatepernyataan'])->name('reservationpernyataancompany.update');
     Route::delete('/reservationprofile', [ReservationController::class, 'destroy'])->name('reservationprofile.destroy');
     Route::get('/myreservations', [ReservationController::class, 'myreservations'])->name('reservation.myreservations');
     Route::get('/myteaminvitations', [ReservationController::class, 'myteaminvitations'])->name('reservation.myteaminvitations');
@@ -252,6 +254,7 @@ Route::get('toko/products/table', [ProductController::class, 'table'])->name('to
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/homekonstruksi', [HomeController::class, 'homekonstruksi'])->name('homekonstruksi');
 Route::get('/homereservasi', [HomeController::class, 'homereservasi'])->name('homereservasi');
+Route::get('/userguide', [HomeController::class, 'userguide'])->name('userguide');
 Route::get('toko/products/me', [ProductController::class, 'mine'])->middleware('auth')->name('products.mine');
 Route::resource('toko/products', ProductController::class);
 
@@ -351,6 +354,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // Reservasi
     Route::Resource('reservationCounters', ReservationCounterController::class)->except('show');
+    Route::Resource('reservationCar', CarController::class);
 
     // End Reservasi
 

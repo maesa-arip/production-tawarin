@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import AppReservasi from "@/Layouts/AppReservasi";
-import { Head, Link } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
@@ -34,6 +34,11 @@ import {
     UsersIcon,
 } from "@heroicons/react/outline";
 import ThirdButtonSmallNoLink from "@/Components/ThirdButtonSmallNoLink";
+import { ExclamationCircleIcon } from "@heroicons/react/solid";
+import Input from "@/Components/Input";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
+import InputError from "@/Components/InputError";
+import TextAreaInput from "@/Components/TextAreaInput";
 
 const UpIcon = () => (
     <svg
@@ -73,8 +78,9 @@ export default function Index(props) {
     } = props.reservationCounters;
     const cars = props.cars;
     const reservationCarCategories = props.reservationCarCategories;
+    const reservationCompany = props.reservationCompany;
     // console.log(cars)
-    console.log(reservationCounters);
+    // console.log(reservationCompany.pernyataan);
     const reservationCounterRejectCount = props.reservationCounterRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -152,11 +158,72 @@ export default function Index(props) {
     // console.log(reservationCarCategories);
     const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
+    const [isOpenPernyataanDialog, setIsOpenPernyataanDialog] = useState(false);
+
+    const { data, setData, post,patch, processing, errors, reset } = useForm({
+        code: "",
+    });
+    const openPernyataanDialog = (item) => {
+        setState(item);
+        setIsOpenPernyataanDialog(true);
+    };
+    const onHandleChange = (event) => {
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
+    };
+    const submit = (e) => {
+        e.preventDefault();
+        patch(route("reservationpernyataancompany.update"), {
+            onSuccess: () => {
+                return Promise.all([setIsOpenPernyataanDialog(false), reset()]);
+            },
+        });
+    };
     return (
         <>
             <Head title="Reservation Counter" />
             <Header title="Produk" description="List Produk." />
             <Container>
+                <EditModal
+                    isOpenEditDialog={isOpenPernyataanDialog}
+                    setIsOpenEditDialog={setIsOpenPernyataanDialog}
+                    size="2xl"
+                    title={"Masukan Pernyataan"}
+                >
+                    <div className="p-2">
+                    <form onSubmit={submit}>
+                        <TextAreaInput
+                            type="text"
+                            rows="20"
+                            name="pernyataan"
+                            value={data.pernyataan || reservationCompany.pernyataan}
+                            // value={reservationCompany.pernyataan ?? data.pernyataan}
+                            className="block w-full mt-1"
+                            autoComplete="pernyataan"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            // onChange={(e) =>
+                            //     setData("pernyataan", e.target.value)
+                            // }
+                            // required
+                        />
+                        <InputError
+                            message={errors.pernyataan}
+                            className="mt-2"
+                        />
+                        <ThirdButtonNoLink
+                            className="mt-4"
+                            disabled={processing}
+                        >
+                            Simpan
+                        </ThirdButtonNoLink>
+                    </form>
+                    </div>
+                </EditModal>
                 <AddModal
                     isOpenAddDialog={isOpenAddDialog}
                     setIsOpenAddDialog={setIsOpenAddDialog}
@@ -364,6 +431,33 @@ export default function Index(props) {
                                 </div>
                             )
                         )}
+                    </div>
+                    <div className="grid grid-cols-1 gap-2 p-4 ">
+                        <button
+                            // href={}
+                            onClick={() => openPernyataanDialog()}
+                            className="flex flex-col items-center "
+                        >
+                            <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6 text-orange-400 size-6"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"
+                                    />
+                                </svg>
+                            </div>
+                            <p className="mt-2 text-xs font-semibold text-center">
+                                Pernyataan
+                            </p>
+                        </button>
                     </div>
                 </div>
                 <div className="hidden lg:block">
@@ -1129,6 +1223,7 @@ export default function Index(props) {
                                                             Non Aktifkan
                                                         </ThirdButtonSmallNoLink>
                                                     </div>
+                                                ) : (
                                                     // <div className="col-span-12">
                                                     //     <div className="grid grid-cols-4 gap-2 ">
                                                     //         {[
@@ -1197,7 +1292,6 @@ export default function Index(props) {
                                                     //         )}
                                                     //     </div>
                                                     // </div>
-                                                ) : (
                                                     <></>
                                                 )}
                                             </div>

@@ -100,17 +100,19 @@ export default function Dashboard(props) {
         useState(false);
     const [isOpenInfoDialogKonstruksi, setIsOpenInfoDialogKonstruksi] =
         useState(false);
+    const [isOpenInfoTimDialog, setIsOpenInfoTimDialog] =
+        useState(false);
     const [state, setState] = useState([]);
     const [selected, setSelected] = useState();
-        const permission_name = permissions
-            ? permissions.map((permission) => permission.name)
-            : "null";
+    const permission_name = permissions
+        ? permissions.map((permission) => permission.name)
+        : "null";
 
     const { data, setData, put, processing, errors, reset } = useForm({
         join_as_id: "",
     });
     // CRUD
-    console.log(user.company);
+    // console.log(user);
 
     const openDestroyDialog = (plan) => {
         setState(plan);
@@ -134,6 +136,10 @@ export default function Dashboard(props) {
         setState();
         setIsOpenInfoDialog3(true);
     };
+    const openInfoTimDialog = () => {
+        // setState();
+        setIsOpenInfoTimDialog(true);
+    };
     const openInfoDialogReservasi = () => {
         setState();
         setIsOpenInfoDialogReservasi(true);
@@ -146,6 +152,9 @@ export default function Dashboard(props) {
     };
     const closeInfoDialogKonstruksi = () => {
         setIsOpenInfoDialogKonstruksi(false);
+    };
+    const closeInfoTimDialog = () => {
+        setIsOpenInfoTimDialog(false);
     };
     const updateJoinas = () => {
         put(route("reservation.updatejoinas", auth.user.id), {
@@ -282,6 +291,25 @@ export default function Dashboard(props) {
                     </div>
                 </div>
             </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoTimDialog}
+                setIsOpenInfoDialog={setIsOpenInfoTimDialog}
+                size="max-w-2xl"
+                title={"Silakan Undang Karyawan"}
+                header={""}
+                closeButton="true"
+            >
+                <div className="items-center justify-between mt-4">
+                <p>Pastikan sudah undang karyawan dan pastikan undangan sudah diterima oleh karyawan</p>
+                {/* <ThirdButtonNoLink
+                    className="mx-1 mt-2"
+                    color="secondary"
+                    onClick={closeInfoTimDialog}
+                >
+                    Close
+                </ThirdButtonNoLink> */}
+                </div>
+            </InfoModal>
             <Container>
                 <div className="mt-2 border rounded-lg">
                     <p className="px-4 pt-2 pb-1 text-sm font-semibold text-left">
@@ -337,194 +365,200 @@ export default function Dashboard(props) {
                         ))}
                     </div>
                 </div>
+                {user.company ? (
+                    <div className="mt-2 border rounded-lg">
+                        <div className="grid grid-cols-4 gap-4 p-4 ">
+                            {[
+                                {
+                                    href: route("reservationprofile.edit"),
+                                    icon: (
+                                        <IconLicense className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Perusahaan",
+                                },
+                                {
+                                    href: route("reservationemployees.index"),
+                                    icon: (
+                                        <UsersIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Karyawan",
+                                },
+                                {
+                                    href: route("reservationCounters.index"),
+                                    icon: (
+                                        <DeviceTabletIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Produk",
+                                },
+                                {
+                                    href: route("reservation.teamheader"),
+                                    icon: (
+                                        <UserIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Tim",
+                                },
+
+                                {
+                                    href: route(
+                                        "reservation.myemployeebreaksetting"
+                                    ),
+                                    icon: (
+                                        <ClockIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Pengajuan Istirahat",
+                                },
+
+                                {
+                                    href: route(
+                                        "reservation.myemployeerequestoff"
+                                    ),
+                                    icon: (
+                                        <InboxIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Permintaan Libur",
+                                },
+                                {
+                                    href: route("company.summary"),
+                                    icon: (
+                                        <ClipboardListIcon className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Laporan",
+                                },
+                                {
+                                    href : route("userguide"),
+                                    icon: (
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={1.5}
+                                            stroke="currentColor"
+                                            className="w-6 h-6 text-orange-400"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"
+                                            />
+                                        </svg>
+                                    ),
+                                    label: "Panduan",
+                                },
+                            ].map((item, index) => (
+                                <div key={index} className="flex flex-col items-center">
+            {item.label === "Tim" && user.employees && user.employees.length === 0 ? (
+                <button
+                    onClick={() => openInfoTimDialog()}
+                >
+                    <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                        {item.icon}
+                    </div>
+                    <p className="mt-2 text-xs font-semibold text-center">
+                        {item.label}
+                    </p>
+                </button>
+            ) : (
+                <Link href={item.href} className="flex flex-col items-center">
+                    <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                        {item.icon}
+                    </div>
+                    <p className="mt-2 text-xs font-semibold text-center">
+                        {item.label}
+                    </p>
+                </Link>
+            )}
+        </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="mt-2 border rounded-lg">
+                        <div className="grid grid-cols-1 gap-4 p-4 ">
+                            {[
+                                {
+                                    href: route("reservationprofile.edit"),
+                                    icon: (
+                                        <IconLicense className="w-6 h-6 text-orange-400" />
+                                    ),
+                                    label: "Buat Perusahaan",
+                                },
+                            ].map((item, index) => (
+                                <Link
+                                    key={index}
+                                    href={item.href}
+                                    className="flex flex-col items-center "
+                                >
+                                    <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                        {item.icon}
+                                    </div>
+                                    <p className="mt-2 text-xs font-semibold text-center">
+                                        {item.label}
+                                    </p>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <div className="mt-2 border rounded-lg">
-                    <div className="grid grid-cols-4 gap-4 p-4 ">
-                        {[
-                            {
-                                href: route("reservationprofile.edit"),
-                                icon: (
-                                    <IconLicense className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Perusahaan",
-                            },
-                            {
-                                href: route("reservationemployees.index"),
-                                icon: (
-                                    <UsersIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Karyawan",
-                            },
-                            {
-                                href: route("reservationCounters.index"),
-                                icon: (
-                                    <DeviceTabletIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Produk",
-                            },
-                            {
-                                href : route("reservation.teamheader"),
-                                icon: (
-                                    <UserIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Tim",
-                            },
-
-                            {
-                                href:route("reservation.myemployeebreaksetting"),
-                                icon: (
-                                    <ClockIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Jam Libur",
-                            },
-
-                            {
-                                href : route("reservation.myemployeerequestoff"),
-                                icon: (
-                                    <InboxIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Permintaan Libur",
-                            },
-                            {
-                                href : route("company.summary"),
-                                icon: (
-                                    <ClipboardListIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Laporan",
-                            },
-                            {
-                                icon: (
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-6 h-6 text-orange-400"
+                    {permission_name.indexOf("lihat menu pekerja reservasi") >
+                        -1 && (
+                        <>
+                            <div className="grid grid-cols-4 gap-4 p-4 ">
+                                {[
+                                    {
+                                        href: route(
+                                            "reservationemployeedayoff.index"
+                                        ),
+                                        icon: (
+                                            <IconClock className="w-6 h-6 text-orange-400" />
+                                        ),
+                                        label: "Libur dan Istirahat",
+                                    },
+                                    {
+                                        href: route(
+                                            "reservation.myteaminvitations"
+                                        ),
+                                        icon: (
+                                            <UsersIcon className="w-6 h-6 text-orange-400" />
+                                        ),
+                                        label: "Undangan",
+                                    },
+                                    {
+                                        href: route("reservation.mycustomers"),
+                                        icon: (
+                                            <DeviceTabletIcon className="w-6 h-6 text-orange-400" />
+                                        ),
+                                        label: "Pelanggan",
+                                    },
+                                    {
+                                        href: route("reservation.mycounters"),
+                                        icon: (
+                                            <UserIcon className="w-6 h-6 text-orange-400" />
+                                        ),
+                                        label: "Produk",
+                                    },
+                                ].map((item, index) => (
+                                    <Link
+                                        key={index}
+                                        href={item.href}
+                                        className="flex flex-col items-center "
                                     >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"
-                                        />
-                                    </svg>
-                                ),
-                                label: "Lainnya",
-                            },
-                        ].map((item, index) => (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className="flex flex-col items-center "
-                            >
-                                <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
-                                    {item.icon}
-                                </div>
-                                <p className="mt-2 text-xs font-semibold text-center">
-                                    {item.label}
-                                </p>
-                            </Link>
-                        ))}
-                    </div>
-                    {/* <hr />
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                            {item.icon}
+                                        </div>
+                                        <p className="mt-2 text-xs font-semibold text-center">
+                                            {item.label}
+                                        </p>
+                                    </Link>
+                                ))}
+                            </div>
+                            <hr />
+                        </>
+                    )}
                     <div className="grid grid-cols-3 gap-2 p-4 ">
-                    {[
-                            {
-                                href: route("reservation.list"),
-                                icon: (
-                                    <SearchCircleIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Cari Reservasi",
-                            },
-                            {
-                                
-                                href: route("reservation.myreservations"),
-                                icon: (
-                                    <BookOpenIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Reservasi Saya",
-                            },
-                            {
-                                href: "/chat",
-                                icon: (
-                                    <ChatAlt2Icon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Live Chat",
-                            },
-                            
-                        ].map((item, index) => (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className="flex flex-col items-center "
-                            >
-                                <div className="flex items-center justify-center w-24 h-12 border border-orange-100 rounded-xl bg-orange-50">
-                                    {item.icon}
-                                </div>
-                                <p className="mt-2 text-xs font-semibold text-center">
-                                    {item.label}
-                                </p>
-                            </Link>
-                        ))}
-                    </div> */}
-                </div>
-                <div className="mt-2 border rounded-lg">
-                {permission_name.indexOf(
-                                "lihat menu pekerja reservasi"
-                            ) > -1 && (
-                                <>
-                    <div className="grid grid-cols-4 gap-4 p-4 ">
                         {[
                             {
-                                href: route("reservationemployeedayoff.index"),
-                                icon: (
-                                    <IconClock className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Libur dan Istirahat",
-                            },
-                            {
-                                href: route("reservation.myteaminvitations"),
-                                icon: (
-                                    <UsersIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Undangan",
-                            },
-                            {
-                                href: route("reservation.mycustomers"),
-                                icon: (
-                                    <DeviceTabletIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Pelanggan",
-                            },
-                            {
-                                href : route("reservation.mycounters"),
-                                icon: (
-                                    <UserIcon className="w-6 h-6 text-orange-400" />
-                                ),
-                                label: "Produk",
-                            },
-
-                            
-                        ].map((item, index) => (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className="flex flex-col items-center "
-                            >
-                                <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
-                                    {item.icon}
-                                </div>
-                                <p className="mt-2 text-xs font-semibold text-center">
-                                    {item.label}
-                                </p>
-                            </Link>
-                        ))}
-                    </div>
-                    <hr />
-                    </>
-                            )}
-                    <div className="grid grid-cols-3 gap-2 p-4 ">
-                    {[
-                            {
                                 href: route("reservation.list"),
                                 icon: (
                                     <SearchCircleIcon className="w-6 h-6 text-orange-400" />
@@ -532,7 +566,6 @@ export default function Dashboard(props) {
                                 label: "Cari Reservasi",
                             },
                             {
-                                
                                 href: route("reservation.myreservations"),
                                 icon: (
                                     <BookOpenIcon className="w-6 h-6 text-orange-400" />
@@ -546,7 +579,6 @@ export default function Dashboard(props) {
                                 ),
                                 label: "Live Chat",
                             },
-                            
                         ].map((item, index) => (
                             <Link
                                 key={index}

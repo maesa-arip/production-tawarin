@@ -81,4 +81,7 @@ class HomeController extends Controller
         $plans = (PlanResource::collection($plans->latest()->fastPaginate(8)->withQueryString()));
         return inertia('HomeReservasi2', ['plans' => $plans]);
     }
+    public function userguide(){
+        return inertia('UserGuide');
+    }
 }

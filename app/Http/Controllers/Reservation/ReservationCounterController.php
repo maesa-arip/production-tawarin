@@ -58,9 +58,10 @@ class ReservationCounterController extends Controller
                 'direction' => $request->direction ?? '',
             ]
         ]);
-        $cars = Car::get();
+        $cars = Car::where('reservation_company_id',0)->orWhere('reservation_company_id',auth()->user()->company->id)->get();
         $reservationCarCategories = ReservationCarCategory::where('reservation_company_id',auth()->user()->company->id)->get();
-        return inertia('Reservation/Counter/Basic/Index', ['reservationCounters' => $reservationCounters,'cars'=>$cars,'reservationCarCategories'=>$reservationCarCategories]);
+        $reservationCompany = ReservationCompany::where('id',auth()->user()->company->id)->first();
+        return inertia('Reservation/Counter/Basic/Index', ['reservationCounters' => $reservationCounters,'cars'=>$cars,'reservationCarCategories'=>$reservationCarCategories,'reservationCompany'=>$reservationCompany]);
     }
     public function create()
     {

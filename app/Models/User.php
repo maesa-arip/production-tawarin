@@ -101,9 +101,9 @@ class User extends Authenticatable implements Wallet, Confirmable, MustVerifyEma
         return $this->hasMany(SocialAccount::class);
     }
 
-    public function employess()
+    public function employees()
     {
-        return $this->hasMany(ReservationEmployee::class);
+        return $this->hasManyThrough(ReservationEmployee::class,ReservationCompany::class);
     }
 
     public function dayoffs()

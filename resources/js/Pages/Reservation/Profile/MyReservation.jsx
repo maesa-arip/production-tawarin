@@ -10,11 +10,18 @@ import ThirdButton from "@/Components/ThirdButton";
 import InfoModal from "@/Components/Modal/InfoModal";
 import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 import { Inertia } from "@inertiajs/inertia";
-import { IconChecks, IconCircleCheck, IconHelp, IconX, IconXboxX } from "@tabler/icons";
+import {
+    IconChecks,
+    IconCircleCheck,
+    IconHelp,
+    IconX,
+    IconXboxX,
+} from "@tabler/icons";
 import RadioCard from "@/Components/RadioCard";
 import TextAreaInput from "@/Components/TextAreaInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
+import { Terbilang } from "@/Libs/helper";
 
 export default function MyReservation({
     myReservations,
@@ -26,6 +33,7 @@ export default function MyReservation({
     const [isOpenInfoDialog3, setIsOpenInfoDialog3] = useState(false);
     const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
     const [isOpenComplaintDialog, setIsOpenComplaintDialog] = useState(false);
+    const [tip, setTip] = useState("");
     const { data, setData, patch, post, put, processing, errors, reset } =
         useForm({});
     const openInfoDialog = (item) => {
@@ -54,6 +62,7 @@ export default function MyReservation({
     const closeInfoDialog = () => {
         setIsOpenInfoDialog(false);
         setSelected();
+        setTip("");
     };
     const onHandleChange = (event) => {
         setData(
@@ -102,7 +111,15 @@ export default function MyReservation({
             // onSuccess: () => setIsOpenCancelDialog(false),
         });
     };
-    // console.log(state)
+    const onChangeTipHandler = (e) => {
+        setTip(e.target.value);
+        setData({ ...data, [e.target.id]: e.target.value });
+    };
+    const formatRupiahTip = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(tip);
+    console.log(data);
 
     return (
         <>
@@ -111,7 +128,9 @@ export default function MyReservation({
                 setIsOpenInfoDialog={setIsOpenInfoDialog3}
                 size="2xl"
                 closeButton="false"
-                title={"Berikut adalah tanggapan dari pekerja, silakan dijawab kembali"}
+                title={
+                    "Berikut adalah tanggapan dari pekerja, silakan dijawab kembali"
+                }
             >
                 <div className="col-span-12 px-3 py-4 mb-6 text-sm text-gray-500 rounded shadow md:col-span-8">
                     <svg
@@ -131,10 +150,13 @@ export default function MyReservation({
                         <line x1={12} y1={8} x2="12.01" y2={8} />
                         <polyline points="11 12 12 12 12 16 13 16" />
                     </svg>
-                    <span className="text-lg font-semibold text-red-500">{state.pekerja_comment}</span>
-                    
+                    <span className="text-lg font-semibold text-red-500">
+                        {state.pekerja_comment}
+                    </span>
                 </div>
-                <span className="text-lg font-semibold">{state.question?.question}</span>
+                <span className="text-lg font-semibold">
+                    {state.question?.question}
+                </span>
                 <TextAreaInput
                     placeholder="Komentar"
                     name="customer_comment"
@@ -164,8 +186,49 @@ export default function MyReservation({
                 closeButton="false"
                 title={"Yakin Selesaikan Pelayanan ?"}
             >
-                <p className="py-4 text-left">Berikan Tip</p>
-                <RadioCard
+                <figure class="flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
+                    <div class="not-prose overflow-auto rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50">
+                        <div class="px-4 sm:px-0">
+                            <div class="mx-auto max-w-lg py-2 text-sm/6 text-gray-900 dark:text-gray-200">
+                                <p class="text-justify">
+                                    Sebelum menyelesaikan layanan, pastikan
+                                    untuk mengecek kembali semua barang bawaan
+                                    Anda di dalam kendaraan. Pastikan tidak ada
+                                    yang tertinggal agar perjalanan Anda tetap
+                                    nyaman dan aman. Terima kasih!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </figure>
+                <figure class="flex flex-col mt-2 gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
+                    <div class="not-prose overflow-auto p-2 rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50">
+                        <p className="py-4 text-sm font-semibold text-center">
+                            Berikan Tip
+                        </p>
+                        <div className="col-span-6 sm:col-span-3">
+                            <input
+                                type="number"
+                                name="tip"
+                                id="tip"
+                                onChange={onChangeTipHandler}
+                                onWheel={(e) => e.target.blur()}
+                                autoComplete="off"
+                                className="block w-full mt-0 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                            {errors.tip && (
+                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
+                                    {errors.tip}
+                                </span>
+                            )}
+                            <div className="inline mt-1 ml-1 text-xs font-semibold text-left text-indigo-500">
+                                {tip && formatRupiahTip}{" "}
+                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-left text-indigo-500">
+                                    {tip && "(" + Terbilang(tip) + " Rupiah)"}
+                                </span>
+                            </div>
+                        </div>
+                        {/* <RadioCard
                     ShouldMap={tips}
                     selected={selected}
                     onChange={(e) => {
@@ -175,151 +238,158 @@ export default function MyReservation({
                         });
                         setSelected(e);
                     }}
-                />
-                <p className="pt-8 pb-2 text-left">Berikan Rating</p>
-                {/* Rating */}
-                <div className="flex flex-row-reverse items-center justify-center pb-8">
-                    <input
-                        id="hs-ratings-readonly-1"
-                        type="radio"
-                        className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
-                        name="hs-ratings-readonly"
-                        onChange={(e) => {
-                            setData({
-                                ...data,
-                                ["rating"]: 5,
-                            });
-                        }}
-                        defaultValue={1}
-                    />
-                    <label
-                        htmlFor="hs-ratings-readonly-1"
-                        className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
-                    >
-                        <svg
-                            className="flex-shrink-0 w-8 h-8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={16}
-                            height={16}
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                        </svg>
-                    </label>
-                    <input
-                        id="hs-ratings-readonly-2"
-                        type="radio"
-                        className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
-                        name="hs-ratings-readonly"
-                        onChange={(e) => {
-                            setData({
-                                ...data,
-                                ["rating"]: 4,
-                            });
-                        }}
-                        defaultValue={2}
-                    />
-                    <label
-                        htmlFor="hs-ratings-readonly-2"
-                        className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
-                    >
-                        <svg
-                            className="flex-shrink-0 w-8 h-8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={16}
-                            height={16}
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                        </svg>
-                    </label>
-                    <input
-                        id="hs-ratings-readonly-3"
-                        type="radio"
-                        className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
-                        name="hs-ratings-readonly"
-                        onChange={(e) => {
-                            setData({
-                                ...data,
-                                ["rating"]: 3,
-                            });
-                        }}
-                        defaultValue={3}
-                    />
-                    <label
-                        htmlFor="hs-ratings-readonly-3"
-                        className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
-                    >
-                        <svg
-                            className="flex-shrink-0 w-8 h-8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={16}
-                            height={16}
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                        </svg>
-                    </label>
-                    <input
-                        id="hs-ratings-readonly-4"
-                        type="radio"
-                        className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
-                        name="hs-ratings-readonly"
-                        onChange={(e) => {
-                            setData({
-                                ...data,
-                                ["rating"]: 2,
-                            });
-                        }}
-                        defaultValue={4}
-                    />
-                    <label
-                        htmlFor="hs-ratings-readonly-4"
-                        className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
-                    >
-                        <svg
-                            className="flex-shrink-0 w-8 h-8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={16}
-                            height={16}
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                        </svg>
-                    </label>
-                    <input
-                        id="hs-ratings-readonly-5"
-                        type="radio"
-                        className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
-                        name="hs-ratings-readonly"
-                        onChange={(e) => {
-                            setData({
-                                ...data,
-                                ["rating"]: 1,
-                            });
-                        }}
-                        defaultValue={5}
-                    />
-                    <label
-                        htmlFor="hs-ratings-readonly-5"
-                        className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
-                    >
-                        <svg
-                            className="flex-shrink-0 w-8 h-8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={16}
-                            height={16}
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                        </svg>
-                    </label>
-                </div>
+                /> */}
+                    </div>
+                </figure>
+                <figure class="flex flex-col my-2 gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
+                    <div class="not-prose overflow-auto p-2 rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50">
+                        <p className="pt-4 pb-2 text-center">Berikan Rating</p>
+
+                        {/* Rating */}
+                        <div className="flex flex-row-reverse items-center justify-center pb-8">
+                            <input
+                                id="hs-ratings-readonly-1"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name="hs-ratings-readonly"
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        ["rating"]: 5,
+                                    });
+                                }}
+                                defaultValue={1}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-1"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-2"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name="hs-ratings-readonly"
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        ["rating"]: 4,
+                                    });
+                                }}
+                                defaultValue={2}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-2"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-3"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name="hs-ratings-readonly"
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        ["rating"]: 3,
+                                    });
+                                }}
+                                defaultValue={3}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-3"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-4"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name="hs-ratings-readonly"
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        ["rating"]: 2,
+                                    });
+                                }}
+                                defaultValue={4}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-4"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                            <input
+                                id="hs-ratings-readonly-5"
+                                type="radio"
+                                className="w-8 h-8 text-transparent bg-transparent border-0 appearance-none cursor-pointer peer -ms-5 checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0"
+                                name="hs-ratings-readonly"
+                                onChange={(e) => {
+                                    setData({
+                                        ...data,
+                                        ["rating"]: 1,
+                                    });
+                                }}
+                                defaultValue={5}
+                            />
+                            <label
+                                htmlFor="hs-ratings-readonly-5"
+                                className="text-gray-300 pointer-events-none peer-checked:text-yellow-400 dark:peer-checked:text-yellow-600 dark:text-gray-600"
+                            >
+                                <svg
+                                    className="flex-shrink-0 w-8 h-8"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={16}
+                                    height={16}
+                                    fill="currentColor"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </label>
+                        </div>
+                    </div>
+                </figure>
                 {/* End Rating */}
                 {ratingCategories.map((item, index) => (
                     <div className="px-2 pt-2 my-2 border rounded-lg">

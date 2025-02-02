@@ -19,7 +19,7 @@ export default function AddModal({title,children, isOpenAddDialog,setIsOpenAddDi
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-full p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-2 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -29,7 +29,7 @@ export default function AddModal({title,children, isOpenAddDialog,setIsOpenAddDi
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className={`w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all ${size}`}>
+                <Dialog.Panel className={`w-full transform overflow-hidden rounded-2xl bg-white p-4 text-left align-middle shadow-xl transition-all ${size}`}>
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"

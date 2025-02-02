@@ -89,11 +89,11 @@ export default function Form({
     useEffect(() => {
         setData({ ...data, ["counters"]: selectedOptionIds2 });
     }, [options2]);
-    console.log(data);
+    // console.log(data);
     return (
         <>
-            <div className="px-4 py-5 bg-white sm:p-6">
-                <div className="grid grid-cols-12 gap-6">
+            <div className="px-2 py-2 bg-white sm:p-0">
+                <div className="grid grid-cols-12 gap-1">
                     <div className="col-span-12">
                         <InputLabel for="name" value="Nama" />
                         <TextInput
@@ -176,7 +176,7 @@ export default function Form({
 
                     <div className="col-span-12 mt-2">
                         <p className="text-lg font-semibold text-gray-700">
-                            Pilih Counter
+                            Pilih Layanan
                         </p>
                     </div>
                     {options2.map((option) => (
@@ -208,7 +208,7 @@ export default function Form({
                     ))}
                 </div>
             </div>
-            <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <div className="px-2 py-2 sm:px-2 sm:flex sm:flex-row-reverse">
                 <PrimaryButton>{submit}</PrimaryButton>
                 <SecondaryButton className="mx-2" onClick={closeButton}>
                     Batal

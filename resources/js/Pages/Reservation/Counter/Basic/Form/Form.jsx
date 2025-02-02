@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import TextInputCheckbox from "@/Components/TextInputCheckbox";
+import ThirdButton from "@/Components/ThirdButton";
 import { set } from "lodash";
 import React, { useEffect, useState } from "react";
 
@@ -54,25 +55,24 @@ export default function Form({
 
     return (
         <>
-            <div className="px-4 py-5 bg-white sm:p-6">
+            <div className="p-2 bg-white sm:p-2">
                 <div className="grid grid-cols-12 gap-2">
-                    <div className="col-span-9 mt-2">
-                        <p className="text-lg font-semibold text-gray-700">
+                    <div className="col-span-9">
+                        <p className="mb-4 text-lg font-semibold text-gray-700">
                             Pilih Mobil
                         </p>
-                        {options.map((option) => (
-                            <div
-                                className="flex justify-between col-span-12 px-3 py-4 border rounded-md md:col-span-4"
-                                key={option.id}
-                            >
-                                <InputLabel
-                                    for={option.name}
-                                    value={option.name}
-                                    className={"uppercase"}
-                                />
-                                <div className="flex flex-col items-start">
+                        <div className="grid grid-cols-1 gap-2">
+                            {options.map((option) => (
+                                <div
+                                    className="flex items-center justify-between p-2 transition-shadow border rounded-lg shadow-sm hover:shadow-md"
+                                    key={option.id}
+                                >
+                                    <InputLabel
+                                        for={option.name}
+                                        value={option.name}
+                                        className="text-xs font-medium text-gray-700 uppercase"
+                                    />
                                     <TextInputCheckbox
-                                        key={option.id}
                                         id={option.name}
                                         value={option.id}
                                         name={option.name}
@@ -80,34 +80,40 @@ export default function Form({
                                         onChange={(e) => {
                                             handleCheckboxChange(option.id);
                                         }}
-                                        className="block w-full"
+                                        className="w-5 h-5 text-blue-600 rounded form-checkbox "
                                     />
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
 
-                    <div className="col-span-3 mt-2">
-                        <p className="text-lg font-semibold text-gray-700">
+                    <div className="col-span-3">
+                        <p className="mb-4 text-lg font-semibold text-gray-700">
                             Kategori
                         </p>
-                        {options.map((option) => (
-                            <div
-                                className="flex justify-between col-span-12 px-3 py-4 border rounded-md md:col-span-4"
-                                key={option.id}
-                            >
-                                <InputLabel
-                                    for={option.standar_kategori}
-                                    value={option.standar_kategori}
-                                    className={"uppercase"}
-                                />
-                            </div>
-                        ))}
+                        <div className="grid grid-cols-1 gap-2">
+                            {options.map((option) => (
+                                <div
+                                    className="flex items-center justify-between p-2 transition-shadow border rounded-lg shadow-sm hover:shadow-md"
+                                    key={option.id}
+                                >
+                                    <InputLabel
+                                        for={option.standar_kategori}
+                                        value={option.standar_kategori}
+                                        className="text-sm font-medium text-gray-700 uppercase"
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
+
+                    
                 </div>
+                <ThirdButton href={route("reservationCar.index")} className="my-2">Tambah Kendaraan</ThirdButton>   
             </div>
+            
             <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <PrimaryButton>{submit}</PrimaryButton>
+                <PrimaryButton className="ml-2">{submit}</PrimaryButton>
                 <SecondaryButton className="mx-2" onClick={closeButton}>
                     Batal
                 </SecondaryButton>

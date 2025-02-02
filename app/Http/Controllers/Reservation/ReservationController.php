@@ -79,6 +79,8 @@ class ReservationController extends Controller
             'reservation_category_id' => $request->reservation_category_id,
         ]);
         $reservationCompany = ReservationCompany::updateOrCreate(['user_id' => auth()->user()->id], $atrributes);
+        $user = User::findOrFail(auth()->user()->id);
+        $user->assignRole(10);
         $temporaryFolderCompany = Session::get('foldercompany');
         $namefilecounter = Session::get('filenamecompany');
         if ($temporaryFolderCompany) {
@@ -99,9 +101,22 @@ class ReservationController extends Controller
         Session::remove('foldercompany');
         Session::remove('filenamecompany');
 
-        return Redirect::route('reservationprofile.edit')->with([
+        return Redirect::route('dashboard')->with([
             'type' => 'success',
             'message' => 'Data berhasil disimpan',
+        ]);
+    }
+
+    public function updatepernyataan(Request $request)
+    {
+        $validated = $request->validate([
+            'pernyataan' => 'required|string|max:255',
+        ]);
+        $company = ReservationCompany::findOrFail(auth()->user()->company->id);
+        $company->update($validated);
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Penyataan berhasil diubah',
         ]);
     }
     public $loadDefault = 10;
@@ -762,7 +777,9 @@ class ReservationController extends Controller
             ->where('reservation_customers.id', '>', $lastBonusId)
             ->count();
 
-        $tip = Tip::find($request->tip);
+        // $tip = Tip::find($request->tip);
+        $tip = $request->tip;
+        // dd($tip);
         $reservationCustomer = ReservationCustomer::findOrfail($id);
 
         $reservationCounter = ReservationCustomer::join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
@@ -823,13 +840,13 @@ class ReservationController extends Controller
 
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($isTeam, $tip->tip, new Extra(
+                        $customer->transfer($isTeam, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
                         ));
                         foreach ($cekTeam as $teamd) {
                             $teamdetail = User::find($teamd->user_id);
-                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                            $isTeam->transfer($teamdetail, $tip / count($cekTeam), new Extra(
                                 deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                                 withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
                             ));
@@ -938,13 +955,13 @@ class ReservationController extends Controller
                     }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($isTeam, $tip->tip, new Extra(
+                        $customer->transfer($isTeam, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
                         ));
                         foreach ($cekTeam as $teamd) {
                             $teamdetail = User::find($teamd->user_id);
-                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                            $isTeam->transfer($teamdetail, $tip / count($cekTeam), new Extra(
                                 deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                                 withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
                             ));
@@ -1011,13 +1028,13 @@ class ReservationController extends Controller
                     // }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($isTeam, $tip->tip, new Extra(
+                        $customer->transfer($isTeam, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
                         ));
                         foreach ($cekTeam as $teamd) {
                             $teamdetail = User::find($teamd->user_id);
-                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                            $isTeam->transfer($teamdetail, $tip / count($cekTeam), new Extra(
                                 deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                                 withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
                             ));
@@ -1083,13 +1100,13 @@ class ReservationController extends Controller
                     }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($isTeam, $tip->tip, new Extra(
+                        $customer->transfer($isTeam, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $isTeam->name, 'type' => 'tip'], confirmed: true)
                         ));
                         foreach ($cekTeam as $teamd) {
                             $teamdetail = User::find($teamd->user_id);
-                            $isTeam->transfer($teamdetail, $tip->tip / count($cekTeam), new Extra(
+                            $isTeam->transfer($teamdetail, $tip / count($cekTeam), new Extra(
                                 deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                                 withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $teamdetail->name, 'type' => 'tip'], confirmed: true)
                             ));
@@ -1183,7 +1200,7 @@ class ReservationController extends Controller
 
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($team, $tip->tip, new Extra(
+                        $customer->transfer($team, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
                         ));
@@ -1274,7 +1291,7 @@ class ReservationController extends Controller
                     }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($team, $tip->tip, new Extra(
+                        $customer->transfer($team, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
                         ));
@@ -1340,7 +1357,7 @@ class ReservationController extends Controller
                     // }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($team, $tip->tip, new Extra(
+                        $customer->transfer($team, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
                         ));
@@ -1405,7 +1422,7 @@ class ReservationController extends Controller
                     }
                     if ($tip) {
                         $userTipFrom = auth()->user()->name;
-                        $customer->transfer($team, $tip->tip, new Extra(
+                        $customer->transfer($team, $tip, new Extra(
                             deposit: ['message' => 'Tip dari ' . $userTipFrom, 'type' => 'tip'],
                             withdraw: new Option(meta: ['message' => 'Uang Tip untuk ' . $team->name, 'type' => 'tip'], confirmed: true)
                         ));
