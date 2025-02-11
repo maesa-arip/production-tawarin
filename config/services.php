@@ -30,11 +30,7 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-    // 'midtrans' => [
-    //     'merchant_id' => env('MIDTRANS_MERCHANT_ID','G409197232'),
-    //     'client_key' => env('MIDTRANS_CLIENT_KEY','SB-Mid-client-Zq5e3Z9hSin1ARSM'),
-    //     'server_key' => env('MIDTRANS_SERVER_KEY','SB-Mid-server-BIqBtVacsOL0ETj40LDMefx_'),
-    // ],
+
     'midtrans' => [
         'serverKey'     => env('MIDTRANS_SERVERKEY'),
         'clientKey'     => env('MIDTRANS_CLIENTKEY'),

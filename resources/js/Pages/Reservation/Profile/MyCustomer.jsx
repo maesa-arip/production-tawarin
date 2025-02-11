@@ -485,7 +485,7 @@ export default function MyCustomer({
                                                         <IconChecks className="w-5 h-5 ml-2" />
                                                     </ThirdButtonNoLink>
                                                     <div className="hidden">
-                                                    {item.user.phone.charAt(0) === '0' ? wa = item.user.phone.slice(1) : wa = item.user.phone}
+                                                    {item.user.phone?.charAt(0) === '0' ? wa = item.user.phone.slice(1) : wa = item.user.phone}
                                                     </div>
                                                     
                                                     <a  className="inline-flex items-center px-3 py-2 mr-1 text-xs font-semibold text-yellow-600 rounded-md bg-yellow-50 ring-yellow-500/10 ring-1 ring-inset"
