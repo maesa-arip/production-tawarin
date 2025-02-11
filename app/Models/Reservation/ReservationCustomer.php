@@ -13,8 +13,8 @@ use Bavix\Wallet\Traits\HasWallets;
 
 class ReservationCustomer extends Model implements Wallet, Confirmable
 {
-    use HasFactory,HasWallet, HasWallets, CanConfirm;
-    protected $guarded =[];
+    use HasFactory, HasWallet, HasWallets, CanConfirm;
+    protected $guarded = [];
     /**
      * Get the user that owns the ReservationCustomer
      *
@@ -22,7 +22,7 @@ class ReservationCustomer extends Model implements Wallet, Confirmable
      */
     public function team()
     {
-        return $this->belongsTo(ReservationTeam::class);
+        return $this->belongsTo(ReservationTeam::class, 'reservation_team_id');
     }
 
     public function user()

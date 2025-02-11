@@ -48,6 +48,7 @@ export default function HistoryUtama(props) {
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const [isInitialRender, setIsInitialRender] = useState(true);
+    console.log(transaction)
     const reload = useCallback(
         debounce((query) => {
             Inertia.get(

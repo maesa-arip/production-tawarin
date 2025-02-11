@@ -52,6 +52,7 @@ export default function MyReservation({
             onSuccess: () => setIsOpenInfoDialog(false),
         });
     };
+    // console.log(myReservations)
     const requestapproved = () => {
         put(route("reservation.requestapproved", state.id), {
             onSuccess: () => setIsOpenInfoDialog3(false),
@@ -186,7 +187,7 @@ export default function MyReservation({
                 closeButton="false"
                 title={"Yakin Selesaikan Pelayanan ?"}
             >
-                <figure class="flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
+                {myReservations.reservation_category_id === 2 && <figure class="flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
                     <div class="not-prose overflow-auto rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50">
                         <div class="px-4 sm:px-0">
                             <div class="mx-auto max-w-lg py-2 text-sm/6 text-gray-900 dark:text-gray-200">
@@ -200,7 +201,8 @@ export default function MyReservation({
                             </div>
                         </div>
                     </div>
-                </figure>
+                </figure>}
+                
                 <figure class="flex flex-col mt-2 gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
                     <div class="not-prose overflow-auto p-2 rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50">
                         <p className="py-4 text-sm font-semibold text-center">
@@ -391,7 +393,7 @@ export default function MyReservation({
                     </div>
                 </figure>
                 {/* End Rating */}
-                {ratingCategories.map((item, index) => (
+                {myReservations.reservation_category_id=== 2 && ratingCategories.map((item, index) => (
                     <div className="px-2 pt-2 my-2 border rounded-lg">
                         <p className="text-left">{item.name}</p>
 
@@ -539,6 +541,7 @@ export default function MyReservation({
                         </div>
                     </div>
                 ))}
+                
 
                 <TextAreaInput
                     placeholder="Komentar"

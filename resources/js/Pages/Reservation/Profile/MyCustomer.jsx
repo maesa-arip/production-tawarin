@@ -30,6 +30,7 @@ export default function MyCustomer({
     mustVerifyEmail,
     status,
     myCustomers,
+    appEnv,
 }) {
     const [state, setState] = useState([]);
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
@@ -95,7 +96,9 @@ export default function MyCustomer({
     const closeInfoDialog4 = () => {
         setIsOpenInfoDialog4(false);
     };
-    // console.log(myCustomers)
+    let wa = "";
+    // console.log(appEnv);
+    
     return (
         <>
             <InfoModal
@@ -228,6 +231,7 @@ export default function MyCustomer({
                                 Pelanggan Saya
                             </div>
                         </div>
+
                         {myCustomers.map((item, index) => (
                             <div className="py-5" key={index}>
                                 <div className="p-2 duration-150 bg-white rounded-lg shadow cursor-pointer">
@@ -383,7 +387,8 @@ export default function MyCustomer({
                                                     <></>
                                                 )}
                                                 {item.decline == 1 &&
-                                                item.request_approved == 1 && item.approved == 0 ? (
+                                                item.request_approved == 1 &&
+                                                item.approved == 0 ? (
                                                     <>
                                                         <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
                                                             <div>
@@ -404,7 +409,8 @@ export default function MyCustomer({
                                                 ) : (
                                                     <></>
                                                 )}
-                                                {item.decline == 1 && item.approved == 0 ? (
+                                                {item.decline == 1 &&
+                                                item.approved == 0 ? (
                                                     <>
                                                         <div className="col-span-1 p-1 mx-auto mt-2 duration-150 bg-white rounded-lg shadow cursor-pointer ">
                                                             <div>
@@ -470,13 +476,29 @@ export default function MyCustomer({
                                                     <IconX className="w-4 h-4" />
                                                 </ThirdButtonNoLink>
                                             ) : item.selesai_customer == 1 ? (
-                                                <ThirdButtonNoLink
-                                                    color="teal"
-                                                    className="cursor-not-allowed"
-                                                >
-                                                    BERES{" "}
-                                                    <IconChecks className="w-5 h-5 ml-2" />
-                                                </ThirdButtonNoLink>
+                                                <>
+                                                    <ThirdButtonNoLink
+                                                        color="teal"
+                                                        className="cursor-not-allowed"
+                                                    >
+                                                        BERES{" "}
+                                                        <IconChecks className="w-5 h-5 ml-2" />
+                                                    </ThirdButtonNoLink>
+                                                    <div className="hidden">
+                                                    {item.user.phone.charAt(0) === '0' ? wa = item.user.phone.slice(1) : wa = item.user.phone}
+                                                    </div>
+                                                    
+                                                    <a  className="inline-flex items-center px-3 py-2 mr-1 text-xs font-semibold text-yellow-600 rounded-md bg-yellow-50 ring-yellow-500/10 ring-1 ring-inset"
+                                                        href={
+                                                            "https://wa.me/62" +
+                                                            wa +
+                                                            "?text=Terima kasih telah berbelanja Rp. " + item.team.counter.price.toLocaleString() +" di "+ item.team.counter.company.name +", cek struk di http://tawarin.id/ereceipt/"+ item.code
+                                                        }
+                                                        data-action="share/whatsapp/share"
+                                                    >
+                                                        Kirim Nota via Whatsapp
+                                                    </a>
+                                                </>
                                             ) : (
                                                 <>
                                                     {item.selesai_team == 1 ? (

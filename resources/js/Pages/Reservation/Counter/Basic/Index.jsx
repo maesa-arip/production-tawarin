@@ -77,10 +77,10 @@ export default function Index(props) {
         attributes,
     } = props.reservationCounters;
     const cars = props.cars;
-    const reservationCarCategories = props.reservationCarCategories;
+    let reservationCarCategories = props.reservationCarCategories;
     const reservationCompany = props.reservationCompany;
     // console.log(cars)
-    // console.log(reservationCompany.pernyataan);
+    // console.log(reservationCompany);
     const reservationCounterRejectCount = props.reservationCounterRejectCount;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -183,6 +183,11 @@ export default function Index(props) {
             },
         });
     };
+    useEffect(() => {
+            if (reservationCompany.reservation_category_id === 1) {
+                reservationCarCategories[0] = ['isi'];
+            }
+        }, [])
     return (
         <>
             <Head title="Reservation Counter" />
@@ -260,7 +265,8 @@ export default function Index(props) {
                         Non Aktifkan
                     </Button>
                 </DestroyModal>
-                {reservationCarCategories[0] ? (
+                
+                {reservationCompany.reservation_category_id===2 &&  reservationCarCategories[0] ? (
                     <ul
                         role="list"
                         className="border divide-y divide-gray-100 rounded-lg"
@@ -346,7 +352,7 @@ export default function Index(props) {
                             ))}
                         </div>
                     </ul>
-                ) : (
+                ) : reservationCompany.reservation_category_id === 2 ? (
                     <div className="p-2 border divide-y divide-gray-100 rounded-lg ">
                         <h3 className="font-semibold text-gray-900 text-base/7">
                             Silakan Buat Kategori Terlebih Dahulu
@@ -378,8 +384,8 @@ export default function Index(props) {
                             ))}
                         </div>
                     </div>
-                )}
-                <div className="mt-2 border rounded-lg">
+                ): <></>}
+                {/* <div className="mt-2 border rounded-lg">
                     <div className="grid grid-cols-2 gap-2 p-4 ">
                         {[
                             {
@@ -459,7 +465,84 @@ export default function Index(props) {
                             </p>
                         </button>
                     </div>
+                </div> */}
+                <div className="mt-2 border rounded-lg">
+    <div className="grid grid-cols-2 gap-2 p-4">
+        {[{
+            href: "reservationCounters/create",
+            icon: reservationCarCategories[0] ? (
+                <PlusCircleIcon className="w-6 h-6 text-orange-400" />
+            ) : (
+                <PlusCircleIcon className="w-6 h-6 text-gray-400" />
+            ),
+            label: "Tambah Produk",
+        },
+        reservationCompany.reservation_category_id === 2 && {
+            href: route("reservationRatingCategories.index"),
+            icon: reservationCarCategories[0] ? (
+                <StarIcon className="w-6 h-6 text-orange-400" />
+            ) : (
+                <StarIcon className="w-6 h-6 text-gray-400" />
+            ),
+            label: "Bonus Rating",
+        }].filter(Boolean).map((item, index) => (
+            reservationCarCategories[0] ? (
+                <Link
+                    key={index}
+                    href={item.href}
+                    className="flex flex-col items-center "
+                >
+                    <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-xl bg-orange-50">
+                        {item.icon}
+                    </div>
+                    <p className="mt-2 text-xs font-semibold text-center">
+                        {item.label}
+                    </p>
+                </Link>
+            ) : (
+                <div
+                    key={index}
+                    className="flex flex-col items-center "
+                >
+                    <div className="flex items-center justify-center w-full h-12 border border-gray-100 rounded-xl bg-gray-50">
+                        {item.icon}
+                    </div>
+                    <p className="mt-2 text-xs font-semibold text-center">
+                        {item.label}
+                    </p>
                 </div>
+            )
+        ))}
+    </div>
+    {reservationCompany.reservation_category_id === 2 && <div className="grid grid-cols-1 gap-2 p-4">
+        <button
+            onClick={() => openPernyataanDialog()}
+            className="flex flex-col items-center "
+        >
+            <div className="flex items-center justify-center w-full h-12 border border-orange-100 rounded-xl bg-orange-50">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 text-orange-400 size-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"
+                    />
+                </svg>
+            </div>
+            <p className="mt-2 text-xs font-semibold text-center">
+                Pernyataan
+            </p>
+        </button>
+    </div>}
+    
+</div>
+
                 <div className="hidden lg:block">
                     {/* <div className="mx-auto max-w-8xl sm:px-6 lg:px-8"> */}
                     <div className="flex items-center justify-end">

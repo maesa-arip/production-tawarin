@@ -46,6 +46,7 @@ use Bavix\Wallet\External\Dto\Extra;
 use Bavix\Wallet\External\Dto\Option;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
@@ -110,7 +111,7 @@ class ReservationController extends Controller
     public function updatepernyataan(Request $request)
     {
         $validated = $request->validate([
-            'pernyataan' => 'required|string|max:255',
+            'pernyataan' => 'string',
         ]);
         $company = ReservationCompany::findOrFail(auth()->user()->company->id);
         $company->update($validated);
@@ -455,7 +456,7 @@ class ReservationController extends Controller
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
             ->leftjoin('reservation_car_categories', 'reservation_car_categories.id', 'reservation_counters.reservation_car_category_id')
             ->join('reservation_companies', 'reservation_companies.id', 'reservation_counters.reservation_company_id')
-            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_car_categories.name as counterCategoryName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug', 'reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.created_at', 'DESC')
+            ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_car_categories.name as counterCategoryName', 'reservation_companies.name as companyName', 'reservation_companies.slug as companySlug','reservation_companies.reservation_category_id', 'reservation_counters.jumlahlayanandiskon')->orderBy('reservation_customers.created_at', 'DESC')
             ->get();
         // dd($myReservations);
         $ratingCategories = ReservationRatingCategory::where('reservation_company_id', 6)->get();
@@ -469,7 +470,10 @@ class ReservationController extends Controller
     }
     public function mycustomers(Request $request)
     {
-        $myCustomers = ReservationCustomer::with('user')->with('answers')->with('answers.question')->where('reservation_team_details.user_id', auth()->user()->id)
+        
+            $appEnv = Config::get('app.name');
+        
+        $myCustomers = ReservationCustomer::with('user')->with('answers')->with('answers.question')->with('team')->with('team.counter')->with('team.counter.company')->with('team.counter.company.owner')->where('reservation_team_details.user_id', auth()->user()->id)
             ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')
             ->join('reservation_team_details', 'reservation_teams.id', 'reservation_team_details.reservation_team_id')
             ->join('reservation_counters', 'reservation_counters.id', 'reservation_teams.reservation_counter_id')
@@ -478,6 +482,7 @@ class ReservationController extends Controller
             ->select('reservation_customers.*', 'reservation_teams.name', 'reservation_counters.name as counterName', 'reservation_car_categories.name as counterCategoryName', 'reservation_companies.name as companyName', 'reservation_team_details.leader')->orderBy('reservation_customers.created_at', 'DESC')->get();
         return Inertia::render('Reservation/Profile/MyCustomer', [
             'myCustomers' => $myCustomers,
+            '$appEnv ' => $appEnv ,
         ]);
     }
     public function mycompanycustomers(Request $request)
@@ -557,9 +562,10 @@ class ReservationController extends Controller
         // $myEmployeeRequestOff = ReservationEmployeeDayOff::with('company', function ($query) {
         //     return $query->where('user_id', auth()->user()->id);
         // })->get();
-        $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->with(["company" => function ($q) {
-            $q->where('user_id', auth()->user()->id);
-        }])
+        // $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->with(["company" => function ($q) {
+        //     $q->where('user_id', auth()->user()->id);
+        // }])
+        $myEmployeeRequestOff = ReservationEmployeeDayOff::with('user')->where('reservation_company_id',auth()->user()->company->id)
             // ->orderByRaw("STR_TO_DATE(date, '%Y-%m-%d') ASC")
             // ->orderBy(DB::raw("DATE_FORMAT(date,'%d-%M-%Y')"), 'ASC')
             ->select('*', DB::raw("STR_TO_DATE(date, '%d/%m/%Y') as date_cast"))
@@ -799,6 +805,10 @@ class ReservationController extends Controller
         };
         $tawarin = User::find(1);
         $customer = User::find(auth()->user()->id);
+        $customerBonus = $customer->getWallet('bonus');
+        if (!$customerBonus) {
+            $customerBonus = $customer->createWallet(['name' => 'Bonus Wallet', 'slug' => 'bonus']);
+        };
         $cekReferal = User::where('referral', $customer->from_referral)->first();
         $referal = $cekReferal ? User::where('referral', $customer->from_referral)->first() : User::find(1);
         $walletBonusReferral = $referal->getWallet('bonus');
@@ -811,7 +821,8 @@ class ReservationController extends Controller
         // dd($reservationCounter);
         $tfPemilik = $reservationCounter->percent_owner / 100 * $reservationCounter->jasa;
         $tfReferral = (5 / 100 * $tfTempTawarin);
-        $tfTawarin = $tfTempTawarin - $tfReferral;
+        $tfCashbackTawarin = (5 / 100 * $tfTempTawarin);
+        $tfTawarin = $tfTempTawarin - $tfReferral - $tfCashbackTawarin;
         $tfTeam = $reservationCounter->percent_employe / 100 * $reservationCounter->jasa;
         if ($reservationCounter->deposit > 0) {
             $tfDeposit = ($reservationCounter->deposit) / 100 * ($reservationCounter->percent_employe / 100 * $reservationCounter->jasa);
@@ -866,12 +877,18 @@ class ReservationController extends Controller
                             deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
                             withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
                         ));
+                        
+                        
                     }
-
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
+                    ));
                     $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
                     ));
+                    
                     if ($tfBahan > 0) {
                         $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
                             deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
@@ -932,7 +949,7 @@ class ReservationController extends Controller
                     DB::commit();
                     return redirect('myreservations')->with([
                         'type' => 'success',
-                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                        'message' => 'Selamat, Konfirmasi pelayanan berhasil diselesaikan, cashback dari Tawarin sudah masuk di saldo Anda',
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();
@@ -975,6 +992,18 @@ class ReservationController extends Controller
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
                     ));
+                    foreach ($cekTeam as $teamd) {
+                        $teamdetail = User::find($teamd->user_id);
+                        $reservationCustomer->transfer($teamdetail, $tfTeam / count($cekTeam), new Extra(
+                            deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                            withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                        ));
+                        
+                    }
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
+                    ));
                     $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
                         deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
                         withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
@@ -1005,7 +1034,7 @@ class ReservationController extends Controller
                     DB::commit();
                     return redirect('myreservations')->with([
                         'type' => 'success',
-                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
+                        'message' => 'Selamat, Konfirmasi pelayanan berhasil diselesaikan, cashback dari Tawarin sudah masuk di saldo Anda',
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();
@@ -1048,6 +1077,19 @@ class ReservationController extends Controller
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
                     ));
+                    foreach ($cekTeam as $teamd) {
+                        $teamdetail = User::find($teamd->user_id);
+                        $reservationCustomer->transfer($teamdetail, $tfTeam / count($cekTeam), new Extra(
+                            deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                            withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                        ));
+                        
+                        
+                    }
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
+                    ));
                     $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
                         deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
                         withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
@@ -1078,7 +1120,7 @@ class ReservationController extends Controller
                     DB::commit();
                     return redirect('myreservations')->with([
                         'type' => 'success',
-                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan, cashback sudah masuk, silakan cek saldo anda',
+                        'message' => 'Selamat, Konfirmasi pelayanan berhasil diselesaikan, cashback dari Tawarin sudah masuk di saldo Anda',
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();
@@ -1112,11 +1154,6 @@ class ReservationController extends Controller
                             ));
                         }
                     }
-                    
-                    $reservationCustomer->transfer($tawarin, $tfTawarin, new Extra(
-                        deposit: ['message' => 'Fee dari ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'],
-                        withdraw: new Option(meta: ['message' => 'Uang Fee ke ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'fee'], confirmed: true)
-                    ));
                     $reservationCustomer->transfer($pemilik, $tfPemilik, new Extra(
                         deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
                         withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
@@ -1128,6 +1165,18 @@ class ReservationController extends Controller
                     $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    foreach ($cekTeam as $teamd) {
+                        $teamdetail = User::find($teamd->user_id);
+                        $reservationCustomer->transfer($teamdetail, $tfTeam / count($cekTeam), new Extra(
+                            deposit: ['message' => 'Bagi Hasil dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'uang masuk'],
+                            withdraw: new Option(meta: ['message' => 'Bagi Hasil ke ' . $pemilik->name, 'type' => 'uang keluar'], confirmed: true)
+                        ));
+                        
+                    }
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
                     ));
                     if ($tfBahan > 0) {
                         $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
@@ -1176,7 +1225,7 @@ class ReservationController extends Controller
                     DB::commit();
                     return redirect('myreservations')->with([
                         'type' => 'success',
-                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                        'message' => 'Selamat, Konfirmasi pelayanan berhasil diselesaikan, cashback dari Tawarin sudah masuk di saldo Anda',
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();
@@ -1221,6 +1270,11 @@ class ReservationController extends Controller
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
                     ));
+                    
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
+                    ));
                     if ($tfBahan > 0) {
                         $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
                             deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
@@ -1268,7 +1322,7 @@ class ReservationController extends Controller
                     DB::commit();
                     return redirect('myreservations')->with([
                         'type' => 'success',
-                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                        'message' => 'Selamat, Konfirmasi pelayanan berhasil diselesaikan, cashback dari Tawarin sudah masuk di saldo Anda',
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();
@@ -1303,6 +1357,10 @@ class ReservationController extends Controller
                     $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
                     ));
                     $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
                         deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
@@ -1369,6 +1427,10 @@ class ReservationController extends Controller
                     $reservationCustomer->transfer($walletBonusReferral, $tfReferral, new Extra(
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
+                    ));
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
                     ));
                     $reservationCustomer->transfer($customer, $reservationCounter->price_user, new Extra(
                         deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
@@ -1443,6 +1505,10 @@ class ReservationController extends Controller
                         deposit: ['message' => 'Referal dari ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'],
                         withdraw: new Option(meta: ['message' => 'Referal ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'referral'], confirmed: true)
                     ));
+                    $reservationCustomer->transfer($customerBonus, $tfCashbackTawarin, new Extra(
+                        deposit: ['message' => 'Cashback dari Tawarin untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'],
+                        withdraw: new Option(meta: ['message' => 'Cashback ke ' . $customer->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback_tawarin'], confirmed: true)
+                    ));
                     if ($tfBahan > 0) {
                         $reservationCustomer->transfer($pemilik, $tfBahan, new Extra(
                             deposit: ['message' => 'Bahan ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'bhp'],
@@ -1490,7 +1556,7 @@ class ReservationController extends Controller
                     DB::commit();
                     return redirect('myreservations')->with([
                         'type' => 'success',
-                        'message' => 'Konfirmasi pelayanan berhasil diselesaikan',
+                        'message' => 'Selamat, Konfirmasi pelayanan berhasil diselesaikan, cashback dari Tawarin sudah masuk di saldo Anda',
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();

@@ -11,7 +11,7 @@ export default function Team({ setIsOpenDialog, model, resultteam }) {
     const { auth, flash_simple } = usePage().props;
     const [state, setState] = useState({});
     const model2 = model.model;
-    console.log(model2.reservationCompany.pernyataan);
+    console.log(model2.reservationCompany.reservation_category_id);
     // console.log(model.timeRange.timeRange);
     const { data, setData, get, post, processing, reset, errors } = useForm({});
     const [isOpenInfoDialog, setIsOpenInfoDialog] = useState(false);
@@ -190,6 +190,12 @@ export default function Team({ setIsOpenDialog, model, resultteam }) {
     const handleCheckboxChange = (event) => {
       setIsAgree(event.target.checked);
     };
+    useEffect(() => {
+        if (model2.reservationCompany.reservation_category_id === 1) {
+            setIsAgree(true);
+        }
+    }, [])
+    
     // console.log(isAgree)
     return (
         <>
@@ -313,10 +319,8 @@ export default function Team({ setIsOpenDialog, model, resultteam }) {
                 closeButton="false"
                 title={"Sudah Yakin dengan Pilihan Anda ?"}
             >
-                <div className="p-4 mt-8 mb-4 border rounded-lg">
-                    {/* <p className="mb-2 text-lg font-semibold text-justify">
-                    Dengan klik Simpan, saya menyatakan setuju dengan kebijakan yang berlaku dan mengonfirmasi bahwa tidak ada barang berharga atau barang pribadi yang tertinggal di dalam kendaraan. Segala risiko yang timbul akibat kelalaian pengecekan menjadi tanggung jawab saya sepenuhnya.
-                    </p> */}
+                {model2.reservationCompany.reservation_category_id === 2 && <>
+                    <div className="p-4 mt-8 mb-4 border rounded-lg">
                     <blockquote className="relative">
                         <svg
                             className="absolute text-gray-100 -top-6 -start-8 size-16 dark:text-neutral-700"
@@ -399,7 +403,8 @@ export default function Team({ setIsOpenDialog, model, resultteam }) {
                     </span>
                 </div>
                 <label for="hs-basic-with-description-checked" class="text-lh font-semibold text-gray-900 ms-3 dark:text-neutral-400">Setuju</label>
-                {/* End Switch/Toggle */}
+                {/* End Switch/Toggle */}</>}
+                
 
                 {model2.question?.map((question, i) => (
                     <div key={question.id} className="py-3">

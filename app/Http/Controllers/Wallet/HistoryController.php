@@ -55,16 +55,17 @@ class HistoryController extends Controller
     public function main(Request $request)
     {
         $query = Transaction::query()
-            // ->where('payable_id', auth()->user()->id)
-            // ->where('confirmed',1)
+            ->where('payable_type', 'App\Models\User')
+            ->where('amount','<>',0)
             // ->whereJsonContains('meta->type', 'uang masuk')
             // ->whereJsonContains('meta->type', 'tip')
             // ->whereJsonContains('meta->type', 'deposit')
             // ->whereJsonContains('meta->type', 'referral')
-            ->with('wallet')
+            ->with('wallet')->whereRelation('wallet', 'slug', '<>', 'bonus')
             ->whereHas('wallet', function ($q) {
                 return $q->where('holder_id', '=', auth()->user()->id);
             });
+            
             // ->with('wallet')->whereRelation('wallet', 'holder_id', auth()->user()->id);
 
             // Event::whereHas('participants', function ($query) {

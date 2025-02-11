@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Inertia\Inertia;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DependantDropdownController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\Funding\FundingController;
 use App\Http\Controllers\HomeController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\PlanRevisionResultController;
 use App\Http\Controllers\Portofolio\PortofolioController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Reservation\CarController;
+use App\Http\Controllers\Reservation\InvoiceController as ReservationInvoiceController;
 use App\Http\Controllers\Reservation\ReservationCarCategoryController;
 use App\Http\Controllers\Reservation\ReservationController;
 use App\Http\Controllers\Reservation\ReservationCounterController;
@@ -366,6 +368,12 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::Resource('wallets', WalletController::class);
     Route::Resource('deposits', DepositController::class);
+    
+    Route::get('/deposit/create_auto', [DepositController::class, 'create_auto'])->name('deposit.create_auto');
+    Route::post('/deposit/store_auto', [DepositController::class, 'store_auto'])->name('deposit.store_auto');
+    Route::post('/deposit/notification/handler', [DepositController::class, 'notification'])->name('deposit.notification');
+
+
     Route::Resource('withdraws', WithdrawController::class);
     Route::Resource('histories', WalletHistoryController::class);
     Route::get('main/histories', [WalletHistoryController::class, 'main'])->name('main.histories');
@@ -409,5 +417,10 @@ Route::controller(CartController::class)->middleware('auth', 'verified')->group(
 
 Route::post('api/notification/handling', [PaymentNotificationController::class, 'hit']);
 
+Route::get('/donation', [DonationController::class, 'index'])->name('donation');
+Route::post('/donation/store', [DonationController::class, 'submitDonation'])->name('donation.store');
+Route::post('/notification/handler', [DonationController::class, 'notificationHandler'])->name('notification.handler');
+
+Route::get('/ereceipt/{code}', [ReservationInvoiceController::class,'ereceipt'])->name('reservation.ereceipt');
 
 require __DIR__ . '/auth.php';

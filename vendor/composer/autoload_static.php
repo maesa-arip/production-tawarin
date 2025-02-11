@@ -147,6 +147,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
             'MyCLabs\\Enum\\' => 13,
             'Monolog\\' => 8,
             'Mockery\\' => 8,
+            'Midtrans\\' => 9,
         ),
         'L' => 
         array (
@@ -520,6 +521,10 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         array (
             0 => __DIR__ . '/..' . '/mockery/mockery/library/Mockery',
         ),
+        'Midtrans\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans',
+        ),
         'League\\OAuth1\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/oauth1-client/src',
@@ -798,6 +803,7 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'App\\Http\\Controllers\\Project\\ProjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/Project/ProjectController.php',
         'App\\Http\\Controllers\\ReservationCarQuestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReservationCarQuestionController.php',
         'App\\Http\\Controllers\\ReservationRatingController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReservationRatingController.php',
+        'App\\Http\\Controllers\\Reservation\\CarController' => __DIR__ . '/../..' . '/app/Http/Controllers/Reservation/CarController.php',
         'App\\Http\\Controllers\\Reservation\\ReservationCarCategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Reservation/ReservationCarCategoryController.php',
         'App\\Http\\Controllers\\Reservation\\ReservationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Reservation/ReservationController.php',
         'App\\Http\\Controllers\\Reservation\\ReservationCounterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Reservation/ReservationCounterController.php',
@@ -4568,6 +4574,14 @@ class ComposerStaticInit0089a144fe15cb8416de6f0a5b335df9
         'League\\OAuth1\\Client\\Signature\\RsaSha1Signature' => __DIR__ . '/..' . '/league/oauth1-client/src/Signature/RsaSha1Signature.php',
         'League\\OAuth1\\Client\\Signature\\Signature' => __DIR__ . '/..' . '/league/oauth1-client/src/Signature/Signature.php',
         'League\\OAuth1\\Client\\Signature\\SignatureInterface' => __DIR__ . '/..' . '/league/oauth1-client/src/Signature/SignatureInterface.php',
+        'Midtrans\\ApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/ApiRequestor.php',
+        'Midtrans\\Config' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Config.php',
+        'Midtrans\\CoreApi' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/CoreApi.php',
+        'Midtrans\\Notification' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Notification.php',
+        'Midtrans\\Sanitizer' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Sanitizer.php',
+        'Midtrans\\Snap' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Snap.php',
+        'Midtrans\\SnapApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/SnapApiRequestor.php',
+        'Midtrans\\Transaction' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Transaction.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegrationAssertPostConditions' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php',
         'Mockery\\Adapter\\Phpunit\\MockeryTestCase' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryTestCase.php',

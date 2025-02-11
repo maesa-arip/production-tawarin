@@ -1,1 +1,0 @@
-import{j as e,a as d}from"./app.90a4baee.js";import{C as s}from"./Container.f3db95f1.js";function l({title:r,description:a}){return e("div",{className:"py-4 mx-2 my-2 bg-white border rounded-lg md:mx-6",children:d(s,{children:[e("h1",{className:"mb-4 text-2xl font-semibold",children:r}),e("div",{className:"text-lg leading-relaxed text-gray-500",children:a})]})})}export{l as H};
