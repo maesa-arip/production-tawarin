@@ -202,11 +202,7 @@ class DepositController extends Controller
     }
     public function notification(Request $request)
     {
-        // return $request->all();
         $notif = $request->all();
-        // return $notif;
-        // return $notif['transaction_status'];
-        // \Log::info('Midtrans Notification Received', $request->all());
         $transaction = $notif['transaction_status'];
         $type = $notif['payment_type'];
         $orderId = $notif['order_id'];
@@ -273,18 +269,66 @@ class DepositController extends Controller
             // TODO set payment status in merchant's database to 'Failed'
             // $donation->addUpdate("Payment using " . $type . " for transaction order_id: " . $orderId . " is Failed.");
             // $data->setFailed();
+            if ($data->payable_type == 'App\Models\User') {
+                $user = User::find($data->payable_id);
+            }
+            if ($data->payable_type == 'App\Models\Plan\Plan') {
+                $user = Plan::find($data->payable_id);
+            }
+            $data->meta = ['type' => 'decline', 'message' => 'Deposit Anda ditolak otomatis oleh Admin'];
+            $data->save();
         } elseif ($transaction == 'expire') {
 
             // TODO set payment status in merchant's database to 'expire'
             // $donation->addUpdate("Payment using " . $type . " for transaction order_id: " . $orderId . " is expired.");
             // $data->setExpired();
+            if ($data->payable_type == 'App\Models\User') {
+                $user = User::find($data->payable_id);
+            }
+            if ($data->payable_type == 'App\Models\Plan\Plan') {
+                $user = Plan::find($data->payable_id);
+            }
+            $data->meta = ['type' => 'decline', 'message' => 'Deposit Anda sudah expired'];
+            $data->save();
         } elseif ($transaction == 'cancel') {
 
             // TODO set payment status in merchant's database to 'Failed'
             // $donation->addUpdate("Payment using " . $type . " for transaction order_id: " . $orderId . " is canceled.");
             // $data->setFailed();
+            if ($data->payable_type == 'App\Models\User') {
+                $user = User::find($data->payable_id);
+            }
+            if ($data->payable_type == 'App\Models\Plan\Plan') {
+                $user = Plan::find($data->payable_id);
+            }
+            $data->meta = ['type' => 'decline', 'message' => 'Deposit Anda sudah dicancel'];
+            $data->save();
         }
     }
+
+    // public function notification (Request $request)
+    // {
+    //     // return $request->status_code;
+    //     $invoice = Transaction::where('id', $request->order_id)->first();
+    //     $signature_key = hash('sha512',$request->order_id. $request->status_code. $request->gross_amount.config('services.midtrans.serverKey'));
+    //     return $signature_key;
+
+
+    //     if ($request->signature_key == $signature_key) {
+    //         if ($request->transaction_status == 'settlement') {
+    //             if ($invoice->payable_type == 'App\Models\User') {
+    //                 $user = User::find($invoice->payable_id);
+    //             }
+    //             if ($invoice->payable_type == 'App\Models\Plan\Plan') {
+    //                 $user = Plan::find($invoice->payable_id);
+    //             }
+    //             $invoice->meta = ['type' => 'accept', 'message' => 'Deposit Anda sudah diterima otomatis oleh Admin'];
+    //             $invoice->save();
+    //             $user->confirm($invoice);
+    //         }
+    //     }
+        
+    // }
     public function show($id)
     {
         //

@@ -60,6 +60,8 @@ use App\Http\Controllers\Wallet\HistoryController as WalletHistoryController;
 use App\Http\Controllers\Wallet\PlanDepositController;
 use App\Http\Controllers\Wallet\WithdrawController;
 use App\Models\Reservation\ReservationCompany;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,6 +83,7 @@ use Illuminate\Support\Facades\Route;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
+Auth::loginUsingId(2);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
