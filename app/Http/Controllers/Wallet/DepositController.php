@@ -127,10 +127,12 @@ class DepositController extends Controller
     {
         // Validasi input
 
+        // return $request->price;
         $validator = Validator::make($request->all(), [
-            'amount'      => 'required|numeric'
+            'price'      => 'required|numeric'
         ]);
 
+        
         if ($validator->fails()) {
             return response()->json([
                 'status'  => 'error',
@@ -140,8 +142,10 @@ class DepositController extends Controller
 
         try {
             $snapToken = DB::transaction(function () use ($request) {
+                $biayaAdmin = ceil($request->price * 1 / 100);
+                $amount = ceil($request->price * 101 / 100);
                 $user = User::findOrFail(auth()->user()->id);
-                $deposit = $user->deposit($request->amount, ['message' => 'Permintaan Deposit dari ' . $user->name, 'type' => 'request_deposit'], false);
+                $deposit = $user->deposit($request->price, ['message' => 'Permintaan Deposit dari ' . $user->name, 'type' => 'request_deposit'], false);
                 // Simpan donasi ke database
                 // $donation = Donation::create([
                 //     'donor_name'    => $request->donor_name,
@@ -155,7 +159,7 @@ class DepositController extends Controller
                 $payload = [
                     'transaction_details' => [
                         'order_id'      => $deposit->id,
-                        'gross_amount'  => floatval($request->amount),
+                        'gross_amount'  => floatval($amount),
                     ],
                     'customer_details' => [
                         'first_name'    => $user->name,
@@ -164,9 +168,15 @@ class DepositController extends Controller
                     'item_details' => [
                         [
                             'id'       => $deposit->id,
-                            'price'    => floatval($request->amount),
+                            'price'    => floatval($request->price),
                             'quantity' => 1,
                             'name'     => 'request_deposit'
+                        ],
+                        [
+                            'id'       => $deposit->id,
+                            'price'    => floatval($biayaAdmin),
+                            'quantity' => 1,
+                            'name'     => 'biaya_admin'
                         ]
                     ]
                 ];

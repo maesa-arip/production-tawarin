@@ -492,7 +492,7 @@ export default function MyCustomer({
                                                         href={
                                                             "https://wa.me/62" +
                                                             wa +
-                                                            "?text=Terima kasih telah berbelanja Rp. " + item.team.counter.price.toLocaleString() +" di "+ item.team.counter.company.name +", cek struk di http://tawarin.id/ereceipt/"+ item.code
+                                                            "?text=Terima kasih telah berbelanja Rp. " + item.team.counter.price.toLocaleString('id-ID') +" di "+ item.team.counter.company.name +", cek struk di https://tawarin.id/ereceipt/"+ item.code
                                                         }
                                                         data-action="share/whatsapp/share"
                                                     >

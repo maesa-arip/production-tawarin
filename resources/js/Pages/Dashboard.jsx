@@ -322,7 +322,7 @@ export default function Dashboard(props) {
                     <div className="grid grid-cols-4 gap-4 p-4 mt-2 ">
                         {[
                             {
-                                href: "/deposits/create",
+                                href: "/deposit/create_auto",
                                 icon: (
                                     <ArrowCircleDownIcon className="w-6 h-6 text-orange-400" />
                                 ),

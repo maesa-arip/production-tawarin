@@ -3,6 +3,7 @@ import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import App from "@/Layouts/App";
 import Container from "@/Components/Container";
+import { Terbilang } from "@/Libs/helper";
 
 const DonationForm = ({ midtransClientKey }) => {
     const [formData, setFormData] = useState({
@@ -12,9 +13,16 @@ const DonationForm = ({ midtransClientKey }) => {
         amount: "",
         // note: "",
     });
-
+    const [price, setPrice] = useState(0);
+    const [grossAmount, setGrossAmount] = useState(0);
+    const [biayaAdmin, setBiayaAdmin] = useState(0);
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        // setPrice(e.target.value);
+        setBiayaAdmin(Math.ceil((e.target.value * 1) / 100));
+        setGrossAmount(Math.ceil((e.target.value * (100 + 1)) / 100));
+        // setFormData({ ...formData, ['gross_amount']: grossAmount });
+        // setFormData({ ...formData, ['biaya_admin']: biayaAdmin });
     };
     useEffect(() => {
         // Load Midtrans Snap.js
@@ -43,10 +51,13 @@ const DonationForm = ({ midtransClientKey }) => {
                     //     await axios.post("/sanbox/deposit/notification/handler", result);
                     // },
                     onSuccess: async (result) => {
-                        await axios.post("/deposit/notification/handler", result);
+                        await axios.post(
+                            "/deposit/notification/handler",
+                            result
+                        );
                         window.location.href = "/wallets"; // Redirect setelah sukses
                     },
-                    
+
                     onPending: (result) => {
                         console.log("Pending payment", result);
                     },
@@ -56,10 +67,24 @@ const DonationForm = ({ midtransClientKey }) => {
                 });
             }
         } catch (error) {
-            console.error("Error submitting donation:", error);
+            console.error("Error Top Up:", error);
         }
     };
-
+    const formatRupiahPrice = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(formData.price);
+    const formatRupiahBiayaAdmin = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(biayaAdmin);
+    const formatRupiahGrossAmount = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    }).format(grossAmount);
+    // console.log(formData)
+    // console.log(grossAmount)
+    // console.log(biayaAdmin)
     return (
         <Container>
             <section className="make_donation section_gap">
@@ -73,33 +98,149 @@ const DonationForm = ({ midtransClientKey }) => {
                     </div>
                     <div className="mt-5 md:mt-0 md:col-span-2">
                         <div className="overflow-hidden shadow sm:rounded-md">
-                        <form onSubmit={handleSubmit}>
-                            <div className="px-4 py-5 bg-white sm:p-6">
-                                <div className="grid grid-cols-6 gap-6">
-                                    <div className="col-span-6 sm:col-span-3">
-                                        <label
-                                            htmlFor="amount"
-                                            className="block text-sm font-medium text-gray-700"
-                                        >
-                                            Jumlah Top Up
-                                        </label>
-                                        <input
-                                            type="number"
-                                            name="amount"
-                                            id="amount"
-                                            min="10000"
-                                            max="999999999"
-                                            value={formData.amount}
-                                            onChange={handleChange}
-                                            required
-                                            // onChange={
-                                            //     onChangeAmountHandler
-                                            // }
-                                            onWheel={(e) => e.target.blur()}
-                                            autoComplete="off"
-                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            <form onSubmit={handleSubmit}>
+                                <div className="col-span-12 px-3 py-4 m-4 text-sm text-gray-500 rounded shadow md:col-span-8">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                        width={24}
+                                        height={24}
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2}
+                                        stroke="currentColor"
+                                        fill="none"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path
+                                            stroke="none"
+                                            d="M0 0h24v24H0z"
+                                            fill="none"
                                         />
-                                        {/* {errors.amount && (
+                                        <circle cx={12} cy={12} r={9} />
+                                        <line
+                                            x1={12}
+                                            y1={8}
+                                            x2="12.01"
+                                            y2={8}
+                                        />
+                                        <polyline points="11 12 12 12 12 16 13 16" />
+                                    </svg>
+                                    Setiap transaksi top-up akan dikenakan biaya
+                                    administrasi sebesar 1% dari jumlah top-up.
+                                </div>
+                                <div className="px-4 py-5 bg-white sm:p-6">
+                                    <div className="grid grid-cols-6 gap-6">
+                                        <div className="col-span-6 sm:col-span-3">
+                                            <label
+                                                htmlFor="amount"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                Jumlah Top Up
+                                            </label>
+                                            <input
+                                                type="number"
+                                                name="price"
+                                                id="price"
+                                                min="10000"
+                                                max="999999999"
+                                                value={formData.price}
+                                                onChange={handleChange}
+                                                required
+                                                // onChange={
+                                                //     onChangeAmountHandler
+                                                // }
+                                                onWheel={(e) => e.target.blur()}
+                                                autoComplete="off"
+                                                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+
+                                            <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                {formData.price &&
+                                                    formatRupiahPrice}{" "}
+                                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                    {formData.price &&
+                                                        "(" +
+                                                            Terbilang(
+                                                                formData.price
+                                                            ) +
+                                                            " Rupiah)"}
+                                                </span>
+                                            </div>
+                                            <div className="p-2 mt-4 border rounded">
+                                                <label
+                                                    htmlFor="amount"
+                                                    className="block mt-2 text-sm font-medium text-gray-700"
+                                                >
+                                                    Biaya Admin
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="biaya_admin"
+                                                    id="biaya_admin"
+                                                    min="10000"
+                                                    max="999999999"
+                                                    value={biayaAdmin}
+                                                    readOnly
+                                                    // onChange={handleChange}
+                                                    // required
+                                                    // onChange={
+                                                    //     onChangeAmountHandler
+                                                    // }
+                                                    // onWheel={(e) => e.target.blur()}
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                                                />
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                    {biayaAdmin &&
+                                                        formatRupiahBiayaAdmin}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {biayaAdmin &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    biayaAdmin
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
+                                                <label
+                                                    htmlFor="amount"
+                                                    className="block mt-2 text-sm font-medium text-gray-700"
+                                                >
+                                                    Total Bayar
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="amount"
+                                                    id="amount"
+                                                    min="10000"
+                                                    max="999999999"
+                                                    value={grossAmount}
+                                                    readOnly
+                                                    // onChange={handleChange}
+                                                    // required
+                                                    // onChange={
+                                                    //     onChangeAmountHandler
+                                                    // }
+                                                    // onWheel={(e) => e.target.blur()}
+                                                    autoComplete="off"
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                                                />
+                                                <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
+                                                {grossAmount &&
+                                                    formatRupiahGrossAmount}{" "}
+                                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                    {grossAmount &&
+                                                        "(" +
+                                                            Terbilang(
+                                                                grossAmount
+                                                            ) +
+                                                            " Rupiah)"}
+                                                </span>
+                                            </div>
+                                            </div>
+                                            
+                                            {/* {errors.amount && (
                                                                 <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
                                                                     {errors.amount}
                                                                 </span>
@@ -116,15 +257,15 @@ const DonationForm = ({ midtransClientKey }) => {
                                                                             " Rupiah)"}
                                                                 </span>
                                                             </div> */}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <button
-                                        type="submit"
-                                        className="inline-flex items-center px-4 py-2 m-4 text-xs font-semibold tracking-wide tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md bg-amber-500 hover:bg-amber-600 focus:bg-amber-600 active:bg-amber-600 focus:outline-none false focus:ring-2 focus:ring-offset-2"
-                                    >
-                                        Simpan
-                                    </button>
+                                <button
+                                    type="submit"
+                                    className="inline-flex items-center px-4 py-2 m-4 text-xs font-semibold tracking-wide tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md bg-amber-500 hover:bg-amber-600 focus:bg-amber-600 active:bg-amber-600 focus:outline-none false focus:ring-2 focus:ring-offset-2"
+                                >
+                                    Simpan
+                                </button>
                             </form>
                         </div>
                     </div>

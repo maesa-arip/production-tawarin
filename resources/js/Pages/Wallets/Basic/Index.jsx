@@ -259,7 +259,7 @@ export default function Index({
                                     className={
                                         "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                     }
-                                    href={"/deposits/create"}
+                                    href={"/deposit/create_auto"}
                                 >
                                     TopUp
                                 </NavLink>
