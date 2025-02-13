@@ -83,7 +83,7 @@ use Illuminate\Support\Facades\Route;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
-Auth::loginUsingId(2);
+// Auth::loginUsingId(2);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

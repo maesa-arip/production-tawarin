@@ -51,13 +51,14 @@ const DonationForm = ({ midtransClientKey }) => {
                     //     await axios.post("/sanbox/deposit/notification/handler", result);
                     // },
                     onSuccess: async (result) => {
+                        alert("pembayaran sukses, silakan cek saldo");
                         // console.log("Transaction success", result);
                         // console.log(result)
                         // await axios.post(
                         //     "/deposit/notification/handler",
                         //     result
                         // );
-                        window.location.href = "/wallets"; // Redirect setelah sukses
+                        // window.location.href = "/wallets"; // Redirect setelah sukses
                     },
 
                     onPending: (result) => {
