@@ -53,7 +53,7 @@ class DepositController extends Controller
     }
     public function create_auto()
     {
-        return inertia('Wallets/Deposit/DonationForm');
+        return inertia('Wallets/Deposit/DepositAuto');
     }
 
     /**
@@ -146,15 +146,6 @@ class DepositController extends Controller
                 $amount = ceil($request->price * 101 / 100);
                 $user = User::findOrFail(auth()->user()->id);
                 $deposit = $user->deposit($request->price, ['message' => 'Permintaan Deposit dari ' . $user->name, 'type' => 'request_deposit'], false);
-                // Simpan donasi ke database
-                // $donation = Donation::create([
-                //     'donor_name'    => $request->donor_name,
-                //     'donor_email'   => $request->donor_email,
-                //     'donation_type' => $request->donation_type,
-                //     'amount'        => floatval($request->amount),
-                //     'note'          => $request->note,
-                // ]);
-
                 // Buat transaksi ke Midtrans
                 $payload = [
                     'transaction_details' => [
@@ -187,7 +178,7 @@ class DepositController extends Controller
 
                 return $snapToken;
             });
-
+            // return $snapToken;
             // return Inertia::location('https://app.sandbox.midtrans.com/snap/v2/vtweb/' . $snapToken);
             return response()->json([
                 'status' => 'success',

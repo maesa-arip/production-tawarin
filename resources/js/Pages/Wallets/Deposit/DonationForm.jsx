@@ -4,13 +4,16 @@ import axios from "axios";
 import App from "@/Layouts/App";
 import Container from "@/Components/Container";
 import { Terbilang } from "@/Libs/helper";
+import Button from "@/Components/Button";
+import { useForm } from "@inertiajs/inertia-react";
+import ThirdButtonNoLink from "@/Components/ThirdButtonNoLink";
 
 const DonationForm = ({ midtransClientKey }) => {
     const [formData, setFormData] = useState({
         // donor_name: "",
         // donor_email: "",
         // donation_type: "",
-        amount: "",
+        price: "",
         // note: "",
     });
     const [price, setPrice] = useState(0);
@@ -27,7 +30,7 @@ const DonationForm = ({ midtransClientKey }) => {
     useEffect(() => {
         // Load Midtrans Snap.js
         const script = document.createElement("script");
-        script.src = "https://app.midtrans.com/snap/snap.js";
+        script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
         script.setAttribute(
             "data-client-key",
             import.meta.env.VITE_MIDTRANS_CLIENT_KEY
@@ -88,6 +91,7 @@ const DonationForm = ({ midtransClientKey }) => {
     // console.log(formData)
     // console.log(grossAmount)
     // console.log(biayaAdmin)
+    const { data, setData, post, processing, reset, errors } = useForm({});
     return (
         <Container>
             <section className="make_donation section_gap">
@@ -230,19 +234,19 @@ const DonationForm = ({ midtransClientKey }) => {
                                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                                 />
                                                 <div className="inline mt-1 ml-1 text-xs font-semibold text-indigo-500">
-                                                {grossAmount &&
-                                                    formatRupiahGrossAmount}{" "}
-                                                <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
                                                     {grossAmount &&
-                                                        "(" +
-                                                            Terbilang(
-                                                                grossAmount
-                                                            ) +
-                                                            " Rupiah)"}
-                                                </span>
+                                                        formatRupiahGrossAmount}{" "}
+                                                    <span className="inline mt-1 ml-1 text-xs italic font-semibold text-indigo-500">
+                                                        {grossAmount &&
+                                                            "(" +
+                                                                Terbilang(
+                                                                    grossAmount
+                                                                ) +
+                                                                " Rupiah)"}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            </div>
-                                            
+
                                             {/* {errors.amount && (
                                                                 <span className="inline mt-1 ml-1 text-xs italic font-semibold text-pink-500">
                                                                     {errors.amount}
@@ -263,12 +267,16 @@ const DonationForm = ({ midtransClientKey }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <button
+                                {/* <button
                                     type="submit"
                                     className="inline-flex items-center px-4 py-2 m-4 text-xs font-semibold tracking-wide tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md bg-amber-500 hover:bg-amber-600 focus:bg-amber-600 active:bg-amber-600 focus:outline-none false focus:ring-2 focus:ring-offset-2"
                                 >
                                     Simpan
-                                </button>
+                                </button> */}
+                                <ThirdButtonNoLink type="submit" className="m-4 mt-4" disabled={processing}>
+                                Simpan
+                                                    </ThirdButtonNoLink>
+                                {/* <Button processing={processing}>Simpan</Button> */}
                             </form>
                         </div>
                     </div>
@@ -365,7 +373,7 @@ const DonationForm = ({ midtransClientKey }) => {
                     </div>
                 </div> */}
                 <script
-                    src="https://app.midtrans.com/snap/snap.js"
+                    src="https://app.sandbox.midtrans.com/snap/snap.js"
                     data-client-key={midtransClientKey}
                 ></script>
             </section>

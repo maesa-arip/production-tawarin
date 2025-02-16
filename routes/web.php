@@ -374,7 +374,7 @@ Route::middleware('auth', 'verified')->group(function () {
     
     Route::get('/deposit/create_auto', [DepositController::class, 'create_auto'])->name('deposit.create_auto');
     Route::post('/deposit/store_auto', [DepositController::class, 'store_auto'])->name('deposit.store_auto');
-    Route::post('/deposit/notification/handler', [DepositController::class, 'notification'])->name('deposit.notification');
+
 
 
     Route::Resource('withdraws', WithdrawController::class);
@@ -419,6 +419,7 @@ Route::controller(CartController::class)->middleware('auth', 'verified')->group(
 });
 
 Route::post('api/notification/handling', [PaymentNotificationController::class, 'hit']);
+Route::post('/deposit/notification/handler', [DepositController::class, 'notification'])->name('deposit.notification');
 
 Route::get('/donation', [DonationController::class, 'index'])->name('donation');
 Route::post('/donation/store', [DonationController::class, 'submitDonation'])->name('donation.store');
