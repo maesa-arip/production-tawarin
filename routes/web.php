@@ -234,6 +234,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('public/reservationCounters/{reservationCompany}/{reservationCounter}/{id}/change', [ReservationCounterController::class, 'change'])->name('reservationCounters.change');
 
     Route::put('reservationCounters/{id}/set_cars', [ReservationCounterController::class, 'update_set_cars'])->name('reservationCounters.update_set_cars');
+    Route::put('reservationCounters/{id}', [ReservationCounterController::class, 'active'])->name('reservationCounters.active');
     
     Route::resource('userBanks', UserBankController::class);
     Route::resource('reservationQuestions', ReservationCarQuestionController::class);

@@ -138,14 +138,34 @@ export default function Index(props) {
         setState(reservationCounter);
         setIsOpenDestroyDialog(true);
     };
+    const openActiveDialog = (reservationCounter) => {
+        setState(reservationCounter);
+        setIsOpenActiveDialog(true);
+    };
 
     const destroyReservationCounter = () => {
         Inertia.delete(route("reservationCounters.destroy", state.id), {
             onSuccess: () => setIsOpenDestroyDialog(false),
         });
     };
+    const activeReservationCounter = (e) => {
+        e.preventDefault();
+        put(route("reservationCounters.active", state.id), {
+            onSuccess: () => {
+                setIsOpenActiveDialog(false);
+            },
+        });
+    };
+    // const activeReservationCounter = () => {
+    //     Inertia.put(route("reservationCounters.active", state.id), {
+    //         onSuccess: () => {
+    //             return Promise.all([setIsOpenActiveDialog(false), console.log("works")]);
+    //         },
+    //     });
+    // };
 
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
+    const [isOpenActiveDialog, setIsOpenActiveDialog] = useState(false);
     const [state, setState] = useState([]);
 
     const openAddDialog = () => {
@@ -160,7 +180,7 @@ export default function Index(props) {
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     const [isOpenPernyataanDialog, setIsOpenPernyataanDialog] = useState(false);
 
-    const { data, setData, post,patch, processing, errors, reset } = useForm({
+    const { data, setData, post,patch,put, processing, errors, reset } = useForm({
         code: "",
     });
     const openPernyataanDialog = (item) => {
@@ -189,7 +209,7 @@ export default function Index(props) {
             }
         }, [])
 
-        console.log(reservationCounters)
+        // console.log(reservationCounters)
     return (
         <>
             <Head title="Reservation Counter" />
@@ -265,6 +285,16 @@ export default function Index(props) {
                 >
                     <Button color={"pink"} onClick={destroyReservationCounter}>
                         Non Aktifkan
+                    </Button>
+                </DestroyModal>
+                <DestroyModal
+                    isOpenDestroyDialog={isOpenActiveDialog}
+                    setIsOpenDestroyDialog={setIsOpenActiveDialog}
+                    size="2xl"
+                    title={"Aktifkan kembali Layanan"}
+                >
+                    <Button  onClick={activeReservationCounter}>
+                        Aktifkan
                     </Button>
                 </DestroyModal>
                 
@@ -1270,7 +1300,7 @@ export default function Index(props) {
                                                 {reservationCounter.is_active ==
                                                     0 && <div className="flex col-span-12 gap-1 py-2 mx-auto "><ThirdButtonSmallNoLink
                                                     onClick={() =>
-                                                        openDestroyDialog(
+                                                        openActiveDialog(
                                                             reservationCounter
                                                         )
                                                     }

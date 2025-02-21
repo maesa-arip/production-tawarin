@@ -33,17 +33,17 @@ class ReservationCounterController extends Controller
         $reservationCompany = ReservationCompany::where('user_id', auth()->user()->id)->first();
         if ($reservationCompany->reservation_category_id == 2) {
             $reservationCounters = ReservationCounter::query()
-            ->with('team', 'media', 'cars', 'company', 'category')
-            ->whereHas('category')
-            ->where('user_id', auth()->user()->id);
+                ->with('team', 'media', 'cars', 'company', 'category')
+                ->whereHas('category')
+                ->where('user_id', auth()->user()->id);
         }
         if ($reservationCompany->reservation_category_id == 1) {
             $reservationCounters = ReservationCounter::query()
-            ->with('team', 'media', 'cars', 'company', 'category')
-            // ->whereHas('category')
-            ->where('user_id', auth()->user()->id);
+                ->with('team', 'media', 'cars', 'company', 'category')
+                // ->whereHas('category')
+                ->where('user_id', auth()->user()->id);
         }
-        
+
         if ($request->q) {
             $reservationCounters->where('name', 'like', '%' . $request->q . '%');
         }
@@ -314,6 +314,16 @@ class ReservationCounterController extends Controller
         return redirect('reservationCounters')->with([
             'type' => 'success',
             'message' => 'Layanan berhasil di nonaktifkan',
+        ]);
+    }
+
+    public function active($id)
+    {
+        ReservationCounter::where('id', $id)
+            ->update(['is_active' => 1]);
+        return redirect('reservationCounters')->with([
+            'type' => 'success',
+            'message' => 'Layanan berhasil di aktifkan kembali',
         ]);
     }
 
