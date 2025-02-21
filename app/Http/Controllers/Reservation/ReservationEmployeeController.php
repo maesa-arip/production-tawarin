@@ -109,7 +109,7 @@ class ReservationEmployeeController extends Controller
             ]
         ]);
         $employees = ReservationEmployee::where('reservation_company_id', auth()->user()->company->id)->with('user')->get();
-        $counters = ReservationCounter::where('reservation_company_id', auth()->user()->company->id)->with('category')->get();
+        $counters = ReservationCounter::where('reservation_company_id', auth()->user()->company->id)->whereHas('category')->with('category')->get();
         return inertia('Reservation/Company/Team/Index', ['team' => $team, 'employees' => $employees, 'counters' => $counters]);
     }
     public function index_team_layanan(Request $request)

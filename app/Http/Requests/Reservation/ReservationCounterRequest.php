@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Reservation;
 
+use App\Models\Reservation\ReservationCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReservationCounterRequest extends FormRequest
@@ -23,8 +24,10 @@ class ReservationCounterRequest extends FormRequest
      */
     public function rules()
     {
+        $reservationCompany = ReservationCompany::where('user_id', auth()->user()->id)->first();
         return [
-            // 'reservation_company_id' => ['required'],
+            'reservation_car_category_id' => $reservationCompany && $reservationCompany->reservation_category_id == 2 ? 'required' : '',
+            // 'reservation_category_id' => ['required_unless:fee,=,2'],
             // 'user_id' => ['required'],
             'name' => 'required',
             // 'slug' => 'required',

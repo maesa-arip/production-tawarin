@@ -22,8 +22,9 @@ export default function Form({
         setData({ ...data, [e.target.id]: e.target.value });
     };
 
+    
     const optionsFromDB = employees;
-    let employeescompany = model ? model.employees.map((obj) => obj.id) : [];
+    let employeescompany = model ? model.details.map((obj) => obj.user_id) : [];
     const [options, setOptions] = useState([]);
     const [optionsLeader, setOptionsLeader] = useState([]);
     useEffect(() => {
@@ -61,6 +62,7 @@ export default function Form({
     const optionsFromDB2 = counters;
     // console.log(optionsFromDB2)
     let countercompany = model ? model.counters.map((obj) => obj.id) : [];
+    // console.log(countercompany)
     const [options2, setOptions2] = useState([]);
     
     useEffect(() => {
@@ -90,6 +92,7 @@ export default function Form({
         setData({ ...data, ["counters"]: selectedOptionIds2 });
     }, [options2]);
     // console.log(data);
+    // console.log(model,state)
     return (
         <>
             <div className="px-2 py-2 bg-white sm:p-0">

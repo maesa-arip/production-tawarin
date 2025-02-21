@@ -188,6 +188,8 @@ export default function Index(props) {
                 reservationCarCategories[0] = ['isi'];
             }
         }, [])
+
+        console.log(reservationCounters)
     return (
         <>
             <Head title="Reservation Counter" />
@@ -958,7 +960,7 @@ export default function Index(props) {
                                                                     //     `${reservationCounter.slug}`
                                                                     // )}
                                                                     >
-                                                                        Atur Tim
+                                                                        Atur Tim1
                                                                     </Dropdown.Link>
                                                                     <Dropdown.Link
                                                                     // href={route(
@@ -1103,6 +1105,7 @@ export default function Index(props) {
                                             </div> */}
                                                 <div className="flex items-center justify-center col-span-1 col-end-13">
                                                     {/* <IconDotsVertical> */}
+                                                    {reservationCounter.company.reservation_category_id == 1 &&
                                                     <span className="items-center justify-center px-1 ml-1 text-xs font-thin rounded-lg select-none ">
                                                         <DropdownMobile>
                                                             <DropdownMobile.Trigger>
@@ -1172,7 +1175,7 @@ export default function Index(props) {
                                                                 </DropdownMobile.Link>
                                                             </DropdownMobile.Content>
                                                         </DropdownMobile>
-                                                    </span>
+                                                    </span>}
                                                     {/* </IconDotsVertical> */}
                                                 </div>
                                                 <div className="col-span-12 col-start-1 border-b border-gray-100"></div>
@@ -1252,7 +1255,7 @@ export default function Index(props) {
                                                                             `${reservationCounter.slug}`
                                                                         )}
                                                                     >
-                                                                        Atur Tim
+                                                                        Atur Tim3
                                                                     </ThirdButtonSmall>
                                                                 ) : (
                                                                     <></>
@@ -1264,6 +1267,17 @@ export default function Index(props) {
                                                         )}
                                                     </div>
                                                 </div>
+                                                {reservationCounter.is_active ==
+                                                    0 && <div className="flex col-span-12 gap-1 py-2 mx-auto "><ThirdButtonSmallNoLink
+                                                    onClick={() =>
+                                                        openDestroyDialog(
+                                                            reservationCounter
+                                                        )
+                                                    }
+                                                >
+                                                    Aktifkan Layanan
+                                                </ThirdButtonSmallNoLink></div> 
+                                                    }
                                                 {reservationCounter.is_active ==
                                                     1 &&
                                                 reservationCounter.company

@@ -43,7 +43,7 @@ export default function Team({ setIsOpenDialog, model, resultteam }) {
             ["time"]: model.timeRange.timeRange,
         });
         setIsOpenInfoDialog(true);
-        // console.log(team)
+        console.log(team)
     };
 
     const openRatingDialog = (resultteam) => {

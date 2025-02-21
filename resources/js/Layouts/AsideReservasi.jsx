@@ -364,7 +364,7 @@ export default function AsideReservasi() {
                                                         Atur Tim
                                                     </Link>
                                                 </li>
-                                                <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
+                                                {/* <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                     <Link
                                                         onClick={toggleMenu}
                                                         href={route(
@@ -375,7 +375,7 @@ export default function AsideReservasi() {
                                                         {" "}
                                                         Atur Tim Untuk Layanan
                                                     </Link>
-                                                </li>
+                                                </li> */}
                                                 <li className="w-full py-2 border-b border-gray-100 border-opacity-25 ">
                                                     <Link
                                                         onClick={toggleMenu}

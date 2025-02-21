@@ -206,16 +206,16 @@ export default function Edit({
     const onChangeReservationCarCategoryId = (e) => {
         setData({ ...data, ["reservation_car_category_id"]: e.id });
     };
-    const defaultValue = [{ name: "Pilih" }];
+    const defaultValue = [{ name: "Pilih" , id: 0 }];
     const [selected, setSelected] = useState(defaultValue[0]);
     const [selectedCategory, setSelectedCategory] = useState(() => {
         return reservationCounter
             ? reservationCarCategories.find(
                   (x) => x.id === reservationCounter.reservation_car_category_id
               )
-            : "";
+            : defaultValue[0];
     });
-    // console.log(data)
+    // console.log(selectedCategory,defaultValue[0])
     return (
         <div>
             <Head title="Plan Create" />

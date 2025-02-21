@@ -20,7 +20,7 @@ export default function Form({
     const onChange = (e) => {
         setData({ ...data, [e.target.id]: e.target.value });
     };
-    // console.log(model);
+    console.log(model);
     const optionsFromDB = cars;
     let userrole = model ? model.cars.map((obj) => obj.id) : [];
     const [options, setOptions] = useState([]);
@@ -51,7 +51,7 @@ export default function Form({
         setData({ ...data, ["cars"]: selectedOptionIds });
     }, [options]);
 
-    // console.log(model)
+    console.log(selectedOptionIds)
 
     return (
         <>

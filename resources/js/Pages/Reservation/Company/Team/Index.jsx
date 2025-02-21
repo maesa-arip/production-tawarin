@@ -105,12 +105,12 @@ export default function Index(props) {
     const openAddDialog = () => {
         setIsOpenAddDialog(true);
     };
-    const openEditDialog = (role) => {
-        setState(role);
+    const openEditDialog = (team) => {
+        setState(team);
         setIsOpenEditDialog(true);
     };
-    const openDestroyDialog = (role) => {
-        setState(role);
+    const openDestroyDialog = (team) => {
+        setState(team);
         setIsOpenDestroyDialog(true);
     };
 
@@ -123,6 +123,7 @@ export default function Index(props) {
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
     const [state, setState] = useState([]);
+    console.log(state)
     return (
         <>
             <Head title="Team" />
@@ -146,7 +147,8 @@ export default function Index(props) {
                 title={"Edit team"}
             >
                 <Edit
-                    permissions={employees}
+                    employees={employees}
+                    counters={counters}
                     model={state}
                     isOpenEditDialog={isOpenEditDialog}
                     setIsOpenEditDialog={setIsOpenEditDialog}
@@ -220,10 +222,10 @@ export default function Index(props) {
                         </div>
 
                         <div className="flex flex-col p-1">
-                        <div className="-my-2 overflow-x-auto rounded sm:-mx-6 lg:-mx-8">
-                            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                <div className="border-b border-gray-200 shadow sm:rounded-lg">
-                                    <table className="min-w-full divide-y divide-gray-200">
+                            <div className="-my-2 overflow-x-auto rounded sm:-mx-6 lg:-mx-8">
+                                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                    <div className="border-b border-gray-200 shadow sm:rounded-lg">
+                                        <table className="min-w-full divide-y divide-gray-200">
                                             <thead className="bg-gray-50">
                                                 <tr>
                                                     {/* <th
@@ -348,7 +350,7 @@ export default function Index(props) {
                                                                         className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                         onClick={() =>
                                                                             openEditDialog(
-                                                                                team
+                                                                                item
                                                                             )
                                                                         }
                                                                     >
