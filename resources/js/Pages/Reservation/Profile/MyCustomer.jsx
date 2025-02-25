@@ -253,6 +253,16 @@ export default function MyCustomer({
                                                 {item.code}
                                             </p>
                                         </div>
+                                        {item.plat &&
+                                            <div className="flex items-center justify-between px-4 my-4">
+                                            <p className="text-sm font-semibold text-gray-500">
+                                                Plat Kendaraan
+                                            </p>
+                                            <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                                                {item.plat}
+                                            </p>
+                                        </div>
+                                        }
                                         <div className="flex items-center justify-between px-4 my-4">
                                             <p className="text-sm font-semibold text-gray-500">
                                                 Tanggal Reservasi
@@ -492,7 +502,7 @@ export default function MyCustomer({
                                                         href={
                                                             "https://wa.me/62" +
                                                             wa +
-                                                            "?text=Terima kasih telah berbelanja Rp. " + item.team.counter.price.toLocaleString('id-ID') +" di "+ item.team.counter.company.name +", cek struk di https://tawarin.id/ereceipt/"+ item.code
+                                                            "?text=Terima kasih telah berbelanja Rp. " + item.team.counter.price.toLocaleString('id-ID') +" di "+ item.team.counter.company.name +", cek struk di https://www.tawarin.id/ereceipt/"+ item.code
                                                         }
                                                         data-action="share/whatsapp/share"
                                                     >

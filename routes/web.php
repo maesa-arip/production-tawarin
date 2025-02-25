@@ -111,6 +111,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::Resource('contacts', ContactController::class);
     Route::get('reservationemployees/index_team', [ReservationEmployeeController::class,'index_team'])->name('reservation.teamheader');
     Route::post('reservationemployees/index_team', [ReservationEmployeeController::class,'store_team'])->name('reservation.store_teamheader');
+    Route::put('reservationemployees/index_team/{id}/edit', [ReservationEmployeeController::class,'update_team'])->name('reservation.update_teamheader');
     Route::get('reservationemployees/index_team_layanan', [ReservationEmployeeController::class,'index_team_layanan'])->name('reservation.teamlayanan');
     Route::post('reservationemployees/index_team_layanan', [ReservationEmployeeController::class,'store_team_layanan'])->name('reservation.store_teamlayanan');
     Route::Resource('reservationemployees', ReservationEmployeeController::class);

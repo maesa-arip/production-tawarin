@@ -49,6 +49,7 @@ export default function Index(props) {
     const { data: team, meta, filtered, attributes } = props.team;
     const employees = props.employees;
     const counters = props.counters;
+    const reservationCounterTeams = props.reservationCounterTeams;
     const { permissions } = usePage().props;
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
@@ -123,7 +124,7 @@ export default function Index(props) {
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
     const [state, setState] = useState([]);
-    console.log(state)
+    // console.log(employees)
     return (
         <>
             <Head title="Team" />
@@ -148,6 +149,7 @@ export default function Index(props) {
             >
                 <Edit
                     employees={employees}
+                    reservationCounterTeams={reservationCounterTeams}
                     counters={counters}
                     model={state}
                     isOpenEditDialog={isOpenEditDialog}

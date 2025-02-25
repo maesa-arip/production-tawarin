@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Reservation\ReservationCounter;
 use App\Models\Reservation\ReservationTeamHeaderDetail;
 use Bavix\Wallet\Interfaces\Confirmable;
 use Bavix\Wallet\Interfaces\Wallet;
@@ -24,6 +25,10 @@ class ReservationTeamHeader extends Model implements Wallet,Confirmable
     public function details()
     {
         return $this->hasMany(ReservationTeamHeaderDetail::class, 'reservation_team_header_id');
+    }
+    public function counters()
+    {
+        return $this->belongsToMany(ReservationCounter::class, 'reservation_counter_team');
     }
     
 }

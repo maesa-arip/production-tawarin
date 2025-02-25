@@ -20,7 +20,7 @@ export default function Form({
     const onChange = (e) => {
         setData({ ...data, [e.target.id]: e.target.value });
     };
-    console.log(model);
+    console.log(cars);
     const optionsFromDB = cars;
     let userrole = model ? model.cars.map((obj) => obj.id) : [];
     const [options, setOptions] = useState([]);
@@ -51,7 +51,7 @@ export default function Form({
         setData({ ...data, ["cars"]: selectedOptionIds });
     }, [options]);
 
-    console.log(selectedOptionIds)
+    console.log(userrole, selectedOptionIds);
 
     return (
         <>
@@ -106,12 +106,15 @@ export default function Form({
                             ))}
                         </div>
                     </div>
-
-                    
                 </div>
-                <ThirdButton href={route("reservationCar.index")} className="my-2">Tambah Kendaraan</ThirdButton>   
+                <ThirdButton
+                    href={route("reservationCar.index")}
+                    className="my-2"
+                >
+                    Tambah Kendaraan
+                </ThirdButton>
             </div>
-            
+
             <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <PrimaryButton className="ml-2">{submit}</PrimaryButton>
                 <SecondaryButton className="mx-2" onClick={closeButton}>

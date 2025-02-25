@@ -45,6 +45,7 @@ use Inertia\Inertia;
 use Bavix\Wallet\External\Dto\Extra;
 use Bavix\Wallet\External\Dto\Option;
 use Bavix\Wallet\Models\Transaction;
+use DateTime;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -195,6 +196,7 @@ class ReservationController extends Controller
         $reservation_categories = ReservationCategory::get();
         $reservations = ReservationCounter::query()
             ->with('company')
+            ->with('category')
             ->where('reservation_counters.is_active', 1)
             ->where('reservation_company_id', $reservationCompany->id)
             // ->when($request->reservation_category, fn ($q, $v) => $q->whereBelongsTo(ReservationCategory::where('slug', $v)->first()))
@@ -296,6 +298,7 @@ class ReservationController extends Controller
             'user_id' => auth()->user()->id,
             'date' =>  $date->format('Y-m-d'),
             'time' =>  $request->time,
+            'plat' =>  $request->plat,
             'code' =>  Str::random(8),
         ]);
         // dd($date,$atrributes);
@@ -377,11 +380,18 @@ class ReservationController extends Controller
         // dd($hargaSebelumnya);
         // dd($id,$reservationCompany,$reservationCounter);
 
-        $date = Carbon::parse(strtotime($request->date));
+        // $date = Carbon::parse(strtotime($request->date));
+        // $date = Carbon::parse(strtotime($request->date))->format('Y-m-d');
+        date_default_timezone_set('Asia/Jakarta'); // Set timezone ke WIB
+        $convertDate = DateTime::createFromFormat('d/m/Y', $request->date);
+        if ($convertDate) {
+            $date = $convertDate->format('Y-m-d');
+        }
+        // dd($request->all(),$date,strtotime($request->date));
         $atrributes = ([
             'reservation_team_id' => $request->reservation_team_id,
             'user_id' => auth()->user()->id,
-            'date' =>  $date->format('Y-m-d'),
+            'date' =>  $date,
             'time' =>  $request->time,
             'code' =>  Str::random(8),
         ]);
@@ -404,7 +414,7 @@ class ReservationController extends Controller
         }
         $check = ReservationCustomer::where('selesai_team', 0)->where('reservation_team_id', $request->reservation_team_id)->where('date', date("Y-m-d", strtotime($request->date)))->where('time', $request->time)->where('user_id', '<>', auth()->user()->id)->first();
         if (!$check) {
-            $reservationUpdate = ReservationCustomer::where('id', $id)->update(['date' => $date->format('Y-m-d'), 'time' => $request->time, 'reservation_team_id' => $request->reservation_team_id]);
+            $reservationUpdate = ReservationCustomer::where('id', $id)->update(['date' => $date, 'time' => $request->time, 'reservation_team_id' => $request->reservation_team_id]);
             $reservation = ReservationCustomer::findOrFail($id);
             $reservationRecently = ReservationCustomer::where('reservation_customers.id', $id)
                 ->join('reservation_teams', 'reservation_teams.id', 'reservation_customers.reservation_team_id')

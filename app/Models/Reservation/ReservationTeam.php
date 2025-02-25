@@ -10,10 +10,11 @@ use Bavix\Wallet\Traits\HasWallet;
 use Bavix\Wallet\Traits\HasWallets;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ReservationTeam extends Model implements Wallet, Confirmable
 {
-    use HasFactory,HasWallet,HasWallets,CanConfirm;
+    use HasFactory,HasWallet,HasWallets,CanConfirm,SoftDeletes;
     protected $guarded = [];
     public function counter()
     {

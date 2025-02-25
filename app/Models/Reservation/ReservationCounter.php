@@ -2,6 +2,7 @@
 
 namespace App\Models\Reservation;
 
+use App\Models\ReservationTeamHeader;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,6 +20,10 @@ class ReservationCounter extends Model implements HasMedia
     public function team()
     {
         return $this->hasMany(ReservationTeam::class);
+    }
+    public function teams()
+    {
+        return $this->belongsToMany(ReservationTeamHeader::class, 'reservation_counter_team');
     }
     public function category()
     {

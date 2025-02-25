@@ -209,7 +209,7 @@ export default function Index(props) {
             }
         }, [])
 
-        // console.log(reservationCounters)
+        // console.log("ini index" , cars)
     return (
         <>
             <Head title="Reservation Counter" />

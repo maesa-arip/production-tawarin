@@ -708,14 +708,17 @@ export default function MyReservation({
                                                 {item.counterName}
                                             </p>
                                         </div>
-                                        <div className="flex items-center justify-between px-4 my-4">
+                                        {item.plat &&
+                                            <div className="flex items-center justify-between px-4 my-4">
                                             <p className="text-sm font-semibold text-gray-500">
-                                                Kode Bukti
+                                                Plat Kendaraan
                                             </p>
                                             <p className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
-                                                {item.code}
+                                                {item.plat}
                                             </p>
                                         </div>
+                                        }
+                                        
                                         <div className="flex items-center justify-between px-4 my-4">
                                             <p className="text-sm font-semibold text-gray-500">
                                                 Tanggal Reservasi

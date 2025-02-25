@@ -17,54 +17,93 @@ export default function Form({
     setData,
     model,
     closeButton,
+    reservationCounterTeams,
 }) {
     const onChange = (e) => {
         setData({ ...data, [e.target.id]: e.target.value });
     };
-
-    
-    const optionsFromDB = employees;
-    let employeescompany = model ? model.details.map((obj) => obj.user_id) : [];
     const [options, setOptions] = useState([]);
-    const [optionsLeader, setOptionsLeader] = useState([]);
+    const [optionLeaders, setOptionLeaders] = useState([]);
+    // console.log(model,employees.length)
     useEffect(() => {
-        const selectedOptionsFromDB = employeescompany;
-        const updatedOptions = optionsFromDB.map((option) => {
-            if (selectedOptionsFromDB.includes(option.user.id)) {
-                return { ...option, isSelected: true };
-            }
-            return option;
-        });
+        if (!employees.length) return; // Pastikan data tersedia
+    
+        // Ambil ID employee dari model
+        const employeesCompany = model?.details ? model.details.map((obj) => obj.user.id) : [];
+        const employeesLeader = model?.details ? model.details.filter(obj => obj.leader === 1).map(obj => obj.user.id) : [];
+        // console.log(employeesCounter)
+         // Semua employees tidak terpilih jika Create
+    const updatedOptions = employees.map((option) => ({
+        ...option,
+        isSelected: employeesCompany.includes(option.user.id), // Hanya true jika di model.details
+    }));
+
+    // Semua leaders tidak terpilih jika Create
+    const updatedOptionLeaders = employees.map((option) => ({
+        ...option,
+        isSelected: employeesLeader.includes(option.user.id), // Hanya true jika leader === 1 di model
+    }));
+    
         setOptions(updatedOptions);
-    }, []);
+        setOptionLeaders(updatedOptionLeaders);
+    }, [model, employees]); // Gunakan model & employees sebagai dependency
+    
+    // Handle perubahan checkbox employee
     const handleCheckboxChange = (optionId) => {
         setOptions((prevOptions) =>
-            prevOptions.map((option) => {
-                if (option.user.id === optionId) {
-                    return { ...option, isSelected: !option.isSelected };
-                }
-                return option;
-            })
+            prevOptions.map((option) => ({
+                ...option,
+                isSelected: option.user.id === optionId ? !option.isSelected : option.isSelected,
+            }))
         );
     };
-    const selectedOptionIds = options
-        .filter((option) => option.isSelected)
-        .map((option) => option.user.id);
-    useEffect(() => {
-        setData({ ...data, ["employees"]: selectedOptionIds });
-    }, [options]);
-
-    const handleCheckboxChangeLeader = (optionIdLeader) => {
-        setData({ ...data, ["leader"]: optionIdLeader });
+    
+    // Handle perubahan checkbox leader
+    const handleCheckboxChangeLeader = (optionLeaderId) => {
+        setOptionLeaders((prevOptionLeaders) =>
+            prevOptionLeaders.map((optionLeader) => ({
+                ...optionLeader,
+                isSelected: optionLeader.user.id === optionLeaderId ? !optionLeader.isSelected : optionLeader.isSelected,
+            }))
+        );
     };
     
+    // Ambil hanya ID yang dipilih
+    const selectedOptionIds = options.filter((option) => option.isSelected).map((option) => option.user.id);
+    const selectedOptionLeaderIds = optionLeaders.filter((optionLeader) => optionLeader.isSelected).map((optionLeader) => optionLeader.user.id);
+    
+    // Update state data
+    useEffect(() => {
+        setData((prevData) => {
+            // Hindari update jika data tidak berubah
+            if (
+                JSON.stringify(prevData.employees) === JSON.stringify(selectedOptionIds) &&
+                JSON.stringify(prevData.leader) === JSON.stringify(selectedOptionLeaderIds)
+            ) {
+                return prevData;
+            }
+            return {
+                ...prevData,
+                employees: selectedOptionIds,
+                leader: selectedOptionLeaderIds,
+            };
+        });
+    }, [selectedOptionIds, selectedOptionLeaderIds]);
+    
+    
+
+    // const handleCheckboxChangeLeader = (optionIdLeader) => {
+    //     setData({ ...data, ["leader"]: optionIdLeader });
+    // };
 
     const optionsFromDB2 = counters;
     // console.log(optionsFromDB2)
-    let countercompany = model ? model.counters.map((obj) => obj.id) : [];
+    const countercompany = reservationCounterTeams ? reservationCounterTeams.filter(obj => obj.reservation_team_header_id === model.details[0].reservation_team_header_id).map(obj => obj.reservation_counter_id) : [];
+    // let countercompany = model ? model.counters.map((obj) => obj.id) : [];
+    // let countercompany = [];
     // console.log(countercompany)
     const [options2, setOptions2] = useState([]);
-    
+
     useEffect(() => {
         const selectedOptionsFromDB2 = countercompany;
         const updatedOptions2 = optionsFromDB2.map((option2) => {
@@ -132,7 +171,7 @@ export default function Form({
                                         id={option.user.name}
                                         value={option.user.id}
                                         name={option.user.name}
-                                        checked={option.user.isSelected}
+                                        checked={option.isSelected}
                                         onChange={(e) => {
                                             handleCheckboxChange(
                                                 option.user.id
@@ -149,7 +188,7 @@ export default function Form({
                         <p className="text-lg font-semibold text-gray-700">
                             Leader
                         </p>
-                        {options.map((option) => (
+                        {optionLeaders.map((option) => (
                             <div
                                 className="flex justify-between col-span-12 px-3 py-4 my-4 border rounded-md"
                                 key={option.user.id}
@@ -159,12 +198,12 @@ export default function Form({
                                     className="uppercase"
                                 />
                                 <div className="flex flex-col items-start">
-                                    <TextInputRadio
+                                    <TextInputCheckbox
                                         key={option.user.id}
                                         id={"pilih"}
                                         value={option.user.id}
                                         name={"pilih"}
-                                        checked={option.user.isSelected}
+                                        checked={option.isSelected}
                                         onChange={(e) => {
                                             handleCheckboxChangeLeader(
                                                 option.user.id

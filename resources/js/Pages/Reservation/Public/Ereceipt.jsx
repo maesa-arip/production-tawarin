@@ -42,7 +42,7 @@ export default function Ereceipt(props) {
                         <p>
                             <strong>Pelanggan</strong>
                             <br />
-                            #{invoice.user.name}
+                            #{invoice.plat}
                         </p>
                         <p>
                             <strong>Jenis Order</strong>
