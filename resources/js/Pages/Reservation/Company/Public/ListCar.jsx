@@ -22,7 +22,7 @@ export default function List(props) {
     
     const reservation_categories = props.reservation_categories;
     const reservationCompany = props.reservationCompany;
-    console.log(reservations);
+    // console.log(reservations);
     const [pageNumber, setPageNumber] = useState([]);
     const [params, setParams] = useState(filtered);
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -185,56 +185,24 @@ export default function List(props) {
                                     href={`/public/reservationCounters/${reservation.company_slug}/${reservation.counter_slug}/car`}
                                     className="relative inline-block w-full transition-transform duration-300 ease-in-out"
                                 >
-                                    <div className="p-2 bg-white border rounded-lg">
-                                        <div className="relative flex justify-center overflow-hidden border rounded-lg h-52">
-                                            <div className="w-full transition-transform duration-500 ease-in-out">
-                                                <div className="absolute inset-0 ">
-                                                    <img
-                                                        className="object-cover object-top w-full h-full lg:h-full lg:w-full"
-                                                        src={
-                                                            reservation.media
-                                                                ? reservation.media
-                                                                : "/storage/files/default/NoImage.svg"
-                                                        }
-                                                        alt={reservation.slug}
-                                                    ></img>
-                                                </div>
-                                            </div>
-                                            <div className="absolute bottom-0 flex justify-center mb-3">
-                                                <div className="flex px-2 py-1 space-x-1 overflow-hidden bg-white rounded-lg md:px-5 md:space-x-5">
-                                                    <p className="flex items-center text-sm font-medium text-gray-800">
-                                                        {/* <IconUserCircle className="w-5 h-5 text-gray-800 bg-transparent" /> */}
-                                                        {/* {reservation.counter_name}
-                                                        {reservation.company_name} */}
-                                                        
-                                                        {reservation.car_name}
-                                                        {/* {reservation.owner.name} */}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                        <div className="mt-4">
-                                        <div className="flex items-center justify-between my-2 space-x-4">
-                                            <span className="items-center w-full px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-100 rounded-md md:justify-between md:flex ">
+                                    <div className="p-1 bg-white border rounded-lg">
+                                        <div className="">
+                                        <div className="flex items-center justify-between mb-1 space-x-1">
+                                            <span className="items-center w-full px-2 py-1 text-xs font-semibold text-gray-900 bg-gray-100 rounded-md md:justify-between md:flex ">
                                                 <p className="md:ml-1 text-[9px] text-base font-semibold">
-                                                {reservation.category_counter_name}
+                                                {reservation.car_name}
                                                 </p>
                                             </span>
                                         </div>
-                                        <div className="flex items-center justify-between my-2 space-x-4">
-                                            <span className="items-center w-full px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-100 rounded-md md:justify-between md:flex ">
-                                                <p className="md:ml-1 text-[9px] text-base font-semibold">
-                                                {reservation.counter_name}
-                                                </p>
-                                            </span>
-                                        </div>
-                                        
-
                                         {/* <div className="w-full h-2 mt-2 bg-gray-200 rounded-full">
                                             <div className="h-full text-xs text-center text-white bg-blue-500 rounded-full" style={{width: (100)+'%'}}></div>
                                         </div> */}
-                                        <div className="flex items-center justify-between space-x-4">
+                                        
+                                        
+                                        
+
+                                        
+                                        <div className="flex items-center justify-between space-x-1">
                                             <span className="items-center w-full px-2 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-md md:flex md:justify-between">
                                                 {/* <p className="text-[10px] md:text-xs">
                                                     Harga
@@ -243,18 +211,19 @@ export default function List(props) {
                                                     Rp{" "}
                                                     {numberFormat(
                                                         reservation.price
-                                                    )}
+                                                    )} ( {reservation.service_duration}{" "}Menit)
                                                 </p>
                                             </span>
                                         </div>
-                                        <div className="flex items-center justify-between my-2 space-x-4">
-                                            <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-yellow-700 bg-yellow-100 rounded-md w-36">
-                                                {reservation.service_duration}{" "}
-                                                Menit Pengerjaan
+                                        <div className="flex items-center justify-between mt-1 space-x-1">
+                                            <span className="flex items-center px-1 py-1 text-xs font-semibold text-yellow-700 bg-yellow-100 rounded-md">
+                                            <p className="text-[10px] md:text-xs">
+                                                 {reservation.category_counter_name}
+                                                </p>
                                             </span>
-                                            {/* <span className="flex items-center px-2 py-1 mt-2 text-xs font-semibold text-green-500 rounded-md bg-green-50">
-                                                {plan.plan_bids_count} Penawar
-                                            </span> */}
+                                            <span className="flex items-center px-1 py-1 text-xs font-semibold text-green-500 rounded-md bg-green-50">
+                                            {reservation.counter_name}
+                                            </span>
                                         </div>
                                         </div>
                                     </div>
