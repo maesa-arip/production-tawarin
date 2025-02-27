@@ -112,6 +112,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('reservationemployees/index_team', [ReservationEmployeeController::class,'index_team'])->name('reservation.teamheader');
     Route::post('reservationemployees/index_team', [ReservationEmployeeController::class,'store_team'])->name('reservation.store_teamheader');
     Route::put('reservationemployees/index_team/{id}/edit', [ReservationEmployeeController::class,'update_team'])->name('reservation.update_teamheader');
+    Route::delete('reservationemployees/index_team/{id}/delete', [ReservationEmployeeController::class,'destroy'])->name('reservation.delete_teamheader');
     Route::get('reservationemployees/index_team_layanan', [ReservationEmployeeController::class,'index_team_layanan'])->name('reservation.teamlayanan');
     Route::post('reservationemployees/index_team_layanan', [ReservationEmployeeController::class,'store_team_layanan'])->name('reservation.store_teamlayanan');
     Route::Resource('reservationemployees', ReservationEmployeeController::class);

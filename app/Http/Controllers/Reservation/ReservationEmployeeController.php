@@ -207,6 +207,7 @@ class ReservationEmployeeController extends Controller
         $employees = $request->input('employees');
 
         try {
+            DB::beginTransaction();
             $reservationTeamHeader = ReservationTeamHeader::create([
                 'name' => $request->input('name'),
                 'reservation_company_id' => auth()->user()->company->id,
@@ -242,61 +243,64 @@ class ReservationEmployeeController extends Controller
                     }
                 }
             }
+            DB::commit();
             return back()->with([
                 'type' => 'success',
                 'message' => 'Tim berhasil dibuat',
             ]);
         } catch (\Throwable $th) {
+            DB::rollback();
             return back()->with([
                 'type' => 'success',
-                'message' => $th,
+                'message' => $th->getMessage(),
             ]);
         }
-        
     }
     public function update_team(Request $request, $id)
     {
         // dd($request->all(),$id);
-        $request->validate([
-            'name' => ['required', 'string'],
-            'employees' => ['array'],
-            'counters' => ['array'],
-            'leader' => ['required'],
-        ]);
-        $counters = $request->input('counters');
-        $employees = $request->input('employees');
-
-        $reservationTeamHeader = ReservationTeamHeader::findOrFail($id);
-        $reservationTeamHeader->update([
-            'name' => $request->input('name'),
-        ]);
-        $reservationTeamHeader->counters()->sync($counters);
-        foreach ($employees as $employee) {
-            $reservationTeamHeader->details()->updateOrCreate(
-                ['user_id' => $employee], // Kondisi untuk mencari data
-                [
-                    'leader' => in_array($employee, $request->input('leader', [])) ? 1 : 0,
-                ]
-            );
-        }
-        // if (!empty($request->input('employees')) && !empty($request->input('counters'))) {
+        try {
+            DB::beginTransaction();
+            $request->validate([
+                'name' => ['required', 'string'],
+                'employees' => ['array'],
+                'counters' => ['array'],
+                'leader' => ['required'],
+            ]);
+            $counters = $request->input('counters');
+            $employees = $request->input('employees');
+    
+            $reservationTeamHeader = ReservationTeamHeader::findOrFail($id);
+            $reservationTeamHeader->update([
+                'name' => $request->input('name'),
+            ]);
+            $reservationTeamHeader->counters()->sync($counters);
+            foreach ($employees as $employee) {
+                $reservationTeamHeader->details()->updateOrCreate(
+                    ['user_id' => $employee], // Kondisi untuk mencari data
+                    [
+                        'leader' => in_array($employee, $request->input('leader', [])) ? 1 : 0,
+                    ]
+                );
+            }
+            // if (!empty($request->input('employees')) && !empty($request->input('counters'))) {
             $reservationTeam = ReservationTeam::where('reservation_team_header_id', $id)->whereNull('deleted_at')->get();
             $currentCounterOnTeam = $reservationTeam->pluck('reservation_counter_id')->toArray();
             $newCounterSelect = $request->input('counters');
             // ID yang harus dihapus
             $countersToRemove = array_diff($currentCounterOnTeam, $newCounterSelect);
-
+    
             // ID yang harus ditambahkan
             $countersToAdd = array_diff($newCounterSelect, $currentCounterOnTeam);
-
+    
             // dd($currentCounterOnTeam,$newCounterSelect,$countersToRemove,$countersToAdd );
-
+    
             // Hapus yang tidak ada di pilihan baru
             // delete whereNotIn $newCounterSelect
             // add 
             if (!empty($countersToRemove)) {
                 ReservationTeam::where('reservation_team_header_id', $id)->whereIn('reservation_counter_id', $countersToRemove)
-                ->delete();
+                    ->delete();
             }
             // Tambahkan yang baru dipilih
             if (!empty($countersToAdd)) {
@@ -318,11 +322,20 @@ class ReservationEmployeeController extends Controller
                 }
                 ReservationTeam::insert($insertData);
             }
-        // }
-        return back()->with([
-            'type' => 'success',
-            'message' => 'Tim berhasil diubah',
-        ]);
+            // }
+            DB::commit();
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Tim berhasil diubah',
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->with([
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+        
     }
     public function store_team_layanan(Request $request)
     {
@@ -434,7 +447,25 @@ class ReservationEmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $reservationTeamHeader = ReservationTeamHeader::findOrFail($id);
+            $reservationTeamHeader->delete();
+            $reservationTeam = ReservationTeam::where('reservation_team_header_id', $id);
+            $reservationTeamHeader->counters()->delete();
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->with([
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Tim berhasil dihapus',
+        ]);
     }
     public function acceptinvitation($id)
     {

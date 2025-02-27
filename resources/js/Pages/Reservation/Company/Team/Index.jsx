@@ -116,15 +116,17 @@ export default function Index(props) {
     };
 
     const destroyteam = () => {
-        Inertia.delete(route("team.destroy", state.id), {
+        Inertia.delete(route("reservation.delete_teamheader", state.id), {
             onSuccess: () => setIsOpenDestroyDialog(false),
         });
     };
+    
     const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
     const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
     const [isOpenDestroyDialog, setIsOpenDestroyDialog] = useState(false);
     const [state, setState] = useState([]);
     // console.log(employees)
+    console.log(state.id)
     return (
         <>
             <Head title="Team" />
@@ -362,7 +364,7 @@ export default function Index(props) {
                                                                         className="items-center block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100 gap-x-2"
                                                                         onClick={() =>
                                                                             openDestroyDialog(
-                                                                                team
+                                                                                item
                                                                             )
                                                                         }
                                                                     >
