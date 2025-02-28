@@ -10,6 +10,7 @@ import { debounce, pickBy } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
 import EmptyCard from "@/Components/EmptyCard";
 import InfoModal from "@/Components/Modal/InfoModal";
+import { IconHourglass } from "@tabler/icons";
 
 export default function List(props) {
     const {
@@ -175,9 +176,10 @@ export default function List(props) {
                     </div>
                 </div>
                 {reservations.length ? (
-                    <div className="grid w-full grid-cols-2 gap-1 mt-4 md:gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="grid w-full grid-cols-2 gap-1 mt-4 sm:grid-cols-2">
                         {reservations.map((reservation, index) => (
-                            <div
+                            <>
+                            {/* <div
                                 key={index}
                                 className="relative w-full pb-4 mx-auto"
                             >
@@ -194,9 +196,7 @@ export default function List(props) {
                                                 </p>
                                             </span>
                                         </div>
-                                        {/* <div className="w-full h-2 mt-2 bg-gray-200 rounded-full">
-                                            <div className="h-full text-xs text-center text-white bg-blue-500 rounded-full" style={{width: (100)+'%'}}></div>
-                                        </div> */}
+                                       
                                         
                                         
                                         
@@ -204,9 +204,7 @@ export default function List(props) {
                                         
                                         <div className="flex items-center justify-between space-x-1">
                                             <span className="items-center w-full px-2 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-md md:flex md:justify-between">
-                                                {/* <p className="text-[10px] md:text-xs">
-                                                    Harga
-                                                </p> */}
+                                               
                                                 <p className="justify-end text-[9px] text-xs font-semibold md:flex">
                                                     Rp{" "}
                                                     {numberFormat(
@@ -216,19 +214,41 @@ export default function List(props) {
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between mt-1 space-x-1">
-                                            <span className="flex items-center px-1 py-1 text-xs font-semibold text-yellow-700 bg-yellow-100 rounded-md">
+                                            <span className="flex items-center px-1 py-1 text-xs font-semibold ">
                                             <p className="text-[10px] md:text-xs">
-                                                 {reservation.category_counter_name}
+                                                 {reservation.category_counter_name} ({reservation.counter_name})
                                                 </p>
                                             </span>
-                                            <span className="flex items-center px-1 py-1 text-xs font-semibold text-green-500 rounded-md bg-green-50">
-                                            {reservation.counter_name}
-                                            </span>
+                                            
                                         </div>
                                         </div>
                                     </div>
                                 </Link>
+                            </div> */}
+                            <div key={index} className="">
+                            <Link
+                                    href={`/public/reservationCounters/${reservation.company_slug}/${reservation.counter_slug}/car`}
+                                    className="relative inline-block w-full transition-transform duration-300 ease-in-out"
+                                >
+                            <div className="grid grid-cols-1 md:grid-cols-2">
+                              {/* Contoh Item */}
+                              <div className="flex flex-col items-start p-3 bg-white border rounded-lg">
+                                <h2 className="text-lg font-semibold text-gray-900">{reservation.car_name}</h2>
+                                <p className="text-xl font-bold text-blue-600">Rp{" "}
+                                                    {numberFormat(
+                                                        reservation.price
+                                                    )}</p>
+                                <p className="flex items-center text-gray-600"><IconHourglass className="items-center justify-center w-4 h-4 -ml-0.5 text-center text-yellow-500"/>{reservation.service_duration}{" "}Menit</p>
+                                <span className="mt-2 text-xs text-gray-500">{reservation.category_counter_name}</span>
+                                <span className="text-sm text-gray-500">{reservation.counter_name}</span>
+                              </div>
+                              
                             </div>
+                            </Link>
+                          </div>
+                          </>
+                          
+                            
                         ))}
                     </div>
                 ) : (

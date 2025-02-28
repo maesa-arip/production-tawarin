@@ -423,51 +423,53 @@ export default function Team({ setIsOpenDialog, model, resultteam }) {
                             Setuju
                         </label>
                         {/* End Switch/Toggle */}
+                        <InputLabel className={"text-left mt-4"}>
+                            Masukan Plat Kendaraan
+                        </InputLabel>
+                        <TextAreaInput
+                            type="text"
+                            name="plat"
+                            value={data.plat}
+                            className="block w-full mt-1"
+                            autoComplete="plat"
+                            isFocused={true}
+                            handleChange={(e) =>
+                                setData("plat", e.target.value)
+                            }
+                        />
+                        <InputError
+                            message={errors.plat}
+                            className="mt-2 mb-2 text-left"
+                        />
+
+                        {model2.question?.map((question, i) => (
+                            <div key={question.id} className="py-3">
+                                <label
+                                    htmlFor={question.id}
+                                    className="block text-sm font-medium text-left text-gray-700"
+                                >
+                                    {question.question}
+                                </label>
+                                <div className="mt-1">
+                                    <textarea
+                                        key={question.id}
+                                        id={question.id}
+                                        name={question.id}
+                                        rows={3}
+                                        onChange={onChange}
+                                        className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        placeholder=""
+                                        required="true"
+                                        defaultValue={""}
+                                    />
+                                </div>
+                                <p className="mt-2 text-sm text-left text-gray-500">
+                                    Masukan Keterangan {question.question} .
+                                </p>
+                            </div>
+                        ))}
                     </>
                 )}
-                <InputLabel className={"text-left mt-4"}>
-                    Masukan Plat Kendaraan
-                </InputLabel>
-                <TextAreaInput
-                    type="text"
-                    name="plat"
-                    value={data.plat}
-                    className="block w-full mt-1"
-                    autoComplete="plat"
-                    isFocused={true}
-                    handleChange={(e) => setData("plat", e.target.value)}
-                />
-                <InputError
-                    message={errors.plat}
-                    className="mt-2 mb-2 text-left"
-                />
-
-                {model2.question?.map((question, i) => (
-                    <div key={question.id} className="py-3">
-                        <label
-                            htmlFor={question.id}
-                            className="block text-sm font-medium text-left text-gray-700"
-                        >
-                            {question.question}
-                        </label>
-                        <div className="mt-1">
-                            <textarea
-                                key={question.id}
-                                id={question.id}
-                                name={question.id}
-                                rows={3}
-                                onChange={onChange}
-                                className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                placeholder=""
-                                required="true"
-                                defaultValue={""}
-                            />
-                        </div>
-                        <p className="mt-2 text-sm text-left text-gray-500">
-                            Masukan Keterangan {question.question} .
-                        </p>
-                    </div>
-                ))}
 
                 <div className="p-4 mt-8 mb-4 border rounded-lg">
                     <p className="mb-2 text-lg font-medium text-justify">
