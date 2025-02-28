@@ -233,14 +233,14 @@ export default function List(props) {
                             <div className="grid grid-cols-1 md:grid-cols-2">
                               {/* Contoh Item */}
                               <div className="flex flex-col items-start p-3 bg-white border rounded-lg">
-                                <h2 className="text-lg font-semibold text-gray-900">{reservation.car_name}</h2>
-                                <p className="text-xl font-bold text-blue-600">Rp{" "}
+                                <h2 className="text-xl font-semibold text-gray-900">{reservation.car_name}</h2>
+                                <p className="text-xs font-bold text-blue-600">Rp{" "}
                                                     {numberFormat(
                                                         reservation.price
                                                     )}</p>
-                                <p className="flex items-center text-gray-600"><IconHourglass className="items-center justify-center w-4 h-4 -ml-0.5 text-center text-yellow-500"/>{reservation.service_duration}{" "}Menit</p>
-                                <span className="mt-2 text-xs text-gray-500">{reservation.category_counter_name}</span>
-                                <span className="text-sm text-gray-500">{reservation.counter_name}</span>
+                                {/* <p className="flex items-center text-gray-600"><IconHourglass className="items-center justify-center w-4 h-4 -ml-0.5 text-center text-yellow-500"/>{reservation.service_duration}{" "}Menit</p> */}
+                                <span className="text-xs text-gray-500">{reservation.category_counter_name}</span>
+                                {/* <span className="text-sm text-gray-500">{reservation.counter_name}</span> */}
                               </div>
                               
                             </div>

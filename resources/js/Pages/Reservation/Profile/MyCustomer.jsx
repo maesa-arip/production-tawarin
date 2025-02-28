@@ -97,7 +97,7 @@ export default function MyCustomer({
         setIsOpenInfoDialog4(false);
     };
     let wa = "";
-    // console.log(appEnv);
+    console.log(myCustomers);
     
     return (
         <>
@@ -502,7 +502,7 @@ export default function MyCustomer({
                                                         href={
                                                             "https://wa.me/62" +
                                                             wa +
-                                                            "?text=Terima kasih telah berbelanja Rp. " + item.team.counter.price.toLocaleString('id-ID') +" di "+ item.team.counter.company.name +", cek struk di https://www.tawarin.id/ereceipt/"+ item.code
+                                                            "?text=Terima kasih telah berbelanja Rp. " + item.team?.counter.price.toLocaleString('id-ID') +" di "+ item.team?.counter.company.name +", cek struk di https://www.tawarin.id/ereceipt/"+ item.code
                                                         }
                                                         data-action="share/whatsapp/share"
                                                     >
