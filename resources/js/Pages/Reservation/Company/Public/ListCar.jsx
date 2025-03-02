@@ -239,7 +239,7 @@ export default function List(props) {
                                                         reservation.price
                                                     )}</p>
                                 {/* <p className="flex items-center text-gray-600"><IconHourglass className="items-center justify-center w-4 h-4 -ml-0.5 text-center text-yellow-500"/>{reservation.service_duration}{" "}Menit</p> */}
-                                <span className="text-xs text-gray-500">{reservation.category_counter_name}</span>
+                                <span className="text-xs text-gray-500">{reservation.counter_name}</span>
                                 {/* <span className="text-sm text-gray-500">{reservation.counter_name}</span> */}
                               </div>
                               

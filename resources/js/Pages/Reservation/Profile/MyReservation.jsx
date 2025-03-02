@@ -120,7 +120,7 @@ export default function MyReservation({
         style: "currency",
         currency: "IDR",
     }).format(tip);
-    console.log(data);
+    // console.log(ratingCategories,myReservations[0].reservation_category_id);
 
     return (
         <>
@@ -187,7 +187,9 @@ export default function MyReservation({
                 closeButton="false"
                 title={"Yakin Selesaikan Pelayanan ?"}
             >
-                {myReservations.reservation_category_id === 2 && <figure class="flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
+                {/* console.log(item) */}
+                {state.reservation_category_id === 2 && 
+                <figure class="flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10">
                     <div class="not-prose overflow-auto rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50">
                         <div class="px-4 sm:px-0">
                             <div class="mx-auto max-w-lg py-2 text-sm/6 text-gray-900 dark:text-gray-200">
@@ -393,10 +395,9 @@ export default function MyReservation({
                     </div>
                 </figure>
                 {/* End Rating */}
-                {myReservations.reservation_category_id=== 2 && ratingCategories.map((item, index) => (
+                {state.reservation_category_id === 2 && ratingCategories.map((item, index) => (
                     <div className="px-2 pt-2 my-2 border rounded-lg">
                         <p className="text-left">{item.name}</p>
-
                         <div className="flex flex-row-reverse items-center justify-center pb-8">
                             <input
                                 id="hs-ratings-readonly-1"

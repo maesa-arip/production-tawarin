@@ -913,10 +913,18 @@ class ReservationController extends Controller
                                 'slug' => 'deposit',
                             ]);
                         }
-                        $team->transfer($depositpemilik, $tfDeposit, new Extra(
-                            deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
-                            withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
-                        ));
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $teamdetail->transfer($depositpemilik, $tfDeposit/count($cekTeam), new Extra(
+                                deposit: ['message' => 'Deposit dari ' . $teamdetail->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                                withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                            ));
+                        }
+                        
+                        // $team->transfer($depositpemilik, $tfDeposit, new Extra(
+                        //     deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                        //     withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                        // ));
                     }
                     $atrribute = ([
                         'reservation_team_id' => $reservationCustomer->reservation_team_id,
@@ -1017,6 +1025,24 @@ class ReservationController extends Controller
                         deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
                         withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
                     ));
+                    if ($reservationCounter->deposit > 0) {
+                        if ($pemilik->hasWallet('deposit')) {
+                            $depositpemilik = $pemilik->getWallet('deposit');
+                        } else {
+                            $depositpemilik = $pemilik->createWallet([
+                                'name' => 'deposit',
+                                'slug' => 'deposit',
+                            ]);
+                        }
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $teamdetail->transfer($depositpemilik, $tfDeposit/count($cekTeam), new Extra(
+                                deposit: ['message' => 'Deposit dari ' . $teamdetail->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                                withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                            ));
+                        }
+                    }
+
                     $atrribute = ([
                         'reservation_team_id' => $reservationCustomer->reservation_team_id,
                         'user_id' => $team->id,
@@ -1112,6 +1138,23 @@ class ReservationController extends Controller
                         deposit: ['message' => 'Cashback dari ' . $pemilik->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'cashback'],
                         withdraw: new Option(meta: ['message' => 'Cashback ke ' . $pemilik->name, 'type' => 'cashback'], confirmed: true)
                     ));
+                    if ($reservationCounter->deposit > 0) {
+                        if ($pemilik->hasWallet('deposit')) {
+                            $depositpemilik = $pemilik->getWallet('deposit');
+                        } else {
+                            $depositpemilik = $pemilik->createWallet([
+                                'name' => 'deposit',
+                                'slug' => 'deposit',
+                            ]);
+                        }
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $teamdetail->transfer($depositpemilik, $tfDeposit/count($cekTeam), new Extra(
+                                deposit: ['message' => 'Deposit dari ' . $teamdetail->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                                withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                            ));
+                        }
+                    }
                     $atrribute = ([
                         'reservation_team_id' => $reservationCustomer->reservation_team_id,
                         'user_id' => $team->id,
@@ -1222,10 +1265,13 @@ class ReservationController extends Controller
                                 'slug' => 'deposit',
                             ]);
                         }
-                        $team->transfer($depositpemilik, $tfDeposit, new Extra(
-                            deposit: ['message' => 'Deposit dari ' . $team->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
-                            withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
-                        ));
+                        foreach ($cekTeam as $teamd) {
+                            $teamdetail = User::find($teamd->user_id);
+                            $teamdetail->transfer($depositpemilik, $tfDeposit/count($cekTeam), new Extra(
+                                deposit: ['message' => 'Deposit dari ' . $teamdetail->name . ' untuk ' . $reservationCounter->CompanyName . ' Layanan ' . $reservationCounter->CounterName, 'type' => 'deposit'],
+                                withdraw: new Option(meta: ['message' => 'Simpan Deposit ke Saldo Deposit untuk Layanan ' . $reservationCounter->CounterName . ' atas nama pelanggan ' . $customer->name, 'type' => 'deposit'], confirmed: true)
+                            ));
+                        }
                     }
                     $atrribute = ([
                         'reservation_team_id' => $reservationCustomer->reservation_team_id,

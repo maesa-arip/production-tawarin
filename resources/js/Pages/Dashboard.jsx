@@ -100,8 +100,8 @@ export default function Dashboard(props) {
         useState(false);
     const [isOpenInfoDialogKonstruksi, setIsOpenInfoDialogKonstruksi] =
         useState(false);
-    const [isOpenInfoTimDialog, setIsOpenInfoTimDialog] =
-        useState(false);
+    const [isOpenInfoTimDialog, setIsOpenInfoTimDialog] = useState(false);
+    const [isOpenInfoTopUpDialog, setIsOpenInfoTopUpDialog] = useState(false);
     const [state, setState] = useState([]);
     const [selected, setSelected] = useState();
     const permission_name = permissions
@@ -140,6 +140,10 @@ export default function Dashboard(props) {
         // setState();
         setIsOpenInfoTimDialog(true);
     };
+    const openInfoTopUpDialog = () => {
+        // setState();
+        setIsOpenInfoTopUpDialog(true);
+    };
     const openInfoDialogReservasi = () => {
         setState();
         setIsOpenInfoDialogReservasi(true);
@@ -155,6 +159,9 @@ export default function Dashboard(props) {
     };
     const closeInfoTimDialog = () => {
         setIsOpenInfoTimDialog(false);
+    };
+    const closeInfoTopUpDialog = () => {
+        setIsOpenInfoTopUpDialog(false);
     };
     const updateJoinas = () => {
         put(route("reservation.updatejoinas", auth.user.id), {
@@ -300,14 +307,85 @@ export default function Dashboard(props) {
                 closeButton="true"
             >
                 <div className="items-center justify-between mt-4">
-                <p>Pastikan sudah undang karyawan dan pastikan undangan sudah diterima oleh karyawan</p>
-                {/* <ThirdButtonNoLink
+                    <p>
+                        Pastikan sudah undang karyawan dan pastikan undangan
+                        sudah diterima oleh karyawan
+                    </p>
+                    {/* <ThirdButtonNoLink
                     className="mx-1 mt-2"
                     color="secondary"
                     onClick={closeInfoTimDialog}
                 >
                     Close
                 </ThirdButtonNoLink> */}
+                </div>
+            </InfoModal>
+            <InfoModal
+                isOpenInfoDialog={isOpenInfoTopUpDialog}
+                setIsOpenInfoDialog={setIsOpenInfoTopUpDialog}
+                size="max-w-2xl"
+                title={"Silakan Pilih Jenis Top Up"}
+                header={""}
+                closeButton="true"
+            >
+                <div className="items-center justify-between mt-4">
+                    <div className="col-span-12 px-3 py-4 mx-2 mb-6 text-sm text-left text-gray-500 rounded-lg shadow md:col-span-8">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <circle cx={12} cy={12} r={9} />
+                            <line x1={12} y1={8} x2="12.01" y2={8} />
+                            <polyline points="11 12 12 12 12 16 13 16" />
+                        </svg>
+                        Jika Memilih QRIS, maka akan terkena biaya 1% dari
+                        jumlah Top Up, dan saldo akan otomatis masuk saat
+                        selesai melakukan pembayaran.
+                    </div>
+                    <div className="col-span-12 px-3 py-4 mx-2 mb-6 text-sm text-left text-gray-500 rounded-lg shadow md:col-span-8">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <circle cx={12} cy={12} r={9} />
+                            <line x1={12} y1={8} x2="12.01" y2={8} />
+                            <polyline points="11 12 12 12 12 16 13 16" />
+                        </svg>
+                        Jika Memilih Transfer Bank, maka akan terkena biaya Rp 2.500, dan saldo akan masuk saat
+                        sudah di verifikasi manual oleh admin Tawarin.
+                    </div>
+                    <ThirdButton
+                        className="w-11/12 mx-1 mt-2"
+                        color="tawarin"
+                        href={'/deposit/create_auto'}
+                    >
+                        QRIS (Otomatis)
+                    </ThirdButton>
+                    <ThirdButton
+                        className="w-11/12 mx-1 mt-2"
+                        color="secondary"
+                        href={'/deposits/create'}
+                    >
+                        Transfer Bank (Manual)
+                    </ThirdButton>
                 </div>
             </InfoModal>
             <Container>
@@ -350,18 +428,36 @@ export default function Dashboard(props) {
                                 label: "Rincian",
                             },
                         ].map((item, index) => (
-                            <Link
+                            <div
                                 key={index}
-                                href={item.href}
-                                className="flex flex-col items-center "
+                                className="flex flex-col items-center"
                             >
-                                <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
-                                    {item.icon}
-                                </div>
-                                <p className="mt-2 text-xs font-semibold text-center">
-                                    {item.label}
-                                </p>
-                            </Link>
+                                {item.label === "Top Up" ? (
+                                    <button
+                                        onClick={() => openInfoTopUpDialog()}
+                                    >
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                            {item.icon}
+                                        </div>
+                                        <p className="mt-2 text-xs font-semibold text-center">
+                                            {item.label}
+                                        </p>
+                                    </button>
+                                ) : (
+                                    <Link
+                                        key={index}
+                                        href={item.href}
+                                        className="flex flex-col items-center "
+                                    >
+                                        <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-full bg-orange-50">
+                                            {item.icon}
+                                        </div>
+                                        <p className="mt-2 text-xs font-semibold text-center">
+                                            {item.label}
+                                        </p>
+                                    </Link>
+                                )}
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -425,7 +521,7 @@ export default function Dashboard(props) {
                                     label: "Laporan",
                                 },
                                 {
-                                    href : route("userguide"),
+                                    href: route("userguide"),
                                     icon: (
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -445,29 +541,37 @@ export default function Dashboard(props) {
                                     label: "Panduan",
                                 },
                             ].map((item, index) => (
-                                <div key={index} className="flex flex-col items-center">
-            {item.label === "Tim" && user.employees && user.employees.length === 0 ? (
-                <button
-                    onClick={() => openInfoTimDialog()}
-                >
-                    <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
-                        {item.icon}
-                    </div>
-                    <p className="mt-2 text-xs font-semibold text-center">
-                        {item.label}
-                    </p>
-                </button>
-            ) : (
-                <Link href={item.href} className="flex flex-col items-center">
-                    <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
-                        {item.icon}
-                    </div>
-                    <p className="mt-2 text-xs font-semibold text-center">
-                        {item.label}
-                    </p>
-                </Link>
-            )}
-        </div>
+                                <div
+                                    key={index}
+                                    className="flex flex-col items-center"
+                                >
+                                    {item.label === "Tim" &&
+                                    user.employees &&
+                                    user.employees.length === 0 ? (
+                                        <button
+                                            onClick={() => openInfoTimDialog()}
+                                        >
+                                            <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                                {item.icon}
+                                            </div>
+                                            <p className="mt-2 text-xs font-semibold text-center">
+                                                {item.label}
+                                            </p>
+                                        </button>
+                                    ) : (
+                                        <Link
+                                            href={item.href}
+                                            className="flex flex-col items-center"
+                                        >
+                                            <div className="flex items-center justify-center w-12 h-12 border border-orange-100 rounded-xl bg-orange-50">
+                                                {item.icon}
+                                            </div>
+                                            <p className="mt-2 text-xs font-semibold text-center">
+                                                {item.label}
+                                            </p>
+                                        </Link>
+                                    )}
+                                </div>
                             ))}
                         </div>
                     </div>

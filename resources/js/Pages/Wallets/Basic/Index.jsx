@@ -12,6 +12,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextAreaInput from "@/Components/TextAreaInput";
 import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
+import ThirdButton from "@/Components/ThirdButton";
 
 export default function Index({
     balance,
@@ -29,12 +30,17 @@ export default function Index({
         useForm({});
     const [isOpenConfirmationDialog, setIsOpenConfirmationDialog] =
         useState(false);
+         const [isOpenInfoTopUpDialog, setIsOpenInfoTopUpDialog] = useState(false);
     const openConfirmationDepositToMainWallet = () => {
         // console.log('open')
         setIsOpenConfirmationDialog(true);
     };
     const closeInfoDialog = () => {
         setIsOpenConfirmationDialog(false);
+    };
+    const openInfoTopUpDialog = () => {
+        // setState();
+        setIsOpenInfoTopUpDialog(true);
     };
 
     const handleTransferDeposit = (e) => {
@@ -107,6 +113,74 @@ export default function Index({
                     Close
                 </ThirdButtonNoLink>
             </InfoModal>
+            <InfoModal
+                            isOpenInfoDialog={isOpenInfoTopUpDialog}
+                            setIsOpenInfoDialog={setIsOpenInfoTopUpDialog}
+                            size="max-w-2xl"
+                            title={"Silakan Pilih Jenis Top Up"}
+                            header={""}
+                            closeButton="true"
+                        >
+                            <div className="items-center justify-between mt-4">
+                                <div className="col-span-12 px-3 py-4 mx-2 mb-6 text-sm text-left text-gray-500 rounded-lg shadow md:col-span-8">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                        width={24}
+                                        height={24}
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2}
+                                        stroke="currentColor"
+                                        fill="none"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <circle cx={12} cy={12} r={9} />
+                                        <line x1={12} y1={8} x2="12.01" y2={8} />
+                                        <polyline points="11 12 12 12 12 16 13 16" />
+                                    </svg>
+                                    Jika Memilih QRIS, maka akan terkena biaya 1% dari
+                                    jumlah Top Up, dan saldo akan otomatis masuk saat
+                                    selesai melakukan pembayaran.
+                                </div>
+                                <div className="col-span-12 px-3 py-4 mx-2 mb-6 text-sm text-left text-gray-500 rounded-lg shadow md:col-span-8">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="justify-center inline w-6 h-6 mr-3 -mt-1 text-center text-white rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 icon icon-tabler icon-tabler-info-circle"
+                                        width={24}
+                                        height={24}
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2}
+                                        stroke="currentColor"
+                                        fill="none"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <circle cx={12} cy={12} r={9} />
+                                        <line x1={12} y1={8} x2="12.01" y2={8} />
+                                        <polyline points="11 12 12 12 12 16 13 16" />
+                                    </svg>
+                                    Jika Memilih Transfer Bank, maka akan terkena biaya Rp 2.500, dan saldo akan masuk saat
+                                    sudah di verifikasi manual oleh admin Tawarin.
+                                </div>
+                                <ThirdButton
+                                    className="w-11/12 mx-1 mt-2"
+                                    color="tawarin"
+                                    href={'/deposit/create_auto'}
+                                >
+                                    QRIS (Otomatis)
+                                </ThirdButton>
+                                <ThirdButton
+                                    className="w-11/12 mx-1 mt-2"
+                                    color="secondary"
+                                    href={'/deposits/create'}
+                                >
+                                    Transfer Bank (Manual)
+                                </ThirdButton>
+                            </div>
+                        </InfoModal>
             <div className="max-w-full mx-auto">
                 <div className="p-8 mb-5 bg-white rounded-3xl">
                     <h1 className="mb-10 text-3xl font-bold">
@@ -254,15 +328,15 @@ export default function Index({
                                 </div> */}
                             </div>
                             <div className="grid w-full grid-cols-4 mt-6 text-white gap-x-1 md:w-96">
-                                <NavLink
+                                <button
                                     type="button"
                                     className={
                                         "inline-flex items-center justify-center px-5 text-sm font-semibold text-white transition bg-gray-900 rounded-xl h-9 hover:text-white"
                                     }
-                                    href={"/deposit/create_auto"}
+                                    onClick={() => openInfoTopUpDialog()}
                                 >
                                     TopUp
-                                </NavLink>
+                                </button>
                                 <NavLink
                                     type="button"
                                     className={

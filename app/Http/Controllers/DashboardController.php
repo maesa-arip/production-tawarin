@@ -62,6 +62,7 @@ class DashboardController extends Controller
                 $query->where('approved', 1);}
             ])->first();
         $referral = User::where('from_referral', $user->referral)->count();
+        $user->wallet->refreshBalance();
         $balance = auth()->user()->balance;
         $bonus = auth()->user()->hasWallet('bonus') ? auth()->user()->getWallet('bonus')->balance : 0 ;
         $feewithdraw = auth()->user()->hasWallet('feewithdraw') ? auth()->user()->getWallet('feewithdraw')->balance : 0 ;

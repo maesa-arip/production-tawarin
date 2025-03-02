@@ -218,12 +218,35 @@ class HistoryController extends Controller
     }
     public function summary(Request $request)
     {
+
+        // $withdrawQuery = Transaction::query()
+        //     ->where('confirmed', 1)
+        //     ->where('type', 'withdraw')
+        //     ->whereJsonContains('transactions.meta->type', 'deposit')
+        //     ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+        //     ->join('users', 'wallets.holder_id', '=', 'users.id')
+        //     ->where('wallets.holder_id',30)
+        //     ->orderBy('transactions.created_at','ASC')
+        //     ->take(10)
+        //     ->get();
+        //     $depositQuery = Transaction::query()
+        //     ->where('confirmed', 1)
+        //     ->where('type', 'deposit')
+        //     ->whereJsonContains('transactions.meta->type', 'deposit_withdraw')
+        //     ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
+        //     ->join('users', 'wallets.holder_id', '=', 'users.id')
+        //     ->where('wallets.holder_id',30)
+        //     ->get();
+        // dd($withdrawQuery);
+        $company = ReservationCompany::where('user_id', auth()->user()->id)->first();
+        $employees = ReservationEmployee::where('reservation_company_id',$company->id)->where('approved',1)->pluck('user_id')->toArray();
         $withdrawQuery = Transaction::query()
             ->where('confirmed', 1)
             ->where('type', 'withdraw')
             ->whereJsonContains('transactions.meta->type', 'deposit')
             ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
             ->join('users', 'wallets.holder_id', '=', 'users.id')
+            ->whereIn('wallets.holder_id',$employees)
             ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
             ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as withdraw_amount'));
 
@@ -234,6 +257,7 @@ class HistoryController extends Controller
             ->whereJsonContains('transactions.meta->type', 'deposit_withdraw')
             ->join('wallets', 'transactions.wallet_id', '=', 'wallets.id')
             ->join('users', 'wallets.holder_id', '=', 'users.id')
+            ->whereIn('wallets.holder_id',$employees)
             ->groupBy('wallets.holder_id', 'users.id', 'users.name', 'users.created_at')
             ->select(DB::raw('users.id as user_id, users.name as user_name, wallets.holder_id, users.created_at, SUM(ABS(transactions.amount)) as deposit_amount'));
 
