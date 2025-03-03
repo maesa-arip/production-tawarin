@@ -218,7 +218,6 @@ class HistoryController extends Controller
     }
     public function summary(Request $request)
     {
-
         // $withdrawQuery = Transaction::query()
         //     ->where('confirmed', 1)
         //     ->where('type', 'withdraw')

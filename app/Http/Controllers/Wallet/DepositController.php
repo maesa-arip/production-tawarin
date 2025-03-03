@@ -85,7 +85,7 @@ class DepositController extends Controller
             ]);
         }
         if (!$exists) {
-            $deposit = $user->deposit($request->amount, ['message' => 'Permintaan Deposit dari ' . $user->name, 'type' => 'request_deposit'], false);
+            $deposit = $user->deposit($request->amount, ['message' => 'Permintaan Deposit Transfer Bank Manual dari ' . $user->name, 'type' => 'request_deposit'], false);
             $temporaryFolder = Session::get('folder');
             $namefile = Session::get('filename');
 
@@ -145,7 +145,7 @@ class DepositController extends Controller
                 $biayaAdmin = ceil($request->price * 1 / 100);
                 $amount = ceil($request->price * 101 / 100);
                 $user = User::findOrFail(auth()->user()->id);
-                $deposit = $user->deposit($request->price, ['message' => 'Permintaan Deposit dari ' . $user->name, 'type' => 'request_deposit'], false);
+                $deposit = $user->deposit($request->price, ['message' => 'Permintaan Deposit QRIS Otomatis dari ' . $user->name, 'type' => 'request_deposit'], false);
                 // Buat transaksi ke Midtrans
                 $payload = [
                     'transaction_details' => [
